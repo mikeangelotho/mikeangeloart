@@ -1,5 +1,6 @@
 import { A } from "@solidjs/router";
 import { For, JSXElement, onMount, Show } from "solid-js";
+import { Tag } from "~/layout/Cards";
 
 interface Collection {
   uuid: string;
@@ -38,7 +39,6 @@ function CollectionCell({ data }: { data: PortfolioCollection }) {
               behavior: "smooth",
             });
             event.preventDefault();
-            event.stopImmediatePropagation();
           }
         } else {
           if (scrollLeft > 0) {
@@ -47,7 +47,6 @@ function CollectionCell({ data }: { data: PortfolioCollection }) {
               behavior: "smooth",
             });
             event.preventDefault();
-            event.stopImmediatePropagation();
           }
         }
       }}
@@ -71,9 +70,9 @@ function CollectionCell({ data }: { data: PortfolioCollection }) {
           cell.classList.remove("saturate-0");
         }
       }}
-      class="group cell-container w-72 h-96 xl:h-108 md:w-100 xl:w-xl relative overflow-hidden hover:brightness-115 hover:saturate-125 def__animate"
+      class="group/card cell-container w-72 h-96 xl:h-108 md:w-100 xl:w-xl relative overflow-hidden hover:brightness-115 hover:saturate-125 def__animate"
     >
-      <A href="" class="h-full w-full overflow-hidden">
+      <A href="" class="h-full w-full">
         <img
           src={data.cover}
           class="h-full w-full object-cover"
@@ -82,60 +81,55 @@ function CollectionCell({ data }: { data: PortfolioCollection }) {
       </A>
       <A
         href=""
-        class="group-hover:opacity-100 opacity-0 z-1 top-0 rounded-xl def__animate px-1 w-12 h-12 flex justify-center items-center ml-6 mt-6 absolute backdrop-blur backdrop-brightness-150 hover:opacity-50"
+        class="group-hover/card:opacity-100 opacity-0 z-1 p-1 top-0 rounded-xl def__animate w-12 h-12 flex justify-center items-center m-6 absolute backdrop-blur backdrop-brightness-150 dark:backdrop-brightness-25 hover:opacity-50"
       >
-        <img src={data.clientLogo} class="invert aspect-auto max-h-6" />
+        <img
+          src={data.clientLogo}
+          class="invert dark:invert-0 aspect-auto max-h-6"
+        />
       </A>
-      <div class="absolute bottom-0 z-1 w-full lg:p-3 mx-auto">
-        <header class="group-hover:opacity-100 lg:opacity-0 lg:rounded-3xl overflow-hidden def__animate group-hover:pb-12 backdrop-brightness-150 dark:backdrop-brightness-50 backdrop-blur-xl px-6 py-6 w-full info-container">
-          <h6 class="text-xs text-black/50">{data.clientName}</h6>
+      <div class="lg:rounded-3xl w-full lg:w-auto lg:inset-x-3 flex flex-col gap-2 def__animate group/tag group-hover/card:opacity-100 px-3 py-6 lg:p-6 lg:opacity-0 absolute bottom-0 lg:bottom-3 z-1 mx-auto backdrop-blur-xl backdrop-brightness-140 dark:backdrop-brightness-25">
+        <header class="">
+          <h6 class="text-xs text-black/50 dark:text-white/50">
+            {data.clientName}
+          </h6>
           <h3 class="text-lg font-bold">{data.title}</h3>
         </header>
-        <div class="group-hover:opacity-100 opacity-0 px-6 relative -mt-10 w-full def__animate">
-          <div
-            class="w-full h-full overflow-x-auto flex gap-1 pr-16 justify-start items-center pb-3 scroll-smooth"
-            style="scrollbar-width: none;"
-          >
-            <For each={data.tags}>
-              {(tag) => {
-                return (
-                  <A
-                    onWheel={(event) => {
-                      const wrapper = event.currentTarget
-                        .parentElement as HTMLElement;
-                      const { deltaY, deltaX } = event;
-                      const { clientWidth, scrollWidth, scrollLeft } = wrapper;
-                      const threshold = scrollWidth - clientWidth;
-                      const delta = (deltaX ? deltaX : deltaY) * 2;
-                      if (delta > 0) {
-                        if (scrollLeft < threshold) {
-                          wrapper.scrollBy({
-                            left: delta,
-                            behavior: "smooth",
-                          });
-                          event.preventDefault();
-                          event.stopImmediatePropagation();
-                        }
-                      } else {
-                        if (scrollLeft > 0) {
-                          wrapper.scrollBy({
-                            left: delta,
-                            behavior: "smooth",
-                          });
-                          event.preventDefault();
-                          event.stopImmediatePropagation();
-                        }
-                      }
-                    }}
-                    href=""
-                    class="def__animate w-fit text-xs px-3 py-1 rounded-full text-nowrap bg-white/50 dark:bg-white/5 border dark:border-white/20 border-black/25 dark:text-white/20 text-black/50 hover:opacity-50 text-center"
-                  >
-                    {tag}
-                  </A>
-                );
-              }}
-            </For>
-          </div>
+        <div
+          class="-mt-12 group-hover/tag:mt-0 flex gap-1 justify-start items-center group-hover/tag:opacity-100 opacity-0 w-full py-2 overflow-x-auto scroll-smooth def__animate"
+          style="scrollbar-width: none;"
+          onWheel={(event) => {
+            const wrapper = event.currentTarget as HTMLElement;
+            const { deltaY, deltaX } = event;
+            const { clientWidth, scrollWidth, scrollLeft } = wrapper;
+            const threshold = scrollWidth - clientWidth;
+            const delta = (deltaX ? deltaX : deltaY) * 2;
+            if (delta > 0) {
+              if (scrollLeft < threshold) {
+                wrapper.scrollBy({
+                  left: delta,
+                  behavior: "smooth",
+                });
+                event.preventDefault();
+                event.stopPropagation();
+              }
+            } else {
+              if (scrollLeft > 0) {
+                wrapper.scrollBy({
+                  left: delta,
+                  behavior: "smooth",
+                });
+                event.preventDefault();
+                event.stopPropagation();
+              }
+            }
+          }}
+        >
+          <For each={data.tags}>
+            {(tag) => {
+              return <Tag href="">{tag}</Tag>;
+            }}
+          </For>
         </div>
       </div>
     </article>
@@ -147,7 +141,7 @@ export default function Collection({
   enableSearch = false,
 }: {
   data: PortfolioCollection[];
-  enableSearch: boolean;
+  enableSearch?: boolean;
 }) {
   let dataA = [],
     dataB = [];
@@ -159,9 +153,9 @@ export default function Collection({
     }
   }
   return (
-    <section class="z-1 py-12 mx-auto relative border-t border-b border-black/10 dark:border-white/10 bg-white dark:bg-black dark:shadow-[0px_-16px_18px_-18px_rgba(255,255,255,0.8)]">
+    <section class="z-1 py-12 mx-auto relative border-t border-b border-black/20 dark:border-white/10 bg-white dark:bg-black dark:shadow-[0px_-16px_18px_-18px_rgba(255,255,255,0.8)]">
       <Show when={enableSearch}>
-        <div class="max-w-7xl mx-6 mb-6 lg:mx-auto px-3 py-3 rounded-xl border border-black/5 dark:border-white/10 flex items-center justify-between">
+        <div class="max-w-7xl mx-6 mb-12 lg:mx-auto px-3 py-3 rounded-xl border border-black/5 dark:border-white/10 flex items-center justify-between">
           <div class="flex gap-3 items-center justify-start">
             <button class="cursor-pointer font-semibold text-xs text-neutral-400 bg-black/5 hover:bg-black/10 dark:bg-white/15 dark:hover:bg-white/10 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">
               Clients:
@@ -176,7 +170,7 @@ export default function Collection({
       <div
         id="collection-wrapper"
         class="px-6 lg:px-12 gap-y-1 w-full grid overflow-x-auto scroll-smooth"
-        style="scrollbarwidth: none;"
+        style="scrollbar-width: none;"
       >
         <CollectionRow>
           <For each={dataA}>{(itemA) => <CollectionCell data={itemA} />}</For>

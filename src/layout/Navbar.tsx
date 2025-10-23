@@ -22,11 +22,13 @@ export default function Navbar() {
       "backdrop-blur-xl",
       "backdrop-brightness-10",
       "md:backdrop-brightness-150",
-      "shadow-lg",
-      "shadow-[rgba(0,0,0,5%)]",
+      "shadow-[0px_6px_6px_-3px_rgba(0,0,0,5%)]",
+      "lg:shadow-[0px_-6px_6px_-4px_rgba(0,0,0,5%)]",
       "lg:mt-3",
       "lg:px-6",
       "lg:hover:translate-y-2",
+      "lg:border-t",
+      "lg:border-t-white/10"
     ];
     window.addEventListener("scroll", () => {
       const { scrollY } = window;
@@ -51,8 +53,8 @@ export default function Navbar() {
             Angelo
           </span>
         </A>
-        <div class="flex gap-12 items-center">
-          <ul class="hidden sm:flex gap-12 items-center">
+        {/*<div class="flex gap-12 items-center">
+          <ul class="hidden sm:flex gap-6 items-center">
             <For each={links}>
               {(link) => {
                 return (
@@ -63,7 +65,7 @@ export default function Navbar() {
               }}
             </For>
           </ul>
-        </div>
+        </div>*/}
       </div>
     </nav>
   );
