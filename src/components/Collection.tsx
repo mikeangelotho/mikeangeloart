@@ -19,6 +19,11 @@ interface Collection {
 export interface PortfolioCollection extends Collection {
   clientName: string;
   clientLogo: string;
+  projectObjective: string;
+  mainKeypointMedia: string;
+  mainKeypointMetricOne: string;
+  mainKeypointMetricTwo: string;
+  mainKeypointDescription: string;
 }
 
 function CollectionRow({ children }: { children: JSXElement }) {

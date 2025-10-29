@@ -114,7 +114,7 @@ export default function Home() {
           </div>
         </article>
       </section>
-      <section class="border-t lg:border border-black/10 dark:border-white/10 dark:border-t-white mb-72 backdrop-blur-3xl bg-white/80 dark:bg-black/80 lg:rounded-3xl backdrop-brightness-150 backdrop-saturate-200 w-full pb-6 px-6 lg:px-12 lg:pt-3 lg:max-w-5xl mx-auto flex flex-col-reverse lg:flex-row justify-center items-center">
+      <section class="border-t lg:border border-black/10 dark:border-white/10 dark:border-t-white mb-72 backdrop-blur-3xl bg-white dark:bg-black/80 lg:rounded-3xl backdrop-brightness-150 backdrop-saturate-200 w-full pb-6 px-6 lg:px-12 lg:pt-3 lg:max-w-5xl mx-auto flex flex-col-reverse lg:flex-row justify-center items-center">
         <article class="lg:pl-12 pb-12 lg:pb-0 flex flex-col justify-center items-center lg:items-start">
           <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1 mb-3">
             <ContainerLabel>Who I Am</ContainerLabel>
@@ -131,44 +131,40 @@ export default function Home() {
           class="hover:scale-95 mt-6 min-h-72 mx-auto w-full def__animate cursor-grab"
         ></div>
       </section>
-      <div class="bg-white dark:bg-black flex flex-col items-center gap-36 py-36 border-t border-b border-black/10 dark:border-white/10 dark:shadow-[0px_0px_72px_0px_rgba(255,255,255,0.1)]">
-        <div class="flex flex-col gap-3 px-6 max-w-3xl text-black/20"><H1>Have a look at some of my work.</H1><p class="pl-0.5 text-black">
-              I currently take on projects independently, but I'm always
-              interested in new opportunities. Whether it's design, development,
-              or blending both, I'm looking to team up with people who want to
-              create meaningful work.
-            </p></div>
-        <MainKeypoint
-          videoUrl="https://player.vimeo.com/video/1127338760"
-          metricOne="test"
-          metricTwo="test"
-          title="testt"
-          description="test"
-          standalone={true}
-          projectUrl="/projects/sa"
-        />
-        <MainKeypoint
-          videoUrl="https://player.vimeo.com/video/1127338760"
-          metricOne="test"
-          metricTwo="test"
-          description="test"
-          title="testst"
-          standalone={true}
-          reverse={true}
-          projectUrl="/projects/sa"
-        />
-        <MainKeypoint
-          videoUrl="https://player.vimeo.com/video/1127338760"
-          metricOne="test"
-          metricTwo="test"
-          title="testt"
-          description="test"
-          standalone={true}
-          projectUrl="/projects/sa"
-        />
-        <section class="flex justify-center">
-          <button class="def__button">See More Work</button>
-        </section>
+      <div class="flex flex-col items-center border-t border-b border-black/10 dark:border-white/10 dark:shadow-[0px_0px_72px_0px_rgba(255,255,255,0.1)] bg-white/80 dark:bg-black/80 backdrop-blur-3xl backdrop-brightness-150 backdrop-saturate-200">
+        <div class="flex flex-col gap-3 px-6 max-w-3xl py-36 ">
+          <H1>Have a look at some of my work.</H1>
+          <p class="pl-0.5 text-black">
+            I currently take on projects independently, but I'm always
+            interested in new opportunities. Whether it's design, development,
+            or blending both, I'm looking to team up with people who want to
+            create meaningful work.
+          </p>
+        </div>
+        <div class="w-full py-36 bg-neutral-100">
+          <MainKeypoint
+            data={collectionData[0]}
+            standalone={true}
+            reverse={true}
+          />
+        </div>
+        <div class="w-full py-36 bg-neutral-50">
+          <MainKeypoint
+            data={collectionData[0]}
+            standalone={true}
+            reverse={true}
+          />
+        </div>
+        <div class="w-full py-36 bg-neutral-100">
+          <MainKeypoint
+            data={collectionData[0]}
+            standalone={true}
+            reverse={true}
+          />
+        </div>
+      </div>
+      <div class="border-b border-b-black/10 dark:border-b-white/10">
+        <Collection data={collectionData} />
       </div>
       <div class="bg-white/80 dark:bg-black/80 backdrop-blur-3xl backdrop-brightness-150 backdrop-saturate-200">
         <Panel3d

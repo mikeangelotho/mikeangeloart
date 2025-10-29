@@ -1,4 +1,3 @@
-import path from "path";
 import data from "../../db.json";
 import Collection, { PortfolioCollection } from "~/components/Collection";
 import Panel3d from "~/components/Panel3d";
