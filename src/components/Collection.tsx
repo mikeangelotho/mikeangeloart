@@ -120,7 +120,10 @@ function CollectionCell({
           >
             {data.clientName}
           </A>
-          <A href={data.slug} class="w-fit font-bold text-black dark:text-white hover:underline">
+          <A
+            href={data.slug}
+            class="w-fit font-bold text-black dark:text-white hover:underline"
+          >
             {data.title}
           </A>
         </header>
@@ -246,7 +249,6 @@ export default function Collection({
         }
       }
     }
-    console.log(array);
     return array;
   }
 

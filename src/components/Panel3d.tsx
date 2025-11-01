@@ -219,6 +219,31 @@ export class SceneManager {
   };
 }
 
+export function init3dScene(
+  wrapper: HTMLDivElement,
+  data: string
+): [SceneManager, IntersectionObserver] {
+  const sceneManager = new SceneManager();
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        requestAnimationFrame(() => {
+          sceneManager.init(wrapper, data);
+          const resizeHandler = () => {
+            if (sceneManager) {
+              sceneManager.handleResize(wrapper);
+            }
+          };
+          window.addEventListener("resize", resizeHandler);
+        });
+        observer.unobserve(wrapper);
+      }
+    });
+  });
+  observer.observe(wrapper);
+  return [sceneManager, observer];
+}
+
 export default function Panel3d({
   data,
   headline,
@@ -232,24 +257,7 @@ export default function Panel3d({
 }) {
   let wrapper3d!: HTMLDivElement;
   onMount(() => {
-    const sceneManager = new SceneManager();
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          requestAnimationFrame(() => {
-            sceneManager.init(wrapper3d, data);
-            const resizeHandler = () => {
-              if (sceneManager) {
-                sceneManager.handleResize(wrapper3d);
-              }
-            };
-            window.addEventListener("resize", resizeHandler);
-          });
-          observer.unobserve(wrapper3d);
-        }
-      });
-    });
-    observer.observe(wrapper3d);
+    const [sceneManager, observer] = init3dScene(wrapper3d, data);
     onCleanup(() => {
       sceneManager.dispose();
       observer.disconnect();

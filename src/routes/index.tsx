@@ -90,7 +90,7 @@ export default function Home() {
     <main class="w-full relative flex flex-col justify-center items-center px-3 lg:px-6">
       <video
         ref={videoPanel}
-        src="/Comp 3.mp4"
+        src="/Comp_3.mp4"
         class="w-full dark:-hue-rotate-90 not-dark:hue-rotate-45 not-dark:invert not-dark:brightness-200 -z-1 aspect-video object-cover h-screen mx-auto fixed top-0"
         preload="metadata"
         muted
@@ -242,7 +242,7 @@ const Input = ({
   );
 };
 
-async function fetchGithubAvatar() {
+export async function fetchGithubAvatar() {
   const req = await fetch("https://api.github.com/users/bippolaroid");
   if (req.ok) {
     const json: any = await req.json();

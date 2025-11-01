@@ -38,7 +38,7 @@ export const LinkButton = ({
   return (
     <A
       href={href}
-      class="text-xs uppercase tracking-widest border border-black/10 hover:border-black/5 dark:border-white/10 dark:hover:border-white/5 def__animate text-black hover:text-black/50 dark:text-white dark:hover:text-white/50 px-6 py-3 rounded-lg bg-linear-to-tr from-neutral-100 to-white hover:to-neutral-50 dark:from-neutral-950 from-50% dark:to-neutral-800 dark:hover:to-neutral-900"
+      class="text-xs uppercase font-bold tracking-wider border border-black/10 hover:border-black/5 dark:border-white/10 dark:hover:border-white/5 def__animate text-black hover:text-black/50 dark:text-white dark:hover:text-white/50 px-6 py-3 rounded-lg bg-linear-to-tr from-neutral-100 to-white hover:to-neutral-50 dark:from-neutral-950 from-50% dark:to-neutral-800 dark:hover:to-neutral-900"
     >
       {children}
     </A>
@@ -55,7 +55,7 @@ export const Button = ({
   return (
     <button
       type={type}
-      class="w-fit cursor-pointer text-xs uppercase tracking-widest border border-black/10 hover:border-black/5 dark:border-white/10 dark:hover:border-white/5 def__animate text-black hover:text-black/50 dark:text-white dark:hover:text-white/50 px-6 py-3 rounded-lg bg-linear-to-tr from-neutral-100 to-white hover:to-neutral-50 dark:from-neutral-950 from-50% dark:to-neutral-800 dark:hover:to-neutral-900"
+      class="w-fit cursor-pointer text-xs uppercase tracking-wider font-bold border border-black/10 hover:border-black/5 dark:border-white/10 dark:hover:border-white/5 def__animate text-black hover:text-black/50 dark:text-white dark:hover:text-white/50 px-6 py-3 rounded-lg bg-linear-to-tr from-neutral-100 to-white hover:to-neutral-50 dark:from-neutral-950 from-50% dark:to-neutral-800 dark:hover:to-neutral-900"
     >
       {children}
     </button>
