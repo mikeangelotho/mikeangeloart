@@ -122,11 +122,11 @@ export default function ProjectPage() {
         </Show>
         <img
           src={project()?.cover}
-          class="-z-1 w-full object-cover h-full fixed top-0"
+          class="-z-1 w-full object-cover scale-120 h-full fixed top-0 blur-xl"
           loading="eager"
         />
-        <div class="-z-1 w-full fixed h-screen backdrop-blur-3xl backdrop-brightness-125 dark:backdrop-brightness-90 dark:backdrop-saturate-100 backdrop-saturate-200 dark:bg-black mix-blend-overlay"></div>
-        <section class="h-144 flex items-center">
+        <div class="-z-1 w-full fixed h-screen dark:backdrop-saturate-100 backdrop-saturate-200 dark:bg-black mix-blend-overlay"></div>
+        <section class="h-144 flex items-center bg-white/50 dark:bg-black/90">
           <article class="flex flex-col items-center gap-6 w-full px-6 max-w-3xl mx-auto">
             <A
               href=""
@@ -139,7 +139,7 @@ export default function ProjectPage() {
               />
             </A>
             <H1>{project()?.title as string}</H1>
-            <div class="flex justify-center gap-1 w-full">
+            <div class="flex justify-center gap-1 w-full flex-wrap">
               <For each={project()?.tags}>
                 {(tag) => (
                   <Tag href={`/projects?tags=${tag.replace(" ", "+")}`}>
@@ -162,12 +162,12 @@ export default function ProjectPage() {
           <section class="py-12 border-t border-black/10">
             <MainKeypoint data={collectionData[0]} />
           </section>
-          <section class="flex flex-col gap-1">
+          <section class="flex flex-col gap-1 py-12">
             <For each={project()?.projectKeypoints}>
               {(keypoint) => {
                 return (
-                  <div class="w-full max-w-7xl mx-auto flex flex-col-reverse md:flex-row gap-12 px-6">
-                    <div class="w-full md:w-2/3 flex items-center">
+                  <div class="w-full max-w-7xl mx-auto flex flex-col md:flex-row px-8">
+                    <div class="w-full md:w-2/3 flex items-center py-12">
                       <div class="w-full md:w-2/3 dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)] rounded-3xl p-6 flex flex-col gap-3 bg-neutral-50 dark:bg-neutral-950 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white">
                         <H2>{keypoint.title}</H2>
                         <p class="dark:text-white">{keypoint.description}</p>

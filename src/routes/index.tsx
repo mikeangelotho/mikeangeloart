@@ -150,7 +150,7 @@ export default function Home() {
         ></div>
       </section>
       <div class="rounded-tl-3xl rounded-tr-3xl w-full flex flex-col items-center border border-black/10 dark:border-white/5 dark:border-t-white bg-white/80 dark:bg-black/50 backdrop-blur-3xl backdrop-brightness-150 backdrop-saturate-200">
-        <section class="max-w-3xl mx-auto flex text-black dark:text-white flex-col gap-3 px-6 lg:px-12 py-24">
+        <section class="max-w-3xl mx-auto flex text-black dark:text-white flex-col gap-3 px-12 py-24">
           <H1>Check out my work.</H1>
           <p class="pl-0.5 text-lg text-black dark:text-white/50">
             I've worked on a variety of campaigns and projects that span digital banners, paid social media content, editing and motion graphics, and web design and development.
@@ -184,10 +184,10 @@ export default function Home() {
         <div class="w-full border-l border-r border-black/5 dark:border-white/5">
           <Collection data={collectionData} />
         </div>
-        <div class="border-r border-l border-b lg:border border-black/5 dark:border-white/5 pb-3 lg:pb-0 w-full rounded-bl-3xl rounded-br-3xl">
-          <section class="flex flex-col lg:flex-row gap-24 items-center px-3 lg:py-24 mx-auto lg:max-w-5xl w-full">
-            <div class="flex flex-col gap-6 max-w-md">
-              <H1>Let's build something together.</H1>
+        <div class="border py-24 lg:border border-black/5 dark:border-white/5 w-full rounded-bl-3xl rounded-br-3xl">
+          <section class="flex flex-col lg:flex-row gap-36 lg:gap-12 items-center px-3 md:px-12 lg:py-24 mx-auto lg:max-w-5xl w-full">
+            <div class="flex flex-col gap-6 lg:max-w-lg px-9 md:px-6">
+              <H1>I'd like to work on your next project.</H1>
               <p class="text-black/50 dark:text-white/50">
                 I'm always looking for new opportunities and collaborations. Whether you're interested in working together or just want to say hi, feel free to drop me a message!
               </p>

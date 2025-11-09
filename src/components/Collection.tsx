@@ -5,14 +5,11 @@ import {
   createSignal,
   For,
   JSXElement,
-  onCleanup,
   onMount,
   Setter,
   Show,
 } from "solid-js";
 import { Tag } from "~/layout/Cards";
-import { H1, H2 } from "~/layout/Headings";
-import { SceneManager } from "./Panel3d";
 
 interface Collection {
   uuid: string;
@@ -56,7 +53,7 @@ function CollectionCell({
 }) {
   return (
     <article
-      onwheel={(event) => {
+      onWheel={(event) => {
         const wrapper = event.currentTarget.parentElement
           ?.parentElement as HTMLElement;
         const { deltaY, deltaX } = event;
@@ -81,7 +78,7 @@ function CollectionCell({
           }
         }
       }}
-      onmouseover={(event) => {
+      onMouseOver={(event) => {
         const cells = document.querySelectorAll(".cell-container");
         for (const cell of cells) {
           const target = event.currentTarget as Element;
@@ -94,7 +91,7 @@ function CollectionCell({
           event.preventDefault();
         }
       }}
-      onmouseout={(event) => {
+      onMouseOut={(event) => {
         event.currentTarget.classList.remove("brightness-103");
         const cells = document.querySelectorAll(".cell-container");
         for (const cell of cells) {
@@ -185,19 +182,21 @@ export default function Collection({
   sortByTags,
   enableSearch = false,
   enableFull = false,
-  enablePanel = false,
 }: {
   data: PortfolioCollection[];
   sortByTags?: { get: Accessor<string[]>; set: Setter<string[]> };
   enableSearch?: boolean;
   enableFull?: boolean;
-  enablePanel?: boolean;
 }) {
-  let wrapper3d!: HTMLDivElement;
   let clearFilter!: HTMLButtonElement;
   let tagsFilter!: HTMLButtonElement;
   let tagsMenu!: HTMLDivElement;
-  const allTags = ["Art Direction", "Experiential Marketing"];
+  const allTags: string[] = [];
+  for (const project of data) {
+    for (const tag of project.tags) {
+      if (!allTags.includes(tag)) allTags.push(tag);
+    }
+  }
 
   const [showTagMenu, setShowTagMenu] = createSignal<boolean>(false);
   const [tagSort, setTagSort] = createSignal<string[]>(sortByTags?.get() || []);
@@ -218,30 +217,6 @@ export default function Collection({
     });
     if (sortByTags?.get() && sortByTags?.get().length > 0) {
       setTagSort(sortByTags.get());
-    }
-    if (enablePanel) {
-      const sceneManager = new SceneManager();
-      const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            requestAnimationFrame(() => {
-              sceneManager.init(wrapper3d, "/MA_3DLogo.glb");
-              const resizeHandler = () => {
-                if (sceneManager) {
-                  sceneManager.handleResize(wrapper3d);
-                }
-              };
-              window.addEventListener("resize", resizeHandler);
-            });
-            observer.unobserve(wrapper3d);
-          }
-        });
-      });
-      observer.observe(wrapper3d);
-      onCleanup(() => {
-        sceneManager.dispose();
-        observer.disconnect();
-      });
     }
 
     document.body.addEventListener("click", (e) => {
@@ -274,9 +249,9 @@ export default function Collection({
   }
 
   return (
-    <section class="z-1 pb-24 mx-auto">
+    <section class="z-1 py-24 mx-auto">
       <Show when={enableSearch}>
-        <div class="bg-white/95 dark:bg-black/90 border border-black/5 dark:border-white/5 z-10 mt-24 lg:mt-4 mx-6 p-3 rounded-xl border border-black/5 dark:border-white/10 flex items-center justify-between fixed inset-x-6">
+        <div class="bg-white/95 dark:bg-black/90 border border-black/5 dark:border-white/5 z-2 lg:mt-3 p-3 md:rounded-xl flex items-center justify-between fixed not-md:w-full md:inset-x-[5vw] xl:inset-x-[15vw] 2xl:inset-x-[25vw]">
           <div class="flex gap-3 items-center justify-between w-full">
             <div class="flex relative pr-3 border-r border-r-black/10 dark:border-r-white/10">
               <button
@@ -294,7 +269,33 @@ export default function Collection({
                 ref={tagsMenu}
                 class="z-1 hidden min-w-xs rounded-xl backdrop-blur-xl text-black dark:text-white bg-white/80 dark:bg-black/80 absolute mt-12 border border-black/10 text-sm"
               >
-                <div class="flex flex-col py-3">
+                <div class="flex flex-col py-3 max-h-60 overflow-x-auto" style="scrollbar-width: none;" onWheel={(event) => {
+                  const wrapper = event.currentTarget as HTMLElement;
+                  const { deltaY, deltaX } = event;
+                  const { clientWidth, scrollWidth, scrollLeft } = wrapper;
+                  const threshold = scrollWidth - clientWidth;
+                  const delta = (deltaX ? deltaX : deltaY) * 2;
+                  console.log(delta);
+                  if (delta > 0) {
+                    if (scrollLeft < threshold) {
+                      wrapper.scrollBy({
+                        left: delta,
+                        behavior: "smooth",
+                      });
+                      event.preventDefault();
+                      event.stopPropagation();
+                    }
+                  } else {
+                    if (scrollLeft > 0) {
+                      wrapper.scrollBy({
+                        left: delta,
+                        behavior: "smooth",
+                      });
+                      event.preventDefault();
+                      event.stopPropagation();
+                    }
+                  }
+                }}>
                   <For each={allTags}>
                     {(tag) => {
                       return (
@@ -318,7 +319,7 @@ export default function Collection({
                 </div>
               </div>
             </div>
-            <div class="w-full items-center justify-start flex gap-3">
+            <div class="w-full items-center justify-start flex gap-3 overflow-x-auto" style="scrollbar-width: none;">
               <For each={tagSort()}>
                 {(tag) => (
                   <Tag
@@ -347,13 +348,12 @@ export default function Collection({
         </div>
       </Show>
       <div
-        class={`flex mx-auto flex-col lg:flex-row ${enablePanel ? "lg:max-w-7xl" : "w-full"
-          }`}
+        class={`flex mx-auto flex-col lg:flex-row`}
       >
         <Show
           when={!enableFull}
           fallback={
-            <div class="flex flex-col gap-3 lg:grid lg:grid-cols-2 lg:gap-1 w-full px-6 pt-48 lg:pt-24">
+            <div class="flex flex-col gap-3 lg:grid lg:grid-cols-2 lg:gap-1 w-full px-6 pt-24">
               <For each={sortedData()}>
                 {(item) => <CollectionCell enableFull={true} data={item} />}
               </For>
