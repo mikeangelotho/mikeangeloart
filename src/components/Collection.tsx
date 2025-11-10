@@ -251,7 +251,7 @@ export default function Collection({
   return (
     <section class="z-1 py-24 mx-auto">
       <Show when={enableSearch}>
-        <div class="bg-white/95 dark:bg-black/90 border border-black/5 dark:border-white/5 z-2 lg:mt-3 p-3 md:rounded-xl flex items-center justify-between fixed not-md:w-full md:inset-x-[5vw] xl:inset-x-[15vw] 2xl:inset-x-[25vw]">
+        <div class="bg-white/95 dark:bg-black/90 border border-black/10 dark:border-white/10 z-2 lg:mt-3 p-3 md:rounded-xl flex items-center justify-between fixed not-md:w-full md:inset-x-[5vw] xl:inset-x-[15vw] 2xl:inset-x-[25vw]">
           <div class="flex gap-3 items-center justify-between w-full">
             <div class="flex relative pr-3 border-r border-r-black/10 dark:border-r-white/10">
               <button

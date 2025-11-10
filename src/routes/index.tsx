@@ -1,6 +1,6 @@
 import { onCleanup, onMount } from "solid-js";
 import { PortfolioCollection } from "~/components/Collection";
-import Panel3d, { SceneManager } from "~/components/Panel3d";
+import { SceneManager } from "~/components/Panel3d";
 import data from "../db.json";
 import Collection from "~/components/Collection";
 import { H1 } from "~/layout/Headings";
@@ -8,7 +8,6 @@ import { Button, ContainerLabel } from "~/layout/Cards";
 import { MainKeypoint } from "./projects/[slug]";
 
 const collectionData: PortfolioCollection[] = data;
-const githubAvatar = await fetchGithubAvatar();
 
 export default function Home() {
   let introPanel!: HTMLDivElement;
@@ -19,15 +18,12 @@ export default function Home() {
 
   onMount(() => {
     const subheads = [
-      "web developer",
-      "video editor",
-      "web designer",
-      "campaign manager",
       "AI enthusiast",
       "skateboarder",
+      "computer nerd",
       "guitar player",
-      "spaceman",
-      "designer",
+      "stargazer",
+      "design technologist",
     ];
 
     let count = 0;
@@ -56,7 +52,6 @@ export default function Home() {
 
         if (factor > 900 || flag) {
           flag = true;
-          whoIAm.style.transform = `translateZ(${factorTwo * -1}px)`;
           whoIAm.style.filter = `blur(${factorTwo / 50}px)`;
           whoIAm.style.opacity = `clamp(0%, ${100 - factorTwo / 5}%, 100%)`;
         }
@@ -101,16 +96,11 @@ export default function Home() {
       <section class="mx-auto max-w-7xl overflow-hidden perspective-normal mix-blend-difference h-screen relative lg:pb-36 w-full flex justify-center items-center lg:items-end">
         <article
           ref={introPanel}
-          class="px-6 fixed w-fit flex flex-col justify-center items-start md:flex-row gap-6"
+          class="px-6 fixed w-fit flex flex-col justify-center items-center md:flex-row gap-6"
         >
-          <div class="text-white/20 h-fit md:mt-15 not-md:border-b md:border-r md:pr-2 pb-1">
+          <div class="text-white/20 h-fit not-md:border-b md:border-r md:pr-2 pb-1">
             <ContainerLabel>Intro</ContainerLabel>
           </div>
-          <img
-            class="border-3 border-white/20 rounded-3xl hover:scale-98 def__animate max-w-36 max-h-60"
-            src={githubAvatar}
-            loading="eager"
-          />
           <div class="flex flex-col gap-2 py-4 justify-center text-left w-full max-w-xl">
             <span class="not-dark:invert">
               <H1>Hey! My name's Mike.</H1>
@@ -121,7 +111,7 @@ export default function Home() {
                 ref={roleChanger}
                 class="underline transition-opacity duration-100 ease-out"
               >
-                designer
+                design technologist
               </span>
               .
             </p>
@@ -137,7 +127,7 @@ export default function Home() {
             <ContainerLabel>What I Do</ContainerLabel>
           </div>
           <p class="text-xl dark:text-white/80 text-black max-w-3xl lg:max-w-full">
-            <strong>I like to make things look good, work well, and leave lasting impressions.</strong>
+            <strong>I like to make things look great, work well, and deliver results.</strong>
           </p>
           <br />
           <p class="text-xl dark:text-white/80 text-black max-w-3xl lg:max-w-full">
@@ -151,9 +141,9 @@ export default function Home() {
       </section>
       <div class="rounded-tl-3xl rounded-tr-3xl w-full flex flex-col items-center border border-black/10 dark:border-white/5 dark:border-t-white bg-white/80 dark:bg-black/50 backdrop-blur-3xl backdrop-brightness-150 backdrop-saturate-200">
         <section class="max-w-3xl mx-auto flex text-black dark:text-white flex-col gap-3 px-12 py-24">
-          <H1>Check out my work.</H1>
+          <H1>Check out some of my work.</H1>
           <p class="pl-0.5 text-lg text-black dark:text-white/50">
-            I've worked on a variety of campaigns and projects that span digital banners, paid social media content, editing and motion graphics, and web design and development.
+            I've worked on a variety of projects and campaigns that include digital display banners, paid social media advertising, social media content, editing and motion graphics work, and web design and development.
           </p>
         </section>
         <section class="border-t border-t-black/10 dark:border-t-white/5 bg-white dark:bg-black/50 py-12 lg:py-36 w-full">
@@ -186,14 +176,14 @@ export default function Home() {
         </div>
         <div class="border py-24 lg:border border-black/5 dark:border-white/5 w-full rounded-bl-3xl rounded-br-3xl">
           <section class="flex flex-col lg:flex-row gap-36 lg:gap-12 items-center px-3 md:px-12 lg:py-24 mx-auto lg:max-w-5xl w-full">
-            <div class="flex flex-col gap-6 lg:max-w-lg px-9 md:px-6">
-              <H1>I'd like to work on your next project.</H1>
+            <div class="flex flex-col gap-6 lg:max-w-md px-9 md:px-6">
+              <H1>Drop a line.</H1>
               <p class="text-black/50 dark:text-white/50">
-                I'm always looking for new opportunities and collaborations. Whether you're interested in working together or just want to say hi, feel free to drop me a message!
+                I'm always looking for new opportunities and collaborations. Whether you're interested in working together or just want to say hi, feel free to send me a message!
               </p>
             </div>
             <form
-              class="w-full flex flex-col gap-6 p-6 bg-white dark:bg-neutral-950 rounded-3xl border dark:border-t-white border-black/10 dark:border-white/10 dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)]"
+              class="w-full flex flex-col gap-6 p-6 bg-neutral-50 dark:bg-neutral-950 rounded-3xl border dark:border-t-white border-black/10 dark:border-white/10 dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)]"
               action="https://api.web3forms.com/submit"
               method="post"
             >

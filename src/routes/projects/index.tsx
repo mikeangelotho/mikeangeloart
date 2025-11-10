@@ -18,7 +18,7 @@ export default function ProjectPage() {
   });
 
   return (
-    <main>
+    <main class="max-w-7xl mx-auto px-3">
       <Collection
         sortByTags={{ get: tags, set: setTags }}
         enableFull={true}

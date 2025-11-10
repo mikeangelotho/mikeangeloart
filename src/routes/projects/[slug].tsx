@@ -1,7 +1,6 @@
 import { A, useNavigate, useParams } from "@solidjs/router";
 import {
   Accessor,
-  createEffect,
   createResource,
   createSignal,
   For,
@@ -29,7 +28,7 @@ export function MainKeypoint({
 }) {
   return (
     <section class="z-1 w-full relative flex flex-col gap-12">
-      <header class="z-1 flex flex-col gap-3 px-6 md:px-12 2xl:px-24 text-black dark:text-white">
+      <header class="z-1 flex flex-col gap-6 px-6 md:px-12 2xl:px-24 text-black dark:text-white">
         <div
           class={`text-black/20 w-full dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1${standalone ? " mb-6" : ""
             }`}
@@ -53,6 +52,46 @@ export function MainKeypoint({
           >
             <H1>{data.title}</H1>
           </A>
+          <div
+            class="flex gap-1 justify-start items-center w-full max-w-lg overflow-x-auto scroll-smooth def__animate"
+            style="scrollbar-width: none;"
+            onWheel={(event) => {
+              const wrapper = event.currentTarget as HTMLElement;
+              const { deltaY, deltaX } = event;
+              const { clientWidth, scrollWidth, scrollLeft } = wrapper;
+              const threshold = scrollWidth - clientWidth;
+              const delta = (deltaX ? deltaX : deltaY) * 2;
+              if (delta > 0) {
+                if (scrollLeft < threshold) {
+                  wrapper.scrollBy({
+                    left: delta,
+                    behavior: "smooth",
+                  });
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+              } else {
+                if (scrollLeft > 0) {
+                  wrapper.scrollBy({
+                    left: delta,
+                    behavior: "smooth",
+                  });
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+              }
+            }}
+          >
+            <For each={data.tags}>
+              {(tag) => {
+                return (
+                  <Tag href={`/projects?tags=${tag.replace(" ", "+")}`}>
+                    {tag}
+                  </Tag>
+                );
+              }}
+            </For>
+          </div>
         </Show>
       </header>
       <div
@@ -87,8 +126,8 @@ export function MainKeypoint({
               </p>
             </div>
             <div class="flex flex-col gap-1">
-              <Metric icon="/MA_26Logo.svg">{data.mainKeypointMetricOne}</Metric>
-              <Metric icon="/MA_26Logo.svg">{data.mainKeypointMetricTwo}</Metric>
+              <Metric icon="/MA_Icons25_Lightbulb.svg">{data.mainKeypointMetricOne}</Metric>
+              <Metric icon="/MA_Icons25_Lightbulb.svg">{data.mainKeypointMetricTwo}</Metric>
             </div>
             <Show when={standalone}>
               <div class="w-fit py-3">
@@ -158,28 +197,28 @@ export default function ProjectPage() {
             </div>
           </article>
         </section>
-        <section class="bg-white dark:bg-black py-24">
+        <section class="bg-white dark:bg-black py-24 border-t border-b border-black/10 dark:border-white/10">
           <section class="py-12 border-t border-black/10">
             <MainKeypoint data={collectionData[0]} />
           </section>
-          <section class="flex flex-col gap-1 py-12">
+          <section class="flex flex-col gap-1">
             <For each={project()?.projectKeypoints}>
               {(keypoint) => {
                 return (
-                  <div class="w-full max-w-7xl mx-auto flex flex-col md:flex-row px-8">
-                    <div class="w-full md:w-2/3 flex items-center py-12">
-                      <div class="w-full md:w-2/3 dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)] rounded-3xl p-6 flex flex-col gap-3 bg-neutral-50 dark:bg-neutral-950 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white">
+                  <div class="w-full max-w-7xl mx-auto flex flex-col md:flex-row gap-6 px-8">
+                    <div class="w-full flex items-center justify-center md:justify-start py-24">
+                      <div class="max-w-lg dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)] rounded-3xl p-6 flex flex-col gap-3 bg-neutral-50 dark:bg-neutral-950 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white">
                         <H2>{keypoint.title}</H2>
                         <p class="dark:text-white">{keypoint.description}</p>
                       </div>
                     </div>
-                    <div class="w-full md:w-1/3 flex flex-col items-center gap-1">
+                    <div class="w-full min-w-md mx-auto max-w-lg flex flex-col items-center gap-1">
                       <For each={keypoint.media}>
                         {(media) => {
                           return (
                             <>
                               <img
-                                class="w-full hover:saturate-125 def__animate cursor-pointer"
+                                class="w-full hover:saturate-125 def__animate cursor-pointer md:pl-2 border-l border-transparent hover:border-black/10 dark:hover:border-white/10"
                                 onClick={() => {
                                   setLighboxImg(media);
                                 }}
@@ -213,8 +252,8 @@ async function findCollection(slug: string) {
 const Metric = ({ children, icon }: { children: string; icon: string }) => {
   return (
     <article class="flex items-center gap-3">
-      <div class="border border-black/50 dark:border-white/50 p-2 rounded-lg opacity-20">
-        <img src={icon} loading="eager" class="w-6 h-6 not-dark:invert" />
+      <div class="border border-black/50 dark:border-white/50 p-1 rounded-lg opacity-20">
+        <img src={icon} loading="eager" class="w-8 h-8 dark:invert" />
       </div>
       <span class="uppercase text-sm font-bold tracking-widest text-black/20 dark:text-white/20">
         {children}

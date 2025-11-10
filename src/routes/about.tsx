@@ -1,7 +1,7 @@
 import { createEffect, createSignal, For, JSXElement, onCleanup, onMount, Show } from "solid-js";
 import { init3dScene } from "~/components/Panel3d";
-import { ContainerLabel } from "~/layout/Cards";
-import { H1 } from "~/layout/Headings";
+import { Button, ContainerLabel, Tag } from "~/layout/Cards";
+import { H1, H2 } from "~/layout/Headings";
 import { fetchGithubAvatar } from ".";
 import { fetchGithubInfo, GitHubUser } from "~/hooks";
 
@@ -12,26 +12,37 @@ const taskbarIcons = [
     name: "Photoshop",
     icon: "/MA_WebIcons_Ps.svg",
     color: "#002341ff",
+    url: "https://www.behance.net/mikeangelotho"
   },
   {
     name: "Illustrator",
     icon: "/MA_WebIcons_Ai.svg",
     color: "#532100ff",
+    url: "https://www.behance.net/mikeangelotho"
   },
   {
     name: "InDesign",
     icon: "/MA_WebIcons_Id.svg",
     color: "#7c0029ff",
+    url: "https://www.behance.net/mikeangelotho"
   },
   {
     name: "Premiere Pro",
     icon: "/MA_WebIcons_Pr.svg",
     color: "#000e55ff",
+    url: "https://www.behance.net/mikeangelotho"
   },
   {
     name: "After Effects",
     icon: "/MA_WebIcons_Ae.svg",
     color: "#000e55ff",
+    url: "https://www.behance.net/mikeangelotho"
+  },
+  {
+    name: "Figma",
+    icon: "/MA_WebIcons_Figma.svg",
+    color: "#1d0319",
+    url: "https://www.figma.com/@mangelo"
   },
   {
     name: "VS Code",
@@ -56,6 +67,9 @@ export default function About() {
   let desktop!: HTMLDivElement;
 
   const [windows, setWindows] = createSignal<JSXElement[]>([]);
+  //
+  // track via Accessor instead
+  //
   let windowMap: string[] = [];
 
   const Moveable = ({
@@ -104,7 +118,7 @@ export default function About() {
     return (
       <div
         ref={container}
-        class={`w-fit h-fit relative mx-auto flex flex-col justify-center lg:items-start items-center def__animate lg:hover:scale-101 md:absolute lg:cursor-grab lg:select-none
+        class={`w-fit max-w-2xl h-fit relative mx-auto flex flex-col justify-center md:items-start items-center def__animate md:hover:scale-101 md:absolute md:cursor-grab md:select-none
         ${noMobile ? ` hidden md:block` : ``}`}
         onMouseDown={(e) => {
           container.classList.add("z-1");
@@ -122,7 +136,7 @@ export default function About() {
       >
         <div class="p-12 -translate-y-12.5 translate-x-24 absolute top-0 right-0 w-fit cursor-pointer opacity-10 hover:opacity-80 def__animate text-black dark:text-white" onClick={() => {
           container.remove();
-        }}><div class="px-1.5 border text-sm" onClick={() => { windowMap = windowMap.filter(item => item !== label); }}>Χ</div></div>
+        }}><div class="px-2 py-1 border text-xs rounded-md" onClick={() => { windowMap = windowMap.filter(item => item !== label); }}>Χ</div></div>
         <Show when={label}>
           <div class="mb-3 pb-1 w-fit text-black/20 dark:text-white/10 border-b dark:border-b-white/10">
             <ContainerLabel>{label !== "VS Code" ? label || "" : "Github"}</ContainerLabel>
@@ -149,7 +163,7 @@ export default function About() {
 
   const Box = ({ children }: { children: JSXElement }) => {
     return (
-      <div class="backdrop-blur-3xl gap-6 lg:max-w-2xl border border-black/10 bg-white dark:border-white/10 dark:border-t dark:bg-black dark:border-t-white h-fit w-full lg:w-fit p-6 rounded-xl mx-auto text-black dark:text-white">
+      <div class="p-6 rounded-xl backdrop-blur-3xl gap-6 w-full border border-black/10 bg-white/90 dark:border-white/10 dark:border-t dark:bg-black/90 dark:border-t-white text-black dark:text-white">
         {children}
       </div>
     );
@@ -158,17 +172,48 @@ export default function About() {
   const newWindow = async (label: string) => {
     let data: GitHubUser | any;
     let newWindow: JSXElement;
+    async function getGithubLanguages(data: GitHubUser) {
+      let languages: string[] = [];
+      const res: any[] = await fetch(data.repos_url).then(res => res.json());
+      res.forEach((repo) => {
+        if (!languages.includes(repo.language) && repo.language != null) {
+          languages.push(repo.language);
+        }
+      })
+      return languages;
+    }
     switch (label) {
       case "VS Code":
         data = await fetchGithubInfo();
+        const languages = await getGithubLanguages(data);
         newWindow = (<Moveable options={{ x: 3, y: 3 }} label={"VS Code"}>
           <Box>
-            <div class="flex flex-col gap-3 w-fit">
-              <H1>{data.name}</H1>
-              <div>
-                <span class="text-xs opacity-30">Bio</span>
-                <p>{data.bio}</p>
+            <div class="flex flex-col gap-6 w-fit">
+              <H2>{data.name}</H2>
+              <div class="flex flex-col gap-3">
+                <div class="flex flex-col gap-1">
+                  <span class="text-xs opacity-30">Bio</span>
+                  <p class="text-sm">{data.bio}</p>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <span class="text-xs opacity-30">Languages</span>
+                  <div class="flex gap-1">
+                    <For each={languages}>{(lang) => (
+                      <Tag>{lang}</Tag>
+                    )}</For>
+                  </div>
+                </div>
               </div>
+            </div>
+          </Box>
+        </Moveable>);
+        break;
+      default:
+        newWindow = (<Moveable options={{ x: 3, y: 3 }} label={label}>
+          <Box>
+            <div class="flex flex-col gap-6 w-fit">
+              <H2>Down for Maintenance</H2>
+              <p class="text-sm"><strong>Updating {label}</strong>... please check back later...</p>
             </div>
           </Box>
         </Moveable>);
@@ -187,7 +232,7 @@ export default function About() {
 
   onMount(() => {
 
-    setWindows([...windows(), <Moveable label="Logo" noMobile={true} options={{ x: 1.5, y: 1.8 }}>
+    setWindows([...windows(), <Moveable label="Logo" noMobile={true} options={{ x: 1.4, y: 1.7 }}>
       <div ref={wrapper3D} class="w-36 h-36 pointer-events-none"></div>
     </Moveable>]);
 
@@ -200,17 +245,31 @@ export default function About() {
 
     setWindows([...windows(), <Moveable label="Profile Summary" options={{ x: 4, y: 6 }}>
       <Box>
-        <div class="flex flex-col gap-3 pointer-events-none">
-          <H1>Test</H1>
-          <p>
-            I currently take on projects independently, but I'm always
-            interested in new opportunities. Whether it's design,
-            development, or blending both, I'm looking to team up with
-            people who want to create meaningful work.
-          </p>
+        <div class="flex flex-col gap-12 py-6">
+          <H1>Introduction</H1>
+          <div class="flex flex-col gap-6 border-t border-b border-black/10 dark:border-white/10 pt-6 max-h-[40vh] overflow-y-auto pr-6 mx-6 pb-12">
+            <p>I was just a middle school kid making online forum graphics and building competitive gaming websites. I wasn't chasing monetary gain or online status; I was driven by the joy of creation. I was good at it, and I loved it.</p>
+            <div class="border-t border-b border-black/10 dark:border-white/10 py-6 w-full flex justify-center"><img class="ring-2 ring-black/10 dark:ring-white/10 md:max-w-1/3 rounded-lg" src="/edited pc guitar me.jpg" /></div>
+            <p><strong class="text-2xl">I realized my passion wasn't just a hobby.</strong></p>
+            <p>Fast forward to today, and I’m still that kid. The motivation hasn't changed, but the love has deepened. Now, the fun is in the partnership: bringing people’s unique ideas to life.</p>
+            <p>I take pride in building and developing brands and campaigns from the ground up, delivering high-quality work that doesn't just look good, but leaves a lasting, measurable mark.</p>
+          </div>
         </div>
       </Box>
     </Moveable>]);
+
+    setWindows([...windows(), <Moveable label="Alert" options={{ x: 1.5, y: 5 }}>
+      <Box>
+        <div class="flex flex-col items-center gap-6">
+          <p class="text-sm opacity-20">A resume has been detected.</p>
+          <Button type="button" onClick={() => {
+            window.open("", "_blank");
+          }}>View Resume</Button>
+        </div>
+      </Box>
+    </Moveable>]);
+
+    console.log(windows());
 
     const [sceneManager, observer] = init3dScene(wrapper3D, "/New A_FINAL.glb");
     onCleanup(() => {
@@ -224,22 +283,22 @@ export default function About() {
       <video
         ref={videoPanel}
         src="/Comp_3.mp4"
-        class="w-full dark:-hue-rotate-90 not-dark:hue-rotate-45 not-dark:invert not-dark:brightness-200 -z-1 aspect-video object-cover h-screen mx-auto fixed top-0"
+        class="h-screen w-full dark:-hue-rotate-90 not-dark:hue-rotate-45 not-dark:invert not-dark:brightness-200 -z-1 aspect-video object-cover mx-auto fixed top-0"
         preload="metadata"
         muted
         autoplay
         loop
         playsinline
       ></video>
-      <div class="h-screen relative dark:backdrop-brightness-50 backdrop-blur">
-        <div class="max-h-[86vh] h-full pt-22 pb-3 xl:px-72">
-          <div ref={desktop} class="border-t border-b h-full overflow-x-hidden flex flex-col gap-3 border-black/10 dark:border-white/10 p-6">
+      <div class="h-screen w-full fixed dark:backdrop-brightness-50 backdrop-blur">
+        <div class="h-[89vh] pt-22 xl:px-72">
+          <div ref={desktop} class="border-t border-b h-full overflow-x-hidden flex flex-col gap-6 border-black/10 dark:border-white/10 p-6">
             <For each={windows()}>{(window) => window}</For>
           </div>
         </div>
-        <div class="h-[10vh] px-3">
+        <div class="h-[10vh] pt-3 flex items-center px-4">
           <div
-            class="p-6 max-w-7xl mx-auto w-full md:w-fit h-fit border border-black/20 dark:border-white/10 rounded-3xl bg-white/80 dark:bg-black/80 flex flex-row justify-center items-center overflow-x-auto"
+            class="p-3 max-w-7xl mx-auto w-full md:w-fit h-fit border border-black/20 dark:border-white/10 rounded-3xl bg-white/80 dark:bg-black/80 flex flex-row justify-center items-center overflow-x-auto"
             style="scrollbar-width: none;"
           >
             <For each={taskbarIcons}>
@@ -257,7 +316,7 @@ export default function About() {
                       <img
                         src={icon.icon}
                         alt={icon.name}
-                        class={`p-1 h-10 w-10 md:h-12 md:w-12 mix-blend-soft-light`}
+                        class={`p-1 h-9 w-9 md:h-12 md:w-12 mix-blend-soft-light`}
                       />
                     </div>
                   </div>
