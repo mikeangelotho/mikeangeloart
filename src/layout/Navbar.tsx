@@ -140,7 +140,7 @@ export default function Navbar() {
             </ul>
             <ThemeToggle />
           </div>
-          <div ref={mobileMenuIcon} class="bg-white cursor-pointer hover:scale-105 def__animate hidden text-3xl text-black pb-2 mb-1 px-3" onClick={() => {
+          <div ref={mobileMenuIcon} class="bg-white rounded-lg cursor-pointer hover:scale-105 def__animate hidden text-3xl text-black pb-2 mb-1 px-3" onClick={() => {
             toggleMobileMenu();
           }}>
             ⩩

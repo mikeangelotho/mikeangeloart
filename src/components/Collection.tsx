@@ -32,12 +32,19 @@ export interface PortfolioCollection extends Collection {
   mainKeypointMetricTwo: string;
   mainKeypointDescription: string;
   projectKeypoints: PortfolioKeypoint[];
+  projectVideos: Video[]
 }
 
 interface PortfolioKeypoint {
   title: string;
   description: string;
   media: string[];
+}
+
+export interface Video {
+  title: string;
+  client: string;
+  url: string;
 }
 
 function CollectionRow({ children }: { children: JSXElement }) {

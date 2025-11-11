@@ -53,6 +53,23 @@
           "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"
         ]
       }
+    ],
+    "projectVideos": [
+      {
+        "title": "d",
+        "client": "s",
+        "url": "https://player.vimeo.com/video/1081725997"
+      },
+      {
+        "title": "d",
+        "client": "s",
+        "url": "https://player.vimeo.com/video/1081724183"
+      },
+      {
+        "title": "d",
+        "client": "s",
+        "url": "https://player.vimeo.com/video/1084814449"
+      }
     ]
   }
 ]

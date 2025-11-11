@@ -14,6 +14,7 @@ import { H1, H2 } from "~/layout/Headings";
 import data from "../../db.json";
 import Collection, { PortfolioCollection } from "~/components/Collection";
 import { slugify } from "~/hooks";
+import VideoLib from "~/components/VideoLib";
 
 const collectionData: PortfolioCollection[] = data;
 
@@ -27,8 +28,8 @@ export function MainKeypoint({
   reverse?: boolean;
 }) {
   return (
-    <section class="z-1 w-full relative flex flex-col gap-12">
-      <header class="z-1 flex flex-col gap-6 px-6 md:px-12 2xl:px-24 text-black dark:text-white">
+    <section class="z-1 w-full relative flex flex-col gap-18">
+      <header class="z-1 flex flex-col gap-6 px-6 lg:px-0 text-black dark:text-white">
         <div
           class={`text-black/20 w-full dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1${standalone ? " mb-6" : ""
             }`}
@@ -99,11 +100,7 @@ export function MainKeypoint({
           } gap-12 justify-center items-center`}
       >
         <div class="w-full max-w-5xl">
-          <iframe
-            src={data.mainKeypointMedia}
-            class="aspect-video w-full border-t border-b border-black/5 dark:border-white/5"
-            allow="fullscreen"
-          ></iframe>
+          <Featured url={data.mainKeypointMedia} />
         </div>
         <article class="w-full lg:max-w-1/3 flex flex-col items-start justify-center">
           <div class="text-black dark:text-white w-full dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)] mx-auto rounded-3xl p-6 flex flex-col gap-6 bg-neutral-50 dark:bg-neutral-950 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white">
@@ -146,11 +143,21 @@ export default function ProjectPage() {
   const navigate = useNavigate();
   const { slug } = params;
 
-  const [project] = createResource(() => slug, findCollection);
+  async function findCollection(slug: string) {
+    for (const collection of collectionData) {
+      if (collection.slug === slug) return collection;
+    }
+  }
+
+  const [project] = createResource(slug, findCollection);
   const [lightboxImg, setLighboxImg] = createSignal<string>();
+
 
   onMount(() => {
     if (!project()) navigate("/projects", { replace: true });
+
+
+
   });
 
   return (
@@ -197,43 +204,46 @@ export default function ProjectPage() {
             </div>
           </article>
         </section>
-        <section class="bg-white dark:bg-black py-24 border-t border-b border-black/10 dark:border-white/10">
-          <section class="py-12 border-t border-black/10">
-            <MainKeypoint data={collectionData[0]} />
-          </section>
-          <section class="flex flex-col gap-1">
-            <For each={project()?.projectKeypoints}>
-              {(keypoint) => {
-                return (
-                  <div class="w-full max-w-7xl mx-auto flex flex-col md:flex-row gap-6 px-8">
-                    <div class="w-full flex items-center justify-center md:justify-start py-24">
-                      <div class="max-w-lg dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)] rounded-3xl p-6 flex flex-col gap-3 bg-neutral-50 dark:bg-neutral-950 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white">
-                        <H2>{keypoint.title}</H2>
-                        <p class="dark:text-white">{keypoint.description}</p>
+        <section class="bg-white dark:bg-black py-18 border-t border-b border-black/10 dark:border-white/10">
+          <div class="mx-auto max-w-7xl">
+            <section class="py-18">
+              <MainKeypoint data={project()!} />
+            </section>
+            <section class="flex flex-col gap-1 border-t border-black/10 dark:border-white/10 py-36">
+              <For each={project()?.projectKeypoints}>
+                {(keypoint) => {
+                  return (
+                    <div class="w-full max-w-7xl mx-auto flex flex-col md:flex-row gap-6 px-8">
+                      <div class="w-full flex items-center justify-center md:justify-start py-24">
+                        <div class="max-w-lg dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)] rounded-3xl p-6 flex flex-col gap-3 bg-neutral-50 dark:bg-neutral-950 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white">
+                          <H2>{keypoint.title}</H2>
+                          <p class="dark:text-white">{keypoint.description}</p>
+                        </div>
+                      </div>
+                      <div class="w-full min-w-md mx-auto max-w-lg flex flex-col items-center gap-1">
+                        <For each={keypoint.media}>
+                          {(media) => {
+                            return (
+                              <>
+                                <img
+                                  class="w-full hover:saturate-125 def__animate cursor-pointer md:pl-2 border-l border-transparent hover:border-black/10 dark:hover:border-white/10"
+                                  onClick={() => {
+                                    setLighboxImg(media);
+                                  }}
+                                  src={media}
+                                />
+                              </>
+                            );
+                          }}
+                        </For>
                       </div>
                     </div>
-                    <div class="w-full min-w-md mx-auto max-w-lg flex flex-col items-center gap-1">
-                      <For each={keypoint.media}>
-                        {(media) => {
-                          return (
-                            <>
-                              <img
-                                class="w-full hover:saturate-125 def__animate cursor-pointer md:pl-2 border-l border-transparent hover:border-black/10 dark:hover:border-white/10"
-                                onClick={() => {
-                                  setLighboxImg(media);
-                                }}
-                                src={media}
-                              />
-                            </>
-                          );
-                        }}
-                      </For>
-                    </div>
-                  </div>
-                );
-              }}
-            </For>
-          </section>
+                  );
+                }}
+              </For>
+            </section>
+            <VideoLib videos={project()!.projectVideos} />
+          </div>
         </section>
       </Show>
       <section class="bg-white dark:bg-black">
@@ -243,11 +253,7 @@ export default function ProjectPage() {
   );
 }
 
-async function findCollection(slug: string) {
-  for (const collection of collectionData) {
-    if (collection.slug === slug) return collection;
-  }
-}
+
 
 const Metric = ({ children, icon }: { children: string; icon: string }) => {
   return (
@@ -297,3 +303,23 @@ const Lightbox = ({
     </div>
   );
 };
+
+const Featured = ({ url }: { url: string }) => {
+  if (url.includes("vimeo")) {
+    return (
+      <iframe
+        src={url}
+        class="aspect-video w-full border-t border-b border-black/5 dark:border-white/5"
+        allow="fullscreen"
+      ></iframe>
+
+    )
+  } else {
+    return (
+      <img
+        src={url}
+        class="object-cover w-full"
+      />
+    )
+  }
+}

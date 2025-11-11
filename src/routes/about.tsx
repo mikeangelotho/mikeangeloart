@@ -133,15 +133,16 @@ export default function About() {
 
           window.addEventListener("mouseup", stop);
         }}
-      >
-        <div class="p-12 -translate-y-12.5 translate-x-24 absolute top-0 right-0 w-fit cursor-pointer opacity-10 hover:opacity-80 def__animate text-black dark:text-white" onClick={() => {
-          container.remove();
-        }}><div class="px-2 py-1 border text-xs rounded-md" onClick={() => { windowMap = windowMap.filter(item => item !== label); }}>Χ</div></div>
-        <Show when={label}>
-          <div class="mb-3 pb-1 w-fit text-black/20 dark:text-white/10 border-b dark:border-b-white/10">
-            <ContainerLabel>{label !== "VS Code" ? label || "" : "Github"}</ContainerLabel>
-          </div>
-        </Show>
+      ><div class="opacity-10 def__animate hover:opacity-80">
+          <div class="p-12 -translate-y-12.5 translate-x-24 absolute top-0 right-0 w-fit cursor-pointer def__animate text-black dark:text-white" onClick={() => {
+            container.remove();
+          }}><div class="px-2 py-1 border text-xs rounded-md" onClick={() => { windowMap = windowMap.filter(item => item !== label); }}>Χ</div></div>
+          <Show when={label}>
+            <div class="mb-3 pb-1 w-fit text-black/ dark:text-white border-b dark:border-b-white/10">
+              <ContainerLabel>{label !== "VS Code" ? label || "" : "Github"}</ContainerLabel>
+            </div>
+          </Show>
+        </div>
         {children}
       </div>
     );
@@ -268,8 +269,6 @@ export default function About() {
         </div>
       </Box>
     </Moveable>]);
-
-    console.log(windows());
 
     const [sceneManager, observer] = init3dScene(wrapper3D, "/New A_FINAL.glb");
     onCleanup(() => {
