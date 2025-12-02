@@ -270,7 +270,7 @@ export default function About() {
       </Box>
     </Moveable>]);
 
-    const [sceneManager, observer] = init3dScene(wrapper3D, "/New A_FINAL.glb");
+    const [sceneManager, observer] = init3dScene(wrapper3D, "/MA_Logo_3D.glb");
     onCleanup(() => {
       sceneManager.dispose();
       observer.disconnect();

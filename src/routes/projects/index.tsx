@@ -1,26 +1,25 @@
 import data from "../../db.json";
 import Collection, { PortfolioCollection } from "~/components/Collection";
 import { useSearchParams } from "@solidjs/router";
-import { createSignal, onMount } from "solid-js";
+import { createEffect, createMemo, createSignal, onMount } from "solid-js";
 
 const collectionData: PortfolioCollection[] = data;
 
 export default function ProjectPage() {
-  const [tags, setTags] = createSignal<string[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
-
-  onMount(() => {
+  // Make tags a memo that directly reads from searchParams.tags
+  const tags = createMemo(() => {
     if (searchParams.tags) {
-      setTags((searchParams.tags as string).split(","));
+      return (searchParams.tags as string).split(",");
     }
-
+    return [];
   });
 
   return (
     <main class="max-w-7xl mx-auto px-3">
       <Collection
-        sortByTags={{ get: tags, set: setTags }}
+        sortByTags={{ get: tags, set: (newTags) => setSearchParams({ tags: (newTags as string[]).join() }) }}
         enableFull={true}
         data={collectionData}
         enableSearch={true}

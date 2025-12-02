@@ -28,7 +28,7 @@ export function MainKeypoint({
   reverse?: boolean;
 }) {
   return (
-    <section class="z-1 w-full relative flex flex-col gap-18">
+    <section class="z-1 w-full relative flex flex-col gap-36">
       <header class="z-1 flex flex-col gap-6 px-6 lg:px-0 text-black dark:text-white">
         <div
           class={`text-black/20 w-full dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1${standalone ? " mb-6" : ""
@@ -56,32 +56,6 @@ export function MainKeypoint({
           <div
             class="flex gap-1 justify-start items-center w-full max-w-lg overflow-x-auto scroll-smooth def__animate"
             style="scrollbar-width: none;"
-            onWheel={(event) => {
-              const wrapper = event.currentTarget as HTMLElement;
-              const { deltaY, deltaX } = event;
-              const { clientWidth, scrollWidth, scrollLeft } = wrapper;
-              const threshold = scrollWidth - clientWidth;
-              const delta = (deltaX ? deltaX : deltaY) * 2;
-              if (delta > 0) {
-                if (scrollLeft < threshold) {
-                  wrapper.scrollBy({
-                    left: delta,
-                    behavior: "smooth",
-                  });
-                  event.preventDefault();
-                  event.stopPropagation();
-                }
-              } else {
-                if (scrollLeft > 0) {
-                  wrapper.scrollBy({
-                    left: delta,
-                    behavior: "smooth",
-                  });
-                  event.preventDefault();
-                  event.stopPropagation();
-                }
-              }
-            }}
           >
             <For each={data.tags}>
               {(tag) => {
@@ -94,6 +68,16 @@ export function MainKeypoint({
             </For>
           </div>
         </Show>
+        <Show when={standalone}>
+          <div class="flex flex-col gap-1 text-black dark:text-white w-full max-w-lg">
+            <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1">
+              <ContainerLabel>Objective</ContainerLabel>
+            </div>
+            <p class="text-left text-black dark:text-white">
+              {data.projectObjective}
+            </p>
+          </div>
+        </Show>
       </header>
       <div
         class={`px-3 md:px-12 z-1 w-full mx-auto flex flex-col ${!reverse ? "lg:flex-row" : "lg:flex-row-reverse"
@@ -103,34 +87,26 @@ export function MainKeypoint({
           <Featured url={data.mainKeypointMedia} />
         </div>
         <article class="w-full lg:max-w-1/3 flex flex-col items-start justify-center">
-          <div class="text-black dark:text-white w-full dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)] mx-auto rounded-3xl p-6 flex flex-col gap-6 bg-neutral-50 dark:bg-neutral-950 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white">
-            <Show when={standalone}>
+          <div class="flex flex-col gap-6">
+            <div class="text-black dark:text-white w-full dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)] mx-auto rounded-3xl p-6 flex flex-col gap-6 bg-neutral-50 dark:bg-neutral-950 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white">
               <div class="flex flex-col gap-1">
                 <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1">
-                  <ContainerLabel>Objective</ContainerLabel>
+                  <ContainerLabel>Strategy</ContainerLabel>
                 </div>
                 <p class="text-left text-black dark:text-white">
-                  {data.projectObjective}
+                  {data.mainKeypointDescription}
                 </p>
               </div>
-            </Show>
-            <div class="flex flex-col gap-1">
-              <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1">
-                <ContainerLabel>Strategy</ContainerLabel>
+              <div class="flex flex-col gap-1">
+                <Metric icon="/MA_Icons25_Lightbulb.svg">{data.mainKeypointMetricOne}</Metric>
+                <Metric icon="/MA_Icons25_Lightbulb.svg">{data.mainKeypointMetricTwo}</Metric>
               </div>
-              <p class="text-left text-black dark:text-white">
-                {data.mainKeypointDescription}
-              </p>
+              <Show when={standalone}>
+                <div class="w-fit py-3">
+                  <LinkButton href={`/projects/${data.slug}`}>See Project</LinkButton>
+                </div>
+              </Show>
             </div>
-            <div class="flex flex-col gap-1">
-              <Metric icon="/MA_Icons25_Lightbulb.svg">{data.mainKeypointMetricOne}</Metric>
-              <Metric icon="/MA_Icons25_Lightbulb.svg">{data.mainKeypointMetricTwo}</Metric>
-            </div>
-            <Show when={standalone}>
-              <div class="w-fit py-3">
-                <LinkButton href={`/projects/${data.slug}`}>See Project</LinkButton>
-              </div>
-            </Show>
           </div>
         </article>
       </div>
@@ -149,7 +125,7 @@ export default function ProjectPage() {
     }
   }
 
-  const [project] = createResource(slug, findCollection);
+  const [project] = createResource(() => params.slug, findCollection);
   const [lightboxImg, setLighboxImg] = createSignal<string>();
 
 

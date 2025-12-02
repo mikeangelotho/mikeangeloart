@@ -60,31 +60,6 @@ function CollectionCell({
 }) {
   return (
     <article
-      onWheel={(event) => {
-        const wrapper = event.currentTarget.parentElement
-          ?.parentElement as HTMLElement;
-        const { deltaY, deltaX } = event;
-        const { clientWidth, scrollWidth, scrollLeft } = wrapper;
-        const threshold = scrollWidth - clientWidth;
-        const delta = (deltaX ? deltaX : deltaY) * 2;
-        if (delta > 0) {
-          if (scrollLeft < threshold) {
-            wrapper.scrollBy({
-              left: delta,
-              behavior: "smooth",
-            });
-            event.preventDefault();
-          }
-        } else {
-          if (scrollLeft > 0) {
-            wrapper.scrollBy({
-              left: delta,
-              behavior: "smooth",
-            });
-            event.preventDefault();
-          }
-        }
-      }}
       onMouseOver={(event) => {
         const cells = document.querySelectorAll(".cell-container");
         for (const cell of cells) {
@@ -142,32 +117,6 @@ function CollectionCell({
         <div
           class="-mt-9 group-hover/tag:mt-0 flex gap-1 justify-start items-center group-hover/tag:opacity-100 opacity-0 w-full overflow-x-auto scroll-smooth def__animate"
           style="scrollbar-width: none;"
-          onWheel={(event) => {
-            const wrapper = event.currentTarget as HTMLElement;
-            const { deltaY, deltaX } = event;
-            const { clientWidth, scrollWidth, scrollLeft } = wrapper;
-            const threshold = scrollWidth - clientWidth;
-            const delta = (deltaX ? deltaX : deltaY) * 2;
-            if (delta > 0) {
-              if (scrollLeft < threshold) {
-                wrapper.scrollBy({
-                  left: delta,
-                  behavior: "smooth",
-                });
-                event.preventDefault();
-                event.stopPropagation();
-              }
-            } else {
-              if (scrollLeft > 0) {
-                wrapper.scrollBy({
-                  left: delta,
-                  behavior: "smooth",
-                });
-                event.preventDefault();
-                event.stopPropagation();
-              }
-            }
-          }}
         >
           <For each={data.tags}>
             {(tag) => {
@@ -206,26 +155,51 @@ export default function Collection({
   }
 
   const [showTagMenu, setShowTagMenu] = createSignal<boolean>(false);
-  const [tagSort, setTagSort] = createSignal<string[]>(sortByTags?.get() || []);
+  const [tagSort, setTagSort] = createSignal<string[]>([]);
   const [sortedData, setSortedData] = createSignal<PortfolioCollection[]>();
 
-  checkSortedData();
+  // New effect to sync internal tagSort with prop
+  createEffect(() => {
+    const incomingTags = sortByTags?.get();
+    if (incomingTags) {
+      setTagSort(incomingTags);
+    } else {
+      setTagSort([]); // Clear if no incoming tags
+    }
+  });
 
-  onMount(() => {
-    createEffect(() => {
-      const [searchParams, setSearchParams] = useSearchParams();
+  // This effect updates sortedData based on tagSort
+  createEffect(() => {
+    checkSortedData();
+  });
 
-      if (tagSort().length > 0) {
-        sortByTags?.set(tagSort());
-        setSearchParams({ tags: tagSort().join() });
+  // Moved out of onMount: React to changes in tagSort to update URL search params and parent state
+  createEffect(() => {
+    // searchParams and setSearchParams must be retrieved reactively inside the effect
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const currentTagsInUrl = searchParams.tags ? (searchParams.tags as string).split(',') : [];
+    const currentTagsInProp = sortByTags?.get() || [];
+    const tagsToSet = tagSort(); // The internal state of Collection
+
+    // Prevent redundant updates to parent's sortByTags
+    if (JSON.stringify(currentTagsInProp) !== JSON.stringify(tagsToSet)) {
+      sortByTags?.set(tagsToSet);
+    }
+
+    // Prevent redundant updates to URL search params
+    if (JSON.stringify(currentTagsInUrl) !== JSON.stringify(tagsToSet)) {
+      if (tagsToSet.length > 0) {
+        setSearchParams({ tags: tagsToSet.join() });
       } else {
         setSearchParams({ tags: "" });
       }
-    });
-    if (sortByTags?.get() && sortByTags?.get().length > 0) {
-      setTagSort(sortByTags.get());
     }
+  });
 
+
+  onMount(() => {
+    // Initial check for sortByTags from parent might still be needed if it's set async
     document.body.addEventListener("click", (e) => {
       if (showTagMenu() && e.target !== tagsFilter) {
         setShowTagMenu(false);
@@ -276,33 +250,7 @@ export default function Collection({
                 ref={tagsMenu}
                 class="z-1 hidden min-w-xs rounded-xl backdrop-blur-xl text-black dark:text-white bg-white/80 dark:bg-black/80 absolute mt-12 border border-black/10 text-sm"
               >
-                <div class="flex flex-col py-3 max-h-60 overflow-x-auto" style="scrollbar-width: none;" onWheel={(event) => {
-                  const wrapper = event.currentTarget as HTMLElement;
-                  const { deltaY, deltaX } = event;
-                  const { clientWidth, scrollWidth, scrollLeft } = wrapper;
-                  const threshold = scrollWidth - clientWidth;
-                  const delta = (deltaX ? deltaX : deltaY) * 2;
-                  console.log(delta);
-                  if (delta > 0) {
-                    if (scrollLeft < threshold) {
-                      wrapper.scrollBy({
-                        left: delta,
-                        behavior: "smooth",
-                      });
-                      event.preventDefault();
-                      event.stopPropagation();
-                    }
-                  } else {
-                    if (scrollLeft > 0) {
-                      wrapper.scrollBy({
-                        left: delta,
-                        behavior: "smooth",
-                      });
-                      event.preventDefault();
-                      event.stopPropagation();
-                    }
-                  }
-                }}>
+                <div class="flex flex-col py-3 max-h-60 overflow-x-auto" style="scrollbar-width: none;">
                   <For each={allTags}>
                     {(tag) => {
                       return (

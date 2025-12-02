@@ -3,8 +3,8 @@
     "uuid": "0",
     "id": 0,
     "author": "Mike Angelo",
-    "title": "Drone Drop Pop-up",
-    "slug": "drone-drop-pop-up",
+    "title": "Drone Drop Pop-up for Bahlsen",
+    "slug": "drone-drop-pop-up-for-bahlsen",
     "cover": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
     "tags": [
       "Art Direction",
@@ -12,62 +12,370 @@
       "Rich Media",
       "Digital Marketing",
       "Post-Production",
-      "TV Spot",
+      "Commercial Spot",
       "Social Media",
-      "Editing"
+      "Editing",
+      "Paid Marketing",
+      "Filming",
+      "Staging"
     ],
-    "dateAdded": "",
-    "lastModified": "",
+    "dateAdded": "2025-12-02",
+    "lastModified": "2025-12-02",
     "clientName": "Bahlsen",
     "clientLogo": "https://cdn.mikeangelo.art/client-logos/MA_25-26-Website_ClientIcons_250x250_Bahlsen_white.png",
-    "projectObjective": "objective",
+    "projectObjective": "Bahlsen basically said, 'Hey, let's get our Choco Leibniz out there in a totally new way.' My thought? Street-level experiential marketing with a twist.",
     "mainKeypointMedia": "https://player.vimeo.com/video/1081725997",
-    "mainKeypointMetricOne": "met 1",
-    "mainKeypointMetricTwo": "met 2",
-    "mainKeypointDescription": "desc",
+    "mainKeypointMetricOne": "N/A",
+    "mainKeypointMetricTwo": "N/A",
+    "mainKeypointDescription": "So, the plan was this awesome drone-drop pop-up. As art director, I was basically the ringleader, handling everything from getting the shots for the event recap to cutting the actual commercial. Then, I took all that goodness and cranked out a full digital campaign: cool rich media, social posts, and some smart paid ads. My goal? Make a huge splash and get people hyped about Bahlsen's cookies.",
     "projectKeypoints": [
       {
-        "title": "Keypoint One",
-        "description": "I currently take on projects independently, but I'm always interested in new opportunities. Whether it's design, development, or blending both, I'm looking to team up with people who want to create meaningful work.",
-        "media": [
-          "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
-          "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
-          "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"
-        ]
+        "title": "Drone Drop Spectacle",
+        "description": "Pulled off a wild, first-ever drone delivery pop-up. We got Bahlsen's product right to people on the street, which created instant buzz.",
+        "media": ["https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"]
       },
       {
-        "title": "Keypoint One",
-        "description": "I currently take on projects independently, but I'm always interested in new opportunities. Whether it's design, development, or blending both, I'm looking to team up with people who want to create meaningful work.",
-        "media": [
-          "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
-          "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
-          "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"
-        ]
+        "title": "Commercial Production Wizardry",
+        "description": "I was deep in the trenches, from art directing the shoots to personally editing the final commercial. It's about crafting that perfect story.",
+        "media": ["https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"]
       },
       {
-        "title": "Keypoint One",
-        "description": "I currently take on projects independently, but I'm always interested in new opportunities. Whether it's design, development, or blending both, I'm looking to team up with people who want to create meaningful work.",
-        "media": [
-          "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
-          "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
-          "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"
-        ]
+        "title": "Digital Domination (Technically Speaking)",
+        "description": "Flipped the event into killer digital content—think rich media, social campaigns, and smart paid ads. Maximizing reach is kinda my thing.",
+        "media": ["https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"]
       }
     ],
     "projectVideos": [
       {
-        "title": "d",
-        "client": "s",
+        "title": "Drone Drop Recap",
+        "client": "Bahlsen",
         "url": "https://player.vimeo.com/video/1081725997"
       },
       {
-        "title": "d",
-        "client": "s",
+        "title": "Choco Leibniz Commercial",
+        "client": "Bahlsen",
         "url": "https://player.vimeo.com/video/1081724183"
       },
       {
-        "title": "d",
-        "client": "s",
+        "title": "Pop-up Event Footage",
+        "client": "Bahlsen",
+        "url": "https://player.vimeo.com/video/1084814449"
+      }
+    ]
+  },
+  {
+    "uuid": "1",
+    "id": 1,
+    "author": "Mike Angelo",
+    "title": "Loopwell Brand & Marketing",
+    "slug": "loopwell-brand-marketing",
+    "cover": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
+    "tags": [
+      "Art Direction",
+      "Brand Development",
+      "Website Development",
+      "E-commerce",
+      "Stripe Integration",
+      "Marketing Materials",
+      "Event A/V",
+      "Editing",
+      "Newsletters",
+      "Social Media Content",
+      "Startup",
+      "Wellness"
+    ],
+    "dateAdded": "2025-12-02",
+    "lastModified": "2025-12-02",
+    "clientName": "Loopwell",
+    "clientLogo": "https://cdn.mikeangelo.art/client-logos/MA_25-26-Website_ClientIcons_250x250_Bahlsen_white.png",
+    "projectObjective": "Loopwell, this awesome women's wellness startup, needed *everything*: a brand, a website that actually worked, and a steady stream of marketing to get their message out there.",
+    "mainKeypointMedia": "https://player.vimeo.com/video/1081725997",
+    "mainKeypointMetricOne": "N/A",
+    "mainKeypointMetricTwo": "N/A",
+    "mainKeypointDescription": "My plan for Loopwell was to literally build their whole brand from the ground up. As lead art director, I wore *all* the hats: brand identity, getting their Squarespace site and e-shop live (with Stripe, of course), and whipping up all their marketing. Event A/V, newsletters, social—you name it, I did it. It was about making sure every single touchpoint felt like Loopwell.",
+    "projectKeypoints": [
+      {
+        "title": "Startup Brand Architect",
+        "description": "I basically built Loopwell's entire brand, from their look and feel to their core message, right from zero to launch.",
+        "media": ["https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"]
+      },
+      {
+        "title": "Full-Stack Web Dev (Squarespace Edition)",
+        "description": "Designed, developed, and deployed their Squarespace site and e-commerce, including hooking up secure payments with Stripe. Pretty slick, if I do say so myself.",
+        "media": ["https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"]
+      },
+      {
+        "title": "Always-On Marketing Machine",
+        "description": "Kept the content flowing—digital, print, even event A/V. It was about keeping Loopwell relevant and connected, year after year.",
+        "media": ["https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"]
+      }
+    ],
+    "projectVideos": [
+      {
+        "title": "Drone Drop Recap",
+        "client": "Bahlsen",
+        "url": "https://player.vimeo.com/video/1081725997"
+      },
+      {
+        "title": "Choco Leibniz Commercial",
+        "client": "Bahlsen",
+        "url": "https://player.vimeo.com/video/1081724183"
+      },
+      {
+        "title": "Pop-up Event Footage",
+        "client": "Bahlsen",
+        "url": "https://player.vimeo.com/video/1084814449"
+      }
+    ]
+  },
+  {
+    "uuid": "2",
+    "id": 2,
+    "author": "Mike Angelo",
+    "title": "Benzel-Busch Marketing & WordPress Management",
+    "slug": "benzel-busch-marketing-wordpress-management",
+    "cover": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
+    "tags": [
+      "WordPress Management",
+      "Marketing Materials",
+      "Rich Media",
+      "Video Production",
+      "Static Display",
+      "Social Media Marketing",
+      "Paid Advertising",
+      "Newsletters",
+      "Automotive Marketing",
+      "Content Creation"
+    ],
+    "dateAdded": "2025-12-02",
+    "lastModified": "2025-12-02",
+    "clientName": "Benzel-Busch",
+    "clientLogo": "https://cdn.mikeangelo.art/client-logos/MA_25-26-Website_ClientIcons_250x250_Bahlsen_white.png",
+    "projectObjective": "Benzel-Busch, the luxury car folks (Mercedes-Benz, Genesis), needed someone to keep their marketing game strong and their WordPress site running smoothly. Basically, keep 'em looking good and pulling in customers.",
+    "mainKeypointMedia": "https://player.vimeo.com/video/1081725997",
+    "mainKeypointMetricOne": "N/A",
+    "mainKeypointMetricTwo": "N/A",
+    "mainKeypointDescription": "My approach with Benzel-Busch is to ensure their brand always looks sharp and keeps customers hooked. My daily grind? Keeping their WordPress site in tip-top shape and constantly cranking out fresh content. We're talking rich media, videos, static ads, social posts, paid campaigns, newsletters—the whole enchilada. It's about making sure their message is always out there, looking flawless.",
+    "projectKeypoints": [
+      {
+        "title": "WordPress Whisperer",
+        "description": "I kept their entire WordPress platform humming, ensuring their digital presence was always current and seamless. It's more than just updates; it's optimization.",
+        "media": ["https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"]
+      },
+      {
+        "title": "Content Production Powerhouse",
+        "description": "Seriously, I produced *a lot* of diverse content: slick rich media, engaging video, eye-catching static ads, and informative newsletters. Quality and quantity, nailed it.",
+        "media": ["https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"]
+      },
+      {
+        "title": "Precision Digital Ad Campaigns",
+        "description": "Crafted and fine-tuned social media and paid ads specifically designed to get those luxury car buyers through the door. Results are kind of my thing.",
+        "media": ["https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"]
+      }
+    ],
+    "projectVideos": [
+      {
+        "title": "Drone Drop Recap",
+        "client": "Bahlsen",
+        "url": "https://player.vimeo.com/video/1081725997"
+      },
+      {
+        "title": "Choco Leibniz Commercial",
+        "client": "Bahlsen",
+        "url": "https://player.vimeo.com/video/1081724183"
+      },
+      {
+        "title": "Pop-up Event Footage",
+        "client": "Bahlsen",
+        "url": "https://player.vimeo.com/video/1084814449"
+      }
+    ]
+  },
+  {
+    "uuid": "3",
+    "id": 3,
+    "author": "Mike Angelo",
+    "title": "Gym Source Branding & Advertising",
+    "slug": "gym-source-branding-advertising",
+    "cover": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
+    "tags": [
+      "Art Direction",
+      "Website Development",
+      "Commercial Spots",
+      "Video Editing",
+      "On-Set Production",
+      "Rich Media",
+      "Programmatic Ads",
+      "Print Ads",
+      "Social Media Content",
+      "Paid Advertising",
+      "Branding"
+    ],
+    "dateAdded": "2025-12-02",
+    "lastModified": "2025-12-02",
+    "clientName": "Gym Source",
+    "clientLogo": "https://cdn.mikeangelo.art/client-logos/MA_25-26-Website_ClientIcons_250x250_Bahlsen_white.png",
+    "projectObjective": "Gym Source was looking for a complete brand refresh—new website, new commercial spots, and a full suite of digital ads. I joined a small team to make it happen.",
+    "mainKeypointMedia": "https://player.vimeo.com/video/1081725997",
+    "mainKeypointMetricOne": "N/A",
+    "mainKeypointMetricTwo": "N/A",
+    "mainKeypointDescription": "Our strategy for Gym Source was a head-to-toe brand overhaul, starting with a slick new website and blasting their message everywhere. As art director, I was hands-on: contributing to web development, getting on set for commercial shoots, and personally editing those spots. Then I built out a massive range of ad assets—rich media, programmatic, print, social, paid—all to keep the brand cohesive and powerful.",
+    "projectKeypoints": [
+      {
+        "title": "New Website, Who Dis?",
+        "description": "I got hands-on with developing a totally new, high-performance website that really captured Gym Source's fresh brand identity.",
+        "media": ["https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"]
+      },
+      {
+        "title": "Commercials, Cut & Polished",
+        "description": "I was the go-to person for editing their commercial spots, taking raw footage and turning it into something truly polished and on-brand.",
+        "media": ["https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"]
+      },
+      {
+        "title": "Ad Assets Everywhere",
+        "description": "Produced a massive range of ad creatives, from the fancy programmatic and rich media stuff to classic print, social, and paid ads. Total coverage.",
+        "media": ["https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"]
+      }
+    ],
+    "projectVideos": [
+      {
+        "title": "Drone Drop Recap",
+        "client": "Bahlsen",
+        "url": "https://player.vimeo.com/video/1081725997"
+      },
+      {
+        "title": "Choco Leibniz Commercial",
+        "client": "Bahlsen",
+        "url": "https://player.vimeo.com/video/1081724183"
+      },
+      {
+        "title": "Pop-up Event Footage",
+        "client": "Bahlsen",
+        "url": "https://player.vimeo.com/video/1084814449"
+      }
+    ]
+  },
+  {
+    "uuid": "4",
+    "id": 4,
+    "author": "Mike Angelo",
+    "title": "Benzel-Busch Seasonal Road Trip Campaigns",
+    "slug": "benzel-busch-seasonal-road-trip-campaigns",
+    "cover": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
+    "tags": [
+      "Content Marketing",
+      "Digital Marketing",
+      "Campaign Management",
+      "PDF Creation",
+      "Newsletter Marketing",
+      "Social Media Marketing",
+      "Paid Advertising",
+      "Digital Downloads",
+      "Automotive Marketing",
+      "Seasonal Campaigns"
+    ],
+    "dateAdded": "2025-12-02",
+    "lastModified": "2025-12-02",
+    "clientName": "Benzel-Busch",
+    "clientLogo": "https://cdn.mikeangelo.art/client-logos/MA_25-26-Website_ClientIcons_250x250_Bahlsen_white.png",
+    "projectObjective": "Developed and executed multi-seasonal 'Road Trip' campaigns for Benzel-Busch, featuring curated digital PDFs of vacation spots, relevant Mercedes-Benz vehicle highlights, and comprehensive marketing across newsletters, social media, paid advertising, and digital downloads.",
+    "mainKeypointMedia": "https://player.vimeo.com/video/1081725997",
+    "mainKeypointMetricOne": "N/A",
+    "mainKeypointMetricTwo": "N/A",
+    "mainKeypointDescription": "For Benzel-Busch, I led the creation of an annual series of 'Fall, Summer, and Winter Road Trip' campaigns. This involved curating digital PDF guides showcasing US vacation spots and activities, alongside strategically pairing them with suitable Mercedes-Benz vehicles. The campaigns were amplified through integrated newsletters, engaging social media content, targeted paid advertising, and convenient digital downloads.",
+    "projectKeypoints": [
+      {
+        "title": "Seasonal Content Campaign Development",
+        "description": "Orchestrated multi-seasonal 'Road Trip' campaigns, delivering engaging and relevant content to Benzel-Busch's audience.",
+        "media": ["https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"]
+      },
+      {
+        "title": "Curated Digital Resources & Vehicle Integration",
+        "description": "Created detailed digital PDF guides featuring travel destinations, seamlessly integrating Mercedes-Benz vehicles appropriate for each trip.",
+        "media": ["https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"]
+      },
+      {
+        "title": "Integrated Multi-channel Promotion",
+        "description": "Implemented comprehensive marketing strategies across newsletters, social media, paid advertising, and digital downloads to maximize campaign reach and impact.",
+        "media": ["https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"]
+      }
+    ],
+    "projectVideos": [
+      {
+        "title": "Drone Drop Recap",
+        "client": "Bahlsen",
+        "url": "https://player.vimeo.com/video/1081725997"
+      },
+      {
+        "title": "Choco Leibniz Commercial",
+        "client": "Bahlsen",
+        "url": "https://player.vimeo.com/video/1081724183"
+      },
+      {
+        "title": "Pop-up Event Footage",
+        "client": "Bahlsen",
+        "url": "https://player.vimeo.com/video/1084814449"
+      }
+    ]
+  },
+  {
+    "uuid": "5",
+    "id": 5,
+    "author": "Mike Angelo",
+    "title": "Bahlsen 'Hide Them at Home' Campaign",
+    "slug": "bahlsen-hide-them-at-home-campaign",
+    "cover": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
+    "tags": [
+      "Art Direction",
+      "Commercial Production",
+      "Video Editing",
+      "Digital Rich Media",
+      "Social Media Marketing",
+      "Paid Advertising",
+      "Campaign Management",
+      "COVID-19 Response",
+      "Consumer Engagement"
+    ],
+    "dateAdded": "2025-12-02",
+    "lastModified": "2025-12-02",
+    "clientName": "Bahlsen",
+    "clientLogo": "https://cdn.mikeangelo.art/client-logos/MA_25-26-Website_ClientIcons_250x250_Bahlsen_white.png",
+    "projectObjective": "Client (Bahlsen) desired a sensitive and timely marketing campaign to promote their products during the early stages of the COVID-19 pandemic, reflecting the theme of families staying home.",
+    "mainKeypointMedia": "https://player.vimeo.com/video/1081725997",
+    "mainKeypointMetricOne": "N/A",
+    "mainKeypointMetricTwo": "N/A",
+    "mainKeypointDescription": "As art director for Bahlsen's 'Hide Them at Home' campaign, I played a key role in commercial production, specifically editing the spots to resonate with the early COVID environment where families were spending more time at home. My responsibilities extended to developing engaging digital rich media, social media content, and targeted paid advertisements to effectively reach the audience during this unique period.",
+    "projectKeypoints": [
+      {
+        "title": "Contextual Campaign Development (COVID-19)",
+        "description": "Designed and executed the 'Hide Them at Home' campaign for Bahlsen, strategically leveraging the early COVID-19 environment and consumer behavior of staying at home.",
+        "media": ["https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"]
+      },
+      {
+        "title": "Commercial Production & Editorial Expertise",
+        "description": "Contributed to commercial production and personally edited campaign spots, ensuring a relevant and impactful message for the target audience.",
+        "media": ["https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"]
+      },
+      {
+        "title": "Integrated Digital Marketing Assets",
+        "description": "Developed a comprehensive suite of digital marketing materials, including rich media, social media content, and targeted paid advertisements, to drive engagement during a unique social climate.",
+        "media": ["https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"]
+      }
+    ],
+    "projectVideos": [
+      {
+        "title": "Drone Drop Recap",
+        "client": "Bahlsen",
+        "url": "https://player.vimeo.com/video/1081725997"
+      },
+      {
+        "title": "Choco Leibniz Commercial",
+        "client": "Bahlsen",
+        "url": "https://player.vimeo.com/video/1081724183"
+      },
+      {
+        "title": "Pop-up Event Footage",
+        "client": "Bahlsen",
         "url": "https://player.vimeo.com/video/1084814449"
       }
     ]

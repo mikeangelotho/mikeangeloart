@@ -157,14 +157,14 @@ export default function Home() {
           </div>
           <div class="w-full max-w-7xl mx-auto px-6 py-12 lg:py-36">
             <MainKeypoint
-              data={collectionData[0]}
+              data={collectionData[1]}
               standalone={true}
               reverse={true}
             />
           </div>
           <div class="w-full max-w-7xl mx-auto px-6 py-12 lg:py-36">
             <MainKeypoint
-              data={collectionData[0]}
+              data={collectionData[2]}
               standalone={true}
               reverse={true}
             />
