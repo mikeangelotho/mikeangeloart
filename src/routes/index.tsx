@@ -138,38 +138,38 @@ export default function Home() {
             Currently, I work with clients to create high-quality creative assets, engaging videos and social media content, and captivating website experiences.
           </p>
         </article>
-        
+
       </section>
-      <div class="rounded-tl-3xl rounded-tr-3xl w-full flex flex-col items-center border border-black/10 dark:border-white/5 dark:border-t-white bg-white/80 dark:bg-black/50">
-        <section class="max-w-3xl mx-auto flex text-black dark:text-white flex-col gap-3 px-12 py-24">
+      <div class="rounded-tl-3xl rounded-tr-3xl w-full flex flex-col border border-black/10 dark:border-white/5 dark:border-t-white bg-white/80 dark:bg-black/50">
+        <section class="max-w-3xl mx-auto flex items-start text-black dark:text-white flex-col gap-3 pt-36 lg:pt-72 px-12">
           <H1>Check out some of my work.</H1>
-          <p class="pl-0.5 text-lg text-black/50 dark:text-white/50">
+          <p class="text-lg text-black/50 dark:text-white/50">
             I've worked on a variety of projects and campaigns that include digital display banners, paid social media advertising, social media content, editing and motion graphics work, and web design and development.
           </p>
         </section>
-        <section class="border-t border-t-black/10 dark:border-t-white/5 bg-white dark:bg-black/50 py-12 lg:py-36 w-full">
-          <div class="w-full max-w-7xl mx-auto px-6 py-12 lg:py-36">
+        <div class="flex flex-col py-36 lg:py-72 gap-36 lg:gap-72">
+          <div class="w-full max-w-7xl mx-auto px-6">
             <MainKeypoint
               data={collectionData[0]}
               standalone={true}
               reverse={true}
             />
           </div>
-          <div class="w-full max-w-7xl mx-auto px-6 py-12 lg:py-36">
+          <div class="w-full max-w-7xl mx-auto px-6">
             <MainKeypoint
               data={collectionData[1]}
               standalone={true}
               reverse={true}
             />
           </div>
-          <div class="w-full max-w-7xl mx-auto px-6 py-12 lg:py-36">
+          <div class="w-full max-w-7xl mx-auto px-6">
             <MainKeypoint
               data={collectionData[2]}
               standalone={true}
               reverse={true}
             />
           </div>
-        </section>
+        </div>
       </div>
       <div class="bg-white/80 dark:bg-black/50 w-full">
         <div class="w-full border-l border-r border-black/5 dark:border-white/5">

@@ -1,6 +1,6 @@
 export const H1 = ({ children }: { children: string }) => {
   return (
-    <h1 class="leading-tight text-4xl md:text-5xl text-black dark:text-white font-semibold tracking-tighter text-center">
+    <h1 class="leading-tight text-4xl md:text-5xl text-black dark:text-white font-semibold tracking-tighter">
       {children}
     </h1>
   );

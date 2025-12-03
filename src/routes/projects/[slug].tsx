@@ -28,7 +28,7 @@ export function MainKeypoint({
   reverse?: boolean;
 }) {
   return (
-    <section class="z-1 w-full relative flex flex-col gap-36">
+    <section class="z-1 w-full relative flex flex-col gap-12 lg:gap-36">
       <header class="z-1 flex flex-col gap-6 px-6 lg:px-0 text-black dark:text-white">
         <div
           class={`text-black/20 w-full dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1${standalone ? " mb-6" : ""
@@ -37,45 +37,49 @@ export function MainKeypoint({
           <ContainerLabel>Project Highlight</ContainerLabel>
         </div>
         <Show when={standalone}>
-          <A
-            href={`/projects?client=${slugify(data.clientName)}`}
-            class="w-fit hover:opacity-50 def__animate"
-          >
-            <img
-              src={data.clientLogo}
-              class="not-dark:invert opacity-20 max-h-24 max-w-24"
-              loading="lazy"
-            />
-          </A>
-          <A
-            href={`/projects/${data.slug}`}
-            class="w-fit hover:opacity-50 def__animate"
-          >
-            <H1>{data.title}</H1>
-          </A>
-          <div
-            class="flex gap-1 justify-start items-center w-full max-w-lg overflow-x-auto scroll-smooth def__animate"
-            style="scrollbar-width: none;"
-          >
-            <For each={data.tags}>
-              {(tag) => {
-                return (
-                  <Tag href={`/projects?tags=${tag.replace(" ", "+")}`}>
-                    {tag}
-                  </Tag>
-                );
-              }}
-            </For>
-          </div>
-        </Show>
-        <Show when={standalone}>
-          <div class="flex flex-col gap-1 text-black dark:text-white w-full max-w-lg">
-            <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1">
-              <ContainerLabel>Objective</ContainerLabel>
+          <div class="flex flex-col gap-6 lg:flex-row justify-between items-center">
+            <div class="flex flex-col gap-6">
+              <A
+                href={`/projects?client=${slugify(data.clientName)}`}
+                class="w-fit hover:opacity-50 def__animate"
+              >
+                <img
+                  src={data.clientLogo}
+                  class="not-dark:invert opacity-20 max-h-24 max-w-24"
+                  loading="lazy"
+                />
+              </A>
+              <A
+                href={`/projects/${data.slug}`}
+                class="w-fit hover:opacity-50 def__animate"
+              >
+                <H1>{data.title}</H1>
+              </A>
+              <div
+                class="flex gap-1 justify-start items-center w-full max-w-lg overflow-x-auto scroll-smooth def__animate"
+                style="scrollbar-width: none;"
+              >
+                <For each={data.tags}>
+                  {(tag) => {
+                    return (
+                      <Tag href={`/projects?tags=${tag.replace(" ", "+")}`}>
+                        {tag}
+                      </Tag>
+                    );
+                  }}
+                </For>
+              </div>
             </div>
-            <p class="text-left text-black dark:text-white">
-              {data.projectObjective}
-            </p>
+            <div>
+              <div class="flex flex-col gap-1 text-black dark:text-white w-full max-w-lg">
+                <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1">
+                  <ContainerLabel>Objective</ContainerLabel>
+                </div>
+                <p class="text-left text-black dark:text-white">
+                  {data.projectObjective}
+                </p>
+              </div>
+            </div>
           </div>
         </Show>
       </header>

@@ -17,7 +17,7 @@ export default function ProjectPage() {
   });
 
   return (
-    <main class="max-w-7xl mx-auto px-3">
+    <main class="max-w-7xl mx-auto">
       <Collection
         sortByTags={{ get: tags, set: (newTags) => setSearchParams({ tags: (newTags as string[]).join() }) }}
         enableFull={true}
