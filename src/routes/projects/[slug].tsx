@@ -28,7 +28,7 @@ export function MainKeypoint({
   reverse?: boolean;
 }) {
   return (
-    <section class="z-1 w-full relative flex flex-col gap-12 lg:gap-36">
+    <section class="z-1 w-full relative flex flex-col gap-18">
       <header class="z-1 flex flex-col gap-6 px-6 lg:px-0 text-black dark:text-white">
         <div
           class={`text-black/20 w-full dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1${standalone ? " mb-6" : ""
@@ -37,8 +37,8 @@ export function MainKeypoint({
           <ContainerLabel>Project Highlight</ContainerLabel>
         </div>
         <Show when={standalone}>
-          <div class="flex flex-col gap-6 lg:flex-row justify-between items-center">
-            <div class="flex flex-col gap-6">
+          <div class="flex flex-col gap-18 lg:flex-row justify-between items-center">
+            <div class="flex flex-col gap-6 w-full">
               <A
                 href={`/projects?client=${slugify(data.clientName)}`}
                 class="w-fit hover:opacity-50 def__animate"
@@ -70,7 +70,7 @@ export function MainKeypoint({
                 </For>
               </div>
             </div>
-            <div>
+            <div class="w-full">
               <div class="flex flex-col gap-1 text-black dark:text-white w-full max-w-lg">
                 <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1">
                   <ContainerLabel>Objective</ContainerLabel>
@@ -92,7 +92,7 @@ export function MainKeypoint({
         </div>
         <article class="w-full lg:max-w-1/3 flex flex-col items-start justify-center">
           <div class="flex flex-col gap-6">
-            <div class="text-black dark:text-white w-full dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)] mx-auto rounded-3xl p-6 flex flex-col gap-6 bg-neutral-50 dark:bg-neutral-950 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white">
+            <div class="text-black dark:text-white w-full dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)] mx-auto rounded-3xl p-6 flex flex-col gap-6 bg-neutral-100 dark:bg-neutral-950 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white">
               <div class="flex flex-col gap-1">
                 <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1">
                   <ContainerLabel>Strategy</ContainerLabel>
@@ -152,29 +152,35 @@ export default function ProjectPage() {
           loading="eager"
         />
         <div class="-z-1 w-full fixed h-screen dark:backdrop-saturate-100 backdrop-saturate-200 dark:bg-black mix-blend-overlay"></div>
-        <section class="h-144 flex items-center bg-white/50 dark:bg-black/90">
-          <article class="flex flex-col items-center gap-6 w-full px-6 max-w-3xl mx-auto">
-            <A
-              href=""
-              class="flex flex-col cursor-pointer def__animate hover:opacity-50 w-fit justify-center"
-            >
-              <img
-                src={project()?.clientLogo}
-                class="aspect-auto my-6 max-h-9 max-w-24 not-dark:invert opacity-20"
-                loading="eager"
-              />
-            </A>
-            <H1>{project()?.title as string}</H1>
-            <div class="flex justify-center gap-1 w-full flex-wrap">
-              <For each={project()?.tags}>
-                {(tag) => (
-                  <Tag href={`/projects?tags=${tag.replace(" ", "+")}`}>
-                    {tag}
-                  </Tag>
-                )}
-              </For>
+        <section class="h-full flex items-center bg-white/50 dark:bg-black/90">
+          <article class="flex flex-col items-center w-full px-6">
+            <div class="flex flex-col gap-6 items-center w-full py-36 max-w-3xl">
+              <A
+                href=""
+                class="flex flex-col cursor-pointer def__animate hover:opacity-50 w-fit justify-center"
+              >
+                <img
+                  src={project()?.clientLogo}
+                  class="aspect-auto max-h-9 max-w-24 not-dark:invert opacity-20"
+                  loading="eager"
+                />
+              </A>
+              <span class="text-center"><H1>{project()?.title as string}</H1></span>
+              <div class="hidden lg:flex justify-center gap-1 w-full flex-wrap pt-18">
+                <For each={project()?.tags}>
+                  {(tag) => (
+                    <Tag href={`/projects?tags=${tag.replace(" ", "+")}`}>
+                      {tag}
+                    </Tag>
+                  )}
+                </For>
+              </div>
             </div>
-            <div class="flex gap-3">
+          </article>
+        </section>
+        <section class="bg-white dark:bg-black py-18 border-t border-b border-black/10 dark:border-white/10">
+          <div class="mx-auto max-w-7xl">
+            <div class="flex gap-3 max-w-3xl mx-auto py-18 px-6">
               <div class="text-black/10 dark:text-white/10 border-r border-r-black/10 dark:border-r-white/10 w-fit pr-2 py-1 h-fit">
                 <ContainerLabel>Objective</ContainerLabel>
               </div>
@@ -182,10 +188,6 @@ export default function ProjectPage() {
                 {project()?.projectObjective}
               </p>
             </div>
-          </article>
-        </section>
-        <section class="bg-white dark:bg-black py-18 border-t border-b border-black/10 dark:border-white/10">
-          <div class="mx-auto max-w-7xl">
             <section class="py-18">
               <MainKeypoint data={project()!} />
             </section>
@@ -195,12 +197,12 @@ export default function ProjectPage() {
                   return (
                     <div class="w-full max-w-7xl mx-auto flex flex-col md:flex-row gap-6 px-8">
                       <div class="w-full flex items-center justify-center md:justify-start py-24">
-                        <div class="max-w-lg dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)] rounded-3xl p-6 flex flex-col gap-3 bg-neutral-50 dark:bg-neutral-950 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white">
+                        <div class="max-w-lg dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)] rounded-3xl p-6 flex flex-col gap-3 bg-neutral-100 dark:bg-neutral-950 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white">
                           <H2>{keypoint.title}</H2>
                           <p class="dark:text-white">{keypoint.description}</p>
                         </div>
                       </div>
-                      <div class="w-full min-w-md mx-auto max-w-lg flex flex-col items-center gap-1">
+                      <div class="w-full mx-auto max-w-lg flex flex-col items-center gap-1">
                         <For each={keypoint.media}>
                           {(media) => {
                             return (

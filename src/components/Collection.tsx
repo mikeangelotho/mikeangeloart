@@ -99,7 +99,7 @@ function CollectionCell({
           class="invert dark:invert-0 aspect-auto max-h-6"
         />
       </A>
-      <div class="lg:rounded-3xl w-full lg:w-auto lg:inset-x-3 flex flex-col gap-2 def__animate group/tag group-hover/card:opacity-100 p-6 lg:opacity-0 absolute bottom-0 lg:bottom-3 z-1 mx-auto backdrop-blur-xl backdrop-brightness-140 dark:backdrop-brightness-25">
+      <div class="min-h-30 lg:min-h-12 justify-center lg:rounded-3xl w-full lg:w-auto lg:inset-x-3 flex flex-col gap-2 def__animate group/tag group-hover/card:opacity-100 p-6 lg:opacity-0 absolute bottom-0 lg:bottom-3 z-1 mx-auto backdrop-blur-xl backdrop-brightness-140 dark:backdrop-brightness-25">
         <header class="flex flex-col">
           <A
             href={`/projects?client=${data.clientName}`}
@@ -230,9 +230,9 @@ export default function Collection({
   }
 
   return (
-    <section class="z-1 py-24 mx-auto">
+    <section class="z-1 py-18 mx-auto">
       <Show when={enableSearch}>
-        <div class="bg-white/95 dark:bg-black/90 border border-black/10 dark:border-white/10 z-2 lg:mt-3 p-3 md:rounded-xl flex items-center justify-between fixed not-md:w-full md:inset-x-[5vw] xl:inset-x-[15vw] 2xl:inset-x-[25vw]">
+        <div class="bg-white dark:bg-black/90 border border-black/10 dark:border-white/10 z-2 mt-6 lg:mt-9 p-3 md:rounded-xl flex items-center justify-between fixed not-md:w-full md:inset-x-[5vw] xl:inset-x-[15vw] 2xl:inset-x-[25vw]">
           <div class="flex gap-3 items-center justify-between w-full">
             <div class="flex relative pr-3 border-r border-r-black/10 dark:border-r-white/10">
               <button

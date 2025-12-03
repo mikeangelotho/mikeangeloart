@@ -82,7 +82,7 @@ export class SceneManager {
     const height = element.offsetHeight;
     this.scene = new three.Scene();
     this.camera = new three.PerspectiveCamera(15, width / height, 0.1, 100);
-    this.camera.position.z = 11;
+    this.camera.position.z = 16;
     this.controls = new OrbitControls(this.camera, element);
     this.controls.enableZoom = false;
     this.controls.enablePan = false;
@@ -161,7 +161,7 @@ export class SceneManager {
               break;
             default:
               const gradientTexture = createVerticalGradientTexture(
-                                "#cdc2ffff",
+                "#cdc2ffff",
 
                 "#9fffe0ff"
               );
@@ -269,9 +269,8 @@ export default function Panel3d({
     <section class="lg:py-12 w-full">
       <div class="w-full max-w-7xl lg:px-6 mx-auto grid lg:flex items-center">
         <div
-          class={`h-fit w-full flex flex-col-reverse ${
-            reverse ? `lg:flex-row-reverse` : `lg:flex-row`
-          } gap-3 items-center`}
+          class={`h-fit w-full flex flex-col-reverse ${reverse ? `lg:flex-row-reverse` : `lg:flex-row`
+            } gap-3 items-center`}
         >
           <div class="w-full px-6 py-12 md:px-12 lg:rounded-3xl grid gap-3 border-t lg:border dark:border-t-white dark:border-white/10 border-black/10 text-black dark:text-white bg-white dark:bg-neutral-950 backdrop-blur-3xl dark:shadow-[0px_-16px_18px_-18px_rgba(255,255,255,0.8)]">
             <H2>{headline}</H2>

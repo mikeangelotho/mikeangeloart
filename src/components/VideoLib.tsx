@@ -6,7 +6,7 @@ export default function VideoLib({ videos }: { videos: Video[] }) {
     const [video, setVideo] = createSignal(videos[0].url)
 
     return (
-        <section class="justify-between w-full flex flex-col lg:flex-row-reverse items-center gap-36 lg:gap-3 border-t border-b border-black/10 dark:border-white/10 px-6 lg:px-12 py-36">
+        <section class="justify-between w-full flex flex-col lg:flex-row items-center gap-36 lg:gap-3 px-6 lg:px-12 pb-18">
             <iframe src={video()} class="aspect-video w-full lg:w-2/3 lg:max-w-2xl"></iframe>
             <div class="w-full lg:w-1/3 relative bg-black/2 dark:bg-white/5 overflow-hidden rounded-3xl border dark:border-t-white dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)] border-black/5 dark:border-white/5 text-black dark:text-white">
                 <div class="p-6 border-b border-black/10 dark:border-white/10">

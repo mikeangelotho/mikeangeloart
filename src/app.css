@@ -1,4 +1,4 @@
-@import "tailwindcss";
+ @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -67,3 +67,27 @@
     border: 1px solid #c0c0cf;
   }
 }
+
+ 
+ .intro-panel {
+    transition: filter 0.3s ease-out, opacity 0.3s ease-out, transform 0.3s ease-out;
+  }
+  
+  .intro-panel.scrolled {
+    filter: blur(10px);
+    transform: translateZ(-200px);
+    opacity: 0;
+  }
+  
+  .who-i-am {
+    transition: filter 0.3s ease-out, opacity 0.3s ease-out;
+  }
+  
+  .who-i-am.scrolled {
+    filter: blur(10px);
+    opacity: 0;
+  }
+  
+  video {
+    transition: opacity 0.3s ease-out;
+  }
