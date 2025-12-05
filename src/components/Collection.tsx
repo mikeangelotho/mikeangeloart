@@ -242,7 +242,7 @@ export default function Collection({
             <div class="flex relative pr-3 border-r border-r-black/10 dark:border-r-white/10">
               <button
                 ref={tagsFilter}
-                class="cursor-pointer font-semibold text-xs text-neutral-400 bg-black/5 hover:bg-black/10 dark:bg-white/15 dark:hover:bg-white/10 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md"
+                class="cursor-pointer font-semibold text-xs text-neutral-400 px-2 py-1 rounded-md"
                 onClick={(e) => {
                   setShowTagMenu(!showTagMenu());
                   if (showTagMenu()) tagsMenu.classList.remove("hidden");
@@ -295,7 +295,7 @@ export default function Collection({
             <Show when={tagSort().length > 0}>
               <button
                 ref={clearFilter}
-                class="text-nowrap cursor-pointer font-semibold text-xs text-neutral-400 bg-black/5 hover:bg-black/10 dark:bg-white/15 dark:hover:bg-white/10 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md"
+                class="text-nowrap cursor-pointer font-semibold text-xs text-neutral-400 px-2 py-1 rounded-md"
                 onClick={() => {
                   sortByTags?.set([]);
                   setTagSort([]);
@@ -308,7 +308,7 @@ export default function Collection({
         </div>
       </Show>
       <div
-        class={`flex mx-auto flex-col lg:flex-row`}
+        class={`flex mx-auto flex-col lg:flex-row py-18`}
       >
         <Show
           when={!enableFull}

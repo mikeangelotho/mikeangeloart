@@ -55,8 +55,8 @@ const taskbarIcons = [
     color: "#ca6500ff",
   }
 ];
-  
-  export default function About() {
+
+export default function About() {
   let videoPanel!: HTMLVideoElement;
   let wrapper3D!: HTMLDivElement;
   let desktop!: HTMLDivElement;
@@ -133,10 +133,10 @@ const taskbarIcons = [
             setWindowMap(prev => prev.filter(item => item !== label));
             setWindows(prev => prev.filter(item => item.label !== label));
           }}><div class="px-2 py-1 border text-xs rounded-md">Χ</div></div> <Show when={label}>
-              <div class="mb-3 pb-1 w-fit text-black/ dark:text-white border-b dark:border-b-white/10">
-                <ContainerLabel>{label !== "VS Code" ? label || "" : "Github"}</ContainerLabel>
-              </div>
-            </Show>
+            <div class="mb-3 pb-1 w-fit text-black/ dark:text-white border-b dark:border-b-white/10">
+              <ContainerLabel>{label !== "VS Code" ? label || "" : "Github"}</ContainerLabel>
+            </div>
+          </Show>
         </div>
         {children}
       </div>
@@ -244,8 +244,7 @@ const taskbarIcons = [
           <div class="flex flex-col gap-12 py-6">
             <H1>Introduction</H1>
             <div class="flex flex-col gap-6 border-t border-b border-black/10 dark:border-white/10 pt-6 max-h-[40vh] overflow-y-auto pr-6 mx-6 pb-12">
-              <p>I was just a middle school kid making online forum graphics and building competitive gaming websites. I wasn't chasing monetary gain or online status; I was driven by the joy of creation. I was good at it, and I loved it.</p>
-              <div class="border-t border-b border-black/10 dark:border-white/10 py-6 w-full flex justify-center"><img class="ring-2 ring-black/10 dark:ring-white/10 md:max-w-1/3 rounded-lg" src="/edited pc guitar me.jpg" /></div>
+              <div class="py-6 gap-6 w-full flex justify-center items-center"><p>I was just a middle school kid making online forum graphics and building competitive gaming websites. I wasn't chasing monetary gain or online status; I was driven by the joy of creation. I was good at it, and I loved it.</p><img class="ring-2 ring-black/10 dark:ring-white/10 md:max-w-1/3 rounded-lg" src="/edited pc guitar me.jpg" /></div>
               <p><strong class="text-2xl">I realized my passion wasn't just a hobby.</strong></p>
               <p>Fast forward to today, and I’m still that kid. The motivation hasn't changed, but the love has deepened. Now, the fun is in the partnership: bringing people’s unique ideas to life.</p>
               <p>I take pride in building and developing brands and campaigns from the ground up, delivering high-quality work that doesn't just look good, but leaves a lasting, measurable mark.</p>

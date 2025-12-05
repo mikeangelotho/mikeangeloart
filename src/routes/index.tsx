@@ -9,12 +9,23 @@ import { MainKeypoint } from "./projects/[slug]";
 
 const collectionData: PortfolioCollection[] = data;
 
+const targetListenerMap = new Map<HTMLElement, EventListener>();
+
+function createIntroScrollHandler(target: HTMLElement) {
+  return () => {
+    const scrollY = window.scrollY;
+    const zValue = -scrollY * 0.5;
+    target.style.transform = `translateZ(${zValue}px)`;
+  };
+}
+
 export default function Home() {
   let introPanel!: HTMLDivElement;
   let roleChanger!: HTMLSpanElement;
   let wrapper3d!: HTMLDivElement;
   let videoPanel!: HTMLVideoElement;
-  let whoIAm!: HTMLDivElement;
+  let aboutPanel!: HTMLDivElement;
+  let main!: HTMLDivElement;
 
   onMount(() => {
     const subheads = [
@@ -29,7 +40,7 @@ export default function Home() {
     let count = 0;
 
     setTimeout(() => {
-      setInterval(() => {
+      const intervalId = setInterval(() => {
         roleChanger.style.opacity = "0";
         setTimeout(() => {
           roleChanger.textContent = subheads[count];
@@ -37,28 +48,49 @@ export default function Home() {
           count = (count + 1) % subheads.length;
         }, 200);
       }, 3000);
+      onCleanup(() => clearInterval(intervalId));
     }, 1000);
 
     const observerOptions = {
       root: null,
       rootMargin: "0px",
-      threshold: 0.1,
+      threshold: 0.5,
     };
 
-    const scrollObserver = new IntersectionObserver((entries) => {
+    const introObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.target === whoIAm) {
-          if (entry.isIntersecting) {
-            whoIAm.classList.remove("scrolled");
-          } else {
-            whoIAm.classList.add("scrolled");
+        const target = entry.target as HTMLElement;
+        if (entry.isIntersecting) {
+          if (!targetListenerMap.has(target)) {
+            const eventL = createIntroScrollHandler(target) as EventListener;
+            targetListenerMap.set(target, eventL);
+            window.addEventListener("scroll", eventL);
+          }
+        } else {
+          const eventL = targetListenerMap.get(target);
+          if (eventL) {
+            window.removeEventListener("scroll", eventL);
+            targetListenerMap.delete(target);
           }
         }
       });
+    }, {
+      rootMargin: "0px",
+      threshold: 0.5,
+    });
+
+    introObserver.observe(introPanel);
+
+    const scrollObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const target = entry.target as HTMLElement;
+        target.classList.toggle("scrolled", !entry.isIntersecting);
+      });
+
     }, observerOptions);
 
-    scrollObserver.observe(introPanel);
-    scrollObserver.observe(whoIAm);
+
+    scrollObserver.observe(aboutPanel);
 
     const videoObserver = new IntersectionObserver(
       (entries) => {
@@ -76,11 +108,13 @@ export default function Home() {
     videoObserver.observe(introPanel);
 
     const sceneManager = new SceneManager();
+    let resizeHandler: () => void;
+
     const observer = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           sceneManager.init(wrapper3d, "/MA_Logo_3D.glb");
-          const resizeHandler = () => {
+          resizeHandler = () => {
             if (sceneManager) {
               sceneManager.handleResize(wrapper3d);
             }
@@ -91,13 +125,23 @@ export default function Home() {
       });
     }, { threshold: 0.5 });
     observer.observe(wrapper3d);
+
     onCleanup(() => {
       sceneManager.dispose();
       observer.disconnect();
       scrollObserver.disconnect();
       videoObserver.disconnect();
+      introObserver.disconnect();
+      if (resizeHandler) {
+        window.removeEventListener("resize", resizeHandler);
+      }
+      targetListenerMap.forEach((eventL) => {
+        window.removeEventListener("scroll", eventL);
+      });
+      targetListenerMap.clear();
     });
   });
+
   return (
     <main class="w-full relative flex flex-col justify-center items-center px-3 lg:px-6 pb-12 mb-12">
       <video
@@ -136,7 +180,7 @@ export default function Home() {
         </article>
       </section>
       <section
-        ref={whoIAm}
+        ref={aboutPanel}
         class="who-i-am mb-[50vh] border border-t border-black/10 dark:border-white/5 dark:border-t-white lg:mb-72 rounded-3xl bg-white dark:bg-black/90 w-fit lg:w-full lg:max-w-3xl mx-auto flex flex-col-reverse lg:flex-row justify-center items-center"
       >
         <figure
@@ -157,39 +201,33 @@ export default function Home() {
         </article>
 
       </section>
-      <div class="rounded-tl-3xl rounded-tr-3xl w-full flex flex-col border border-black/10 dark:border-white/5 dark:border-t-white bg-white dark:bg-black/90">
+      <div ref={main} class="work-panel rounded-tl-3xl rounded-tr-3xl w-full flex flex-col border border-black/10 dark:border-white/5 dark:border-t-white bg-white dark:bg-black/90">
         <section class="max-w-3xl mx-auto flex items-start text-black dark:text-white flex-col gap-3 py-18 lg:py-36 px-6">
           <H1>Check out some of my work.</H1>
           <p class="text-lg text-black dark:text-white">
             I've worked on a variety of projects and campaigns that include digital display banners, paid social media advertising, social media content, editing and motion graphics work, and web design and development.
           </p>
         </section>
-        <div class="flex flex-col px-18 pb-18 gap-72">
-          <div class="w-full">
-            <MainKeypoint
-              data={collectionData[0]}
-              standalone={true}
-            />
-          </div>
-          <div class="w-full">
-            <MainKeypoint
-              data={collectionData[1]}
-              standalone={true}
-            />
-          </div>
-          <div class="w-full">
-            <MainKeypoint
-              data={collectionData[2]}
-              standalone={true}
-            />
-          </div>
+        <div class="flex flex-col gap-36">
+          <MainKeypoint
+            data={collectionData[0]}
+            standalone={true}
+          />
+          <MainKeypoint
+            data={collectionData[1]}
+            standalone={true}
+          />
+          <MainKeypoint
+            data={collectionData[2]}
+            standalone={true}
+          />
         </div>
       </div>
       <div class="bg-white dark:bg-black/90 w-full">
         <div class="w-full border-l border-r border-black/5 dark:border-white/5">
           <Collection data={collectionData} />
         </div>
-        <div class="border py-18 lg:border border-black/5 dark:border-white/5 w-full rounded-bl-3xl rounded-br-3xl">
+        <div class="border pb-18 lg:border border-black/5 dark:border-white/5 w-full rounded-bl-3xl rounded-br-3xl">
           <section class="flex flex-col lg:flex-row gap-36 lg:gap-12 items-center px-3 md:px-12 lg:py-18 mx-auto lg:max-w-7xl w-full">
             <div class="flex flex-col gap-6 lg:max-w-md px-9 md:px-6">
               <H1>Drop a line.</H1>

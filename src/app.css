@@ -1,93 +1,85 @@
  @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+ @custom-variant dark (&:where(.dark, .dark *));
 
-:root {
-  background-color: white;
-}
+ :root {
+   background-color: white;
+ }
 
-.dark {
-  background-color: black;
-}
+ .dark {
+   background-color: black;
+ }
 
-.def__animate {
-  transition: all 150ms ease-out;
-}
+ .def__animate {
+   transition: all 150ms ease-out;
+ }
 
-.nav__animate {
-  transition: all 1500ms ease-out;
-}
+ .nav__animate {
+   transition: all 3s ease-out;
+ }
 
-@media (prefers-color-scheme: light) {
-  .def__button {
-    position: relative;
-    letter-spacing: -0.5px;
-    font-weight: 500;
-    display: inline-block;
-    cursor: pointer;
-    background: linear-gradient(#505050 0%, #202020 50%, #202020 50%);
-    color: white;
-    outline: 3px solid rgba(50, 50, 50, 1);
-    border: 1px solid #505050;
-    border-radius: 6px;
-    padding: 0.5rem 1.25rem;
-    width: fit-content;
-    z-index: 2;
-    margin: 1rem 0rem;
-  }
+ @media (prefers-color-scheme: light) {
+   .def__button {
+     position: relative;
+     letter-spacing: -0.5px;
+     font-weight: 500;
+     display: inline-block;
+     cursor: pointer;
+     background: linear-gradient(#505050 0%, #202020 50%, #202020 50%);
+     color: white;
+     outline: 3px solid rgba(50, 50, 50, 1);
+     border: 1px solid #505050;
+     border-radius: 6px;
+     padding: 0.5rem 1.25rem;
+     width: fit-content;
+     z-index: 2;
+     margin: 1rem 0rem;
+   }
 
-  .def__button:hover {
-    background: linear-gradient(#303030 0%, #202020 50%, #202020 50%);
-    outline: 3px solid rgba(25, 25, 25, 1);
-    border: 1px solid #202020;
-  }
-}
+   .def__button:hover {
+     background: linear-gradient(#303030 0%, #202020 50%, #202020 50%);
+     outline: 3px solid rgba(25, 25, 25, 1);
+     border: 1px solid #202020;
+   }
+ }
 
-@media (prefers-color-scheme: dark) {
-  .def__button {
-    position: relative;
-    letter-spacing: -0.5px;
-    font-weight: 500;
-    display: inline-block;
-    cursor: pointer;
-    background: linear-gradient(#f0f0ff 0%, #c0c0cf 50%, #c0c0cf 50%);
-    color: rgba(0, 0, 0, 0.75);
-    outline: 3px solid rgb(240, 240, 255);
-    border: 1px solid #a0a0af;
-    border-radius: 6px;
-    padding: 0.5rem 1.25rem;
-    width: fit-content;
-    z-index: 2;
-    margin: 1rem 0rem;
-  }
+ @media (prefers-color-scheme: dark) {
+   .def__button {
+     position: relative;
+     letter-spacing: -0.5px;
+     font-weight: 500;
+     display: inline-block;
+     cursor: pointer;
+     background: linear-gradient(#f0f0ff 0%, #c0c0cf 50%, #c0c0cf 50%);
+     color: rgba(0, 0, 0, 0.75);
+     outline: 3px solid rgb(240, 240, 255);
+     border: 1px solid #a0a0af;
+     border-radius: 6px;
+     padding: 0.5rem 1.25rem;
+     width: fit-content;
+     z-index: 2;
+     margin: 1rem 0rem;
+   }
 
-  .def__button:hover {
-    background: linear-gradient(#c0c0cf 0%, #c0c0cf 50%, #c0c0cf 50%);
-    outline: 3px solid rgb(220, 220, 240);
-    border: 1px solid #c0c0cf;
-  }
-}
+   .def__button:hover {
+     background: linear-gradient(#c0c0cf 0%, #c0c0cf 50%, #c0c0cf 50%);
+     outline: 3px solid rgb(220, 220, 240);
+     border: 1px solid #c0c0cf;
+   }
+ }
 
- 
- .intro-panel {
-    transition: filter 0.3s ease-out, opacity 0.3s ease-out, transform 0.3s ease-out;
-  }
-  
-  .intro-panel.scrolled {
-    filter: blur(10px);
-    transform: translateZ(-200px);
-    opacity: 0;
-  }
-  
-  .who-i-am {
-    transition: filter 0.3s ease-out, opacity 0.3s ease-out;
-  }
-  
-  .who-i-am.scrolled {
-    filter: blur(10px);
-    opacity: 0;
-  }
-  
-  video {
-    transition: opacity 0.3s ease-out;
-  }
+
+ .intro-panel,
+ .who-i-am {
+   transition: all 500ms ease-out;
+ }
+
+ .intro-panel.scrolled,
+ .who-i-am.scrolled {
+   filter: blur(10px);
+   opacity: 0;
+ }
+
+ video {
+   transition: opacity 500ms ease-out;
+ }
