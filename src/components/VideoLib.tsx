@@ -1,6 +1,7 @@
-import { Accessor, createEffect, createResource, createSignal, For, onMount, Show } from "solid-js";
+import { createEffect, createResource, createSignal, For, Show } from "solid-js";
 import { Video } from "./Collection";
 import { H2 } from "~/layout/Headings";
+import VideoPlayer from "./VideoPlayer";
 
 interface VimeoOEmbedVideo {
     type: 'video';
@@ -26,16 +27,29 @@ interface VimeoOEmbedVideo {
     uri: string;
 }
 
-export default function VideoLib({ videos }: { videos: Video[] }) {
+interface VideoLibProps {
+    videos: Video[];
+}
+
+export default function VideoLib(props: VideoLibProps) {
     const [videoArray, { refetch }] = createResource(getVideoInfo);
-    const [video, setVideo] = createSignal(videos[0].url);
+    const [video, setVideo] = createSignal(props.videos[0].url);
 
     async function getVideoInfo() {
         const results = await Promise.all(
-            videos.map(async (v) => {
-                const req = await fetch(`https://vimeo.com/api/oembed.json?url=${v.url}`);
-                const data = await req.json();
-                return [v.url, data] as [string, VimeoOEmbedVideo];
+            props.videos.map(async (v) => {
+                if (v.url.includes("gumlet")) {
+                    const thumbUrl = v.url.split("/").map((val, idx) => {
+                        if (idx < 5) {
+                            return val;
+                        }
+                    }).join("/") + "/thumbnail-1-0.png";
+                    return { url: v.url, title: v.title, client: v.client, thumbnail: thumbUrl };
+                } else {
+                    const req = await fetch(`https://vimeo.com/api/oembed.json?url=${v.url}`);
+                    const data: VimeoOEmbedVideo = await req.json();
+                    return { url: v.url, title: v.title, client: v.client, thumbnail: data.thumbnail_url };
+                }
             })
         );
         return results;
@@ -44,7 +58,11 @@ export default function VideoLib({ videos }: { videos: Video[] }) {
     return (
         <Show when={videoArray()}>
             <section class="justify-center w-full flex flex-col lg:flex-row items-center gap-6">
-                <iframe src={video()} class="aspect-video w-full lg:w-2/3 lg:max-w-2xl rounded-xl"></iframe>
+                <div class="w-full lg:w-2/3 lg:max-w-2xl rounded-xl overflow-hidden">
+                    <Show when={video()} keyed>
+                        <VideoPlayer url={video()} />
+                    </Show>
+                </div>
                 <div class="w-full max-w-120 relative bg-neutral-100 dark:bg-neutral-900 overflow-hidden rounded-3xl border dark:border-t-white dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)] border-black/5 dark:border-white/5 text-black dark:text-white">
                     <div class="p-6 border-b border-black/10 dark:border-white/10">
                         <H2>Videos</H2>
@@ -52,11 +70,10 @@ export default function VideoLib({ videos }: { videos: Video[] }) {
                     <ul class="relative overflow-auto divide-y divide-black/5 dark:divide-white/5 h-full max-h-60 w-full pb-36">
                         <For each={videoArray()}>
                             {(listVideo) => {
-                                console.log(listVideo);
                                 let selector!: HTMLLIElement;
                                 createEffect(() => {
 
-                                    if (video() === listVideo[0]) {
+                                    if (video() === listVideo.url) {
                                         selector.classList.add("bg-black/5", "dark:bg-white/5")
                                     } else {
                                         selector.classList.remove("bg-black/5", "dark:bg-white/5")
@@ -65,11 +82,11 @@ export default function VideoLib({ videos }: { videos: Video[] }) {
                                 return (
                                     <li ref={selector} class="cursor-pointer hover:bg-black/2 dark:hover:bg-white/2 p-3 flex items-center gap-3"
                                         onClick={() => {
-                                            setVideo(listVideo[0]);
-                                        }}><img class="rounded-xl aspect-video w-24" src={`${listVideo[1].thumbnail_url}`} />
+                                            setVideo(listVideo.url);
+                                        }}><img class="rounded-xl aspect-video w-24" src={`${listVideo.thumbnail}`} />
                                         <div class="flex flex-col">
-                                            <h6>{listVideo[1].title}</h6>
-                                            <p class="text-xs text-black/50 dark:text-white/50">{listVideo[1].author_name}</p>
+                                            <h6>{listVideo.title}</h6>
+                                            <p class="text-xs text-black/50 dark:text-white/50">{listVideo.client}</p>
                                         </div>
                                     </li>
                                 )

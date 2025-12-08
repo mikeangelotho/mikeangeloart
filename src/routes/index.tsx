@@ -3,7 +3,7 @@ import { PortfolioCollection } from "~/components/Collection";
 import { SceneManager } from "~/components/Panel3d";
 import data from "../db.json";
 import Collection from "~/components/Collection";
-import { H1, H2 } from "~/layout/Headings";
+import { H1 } from "~/layout/Headings";
 import { Button, ContainerLabel } from "~/layout/Cards";
 import { MainKeypoint } from "./projects/[slug]";
 
@@ -27,13 +27,13 @@ export default function Home() {
   let main!: HTMLDivElement;
 
   onMount(() => {
+    /*
     const subheads = [
       "an AI enthusiast",
       "a skateboarder",
-      "a computer nerd",
       "a guitar player",
       "a stargazer",
-      "a design technologist",
+      "a designer & web developer",
     ];
 
     let count = 0;
@@ -49,6 +49,7 @@ export default function Home() {
       }, 3000);
       onCleanup(() => clearInterval(intervalId));
     }, 1000);
+    */
 
     const observerOptions = {
       root: null,
@@ -158,7 +159,7 @@ export default function Home() {
           <div class="text-white/20 h-fit not-md:border-b md:border-r md:pr-2 pb-1">
             <ContainerLabel>Intro</ContainerLabel>
           </div>
-          <div class="flex flex-col gap-2 py-4 justify-center text-left w-full max-w-xl">
+          <div class="flex flex-col gap-2 py-4 justify-center text-left w-full max-w-3xl">
             <span class="not-dark:invert">
               <H1>Hey! My name's Mike.</H1>
             </span>
@@ -168,7 +169,7 @@ export default function Home() {
                 ref={roleChanger}
                 class="italic transition-opacity duration-100 ease-out"
               >
-                a design technologist
+                a designer & web developer
               </span>
               .
             </p>
@@ -179,9 +180,9 @@ export default function Home() {
         ref={wrapper3d}
         class="w-full h-full min-w-96 min-h-96 mb-72"
       ></figure>
-      <div ref={main} class="work-panel w-full flex flex-col items-center border border-black/10 dark:border-white/5 bg-white dark:bg-neutral-950/90">
+      <div ref={main} class="work-panel w-full flex flex-col items-center border border-black/10 dark:border-white/5 bg-white dark:bg-neutral-950">
         <section class="flex flex-col lg:flex-row justify-center items-center text-black dark:text-white gap-18 py-18 lg:py-36 px-18">
-          <H1><span class="font-normal">I like to make things <span class="look-good font-semibold select-none px-3">look good.</span></span></H1>
+          <H1><span class="font-normal leading-relaxed">I like to make things <span class="look-good font-semibold select-none px-3 whitespace-nowrap">look good.</span></span></H1>
           <p class="text-black dark:text-white max-w-xl mr-auto">
             I've worked on a variety of projects and campaigns that include digital display banners, paid social media advertising, social media content, editing and motion graphics work, and web design and development.
           </p>
@@ -205,7 +206,7 @@ export default function Home() {
         <div class="w-full border-l border-r border-black/5 dark:border-white/5">
           <Collection data={collectionData} />
         </div>
-        <div class="border pb-18 lg:border border-black/5 dark:border-white/5 w-full rounded-bl-3xl rounded-br-3xl">
+        <div class="border pb-18 lg:border border-black/5 dark:border-white/5 w-full dark:bg-neutral-950">
           <section class="flex flex-col lg:flex-row gap-36 lg:gap-12 items-center px-3 md:px-12 lg:pt-18 mx-auto lg:max-w-7xl w-full">
             <div class="flex flex-col gap-6 lg:max-w-md px-9 md:px-6">
               <H1>Drop a line.</H1>

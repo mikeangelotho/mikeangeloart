@@ -16,6 +16,8 @@ import data from "../../db.json";
 import Collection, { PortfolioCollection } from "~/components/Collection";
 import { slugify } from "~/hooks";
 import VideoLib from "~/components/VideoLib";
+import VideoJSPlayer from "~/components/VideoJSPlayer";
+import VideoPlayer from "~/components/VideoPlayer";
 
 const collectionData: PortfolioCollection[] = data;
 
@@ -82,7 +84,7 @@ export function MainKeypoint(props: {
         class={`z-1 w-full flex flex-col gap-18 justify-center items-center`}
       >
         <div class="w-full max-w-5xl rounded-xl overflow-hidden">
-          <Featured url={props.data.mainKeypointMedia} />
+          <VideoPlayer url={props.data.mainKeypointMedia} />
         </div>
         <article class="max-w-5xl text-black dark:text-white w-fit dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] mx-auto rounded-3xl p-6 items-center flex gap-6 flex-col-reverse lg:flex-row bg-neutral-100 dark:bg-neutral-900 border border-black/10 dark:border-white/5">
           <div class="flex flex-col w-full lg:w-fit min-w-72 justify-center gap-3 border border-neutral-200 dark:bg-neutral-800 dark:border-neutral-700 p-3 rounded-xl dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)]">
@@ -280,23 +282,3 @@ const Lightbox = ({
     </div>
   );
 };
-
-const Featured = ({ url }: { url: string }) => {
-  if (url.includes("vimeo")) {
-    return (
-      <iframe
-        src={url}
-        class="aspect-video w-full border-t border-b border-black/5 dark:border-white/5"
-        allow="fullscreen"
-      ></iframe>
-
-    )
-  } else {
-    return (
-      <img
-        src={url}
-        class="object-cover w-full"
-      />
-    )
-  }
-}
