@@ -57,7 +57,7 @@ export default function VideoLib(props: VideoLibProps) {
 
     return (
         <Show when={videoArray()}>
-            <section class="justify-center w-full flex flex-col lg:flex-row items-center gap-6">
+            <section class="justify-center w-full flex flex-col lg:flex-row items-center gap-6 pb-36 pt-18 md:pt-0">
                 <div class="w-full lg:w-2/3 lg:max-w-2xl rounded-xl overflow-hidden">
                     <Show when={video()} keyed>
                         <VideoPlayer url={video()} />

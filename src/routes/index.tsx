@@ -3,7 +3,7 @@ import { PortfolioCollection } from "~/components/Collection";
 import { SceneManager } from "~/components/Panel3d";
 import data from "../db.json";
 import Collection from "~/components/Collection";
-import { H1 } from "~/layout/Headings";
+import { H1, H2 } from "~/layout/Headings";
 import { Button, ContainerLabel } from "~/layout/Cards";
 import { MainKeypoint } from "./projects/[slug]";
 
@@ -11,7 +11,7 @@ const collectionData: PortfolioCollection[] = data;
 
 const targetListenerMap = new Map<HTMLElement, EventListener>();
 
-function createIntroScrollHandler(target: HTMLElement) {
+function scrollHandler(target: HTMLElement) {
   return () => {
     const scrollY = window.scrollY;
     const zValue = -scrollY * 0.5;
@@ -27,44 +27,20 @@ export default function Home() {
   let main!: HTMLDivElement;
 
   onMount(() => {
-    /*
-    const subheads = [
-      "an AI enthusiast",
-      "a skateboarder",
-      "a guitar player",
-      "a stargazer",
-      "a designer & web developer",
-    ];
-
-    let count = 0;
-
-    setTimeout(() => {
-      const intervalId = setInterval(() => {
-        roleChanger.style.opacity = "0";
-        setTimeout(() => {
-          roleChanger.textContent = subheads[count];
-          roleChanger.style.opacity = "1";
-          count = (count + 1) % subheads.length;
-        }, 200);
-      }, 3000);
-      onCleanup(() => clearInterval(intervalId));
-    }, 1000);
-    */
-
     const observerOptions = {
       root: null,
       rootMargin: "0px",
       threshold: 0.5,
     };
 
-    const introObserver = new IntersectionObserver((entries) => {
+    const scrollObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const target = entry.target as HTMLElement;
         if (entry.isIntersecting) {
           if (!targetListenerMap.has(target)) {
-            const eventL = createIntroScrollHandler(target) as EventListener;
-            targetListenerMap.set(target, eventL);
-            window.addEventListener("scroll", eventL);
+            const scrollHandlerListener = scrollHandler(target) as EventListener;
+            targetListenerMap.set(target, scrollHandlerListener);
+            window.addEventListener("scroll", scrollHandlerListener);
           }
         } else {
           const eventL = targetListenerMap.get(target);
@@ -74,12 +50,9 @@ export default function Home() {
           }
         }
       });
-    }, {
-      rootMargin: "0px",
-      threshold: 0.5,
-    });
+    }, observerOptions);
 
-    const scrollObserver = new IntersectionObserver((entries) => {
+    const opacityObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const target = entry.target as HTMLElement;
         target.classList.toggle("scrolled", !entry.isIntersecting);
@@ -90,20 +63,21 @@ export default function Home() {
     const videoObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          const target = entry.target as HTMLElement;
           if (entry.isIntersecting) {
-            videoPanel.style.opacity = "1";
+            target.style.opacity = "1";
           } else {
-            videoPanel.style.opacity = "0.25";
+            target.style.opacity = "0.25";
           }
         });
       },
-      { threshold: 0.5 }
+      observerOptions
     );
 
-    const sceneManager = new SceneManager(10);
+    const sceneManager = new SceneManager(12);
     let resizeHandler: () => void;
 
-    const observer = new IntersectionObserver((entries, observer) => {
+    const threeJsObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           sceneManager.init(wrapper3d, "/MA_Logo_3D.glb");
@@ -116,19 +90,20 @@ export default function Home() {
           observer.unobserve(wrapper3d);
         }
       });
-    }, { threshold: 0.5 });
+    }, observerOptions);
 
-    observer.observe(wrapper3d);
-    introObserver.observe(introPanel);
-    scrollObserver.observe(wrapper3d);
-    videoObserver.observe(introPanel);
+    threeJsObserver.observe(wrapper3d);
+    scrollObserver.observe(introPanel);
+    opacityObserver.observe(wrapper3d);
+    opacityObserver.observe(introPanel);
+    videoObserver.observe(videoPanel);
 
     onCleanup(() => {
       sceneManager.dispose();
-      observer.disconnect();
-      scrollObserver.disconnect();
+      threeJsObserver.disconnect();
+      opacityObserver.disconnect();
       videoObserver.disconnect();
-      introObserver.disconnect();
+      scrollObserver.disconnect();
       if (resizeHandler) {
         window.removeEventListener("resize", resizeHandler);
       }
@@ -159,7 +134,7 @@ export default function Home() {
           <div class="text-white/20 h-fit not-md:border-b md:border-r md:pr-2 pb-1">
             <ContainerLabel>Intro</ContainerLabel>
           </div>
-          <div class="flex flex-col gap-2 py-4 justify-center text-left w-full max-w-3xl">
+          <div class="flex flex-col gap-2 py-4 justify-center text-center md:text-left w-full max-w-3xl">
             <span class="not-dark:invert">
               <H1>Hey! My name's Mike.</H1>
             </span>
@@ -169,25 +144,27 @@ export default function Home() {
                 ref={roleChanger}
                 class="italic transition-opacity duration-100 ease-out"
               >
-                a designer & web developer
+                an art director <br class="block md:hidden" />& web developer
               </span>
               .
             </p>
           </div>
         </article>
       </section>
-      <figure
-        ref={wrapper3d}
-        class="w-full h-full min-w-96 min-h-96 mb-72"
-      ></figure>
-      <div ref={main} class="work-panel w-full flex flex-col items-center border border-black/10 dark:border-white/5 bg-white dark:bg-neutral-950">
-        <section class="flex flex-col lg:flex-row justify-center items-center text-black dark:text-white gap-18 py-18 lg:py-36 px-18">
-          <H1><span class="font-normal leading-relaxed">I like to make things <span class="look-good font-semibold select-none px-3 whitespace-nowrap">look good.</span></span></H1>
-          <p class="text-black dark:text-white max-w-xl mr-auto">
-            I've worked on a variety of projects and campaigns that include digital display banners, paid social media advertising, social media content, editing and motion graphics work, and web design and development.
-          </p>
+      <div ref={main} class="work-panel w-full flex flex-col items-center border-t border-b border-neutral-200 dark:border-neutral-900 bg-white/95 dark:bg-black/80 backdrop-blur-3xl">
+        <section class="flex flex-col justify-center items-center text-black dark:text-white pt-18 pb-36 px-12 max-w-7xl">
+          <div class="flex flex-col justify-center items-center">
+            <figure
+              ref={wrapper3d}
+              class="min-w-72 min-h-72 not-dark:invert"
+            ></figure>
+            <div class="p-6 max-w-3xl text-center flex flex-col gap-6 rounded-3xl">
+              <H2>I like to make things look good, function well, and deliver results.</H2>
+              <p class="pt-6 max-w-lg mx-auto border-t border-neutral-200 dark:border-neutral-800">I've developed full ad campaigns, commercials, landing pages and websites, and countless other digital and physical assets.</p>
+            </div>
+          </div>
         </section>
-        <div class="flex flex-col gap-36 pb-18 lg:pb-36 px-6 w-full">
+        <div class="flex flex-col gap-36 py-18 lg:py-36 px-6 w-full bg-white dark:bg-neutral-950 border-t border-t-neutral-200 dark:border-t-neutral-900">
           <MainKeypoint
             data={collectionData[0]}
             standalone={true}
@@ -203,19 +180,19 @@ export default function Home() {
         </div>
       </div>
       <div class="bg-white dark:bg-black/90 w-full">
-        <div class="w-full border-l border-r border-black/5 dark:border-white/5">
+        <div class="w-full">
           <Collection data={collectionData} />
         </div>
-        <div class="border pb-18 lg:border border-black/5 dark:border-white/5 w-full dark:bg-neutral-950">
-          <section class="flex flex-col lg:flex-row gap-36 lg:gap-12 items-center px-3 md:px-12 lg:pt-18 mx-auto lg:max-w-7xl w-full">
-            <div class="flex flex-col gap-6 lg:max-w-md px-9 md:px-6">
+        <div class="pt-18 pb-36 lg:border-t lg:border-b border-t-neutral-200 dark:border-t-neutral-900 border-b-neutral-200 dark:border-b-neutral-900 w-full dark:bg-neutral-950">
+          <section class="flex flex-col lg:flex-row gap-18 items-center px-3 md:px-12 pt-18 mx-auto lg:max-w-7xl w-full">
+            <div class="flex flex-col gap-6 lg:max-w-md px-6">
               <H1>Drop a line.</H1>
               <p class="text-black dark:text-white">
                 I'm always looking for new opportunities and collaborations. Whether you're interested in working together or just want to say hi, feel free to send me a message!
               </p>
             </div>
             <form
-              class="w-full flex flex-col gap-6 p-6 bg-neutral-100 dark:bg-neutral-900 rounded-3xl border dark:border-t-white border-black/10 dark:border-white/10 dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)]"
+              class="w-full flex flex-col gap-6 p-6 bg-neutral-100 dark:bg-neutral-900 rounded-3xl border dark:border-t-white border-neutral-300 dark:border-neutral-900 dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)]"
               action="https://api.web3forms.com/submit"
               method="post"
             >
@@ -265,7 +242,7 @@ const Input = ({
   return (
     <input
       type={type}
-      class="placeholder-black/25 dark:placeholder-white/25 bg-white dark:bg-white/5 text-black/25 focus:text-black dark:text-white/25 dark:focus:text-white rounded-md px-3 py-1 outline outline-transparent border border-black/10 dark:border-white/10 focus:outline-black/50 dark:focus:outline-white/50 hover:outline-black/25 dark:hover:outline-white/25 def__animate"
+      class="placeholder-black/25 dark:placeholder-white/25 bg-white dark:bg-white/5 text-black/25 focus:text-black dark:text-white/25 dark:focus:text-white rounded-md px-3 py-1 outline outline-transparent border border-neutral-300 dark:border-neutral-900 focus:outline-black/50 dark:focus:outline-white/50 hover:outline-black/25 dark:hover:outline-white/25 def__animate"
       placeholder={placeholder}
     />
   );

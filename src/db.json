@@ -31,21 +31,26 @@
         "title": "A Once-in-a-Lifetime Event",
         "description": "My team and I worked on numerous different pre-production tasks. We hired drone operators, sketched a rough storyboard, coordinated with a camera crew, and captured a once-in-a-lifetime event.",
         "media": [
-          "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"
+          "https://pub-7e6277505f684bb797c11b32d0e607c4.r2.dev/bahlsen-drone-drop-pop-up/keypoint-media/drone-1.png",
+          "https://pub-7e6277505f684bb797c11b32d0e607c4.r2.dev/bahlsen-drone-drop-pop-up/keypoint-media/drone-2.png",
+          "https://pub-7e6277505f684bb797c11b32d0e607c4.r2.dev/bahlsen-drone-drop-pop-up/keypoint-media/drone-3.png",
+          "https://pub-7e6277505f684bb797c11b32d0e607c4.r2.dev/bahlsen-drone-drop-pop-up/keypoint-media/drone-4.jpg",
+          "https://pub-7e6277505f684bb797c11b32d0e607c4.r2.dev/bahlsen-drone-drop-pop-up/keypoint-media/drone-5.jpg"
         ]
       },
       {
         "title": "Supplemental Digital Marketing",
         "description": "We developed a rich media marketing campaign to target and retarget potential and repeat shoppers. This included animated and interactive web banners and pre-roll video.",
         "media": [
-          "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"
+          "https://pub-7e6277505f684bb797c11b32d0e607c4.r2.dev/bahlsen-drone-drop-pop-up/keypoint-media/MA_Bahlsen_DroneHTMLMockup_Shop.mp4",
+          "https://pub-7e6277505f684bb797c11b32d0e607c4.r2.dev/bahlsen-drone-drop-pop-up/keypoint-media/MA_Bahlsen_DroneHTMLMockup_Intro.mp4"
         ]
       },
       {
         "title": "Social Media Content",
         "description": "We filmed all preparation before and during the event. Then we delivered numerous video edits and behind-the-scenes bits and ran them on both paid and organic social media channels.",
         "media": [
-          "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg"
+          "https://pub-7e6277505f684bb797c11b32d0e607c4.r2.dev/bahlsen-drone-drop-pop-up/keypoint-media/MA_Bahlsen_Drones-Social-Mock.mp4"
         ]
       }
     ],
@@ -54,16 +59,6 @@
         "title": "Drone Drop Recap",
         "client": "Bahlsen",
         "url": "https://video.gumlet.io/693618f203bcee22ddeecad9/69361d707d19d07028493efa/main.m3u8"
-      },
-      {
-        "title": "Choco Leibniz Commercial",
-        "client": "Bahlsen",
-        "url": "https://player.vimeo.com/video/1081724183"
-      },
-      {
-        "title": "Pop-up Event Footage",
-        "client": "Bahlsen",
-        "url": "https://player.vimeo.com/video/1084814449"
       }
     ]
   },
@@ -155,7 +150,7 @@
     "lastModified": "2025-12-02",
     "clientName": "Benzel-Busch",
     "clientLogo": "https://cdn.mikeangelo.art/client-logos/MA_25-26-Website_ClientIcons_250x250_Bahlsen_white.png",
-    "projectObjective": "Benzel-Busch is known as the premier Mercedes-Benz and Genesis dealer in North Jersey for their exceptional customer service and unique marketing incentives, so naturally they needed automotive advertising that stood out from the noise.",
+    "projectObjective": "Benzel-Busch is the premier Mercedes-Benz and Genesis dealer in North Jersey. Known for their exceptional customer service and unique marketing incentives, they naturally needed automotive advertising that stood out from the noise.",
     "mainKeypointMedia": "https://player.vimeo.com/video/1081725997",
     "mainKeypointMetricOne": "+20% Website Visits YoY",
     "mainKeypointMetricTwo": "+60% Increase in Sales",

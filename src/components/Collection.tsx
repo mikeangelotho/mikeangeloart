@@ -90,15 +90,14 @@ function CollectionCell({
           loading="lazy"
         />
       </A>
-      <A
-        href={data.slug}
-        class="group-hover/card:opacity-100 opacity-0 z-1 p-1 top-0 rounded-xl def__animate w-12 h-12 flex justify-center items-center m-6 absolute backdrop-blur backdrop-brightness-150 dark:backdrop-brightness-25 hover:opacity-50"
+      <div
+        class="group-hover/card:opacity-100 opacity-0 z-1 p-1 top-0 rounded-xl def__animate w-12 h-12 flex justify-center items-center m-6 absolute backdrop-blur backdrop-brightness-150 dark:backdrop-brightness-25 pointer-events-none"
       >
         <img
           src={data.clientLogo}
           class="invert dark:invert-0 aspect-auto max-h-6"
         />
-      </A>
+      </div>
       <div class="min-h-30 lg:min-h-12 justify-center lg:rounded-3xl w-full lg:w-auto lg:inset-x-3 flex flex-col gap-2 def__animate group/tag group-hover/card:opacity-100 p-6 lg:opacity-0 absolute bottom-0 lg:bottom-3 z-1 mx-auto backdrop-blur-xl backdrop-brightness-140 dark:backdrop-brightness-25">
         <header class="flex flex-col">
           <A

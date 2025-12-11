@@ -230,7 +230,7 @@ export default function About() {
     }]);
 
     setWindows(prev => [...prev, {
-      label: "Identification", window: <Moveable label="Identification" options={{ x: 1.325, y: 2 }}>
+      label: "Identification", window: <Moveable label="Identification" noMobile={true} options={{ x: 1.325, y: 2 }}>
         <img
           src={githubAvatar}
           class="w-18 h-18 rounded-3xl pointer-events-none object-cover"
@@ -254,7 +254,7 @@ export default function About() {
               <div class="py-6 gap-6 w-full flex flex-col lg:flex-row justify-start items-start lg:items-center">
                 <div class="flex flex-col gap-3">
                   <p><strong class="text-2xl">How It's Going</strong></p>
-                  <p>That same curiosity and persistance still exists today in a refined way - preferably without breaking things. I developed a passion for<strong> turning ideas into tangible, functional, and beautiful digital experiences.</strong></p>
+                  <p>That same curiosity and persistance still exists today in a refined way. Preferably without breaking things. I turned my curiosity into a passion for turning ideas into tangible, functional, and beautiful digital experiences.</p>
                 </div>
               </div>
               <div class="py-6 gap-6 w-full flex flex-col lg:flex-row justify-start items-start lg:items-center">
@@ -309,7 +309,7 @@ export default function About() {
         </div>
         <div class="h-[10vh] pt-3 flex items-center px-4">
           <div
-            class="p-3 max-w-7xl mx-auto w-full md:w-fit h-fit border border-black/20 dark:border-white/10 rounded-3xl bg-white/80 dark:bg-black/80 flex flex-row justify-center items-center overflow-x-auto"
+            class="p-3 max-w-7xl mx-auto w-fit h-fit border border-black/20 dark:border-white/10 rounded-3xl bg-white/80 dark:bg-black/80 flex flex-row justify-center items-center overflow-x-auto"
             style="scrollbar-width: none;"
           >
             <For each={taskbarIcons}>
