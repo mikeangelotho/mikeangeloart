@@ -1,4 +1,4 @@
-import { onCleanup, onMount } from "solid-js";
+import { For, onCleanup, onMount } from "solid-js";
 import { PortfolioCollection } from "~/components/Collection";
 import { SceneManager } from "~/components/Panel3d";
 import data from "../db.json";
@@ -8,6 +8,13 @@ import { Button, ContainerLabel } from "~/layout/Cards";
 import { MainKeypoint } from "~/components/MainKeypoint";
 
 const collectionData: PortfolioCollection[] = data;
+const landingHighlights = () => {
+  const temp = [];
+  for (const collection of collectionData) {
+    temp.push(collection);
+  }
+  return temp;
+};
 
 const targetListenerMap = new Map<HTMLElement, EventListener>();
 
@@ -36,7 +43,9 @@ export default function Home() {
         const target = entry.target as HTMLElement;
         if (entry.isIntersecting) {
           if (!targetListenerMap.has(target)) {
-            const scrollHandlerListener = scrollHandler(target) as EventListener;
+            const scrollHandlerListener = scrollHandler(
+              target
+            ) as EventListener;
             targetListenerMap.set(target, scrollHandlerListener);
             window.addEventListener("scroll", scrollHandlerListener);
           }
@@ -55,22 +64,18 @@ export default function Home() {
         const target = entry.target as HTMLElement;
         target.classList.toggle("scrolled", !entry.isIntersecting);
       });
-
     }, observerOptions);
 
-    const videoObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const target = entry.target as HTMLElement;
-          if (entry.isIntersecting) {
-            target.style.opacity = "1";
-          } else {
-            target.style.opacity = "0.25";
-          }
-        });
-      },
-      observerOptions
-    );
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const target = entry.target as HTMLElement;
+        if (entry.isIntersecting) {
+          target.style.opacity = "1";
+        } else {
+          target.style.opacity = "0.25";
+        }
+      });
+    }, observerOptions);
 
     const sceneManager = new SceneManager(12);
     let resizeHandler: () => void;
@@ -135,10 +140,9 @@ export default function Home() {
           <div class="not-dark:invert flex flex-col gap-6 py-4 justify-center text-center md:text-left w-full max-w-3xl">
             <H1>Hey! My name's Mike.</H1>
             <H2>
-              <span
-                class="font-normal italic transition-opacity duration-100 ease-out"
-              >
-                I'm an art director <br class="block md:hidden" />& web developer
+              <span class="font-normal italic transition-opacity duration-100 ease-out">
+                I'm an art director <br class="block md:hidden" />& web
+                developer
               </span>
               .
             </H2>
@@ -153,36 +157,40 @@ export default function Home() {
               class="min-w-72 min-h-72 not-dark:invert"
             ></figure>
             <div class="p-6 max-w-3xl text-center flex flex-col gap-6 rounded-3xl">
-              <H2>I like to make things look good, function well, and deliver results.</H2>
-              <p class="pt-6 max-w-lg mx-auto border-t border-neutral-200 dark:border-neutral-800">I've developed full ad campaigns, commercials, landing pages and websites, and countless other digital and physical assets.</p>
+              <H2>
+                I like to make things look good, function well, and deliver
+                results.
+              </H2>
+              <p class="pt-6 max-w-lg mx-auto border-t border-neutral-200 dark:border-neutral-800">
+                I've developed full ad campaigns, commercials, landing pages and
+                websites, and countless other digital and physical assets.
+              </p>
             </div>
           </div>
         </section>
         <div class="flex flex-col gap-36 py-18 lg:py-36 px-6 w-full bg-white dark:bg-neutral-950 border-t border-t-neutral-200 dark:border-t-neutral-900">
-          <MainKeypoint
-            data={collectionData[0]}
-            standalone={true}
-          />
-          <MainKeypoint
-            data={collectionData[1]}
-            standalone={true}
-          />
-          <MainKeypoint
-            data={collectionData[2]}
-            standalone={true}
-          />
+          <For each={landingHighlights()}>
+            {(collection) => (
+              <MainKeypoint data={collection} standalone={true} />
+            )}
+          </For>
         </div>
       </div>
       <div class="bg-white dark:bg-black/90 w-full">
         <div class="w-full">
-          <Collection data={collectionData} />
+          <Collection
+            data={collectionData}
+            enableFull={collectionData.length < 3 ? true : false}
+          />
         </div>
         <div class="pt-18 pb-36 lg:border-t lg:border-b border-t-neutral-200 dark:border-t-neutral-900 border-b-neutral-200 dark:border-b-neutral-900 w-full dark:bg-neutral-950">
           <section class="flex flex-col lg:flex-row gap-18 items-center px-6 md:px-12 pt-18 mx-auto lg:max-w-7xl w-full">
             <div class="flex flex-col gap-6 lg:max-w-md px-6">
               <H1>Drop a line.</H1>
               <p class="text-black dark:text-white">
-                I'm always looking for new opportunities and collaborations. Whether you're interested in working together or just want to say hi, feel free to send me a message!
+                I'm always looking for new opportunities and collaborations.
+                Whether you're interested in working together or just want to
+                say hi, feel free to send me a message!
               </p>
             </div>
             <form
@@ -207,7 +215,8 @@ export default function Home() {
                     placeholder="Enter your message"
                   ></textarea>
                 </div>
-              </div><div>
+              </div>
+              <div>
                 <Button type="submit">Send Me a Message</Button>
               </div>
             </form>
