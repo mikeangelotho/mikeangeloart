@@ -133,6 +133,7 @@ export function MainKeypoint(props: {
                     </div>
                 </Show>
                 <article class="text-black dark:text-white w-fit dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 items-center flex gap-6 flex-col-reverse lg:flex-row bg-neutral-100 dark:bg-neutral-900 border border-black/10 dark:border-white/5">
+                    {/*
                     <div class="flex flex-col w-full lg:w-fit min-w-72 justify-center gap-3 border border-neutral-200 bg-neutral-50 dark:bg-neutral-800 dark:border-neutral-700 p-3 rounded-xl dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)]">
                         <Metric icon="/MA_Icons25_Lightbulb.svg">
                             {props.data.mainKeypointMetricOne}
@@ -141,6 +142,7 @@ export function MainKeypoint(props: {
                             {props.data.mainKeypointMetricTwo}
                         </Metric>
                     </div>
+                    */}
                     <div class="flex flex-col gap-3 justify-center">
                         <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1">
                             <ContainerLabel>Strategy</ContainerLabel>
