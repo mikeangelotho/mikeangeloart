@@ -1,47 +1,15 @@
 import { ContainerLabel, LinkButton, Tag } from "~/layout/Cards";
-import { PortfolioCollection, Video } from "./Collection";
-import { createResource, createSignal, For, JSXElement, Show } from "solid-js";
+import { PortfolioCollection } from "./Collection";
+import { For, Show } from "solid-js";
 import { A } from "@solidjs/router";
 import { H1 } from "~/layout/Headings";
 import VideoPlayer from "./VideoPlayer";
-import { Metric } from "./Metric";
-import { VimeoOEmbedVideo } from "./VideoLib";
 
 export function MainKeypoint(props: {
     data: PortfolioCollection;
     standalone?: boolean;
     reverse?: boolean;
 }) {
-
-    const MainMedia = () => {
-        const media = props.data.mainKeypointMedia;
-        if (media.includes(".jpg") || media.includes(".jpeg") || media.includes(".png")) {
-            return <img class="object-cover w-full" src={media} />
-        } else {
-            async function getThumb() {
-                if (media.includes("gumlet")) {
-                    const thumbUrl = media.split("/").map((val, idx) => {
-                        if (idx < 5) {
-                            return val;
-                        }
-                    }).join("/") + "/thumbnail-1-0.png";
-                    return thumbUrl
-                } else {
-                    const req = await fetch(`https://vimeo.com/api/oembed.json?url=${media}`);
-                    const data: VimeoOEmbedVideo = await req.json();
-                    return data.thumbnail_url;
-                }
-            }
-            const [thumb] = createResource(getThumb);
-            const video: Video = {
-                url: media,
-                thumbnail: thumb() ?? "",
-                title: "",
-                client: ""
-            }
-            return <VideoPlayer video={video} />
-        }
-    }
 
     return (
         <section class="z-1 w-full max-w-7xl mx-auto">
@@ -100,7 +68,7 @@ export function MainKeypoint(props: {
                 class="z-1 w-full flex flex-col gap-18 justify-center items-center max-w-5xl mx-auto"
             >
                 <div class="w-full rounded-xl overflow-hidden ring ring-neutral-200 dark:ring-neutral-900">
-                    <MainMedia />
+                    <VideoPlayer video={props.data.mainKeypointMedia} />
                 </div>
                 <Show when={props.standalone}>
                     <div class="flex items-center p-3 gap-2 w-full border border-neutral-200 dark:border-neutral-900 rounded-3xl cursor-pointer overflow-auto" style="scrollbar-width: none;">

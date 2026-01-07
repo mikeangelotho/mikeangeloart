@@ -1,5 +1,5 @@
 import { createEffect, createResource, createSignal, For, Show } from "solid-js";
-import { Video } from "./Collection";
+import { Media } from "./Collection";
 import { H2 } from "~/layout/Headings";
 import VideoPlayer from "./VideoPlayer";
 
@@ -28,7 +28,7 @@ export interface VimeoOEmbedVideo {
 }
 
 interface VideoLibProps {
-    videos: Video[];
+    videos: Media[];
 }
 
 export default function VideoLib(props: VideoLibProps) {

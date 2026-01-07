@@ -27,12 +27,12 @@ export interface PortfolioCollection extends Collection {
   clientName: string;
   clientLogo: string;
   projectObjective: string;
-  mainKeypointMedia: string;
+  mainKeypointMedia: Media;
   mainKeypointMetricOne: string;
   mainKeypointMetricTwo: string;
   mainKeypointDescription: string;
   projectKeypoints: PortfolioKeypoint[];
-  projectVideos: Video[]
+  projectVideos: Media[]
 }
 
 interface PortfolioKeypoint {
@@ -41,7 +41,7 @@ interface PortfolioKeypoint {
   media: string[];
 }
 
-export interface Video {
+export interface Media {
   title: string;
   client: string;
   url: string;

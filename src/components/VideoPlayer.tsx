@@ -1,7 +1,7 @@
-import { Video } from "./Collection";
+import { Media } from "./Collection";
 import VideoJSPlayer from "./VideoJSPlayer";
 
-export default function VideoPlayer(props: { video: Video }) {
+export default function VideoPlayer(props: { video: Media }) {
     if (props.video.url.includes("vimeo")) {
         return (
             <iframe
@@ -15,11 +15,17 @@ export default function VideoPlayer(props: { video: Video }) {
             <VideoJSPlayer video={props.video} />
         )
     } else {
-        return (
-            <img
-                src={props.video.url}
-                class="object-cover w-full"
-            />
-        )
+        if (props.video.url.includes("mp4")) {
+            return (
+                <video src={props.video.url} autoplay muted loop playsinline class="min-h-24 min-w-24 w-full object-cover rounded-xl" />
+            )
+        } else {
+            return (
+                <img
+                    src={props.video.url}
+                    class="object-cover w-full"
+                />
+            )
+        }
     }
 }
