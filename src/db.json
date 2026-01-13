@@ -316,7 +316,7 @@
         "description": "COVID created a surge in online car purchasing, so we had to adjust Benzel-Busch's website to match. We worked with a development team to build a brand new Wordpress site that delivers unmatched value to consumers looking to buy a new vehicle.",
         "media": [
           {
-            "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-bench-marketing/keypoint-media/bb-site-gif.mp4",
+            "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-site-gif.mp4",
             "altText": "Benzel-Busch responsive website demo showing inventory search and vehicle details"
           },
           {
@@ -474,5 +474,238 @@
         "description": "Gym consultation and fitness planning promotional content"
       }
     ]
+  },
+  {
+    "uuid": "4",
+    "id": 4,
+    "author": "Mike Angelo",
+    "title": "Fuel Your Fitness Fire",
+    "slug": "blauner-fitness-fuel-your-fitness-fire",
+    "cover": "https://cdn.mikeangelo.art/blauner-fitness-fuel-your-fitness-fire/cover.webp",
+    "coverAlt": "Blauner Fitness promotional campaign featuring at-home personal training services",
+    "tags": [
+      "Ad Campaign",
+      "Website Development",
+      "Organic Social Media",
+      "Paid Social Media",
+      "Digital Marketing"
+    ],
+    "dateAdded": "2025-12-02",
+    "lastModified": "2025-12-02",
+    "clientName": "Blauner Fitness",
+    "clientLogo": "https://cdn.mikeangelo.art/blauner-fitness-fuel-your-fitness-fire/pfmblogo.png",
+    "clientLogoAlt": "Blauner Fitness logo",
+    "projectObjective": "Blauner Fitness was looking for both a revitalized website and bold advertising campaign to launch a new at-home fitness service.",
+    "mainKeypointMedia": {
+      "title": "Main",
+      "client": "Blauner Fitness",
+      "url": "https://cdn.mikeangelo.art/blauner-fitness-fuel-your-fitness-fire/pfmb-main.mp4",
+      "thumbnail": "",
+      "altText": "Blauner Fitness campaign video highlighting at-home personal training services",
+      "description": "Primary campaign video introducing Blauner Fitness’ new at-home and GLP-1 focused training services"
+    },
+    "mainKeypointMetricOne": "+150% Website Impressions",
+    "mainKeypointMetricTwo": "+15% Social Media Engagement",
+    "mainKeypointDescription": "I worked with the founder to develop campaign strategies, fresh branding materials, and a new website to revitalize the brand and bring attention to the new services.",
+    "projectKeypoints": [
+      {
+        "title": "Refreshed Campaign Strategies",
+        "description": "I worked with the owner to develop new marketing strategies for different services he was ready to offer such as in-home personal training and a special GLP-1 fitness program.",
+        "media": [
+          {
+            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
+            "altText": "Blauner Fitness campaign strategy visual reference"
+          }
+        ]
+      },
+      {
+        "title": "Website and Landing Designs",
+        "description": "I used new photography and brand assets to revitalize Blauner Fitness' out-of-date website with a fresh new look, breakout pages, an FAQ section, and a consultation form.",
+        "media": [
+          {
+            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
+            "altText": "Blauner Fitness website redesign preview"
+          }
+        ]
+      },
+      {
+        "title": "Supplementary Marketing Materials",
+        "description": "We ran social media campaigns over the course of 6 months promoting the new services and supported them with direct-to-consumer mailer campaigns.",
+        "media": [
+          {
+            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
+            "altText": "Blauner Fitness supplemental marketing materials"
+          }
+        ]
+      }
+    ],
+    "projectVideos": []
+  },
+  {
+    "uuid": "5",
+    "id": 5,
+    "author": "Mike Angelo",
+    "title": "Seasonal Road Trip Series",
+    "slug": "benzel-busch-seasonal-road-trip-series",
+    "cover": "https://cdn.mikeangelo.art/benzel-busch-seasonal-road-trip-series/cover.webp",
+    "coverAlt": "Seasonal Mercedes-Benz road trip campaign featuring travel destinations and vehicles",
+    "tags": [
+      "Ad Campaign",
+      "Digital Banners",
+      "Paid Social Media",
+      "Organic Social Media"
+    ],
+    "dateAdded": "2025-12-02",
+    "lastModified": "2025-12-02",
+    "clientName": "Benzel-Busch",
+    "clientLogo": "https://cdn.mikeangelo.art/client-logos/MA_25-26-Website_ClientIcons_250x250_Bahlsen_white.png",
+    "clientLogoAlt": "Benzel-Busch logo",
+    "projectObjective": "Benzel-Busch wanted a new, unique ad campaign that focused on building customers' relationships with the Benzel-Busch brand.",
+    "mainKeypointMedia": {
+      "title": "Seasonal Road Trips",
+      "client": "Benzel-Busch",
+      "url": "https://player.vimeo.com/video/1081725997",
+      "thumbnail": "",
+      "altText": "Mercedes-Benz seasonal road trip campaign overview video",
+      "description": "Campaign video highlighting seasonal travel destinations paired with Mercedes-Benz vehicles"
+    },
+    "mainKeypointMetricOne": "200k Downloads",
+    "mainKeypointMetricTwo": "+15% Social Media Engagement",
+    "mainKeypointDescription": "We developed seasonal campaigns that outlined popular vacation destinations and included downloadable guides featuring attractions, accommodations, and recommended vehicles.",
+    "projectKeypoints": [
+      {
+        "title": "Planning the Road Trips",
+        "description": "We researched and developed seasonal vacation PDFs featuring destinations, local attractions, accommodations, and hidden local gems.",
+        "media": [
+          {
+            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
+            "altText": "Seasonal road trip planning and destination guide visuals"
+          }
+        ]
+      },
+      {
+        "title": "Integrated Sales Campaign",
+        "description": "We paired destinations with specific Mercedes-Benz models, highlighting features like AWD and 3-row seating.",
+        "media": [
+          {
+            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
+            "altText": "Mercedes-Benz vehicle feature highlights for road trips"
+          }
+        ]
+      },
+      {
+        "title": "Supplementary Social Media Content",
+        "description": "We encouraged customers to share their road trip experiences, generating ongoing buzz for the campaign.",
+        "media": [
+          {
+            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
+            "altText": "User-generated social media content from Mercedes-Benz road trips"
+          }
+        ]
+      }
+    ],
+    "projectVideos": []
+  },
+  {
+    "uuid": "6",
+    "id": 6,
+    "author": "Mike Angelo",
+    "title": "Hide Them at Home",
+    "slug": "bahlsen-hide-them-at-home",
+    "cover": "https://cdn.mikeangelo.art/bahlsen-hide-them-at-home/cover.webp",
+    "coverAlt": "Bahlsen snack advertising campaign themed around at-home lockdown humor",
+    "tags": [
+      "Ad Campaign",
+      "Video Editing",
+      "Digital Banners",
+      "Organic Social Media",
+      "Paid Social Media"
+    ],
+    "dateAdded": "2025-12-02",
+    "lastModified": "2025-12-02",
+    "clientName": "Bahlsen",
+    "clientLogo": "https://cdn.mikeangelo.art/client-logos/MA_25-26-Website_ClientIcons_250x250_Bahlsen_white.png",
+    "clientLogoAlt": "Bahlsen logo",
+    "projectObjective": "Advertising was at a stand-still due to COVID, so Bahlsen asked us to quickly come up with a campaign that would capitalize on the silence.",
+    "mainKeypointMedia": {
+      "title": "Hide Them at Home",
+      "client": "Bahlsen",
+      "url": "https://player.vimeo.com/video/1081725997",
+      "thumbnail": "",
+      "altText": "Bahlsen COVID-era snack campaign video",
+      "description": "Playful campaign highlighting the struggle of sharing snacks during lockdown"
+    },
+    "mainKeypointMetricOne": "+80% Website Views",
+    "mainKeypointMetricTwo": "+20% Sales Increase",
+    "mainKeypointDescription": "We created a fun, relatable campaign about hiding your favorite snacks during COVID lockdowns.",
+    "projectKeypoints": [
+      {
+        "title": "Concept Development",
+        "description": "We developed humorous scenarios inspired by shared lockdown experiences.",
+        "media": [
+          {
+            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
+            "altText": "Bahlsen Hide Them at Home campaign concept imagery"
+          }
+        ]
+      }
+    ],
+    "projectVideos": []
+  },
+  {
+    "uuid": "7",
+    "id": 7,
+    "author": "Mike Angelo",
+    "title": "EV Incentives & Protection Plan",
+    "slug": "benzel-busch-ev-incentive-protection-program",
+    "cover": "https://cdn.mikeangelo.art/benzel-busch-ev-incentive-protection-program/cover.webp",
+    "coverAlt": "Benzel-Busch electric vehicle incentive and protection plan advertising campaign",
+    "tags": [
+      "Ad Campaign",
+      "Video Editing",
+      "Art Direction",
+      "Organic Social Media",
+      "Paid Social Media"
+    ],
+    "dateAdded": "2025-12-02",
+    "lastModified": "2025-12-02",
+    "clientName": "Benzel-Busch",
+    "clientLogo": "https://cdn.mikeangelo.art/client-logos/MA_25-26-Website_ClientIcons_250x250_Bahlsen_white.png",
+    "clientLogoAlt": "Benzel-Busch logo",
+    "projectObjective": "Benzel-Busch developed an electric vehicle upgrade and protection plan program and asked us to create campaigns to build awareness.",
+    "mainKeypointMedia": {
+      "title": "EV Incentives & Protection",
+      "client": "Benzel-Busch",
+      "url": "https://player.vimeo.com/video/1081725997",
+      "thumbnail": "",
+      "altText": "Benzel-Busch electric vehicle incentive campaign video",
+      "description": "Mini-campaigns addressing EV myths and vehicle protection scenarios"
+    },
+    "mainKeypointMetricOne": "+50% Social Media Engagements",
+    "mainKeypointMetricTwo": "+15% In-Store Leads",
+    "mainKeypointDescription": "Two mini-campaigns tackled EV misconceptions and highlighted real-world protection plan use cases.",
+    "projectKeypoints": [
+      {
+        "title": "EV Myth Busting",
+        "description": "We interviewed actors exaggerating common EV myths to show how easy switching can be.",
+        "media": [
+          {
+            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
+            "altText": "Electric vehicle myth-busting campaign visuals"
+          }
+        ]
+      },
+      {
+        "title": "Protection Plan Scenarios",
+        "description": "We created lighthearted scenarios demonstrating the value of vehicle protection plans.",
+        "media": [
+          {
+            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
+            "altText": "Vehicle protection plan campaign scenarios"
+          }
+        ]
+      }
+    ],
+    "projectVideos": []
   }
 ]

@@ -118,7 +118,7 @@ function CollectionCell({
           </A>
           <A
             href={data.slug}
-            class="w-fit font-bold text-black dark:text-white hover:underline"
+            class="w-fit font-bold text-xl text-black dark:text-white hover:underline"
           >
             {data.title}
           </A>

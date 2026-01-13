@@ -78,7 +78,7 @@ export default function VideoLib(props: VideoLibProps) {
                                 return (
                                     <li ref={selector} class="cursor-pointer hover:bg-black/2 dark:hover:bg-white/2 p-3 flex items-center gap-3"
                                         onClick={() => {
-                                            setVideo(listVideo);
+                                            setVideo(listVideo as Media);
                                         }}><img class="rounded-xl aspect-video w-24" src={`${listVideo.thumbnail}`} />
                                         <div class="flex flex-col">
                                             <h6>{listVideo.title}</h6>

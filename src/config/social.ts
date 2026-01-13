@@ -4,7 +4,7 @@
 export const socialConfig = {
   // Twitter/X verification
   twitter: {
-    site: "@mikeangelo", // Your Twitter username
+    site: "@mikeangelotho", // Your Twitter username
     // Add your Twitter Card verification meta tag here when available
     // verification: "your-twitter-verification-code"
   },
@@ -17,7 +17,7 @@ export const socialConfig = {
   
   // LinkedIn
   linkedin: {
-    url: "https://linkedin.com/in/mikeangelo"
+    url: "https://linkedin.com/in/mikeangelotho"
   },
   
   // Additional social profiles

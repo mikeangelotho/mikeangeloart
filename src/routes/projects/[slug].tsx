@@ -120,24 +120,13 @@ export default function ProjectPage() {
       <main class="w-full">
         <Show when={project()} fallback={<div>Loading</div>} keyed>
           <Show when={lightboxImg()}>
-            <Lightbox 
-              src={{ get: lightboxImg, set: setLighboxImg }} 
-              altText={{ get: lightboxAlt, set: setLightboxAlt }} 
+            <Lightbox
+              src={{ get: lightboxImg, set: setLighboxImg }}
+              altText={lightboxAlt}
             />
           </Show>
-          
-          {/* Breadcrumb Navigation */}
-          <div class="px-6 py-4 bg-white/80 dark:bg-neutral-950/80 backdrop-blur border-b border-black/10 dark:border-white/10">
-            <div class="max-w-7xl mx-auto">
-              <Breadcrumbs
-                items={[
-                  { name: "Home", url: "/" },
-                  { name: "Projects", url: "/projects" },
-                  { name: project()?.title || "", url: `/projects/${project()?.slug}` }
-                ]}
-              />
-            </div>
-          </div>
+
+
           <Show when={project()?.cover} keyed>
             {p => (
               <Image
@@ -149,7 +138,7 @@ export default function ProjectPage() {
           <div class="-z-1 w-full fixed h-screen dark:backdrop-brightness-150 backdrop-saturate-200 bg-white mix-blend-soft-light"></div>
           <section class="h-full flex items-center bg-white/50 dark:bg-neutral-950/90">
             <article class="flex flex-col items-center w-full px-6">
-              <div class="flex flex-col gap-6 items-center w-full py-36 max-w-3xl">
+              <div class="flex flex-col gap-6 items-center w-full py-36 max-w-5xl">
                 <div
                   class="flex flex-col def__animate w-fit justify-center"
                 >
@@ -160,7 +149,7 @@ export default function ProjectPage() {
                   />
                 </div>
                 <span class="text-center"><H1>{project()?.title as string}</H1></span>
-                <div class="hidden lg:flex justify-center gap-1 w-full flex-wrap pt-18">
+                <div class="hidden lg:flex justify-center gap-1 w-full flex-wrap pt-18 max-w-xl">
                   <For each={project()?.tags}>
                     {(tag) => (
                       <Tag href={`/projects?tags=${tag.replace(" ", "+")}`}>
@@ -172,7 +161,19 @@ export default function ProjectPage() {
               </div>
             </article>
           </section>
-          <section class="bg-white dark:bg-neutral-950 lg:pt-18 border-t border-b border-black/10 dark:border-white/10 px-6">
+          <section class="bg-white dark:bg-neutral-950 border-t border-b border-black/10 dark:border-white/10 px-6">
+            {/* Breadcrumb Navigation */}
+            <div class="px-6 py-4 mb-18 md:mb-36 bg-white/80 dark:bg-neutral-950/80 backdrop-blur border-b border-black/10 dark:border-white/10">
+              <div class="max-w-7xl mx-auto">
+                <Breadcrumbs
+                  items={[
+                    { name: "Home", url: "/" },
+                    { name: "Projects", url: "/projects" },
+                    { name: project()?.title || "", url: `/projects/${project()?.slug}` }
+                  ]}
+                />
+              </div>
+            </div>
             <div class="flex flex-col lg:flex-row gap-3 max-w-3xl mx-auto my-18 p-6 border border-neutral-100 dark:border-neutral-900 rounded-3xl">
               <div class="text-black/10 dark:text-white/10 not-lg:border-b lg:border-r border-black/10 dark:border-white/10 w-fit pr-2 py-1 h-fit">
                 <ContainerLabel>Objective</ContainerLabel>
@@ -256,13 +257,13 @@ export default function ProjectPage() {
                             if (mediaObj.url.includes("mp4")) {
                               return (
                                 <>
-                                  <video ref={keypointMedia as HTMLVideoElement} src={mediaObj.url} autoplay muted loop playsinline class="border border-neutral-100 dark:border-neutral-900 rounded-xl aspect-auto cursor-pointer" 
+                                  <video ref={keypointMedia as HTMLVideoElement} src={mediaObj.url} autoplay muted loop playsinline class="border border-neutral-100 dark:border-neutral-900 rounded-xl aspect-auto cursor-pointer"
                                     title={mediaObj.altText}
                                     aria-label={mediaObj.altText}
                                     onClick={() => {
                                       setLighboxImg(mediaObj.url);
                                       setLightboxAlt(mediaObj.altText);
-                                  }} />
+                                    }} />
                                 </>
                               )
                             } else {
@@ -296,18 +297,14 @@ export default function ProjectPage() {
               <VideoLib videos={project()!.projectVideos} />
             </Show>
           </section>
-          
+
           {/* Related Projects */}
-          <RelatedProjects 
+          <RelatedProjects
             currentProject={project()!}
             allProjects={collectionData}
             maxItems={3}
           />
         </Show>
-        
-        <section class="bg-white dark:bg-black">
-          <Collection data={collectionData} />
-        </section>
       </main>
     </>
   );

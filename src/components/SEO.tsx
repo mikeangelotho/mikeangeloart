@@ -91,8 +91,8 @@ export default function SEO(props: SEOProps) {
       <Meta name="viewport" content="width=device-width, initial-scale=1.0" />
       
       {/* Structured Data */}
-      {structuredData.map((schema, index) => (
-        <script type="application/ld+json" key={index}>
+      {structuredData.map((schema) => (
+        <script type="application/ld+json">
           {JSON.stringify(schema)}
         </script>
       ))}
