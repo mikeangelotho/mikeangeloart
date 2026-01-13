@@ -30,6 +30,7 @@ export function MainKeypoint(props: {
                                     src={props.data.clientLogo}
                                     class="mx-auto brightness-0 dark:brightness-200 saturate-0 contrast-0 opacity-50 max-h-12 max-w-24"
                                     loading="lazy"
+                                    alt={props.data.clientLogoAlt}
                                 />
                             </div>
                             <A
@@ -76,11 +77,13 @@ export function MainKeypoint(props: {
                             {(project) => {
                                 return (
                                     <For each={project.media}>
-                                        {(media) => {
-                                            if (media.includes("mp4")) {
+                                        {(mediaObj) => {
+                                            if (mediaObj.url.includes("mp4")) {
                                                 return (
                                                     <A href={`/projects/${props.data.slug}`}>
-                                                        <video src={media} autoplay muted loop playsinline class="h-24 min-w-24 object-cover rounded-xl" />
+                                                        <video src={mediaObj.url} autoplay muted loop playsinline class="h-24 min-w-24 object-cover rounded-xl" 
+                                                            title={mediaObj.altText}
+                                                            aria-label={mediaObj.altText} />
                                                     </A>
                                                 )
                                             } else {
@@ -88,7 +91,8 @@ export function MainKeypoint(props: {
                                                     <A href={`/projects/${props.data.slug}`}>
                                                         <img
                                                             class="h-24 min-w-24 object-cover rounded-xl"
-                                                            src={media}
+                                                            src={mediaObj.url}
+                                                            alt={mediaObj.altText}
                                                         />
                                                     </A>
                                                 );

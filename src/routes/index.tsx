@@ -6,6 +6,7 @@ import Collection from "~/components/Collection";
 import { H1, H2 } from "~/layout/Headings";
 import { Button, ContainerLabel } from "~/layout/Cards";
 import { MainKeypoint } from "~/components/MainKeypoint";
+import SEO from "~/components/SEO";
 
 const collectionData: PortfolioCollection[] = data;
 const landingHighlightLength = 3;
@@ -139,7 +140,30 @@ export default function Home() {
   });
 
   return (
-    <main class="w-full relative flex flex-col justify-center items-center pb-12 mb-12">
+    <>
+      <SEO
+        title="Mike Angelo - Art Director & Web Designer in New York"
+        description="Award-winning art director and web designer serving NYC. Specializing in advertising campaigns, web design, and digital content creation that delivers results."
+        canonical="https://mikeangeloart.com"
+        ogImage="/og-home.jpg"
+        localBusiness={true}
+        organization={true}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Mike Angelo",
+          "jobTitle": "Art Director & Web Designer",
+          "description": "Award-winning art director and web designer serving greater New York area",
+          "url": "https://mikeangeloart.com",
+          "address": {
+            "@type": "PostalAddress",
+            "addressRegion": "NY",
+            "addressCountry": "US"
+          },
+          "knowsAbout": ["Art Direction", "Web Design", "Advertising Campaigns", "Content Creation"]
+        }}
+      />
+      <main class="w-full relative flex flex-col justify-center items-center pb-12 mb-12">
       <video
         ref={videoPanel}
         src="/Comp_3.mp4"
@@ -180,10 +204,10 @@ export default function Home() {
               class="min-w-72 min-h-72 not-dark:invert"
             ></figure>
             <div class="p-6 max-w-5xl text-center flex flex-col gap-6 rounded-3xl">
-              <H1>
+              <H2>
                 I like to make things look good, function well, and deliver
                 results.
-              </H1>
+              </H2>
               <p class="pt-6 max-w-lg mx-auto border-t border-neutral-200 dark:border-neutral-800">
                 I've developed full ad campaigns, commercials, landing pages and
                 websites, and countless other digital and physical assets.
@@ -209,7 +233,7 @@ export default function Home() {
         <div class="pt-18 pb-36 lg:border-t lg:border-b border-t-neutral-200 dark:border-t-neutral-900 border-b-neutral-200 dark:border-b-neutral-900 w-full dark:bg-neutral-950">
           <section class="flex flex-col lg:flex-row gap-18 items-center px-6 md:px-12 pt-18 mx-auto lg:max-w-7xl w-full">
             <div class="flex flex-col gap-6 lg:max-w-md px-6">
-              <H1>Drop a line.</H1>
+              <H2>Drop a line.</H2>
               <p class="text-black dark:text-white">
                 I'm always looking for new opportunities and collaborations.
                 Whether you're interested in working together or just want to
@@ -247,6 +271,7 @@ export default function Home() {
         </div>
       </div>
     </main>
+    </>
   );
 }
 

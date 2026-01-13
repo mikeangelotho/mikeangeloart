@@ -26,6 +26,8 @@ interface Collection {
 export interface PortfolioCollection extends Collection {
   clientName: string;
   clientLogo: string;
+  clientLogoAlt: string;
+  coverAlt: string;
   projectObjective: string;
   mainKeypointMedia: Media;
   mainKeypointMetricOne: string;
@@ -38,7 +40,10 @@ export interface PortfolioCollection extends Collection {
 interface PortfolioKeypoint {
   title: string;
   description: string;
-  media: string[];
+  media: {
+    url: string;
+    altText: string;
+  }[];
 }
 
 export interface Media {
@@ -46,6 +51,8 @@ export interface Media {
   client: string;
   url: string;
   thumbnail: string;
+  altText: string;
+  description: string;
 }
 
 function CollectionRow({ children }: { children: JSXElement }) {
@@ -89,6 +96,7 @@ function CollectionCell({
           src={data.cover}
           class="h-full w-full object-cover"
           loading="lazy"
+          alt={data.coverAlt}
         />
       </A>
       <div
@@ -97,6 +105,7 @@ function CollectionCell({
         <img
           src={data.clientLogo}
           class="brightness-0 dark:brightness-200 saturate-0 contrast-0 aspect-auto max-h-6"
+          alt={data.clientLogoAlt}
         />
       </div>
       <div class="min-h-18 lg:min-h-12 justify-center lg:rounded-3xl w-full lg:w-auto lg:inset-x-3 flex flex-col gap-2 def__animate group/tag group-hover/card:opacity-100 p-6 lg:opacity-0 absolute bottom-0 lg:bottom-3 z-1 bg-white/50 dark:bg-black/30 mx-auto backdrop-blur-xl backdrop-brightness-140 dark:backdrop-brightness-25">

@@ -13,6 +13,7 @@ import { Button, ContainerLabel, Tag } from "~/layout/Cards";
 import { H1, H2 } from "~/layout/Headings";
 import { fetchGithubAvatar } from ".";
 import { fetchGithubInfo, GitHubUser } from "~/hooks";
+import SEO from "~/components/SEO";
 
 const [githubAvatar] = createResource<string>(fetchGithubAvatar);
 
@@ -360,7 +361,33 @@ export default function About() {
   });
 
   return (
-    <main class="w-full relative">
+    <>
+      <SEO
+        title="About Mike Angelo - Art Director & Web Designer"
+        description="Learn about Mike Angelo, an art director and web designer in New York. Discover my journey from breaking computers to creating beautiful digital experiences."
+        canonical="https://mikeangeloart.com/about"
+        ogImage="/og-about.jpg"
+        breadcrumbs={[
+          { name: "Home", url: "https://mikeangeloart.com" },
+          { name: "About", url: "https://mikeangeloart.com/about" }
+        ]}
+        localBusiness={true}
+        organization={true}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Mike Angelo",
+          "jobTitle": "Art Director & Web Designer",
+          "description": "Art director and web designer with a passion for turning ideas into tangible, functional, and beautiful digital experiences.",
+          "url": "https://mikeangeloart.com/about",
+          "knowsAbout": ["Art Direction", "Web Design", "Digital Experiences", "Adobe Creative Suite", "Figma", "Web Development"],
+          "worksFor": {
+            "@type": "Organization",
+            "name": "Freelance"
+          }
+        }}
+      />
+      <main class="w-full relative">
       <video
         ref={videoPanel}
         src="/Comp_3.mp4"
@@ -418,5 +445,6 @@ export default function About() {
         </div>
       </div>
     </main>
+    </>
   );
 }

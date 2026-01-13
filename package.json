@@ -3,13 +3,15 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vinxi dev",
-		"build": "vinxi build",
+		"build": "node scripts/generate-sitemap.js && vinxi build",
 		"start": "vinxi start",
 		"preview": "bun run build && npx wrangler dev",
 		"deploy": "bun run build && wrangler deploy",
-		"cf-typegen": "wrangler types"
+		"cf-typegen": "wrangler types",
+		"generate-sitemap": "node scripts/generate-sitemap.js"
 	},
 	"dependencies": {
+		"@solidjs/meta": "^0.29.4",
 		"@solidjs/router": "^0.15.3",
 		"@solidjs/start": "^1.2.0",
 		"solid-js": "^1.9.10",

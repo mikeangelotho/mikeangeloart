@@ -15,6 +15,9 @@ import Collection, { PortfolioCollection } from "~/components/Collection";
 import VideoLib from "~/components/VideoLib";
 import { MainKeypoint } from "~/components/MainKeypoint";
 import { Lightbox } from "~/components/Lightbox";
+import SEO from "~/components/SEO";
+import { RelatedProjects } from "~/components/RelatedProjects";
+import { Breadcrumbs } from "~/components/Breadcrumbs";
 
 const collectionData: PortfolioCollection[] = data;
 
@@ -31,6 +34,7 @@ export default function ProjectPage() {
   const [project] = createResource(() => params.slug, findCollection);
 
   const [lightboxImg, setLighboxImg] = createSignal<string>();
+  const [lightboxAlt, setLightboxAlt] = createSignal<string>();
 
   createEffect(() => {
     if (project.state === "ready" && !project()) {
@@ -73,11 +77,67 @@ export default function ProjectPage() {
 
   return (
     <>
+      <Show when={project()} fallback={<div>Loading</div>} keyed>
+        {(p) => (
+          <SEO
+            title={`${p.title} - Portfolio Project by Mike Angelo`}
+            description={`${p.projectObjective?.substring(0, 160)}... Explore this ${p.tags?.join(', ')} project by Mike Angelo, art director and web designer.`}
+            canonical={`https://mikeangeloart.com/projects/${p.slug}`}
+            ogImage={p.cover}
+            ogType="article"
+            breadcrumbs={[
+              { name: "Home", url: "https://mikeangeloart.com" },
+              { name: "Projects", url: "https://mikeangeloart.com/projects" },
+              { name: p.title, url: `https://mikeangeloart.com/projects/${p.slug}` }
+            ]}
+            localBusiness={true}
+            jsonLd={{
+              "@context": "https://schema.org",
+              "@type": "CreativeWork",
+              "name": p.title,
+              "description": p.projectObjective,
+              "image": p.cover,
+              "url": `https://mikeangeloart.com/projects/${p.slug}`,
+              "creator": {
+                "@type": "Person",
+                "name": "Mike Angelo",
+                "jobTitle": "Art Director & Web Designer"
+              },
+              "client": {
+                "@type": "Organization",
+                "name": p.clientName
+              },
+              "keywords": p.tags?.join(", "),
+              "about": p.tags,
+              "dateCreated": p.dateAdded,
+              "dateModified": p.lastModified,
+              "genre": "Portfolio",
+              "learningResourceType": "Portfolio Project"
+            }}
+          />
+        )}
+      </Show>
       <main class="w-full">
         <Show when={project()} fallback={<div>Loading</div>} keyed>
           <Show when={lightboxImg()}>
-            <Lightbox src={{ get: lightboxImg, set: setLighboxImg }} />
+            <Lightbox 
+              src={{ get: lightboxImg, set: setLighboxImg }} 
+              altText={{ get: lightboxAlt, set: setLightboxAlt }} 
+            />
           </Show>
+          
+          {/* Breadcrumb Navigation */}
+          <div class="px-6 py-4 bg-white/80 dark:bg-neutral-950/80 backdrop-blur border-b border-black/10 dark:border-white/10">
+            <div class="max-w-7xl mx-auto">
+              <Breadcrumbs
+                items={[
+                  { name: "Home", url: "/" },
+                  { name: "Projects", url: "/projects" },
+                  { name: project()?.title || "", url: `/projects/${project()?.slug}` }
+                ]}
+              />
+            </div>
+          </div>
           <Show when={project()?.cover} keyed>
             {p => (
               <Image
@@ -160,8 +220,9 @@ export default function ProjectPage() {
                       </div>
                       <div class="w-full flex flex-col gap-6 lg:gap-18 items-end">
                         <For each={keypoint.media}>
-                          {(media) => {
+                          {(mediaObj) => {
                             const filename = () => {
+                              const media = mediaObj.url;
                               if (media.includes(".jpeg")) {
                                 return media.split(".jpeg")[0];
                               } else if (media.includes(".jpg")) {
@@ -192,11 +253,15 @@ export default function ProjectPage() {
                               onCleanup(() => observer.disconnect());
                             });
 
-                            if (media.includes("mp4")) {
+                            if (mediaObj.url.includes("mp4")) {
                               return (
                                 <>
-                                  <video ref={keypointMedia as HTMLVideoElement} src={media} autoplay muted loop playsinline class="border border-neutral-100 dark:border-neutral-900 rounded-xl aspect-auto cursor-pointer" onClick={() => {
-                                    setLighboxImg(media);
+                                  <video ref={keypointMedia as HTMLVideoElement} src={mediaObj.url} autoplay muted loop playsinline class="border border-neutral-100 dark:border-neutral-900 rounded-xl aspect-auto cursor-pointer" 
+                                    title={mediaObj.altText}
+                                    aria-label={mediaObj.altText}
+                                    onClick={() => {
+                                      setLighboxImg(mediaObj.url);
+                                      setLightboxAlt(mediaObj.altText);
                                   }} />
                                 </>
                               )
@@ -205,18 +270,20 @@ export default function ProjectPage() {
                                 <picture ref={keypointMedia}>
                                   <source srcset={`${filename()}.webp`} type="image/webp" onClick={() => {
                                     setLighboxImg(`${filename()}.webp`);
+                                    setLightboxAlt(mediaObj.altText);
                                   }} />
                                   <img
                                     class="border border-neutral-100 dark:border-neutral-900 w-full h-auto aspect-auto rounded-xl max-w-xl hover:brightness-105 hover:saturate-125 def__animate cursor-pointer"
                                     onClick={() => {
-                                      setLighboxImg(media);
+                                      setLighboxImg(mediaObj.url);
+                                      setLightboxAlt(mediaObj.altText);
                                     }}
-                                    src={media}
+                                    src={mediaObj.url}
+                                    alt={mediaObj.altText}
                                   />
                                 </picture>
-                              );
+                              )
                             }
-
                           }}
                         </For>
                       </div>
@@ -229,7 +296,15 @@ export default function ProjectPage() {
               <VideoLib videos={project()!.projectVideos} />
             </Show>
           </section>
+          
+          {/* Related Projects */}
+          <RelatedProjects 
+            currentProject={project()!}
+            allProjects={collectionData}
+            maxItems={3}
+          />
         </Show>
+        
         <section class="bg-white dark:bg-black">
           <Collection data={collectionData} />
         </section>
