@@ -24,7 +24,8 @@ export default function Home() {
     };
 
     // Enhanced mobile video autoplay handler
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isMobile = window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     const attemptAutoplay = async () => {
       if (!videoPanel) return;
@@ -34,6 +35,14 @@ export default function Home() {
       videoPanel.loop = true;
       videoPanel.controls = false;
       videoPanel.playsInline = true;
+      
+      // Mobile optimizations
+      if (isMobile) {
+        // Reduce video quality on mobile by setting lower resolution if possible
+        videoPanel.style.filter = "blur(0.5px)"; // Slight blur can improve performance
+        // Set lower playback rate on mobile to save battery
+        videoPanel.playbackRate = 0.9;
+      }
 
       try {
         await videoPanel.play();
@@ -89,13 +98,21 @@ export default function Home() {
       });
     }, observerOptions);
 
-    const videoObserver = new IntersectionObserver((entries) => {
+const videoObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const target = entry.target as HTMLElement;
         if (entry.isIntersecting) {
           target.style.opacity = "1";
+          // Resume playback when visible
+          if (videoPanel && videoPanel.paused) {
+            videoPanel.play().catch(() => {});
+          }
         } else {
-          target.style.opacity = "0.25";
+          target.style.opacity = isMobile ? "0" : "0.25";
+          // Pause video on mobile when not visible to save battery
+          if (isMobile && videoPanel && !videoPanel.paused) {
+            videoPanel.pause();
+          }
         }
       });
     }, observerOptions);
@@ -164,27 +181,28 @@ export default function Home() {
         }}
       />
       <main class="w-full relative flex flex-col justify-center items-center pb-12 mb-12">
-        <video
+<video
           ref={videoPanel}
           src="/Comp_3.mp4"
           class="w-full dark:-hue-rotate-90 not-dark:hue-rotate-45 not-dark:invert not-dark:brightness-200 -z-10 aspect-video object-cover h-screen mx-auto fixed top-0"
-          preload="auto"
+          preload="metadata"
           muted
           autoplay
           loop
           controls={false}
           playsinline
+          poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect fill='%23000' width='1920' height='1080'/%3E%3C/svg%3E"
         ></video>
-        <section class="mx-auto max-w-7xl overflow-hidden perspective-normal mix-blend-difference h-screen lg:pb-36 w-full flex justify-center items-center lg:items-end">
+        <section class="mx-auto max-w-7xl overflow-hidden perspective-normal mix-blend-difference h-screen md:pb-12 lg:pb-36 xl:pb-48 w-full flex justify-center items-center md:items-end lg:items-end">
           <article
             ref={introPanel}
             style={{ transform: "translateZ(calc(var(--scroll-y, 0px) * -0.5))" }}
-            class="intro-panel px-6 fixed w-fit flex flex-col justify-center items-center md:flex-row gap-6"
+            class="intro-panel px-4 sm:px-6 md:px-8 fixed w-fit max-w-[90vw] flex flex-col justify-center items-center md:flex-row gap-4 md:gap-6 lg:gap-8"
           >
-            <div class="text-white/20 h-fit not-md:border-b md:border-r md:pr-2 pb-1">
+            <div class="text-white/20 h-fit not-md:border-b md:border-r md:pr-2 lg:pr-4 pb-1 text-sm md:text-base">
               <ContainerLabel>Intro</ContainerLabel>
             </div>
-            <div class="not-dark:invert flex flex-col gap-6 py-4 justify-center text-center md:text-left w-full max-w-3xl">
+            <div class="not-dark:invert flex flex-col gap-4 md:gap-6 py-4 justify-center text-center md:text-left w-full max-w-3xl lg:max-w-4xl xl:max-w-5xl">
               <H1>Hey! My name's Mike.</H1>
               <H2>
                 <span class="font-normal italic transition-opacity duration-100 ease-out">
@@ -197,25 +215,25 @@ export default function Home() {
           </article>
         </section>
         <div class="work-panel w-full flex flex-col items-center border-t border-b border-neutral-200 dark:border-neutral-900 backdrop-blur-3xl">
-          <section class="flex flex-col justify-center items-center text-black dark:text-white pt-18 pb-36 px-12 max-w-7xl">
+          <section class="flex flex-col justify-center items-center text-black dark:text-white pt-12 md:pt-16 lg:pt-18 xl:pt-24 pb-24 md:pb-32 lg:pb-36 xl:pb-48 px-6 sm:px-8 md:px-12 lg:px-16 max-w-7xl">
             <div class="flex flex-col justify-center items-center">
-              <figure
+<figure
                 ref={wrapper3d}
-                class="min-w-72 min-h-72 not-dark:invert"
+                class="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 not-dark:invert"
               ></figure>
-              <div class="p-6 max-w-5xl text-center flex flex-col gap-6 rounded-3xl">
+              <div class="p-4 sm:p-6 md:p-8 max-w-4xl lg:max-w-5xl text-center flex flex-col gap-4 md:gap-6 rounded-2xl md:rounded-3xl">
                 <H2>
                   I like to make things look good, function well, and deliver
                   results.
                 </H2>
-                <p class="pt-6 max-w-lg mx-auto border-t border-neutral-200 dark:border-neutral-800">
+                <p class="pt-4 md:pt-6 max-w-md lg:max-w-lg mx-auto border-t border-neutral-200 dark:border-neutral-800 text-sm md:text-base">
                   I've developed full ad campaigns, commercials, landing pages and
                   websites, and countless other digital and physical assets.
                 </p>
               </div>
             </div>
           </section>
-          <div class="flex flex-col gap-36 py-18 lg:py-36 px-6 w-full bg-white dark:bg-neutral-950 border-t border-t-neutral-200 dark:border-t-neutral-900">
+          <div class="flex flex-col gap-24 md:gap-32 lg:gap-36 xl:gap-48 py-12 md:py-16 lg:py-18 xl:py-24 px-4 sm:px-6 md:px-8 w-full bg-white dark:bg-neutral-950 border-t border-t-neutral-200 dark:border-t-neutral-900">
             <For each={collectionData}>
               {(collection, idx) => idx() < landingHighlightLength && (
                 <MainKeypoint data={collection} standalone={true} />
@@ -231,8 +249,8 @@ export default function Home() {
             />
           </div>
           <div class="pt-18 pb-36 lg:border-t lg:border-b border-t-neutral-200 dark:border-t-neutral-900 border-b-neutral-200 dark:border-b-neutral-900 w-full dark:bg-neutral-950">
-            <section class="flex flex-col lg:flex-row gap-18 items-center px-6 md:px-12 pt-18 mx-auto lg:max-w-7xl w-full">
-              <div class="flex flex-col gap-6 lg:max-w-md px-6">
+            <section class="flex flex-col lg:flex-row gap-12 md:gap-16 lg:gap-18 xl:gap-24 items-center px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 pt-12 md:pt-16 lg:pt-18 xl:pt-24 mx-auto lg:max-w-7xl w-full">
+              <div class="flex flex-col gap-4 md:gap-6 lg:max-w-md xl:max-w-lg px-4 sm:px-6">
                 <H2>Drop a line.</H2>
                 <p class="text-black dark:text-white">
                   I'm always looking for new opportunities and collaborations.
@@ -241,7 +259,7 @@ export default function Home() {
                 </p>
               </div>
               <form
-                class="w-full flex flex-col gap-6 p-6 bg-neutral-100 dark:bg-neutral-900 rounded-3xl border dark:border-t-white border-neutral-300 dark:border-neutral-900 dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)]"
+                class="w-full flex flex-col gap-4 md:gap-6 p-4 sm:p-6 bg-neutral-100 dark:bg-neutral-900 rounded-2xl md:rounded-3xl border dark:border-t-white border-neutral-300 dark:border-neutral-900 dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)]"
                 action="https://api.web3forms.com/submit"
                 method="post"
               >
@@ -251,15 +269,16 @@ export default function Home() {
                     name="access_key"
                     value="4ead391c-7d7a-4e29-9e39-9a81fd36f09e"
                   />
-                  <div class="flex flex-col gap-1">
+<div class="flex flex-col gap-2">
                     <Label>Email</Label>
-                    <Input type="text" placeholder="Enter your email" />
+                    <Input type="email" placeholder="Enter your email" />
                   </div>
-                  <div class="flex flex-col gap-1">
+                  <div class="flex flex-col gap-2">
                     <Label>Message</Label>
                     <textarea
-                      class="min-h-36 placeholder-black/25 resize-none dark:placeholder-white/25 bg-white dark:bg-white/5 text-black/25 focus:text-black dark:text-white/25 dark:focus:text-white rounded-md px-3 py-1 outline outline-transparent border border-black/10 dark:border-white/10 focus:outline-black/50 dark:focus:outline-white/50 hover:outline-black/25 dark:hover:outline-white/25 def__animate"
+                      class="min-h-24 sm:min-h-32 md:min-h-36 placeholder-black/25 resize-none dark:placeholder-white/25 bg-white dark:bg-white/5 text-black/25 focus:text-black dark:text-white/25 dark:focus:text-white rounded-md px-3 py-2 sm:py-3 outline outline-transparent border border-black/10 dark:border-white/10 focus:outline-black/50 dark:focus:outline-white/50 hover:outline-black/25 dark:hover:outline-white/25 def__animate text-base touch-resize"
                       placeholder="Enter your message"
+                      rows="4"
                     ></textarea>
                   </div>
                 </div>
@@ -293,7 +312,7 @@ const Input = ({
   return (
     <input
       type={type}
-      class="placeholder-black/25 dark:placeholder-white/25 bg-white dark:bg-white/5 text-black/25 focus:text-black dark:text-white/25 dark:focus:text-white rounded-md px-3 py-1 outline outline-transparent border border-neutral-300 dark:border-neutral-900 focus:outline-black/50 dark:focus:outline-white/50 hover:outline-black/25 dark:hover:outline-white/25 def__animate"
+      class="placeholder-black/25 dark:placeholder-white/25 bg-white dark:bg-white/5 text-black/25 focus:text-black dark:text-white/25 dark:focus:text-white rounded-md px-3 py-2 sm:py-3 outline outline-transparent border border-neutral-300 dark:border-neutral-900 focus:outline-black/50 dark:focus:outline-white/50 hover:outline-black/25 dark:hover:outline-white/25 def__animate text-base"
       placeholder={placeholder}
     />
   );

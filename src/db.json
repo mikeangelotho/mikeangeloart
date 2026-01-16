@@ -513,7 +513,11 @@
         "description": "I worked with the owner to develop new marketing strategies for different services he was ready to offer such as in-home personal training and a special GLP-1 fitness program.",
         "media": [
           {
-            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
+            "url": "https://cdn.mikeangelo.art/blauner-fitness-fuel-your-fitness-fire/keypoint-media/pfmb-kickstarter-wide.png",
+            "altText": "Blauner Fitness campaign strategy visual reference"
+          },
+          {
+            "url": "https://cdn.mikeangelo.art/blauner-fitness-fuel-your-fitness-fire/keypoint-media/pfmb-print-ad.png",
             "altText": "Blauner Fitness campaign strategy visual reference"
           }
         ]
@@ -523,7 +527,7 @@
         "description": "I used new photography and brand assets to revitalize Blauner Fitness' out-of-date website with a fresh new look, breakout pages, an FAQ section, and a consultation form.",
         "media": [
           {
-            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
+            "url": "https://cdn.mikeangelo.art/blauner-fitness-fuel-your-fitness-fire/keypoint-media/pfmb-social.png",
             "altText": "Blauner Fitness website redesign preview"
           }
         ]
@@ -533,8 +537,12 @@
         "description": "We ran social media campaigns over the course of 6 months promoting the new services and supported them with direct-to-consumer mailer campaigns.",
         "media": [
           {
-            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
-            "altText": "Blauner Fitness supplemental marketing materials"
+            "url": "https://cdn.mikeangelo.art/blauner-fitness-fuel-your-fitness-fire/keypoint-media/pfmb-mailer.png",
+            "altText": "Blauner Fitness campaign strategy visual reference"
+          },
+          {
+            "url": "https://cdn.mikeangelo.art/blauner-fitness-fuel-your-fitness-fire/keypoint-media/pfmb-influencers-flier.png",
+            "altText": "Blauner Fitness campaign strategy visual reference"
           }
         ]
       }

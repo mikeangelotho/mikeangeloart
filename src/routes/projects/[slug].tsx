@@ -18,6 +18,8 @@ import { Lightbox } from "~/components/Lightbox";
 import SEO from "~/components/SEO";
 import { RelatedProjects } from "~/components/RelatedProjects";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
+import { Picture } from "~/components/Picture";
+import { createImageSources } from "~/utils/image";
 
 const collectionData: PortfolioCollection[] = data;
 
@@ -42,38 +44,13 @@ export default function ProjectPage() {
     }
   });
 
-  const [coverWebP, setCoverWebP] = createSignal<string>();
 
-  createEffect(() => {
-    const p = project();
-    if (!p) return;
-
-    if (p.cover.endsWith(".jpg") || p.cover.endsWith(".jpeg")) {
-      const base = p.cover.replace(/\.(jpg|jpeg)$/i, "");
-      setCoverWebP(`${base}.webp`);
-    } else {
-      setCoverWebP("");
-    }
-  });
 
   createEffect(() => {
     document.body.classList.toggle("overflow-hidden", lightboxImg() ? true : false)
   })
 
-  const Image = (props: { jpeg: string; webp?: string }) => {
-    return (
-      <picture>
-        <Show when={props.webp}>
-          <source srcset={props.webp} type="image/webp" />
-        </Show>
-        <img
-          src={props.jpeg}
-          class="-z-1 w-full object-cover scale-120 h-full fixed top-0 blur-xl"
-          loading="eager"
-        />
-      </picture>
-    );
-  };
+
 
   return (
     <>
@@ -127,11 +104,13 @@ export default function ProjectPage() {
           </Show>
 
 
-          <Show when={project()?.cover} keyed>
+<Show when={project()?.cover} keyed>
             {p => (
-              <Image
-                jpeg={p}
-                webp={coverWebP() || undefined}
+              <Picture
+                src={p}
+                alt={`${project()?.title} cover image`}
+                class="-z-1 w-full object-cover scale-120 h-full fixed top-0 blur-xl"
+                loading="eager"
               />
             )}
           </Show>
@@ -163,7 +142,7 @@ export default function ProjectPage() {
           </section>
           <section class="bg-white dark:bg-neutral-950 border-t border-b border-black/10 dark:border-white/10 px-6">
             {/* Breadcrumb Navigation */}
-            <div class="px-6 py-4 mb-18 md:mb-36 bg-white/80 dark:bg-neutral-950/80 backdrop-blur border-b border-black/10 dark:border-white/10">
+            <div class="px-6 py-4 mb-18 md:mb-18 bg-white/80 dark:bg-neutral-950/80 backdrop-blur border-b border-black/10 dark:border-white/10">
               <div class="max-w-7xl mx-auto">
                 <Breadcrumbs
                   items={[
@@ -174,15 +153,17 @@ export default function ProjectPage() {
                 />
               </div>
             </div>
-            <div class="flex flex-col lg:flex-row gap-3 max-w-3xl mx-auto my-18 p-6 border border-neutral-100 dark:border-neutral-900 rounded-3xl">
-              <div class="text-black/10 dark:text-white/10 not-lg:border-b lg:border-r border-black/10 dark:border-white/10 w-fit pr-2 py-1 h-fit">
-                <ContainerLabel>Objective</ContainerLabel>
+            <div class="text-black dark:text-white w-fit dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 items-center flex gap-6 flex-col-reverse lg:flex-row bg-neutral-100 dark:bg-neutral-900 border border-black/10 dark:border-white/5 mx-auto">
+              <div class="max-w-3xl flex flex-col gap-3 justify-center">
+                <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1">
+                  <ContainerLabel>Objective</ContainerLabel>
+                </div>
+                <p class="text-left text-black dark:text-white">
+                  {project()?.projectObjective}
+                </p>
               </div>
-              <p class="text-black dark:text-white">
-                {project()?.projectObjective}
-              </p>
             </div>
-            <section class="pb-18 lg:pt-18 lg:pb-36">
+            <section class="pb-18 lg:pt-14">
               <Show when={project()} keyed>
                 {(p) => <MainKeypoint data={p} />}
               </Show>
@@ -222,16 +203,7 @@ export default function ProjectPage() {
                       <div class="w-full flex flex-col gap-6 lg:gap-18 items-end">
                         <For each={keypoint.media}>
                           {(mediaObj) => {
-                            const filename = () => {
-                              const media = mediaObj.url;
-                              if (media.includes(".jpeg")) {
-                                return media.split(".jpeg")[0];
-                              } else if (media.includes(".jpg")) {
-                                return media.split(".jpg")[0]
-                              } else if (media.includes(".png")) {
-                                return media.split(".png")[0]
-                              }
-                            }
+
                             let keypointMedia!: HTMLElement;
 
                             onMount(() => {
@@ -266,23 +238,21 @@ export default function ProjectPage() {
                                     }} />
                                 </>
                               )
-                            } else {
+} else {
                               return (
-                                <picture ref={keypointMedia}>
-                                  <source srcset={`${filename()}.webp`} type="image/webp" onClick={() => {
-                                    setLighboxImg(`${filename()}.webp`);
+                                <Picture
+                                  src={mediaObj.url}
+                                  alt={mediaObj.altText}
+                                  class="border border-neutral-100 dark:border-neutral-900 w-full h-auto aspect-auto rounded-xl max-w-xl hover:brightness-105 hover:saturate-125 def__animate cursor-pointer"
+                                  onClick={(event, displayedUrl) => {
+                                    setLighboxImg(displayedUrl);
                                     setLightboxAlt(mediaObj.altText);
-                                  }} />
-                                  <img
-                                    class="border border-neutral-100 dark:border-neutral-900 w-full h-auto aspect-auto rounded-xl max-w-xl hover:brightness-105 hover:saturate-125 def__animate cursor-pointer"
-                                    onClick={() => {
-                                      setLighboxImg(mediaObj.url);
-                                      setLightboxAlt(mediaObj.altText);
-                                    }}
-                                    src={mediaObj.url}
-                                    alt={mediaObj.altText}
-                                  />
-                                </picture>
+                                  }}
+                                  onDisplayUrlChange={(displayedUrl) => {
+                                    // Keep track of the displayed URL for consistency
+                                  }}
+                                  ref={keypointMedia}
+                                />
                               )
                             }
                           }}

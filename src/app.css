@@ -86,44 +86,88 @@
    transition: opacity 500ms ease-out;
  }
 
- /* Hide native video controls on mobile browsers */
- video::-webkit-media-controls {
-   display: none !important;
- }
+/* Hide native video controls on mobile browsers */
+video::-webkit-media-controls {
+  display: none !important;
+}
 
- video::-webkit-media-controls-start-playback-button {
-   display: none !important;
-   -webkit-appearance: none;
- }
+video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
 
- video::-webkit-media-controls-panel {
-   display: none !important;
- }
+video::-webkit-media-controls-panel {
+  display: none !important;
+}
 
- video::-webkit-media-controls-play-button {
-   display: none !important;
- }
+video::-webkit-media-controls-play-button {
+  display: none !important;
+}
 
- video::-webkit-media-controls-timeline {
-   display: none !important;
- }
+video::-webkit-media-controls-timeline {
+  display: none !important;
+}
 
- video::-webkit-media-controls-current-time-display {
-   display: none !important;
- }
+video::-webkit-media-controls-current-time-display {
+  display: none !important;
+}
 
- video::-webkit-media-controls-time-remaining-display {
-   display: none !important;
- }
+video::-webkit-media-controls-time-remaining-display {
+  display: none !important;
+}
 
- video::-webkit-media-controls-mute-button {
-   display: none !important;
- }
+video::-webkit-media-controls-mute-button {
+  display: none !important;
+}
 
- video::-webkit-media-controls-toggle-closed-captions-button {
-   display: none !important;
- }
+video::-webkit-media-controls-toggle-closed-captions-button {
+  display: none !important;
+}
 
- video::-webkit-media-controls-fullscreen-button {
-   display: none !important;
- }
+video::-webkit-media-controls-fullscreen-button {
+  display: none !important;
+}
+
+/* Mobile touch optimizations */
+.touch-resize {
+  resize: both;
+  overflow: auto;
+}
+
+@media (max-width: 767px) {
+  .touch-resize {
+    resize: vertical;
+    min-height: 120px;
+  }
+}
+
+/* Better tap targets for mobile */
+@media (max-width: 767px) {
+  button, 
+  a, 
+  input, 
+  textarea, 
+  select {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Improved focus styles for accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+.dark button:focus-visible,
+.dark a:focus-visible,
+.dark input:focus-visible,
+.dark textarea:focus-visible,
+.dark select:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
