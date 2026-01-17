@@ -62,11 +62,10 @@ export default function Navbar() {
         <div ref={logoEl} class="flex justify-between items-center px-4 sm:px-6 lg:px-0 py-4 sm:py-6 w-full">
           <A
             href="/"
-
-            class="flex items-center gap-3 hover:brightness-50 def__animate"
+            class="font-sans flex items-center gap-3 hover:brightness-50 def__animate"
           >
             <img src="/MA_Logo_SharpMA_White.svg" loading="eager" width="32" height="auto" class="w-8 h-8 sm:w-9 sm:h-9" />
-<span class="leading-3 sm:leading-4 text-xs sm:text-sm tracking-[2px] sm:tracking-[3px] text-white uppercase">
+            <span class="leading-3 sm:leading-4 text-xs sm:text-sm tracking-[2px] sm:tracking-[3px] text-white uppercase">
               Mike
               <br />
               Angelo
@@ -88,7 +87,7 @@ export default function Navbar() {
               setShowMobileMenu(false);
             }} />
           </div>
-          <div ref={mobileMenuIcon} class="bg-white rounded-lg cursor-pointer hover:scale-105 active:scale-95 def__animate lg:hidden text-2xl sm:text-3xl text-black pb-1 sm:pb-2 mb-1 px-3 sm:px-4 py-2 min-w-[44px] min-h-[44px] flex items-center justify-center" onClick={() => {
+          <div ref={mobileMenuIcon} class="bg-white rounded-lg cursor-pointer hover:scale-105 active:scale-95 def__animate lg:hidden text-2xl sm:text-3xl text-black pb-1 sm:pb-2 mb-1 px-3 sm:px-4 py-2 min-w-11 min-h-11 flex items-center justify-center" onClick={() => {
             toggleMobileMenu();
           }}>
             ⩩

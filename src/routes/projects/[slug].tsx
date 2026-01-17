@@ -104,7 +104,7 @@ export default function ProjectPage() {
           </Show>
 
 
-<Show when={project()?.cover} keyed>
+          <Show when={project()?.cover} keyed>
             {p => (
               <Picture
                 src={p}
@@ -238,7 +238,7 @@ export default function ProjectPage() {
                                     }} />
                                 </>
                               )
-} else {
+                            } else {
                               return (
                                 <Picture
                                   src={mediaObj.url}
@@ -251,7 +251,7 @@ export default function ProjectPage() {
                                   onDisplayUrlChange={(displayedUrl) => {
                                     // Keep track of the displayed URL for consistency
                                   }}
-                                  ref={keypointMedia}
+                                  ref={keypointMedia as HTMLPictureElement}
                                 />
                               )
                             }

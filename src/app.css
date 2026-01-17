@@ -1,10 +1,22 @@
- @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Inconsolata:wght@200..900&display=swap');
+@import "tailwindcss";
 
- @custom-variant dark (&:where(.dark, .dark *));
+@theme {
+  /* This registers the font so you can use utility classes like font-fira */
+  --font-fira: "Fira Code", monospace;
+}
 
- :root {
-   background-color: white;
- }
+@layer base {
+  h1, h2, button {
+    font-family: var(--font-fira);
+  }
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  background-color: white;
+}
 
  .dark {
    background-color: black;

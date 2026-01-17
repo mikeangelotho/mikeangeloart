@@ -205,7 +205,7 @@ const videoObserver = new IntersectionObserver((entries) => {
             <div class="not-dark:invert flex flex-col gap-4 md:gap-6 py-4 justify-center text-center md:text-left w-full max-w-3xl lg:max-w-4xl xl:max-w-5xl">
               <H1>Hey! My name's Mike.</H1>
               <H2>
-                <span class="font-normal italic transition-opacity duration-100 ease-out">
+                <span class="font-normal font-sans italic transition-opacity duration-100 ease-out">
                   I'm an art director <br class="block md:hidden" />& web
                   developer
                 </span>
@@ -221,7 +221,7 @@ const videoObserver = new IntersectionObserver((entries) => {
                 ref={wrapper3d}
                 class="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 not-dark:invert"
               ></figure>
-              <div class="p-4 sm:p-6 md:p-8 max-w-4xl lg:max-w-5xl text-center flex flex-col gap-4 md:gap-6 rounded-2xl md:rounded-3xl">
+              <div class="p-4 sm:p-6 md:p-8 max-w-3xl text-center flex flex-col gap-4 md:gap-6 rounded-2xl md:rounded-3xl">
                 <H2>
                   I like to make things look good, function well, and deliver
                   results.

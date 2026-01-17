@@ -11,7 +11,7 @@ interface PictureProps {
   onLoad?: (event: Event) => void;
   // For lightbox integration
   onDisplayUrlChange?: (displayedUrl: string) => void;
-  ref?: (element: HTMLElement) => void;
+  ref?: HTMLElement;
 }
 
 export function Picture(props: PictureProps) {
@@ -19,7 +19,7 @@ export function Picture(props: PictureProps) {
   const [isLoading, setIsLoading] = createSignal(true);
 
   const imageSources = () => createImageSources(props.src);
-  
+
   // Determine which URL will be displayed (WebP if available and supported)
   const getDisplayedUrl = (): string => {
     if (hasError()) return props.src;
@@ -47,9 +47,9 @@ export function Picture(props: PictureProps) {
   return (
     <picture ref={props.ref}>
       <Show when={imageSources().webp && !hasError()}>
-        <source 
-          srcset={imageSources().webp!.srcset} 
-          type="image/webp" 
+        <source
+          srcset={imageSources().webp!.srcset}
+          type="image/webp"
         />
       </Show>
       <img
@@ -78,7 +78,7 @@ export function ResponsivePicture(props: ResponsivePictureProps) {
   const [isLoading, setIsLoading] = createSignal(true);
 
   const imageSources = () => createImageSources(props.src);
-  
+
   const getDisplayedUrl = (): string => {
     if (hasError()) return props.src;
     const sources = imageSources();
@@ -105,9 +105,9 @@ export function ResponsivePicture(props: ResponsivePictureProps) {
   return (
     <picture>
       <Show when={imageSources().webp && !hasError()}>
-        <source 
-          srcset={imageSources().webp!.srcset} 
-          type="image/webp" 
+        <source
+          srcset={imageSources().webp!.srcset}
+          type="image/webp"
           sizes={props.sizes}
         />
       </Show>
