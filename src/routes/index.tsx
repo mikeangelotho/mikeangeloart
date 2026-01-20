@@ -205,7 +205,7 @@ const videoObserver = new IntersectionObserver((entries) => {
             <div class="not-dark:invert flex flex-col gap-4 md:gap-6 py-4 justify-center text-center md:text-left w-full max-w-3xl lg:max-w-4xl xl:max-w-5xl">
               <H1>Hey! My name's Mike.</H1>
               <H2>
-                <span class="font-normal font-sans italic transition-opacity duration-100 ease-out">
+                <span class="font-normal italic transition-opacity duration-100 ease-out">
                   I'm an art director <br class="block md:hidden" />& web
                   developer
                 </span>

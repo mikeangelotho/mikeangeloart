@@ -566,27 +566,31 @@
     "dateAdded": "2025-12-02",
     "lastModified": "2025-12-02",
     "clientName": "Benzel-Busch",
-    "clientLogo": "https://cdn.mikeangelo.art/client-logos/MA_25-26-Website_ClientIcons_250x250_Bahlsen_white.png",
+    "clientLogo": "https://cdn.mikeangelo.art/benzel-busch-seasonal-road-trip-series/BB_CloverLogo_Color.png",
     "clientLogoAlt": "Benzel-Busch logo",
-    "projectObjective": "Benzel-Busch wanted a new, unique ad campaign that focused on building customers' relationships with the Benzel-Busch brand.",
+    "projectObjective": "Benzel-Busch was looking for an immersive ad campaign that connected the brand to customers on a personal level while highlighting the features of specific Mercedes-Benz models.",
     "mainKeypointMedia": {
       "title": "Seasonal Road Trips",
       "client": "Benzel-Busch",
-      "url": "https://player.vimeo.com/video/1081725997",
+      "url": "https://video.gumlet.io/693618f203bcee22ddeecad9/696fd95b10171a0e16aba83d/main.m3u8",
       "thumbnail": "",
       "altText": "Mercedes-Benz seasonal road trip campaign overview video",
       "description": "Campaign video highlighting seasonal travel destinations paired with Mercedes-Benz vehicles"
     },
     "mainKeypointMetricOne": "200k Downloads",
     "mainKeypointMetricTwo": "+15% Social Media Engagement",
-    "mainKeypointDescription": "We developed seasonal campaigns that outlined popular vacation destinations and included downloadable guides featuring attractions, accommodations, and recommended vehicles.",
+    "mainKeypointDescription": "We developed a seasonal road trip campaign that paired popular travel destinations with specific Mercedes-Benz models, highlighting vehicle features that made each trip more enjoyable.",
     "projectKeypoints": [
       {
         "title": "Planning the Road Trips",
         "description": "We researched and developed seasonal vacation PDFs featuring destinations, local attractions, accommodations, and hidden local gems.",
         "media": [
           {
-            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
+            "url": "https://cdn.mikeangelo.art/benzel-busch-seasonal-road-trip-series/keypoint-media/bb-rehoboth-beach.png",
+            "altText": "Seasonal road trip planning and destination guide visuals"
+          },
+          {
+            "url": "https://cdn.mikeangelo.art/benzel-busch-seasonal-road-trip-series/keypoint-media/bb-finger-lakes.png",
             "altText": "Seasonal road trip planning and destination guide visuals"
           }
         ]
@@ -596,7 +600,11 @@
         "description": "We paired destinations with specific Mercedes-Benz models, highlighting features like AWD and 3-row seating.",
         "media": [
           {
-            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
+            "url": "https://cdn.mikeangelo.art/benzel-busch-seasonal-road-trip-series/keypoint-media/bb-roadtrip-1.png",
+            "altText": "Mercedes-Benz vehicle feature highlights for road trips"
+          },
+          {
+            "url": "https://cdn.mikeangelo.art/benzel-busch-seasonal-road-trip-series/keypoint-media/bb-roadtrip-2.png",
             "altText": "Mercedes-Benz vehicle feature highlights for road trips"
           }
         ]
@@ -606,7 +614,7 @@
         "description": "We encouraged customers to share their road trip experiences, generating ongoing buzz for the campaign.",
         "media": [
           {
-            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
+            "url": "https://cdn.mikeangelo.art/benzel-busch-seasonal-road-trip-series/keypoint-media/bb-social-1.png",
             "altText": "User-generated social media content from Mercedes-Benz road trips"
           }
         ]

@@ -65,10 +65,8 @@ export default function Navbar() {
             class="font-sans flex items-center gap-3 hover:brightness-50 def__animate"
           >
             <img src="/MA_Logo_SharpMA_White.svg" loading="eager" width="32" height="auto" class="w-8 h-8 sm:w-9 sm:h-9" />
-            <span class="leading-3 sm:leading-4 text-xs sm:text-sm tracking-[2px] sm:tracking-[3px] text-white uppercase">
-              Mike
-              <br />
-              Angelo
+            <span class="font-sans text-xs tracking-[2px] text-white uppercase">
+              Mike Angelo
             </span>
           </A>
           <div ref={desktopMenu} class="hidden lg:flex gap-6 items-center">

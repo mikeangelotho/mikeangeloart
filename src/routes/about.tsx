@@ -325,7 +325,7 @@ export default function About() {
                         <strong class="text-2xl">Etc.</strong>
                       </p>
                       <p>
-                        Away from screens (rare), I play a bit of guitar,
+                        Away from screens, I play a bit of guitar,
                         attempt to skateboard, and stay endlessly fascinated by
                         science, engineering, philosophy, and space.
                       </p>

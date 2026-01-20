@@ -1,14 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Inconsolata:wght@200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap');
 @import "tailwindcss";
 
 @theme {
-  /* This registers the font so you can use utility classes like font-fira */
-  --font-fira: "Fira Code", monospace;
+  --custom-font-1: "Zalando Sans Expanded", sans-serif;
+  --custom-font-2: "IBM Plex Sans Condensed", sans-serif;
 }
 
 @layer base {
-  h1, h2, button {
-    font-family: var(--font-fira);
+
+  .def__button,
+  h1,
+  h2,
+  button {
+    font-family: var(--custom-font-1);
+  }
+
+  p, h3, h4, span, a {
+    font-family: var(--custom-font-2);
   }
 }
 
@@ -18,85 +26,34 @@
   background-color: white;
 }
 
- .dark {
-   background-color: black;
- }
+.dark {
+  background-color: black;
+}
 
- .def__animate {
-   transition: all 150ms ease-out;
- }
+.def__animate {
+  transition: all 150ms ease-out;
+}
 
- .nav__animate {
-   transition: all 1s ease-out;
- }
+.nav__animate {
+  transition: all 1s ease-out;
+}
 
- @media (prefers-color-scheme: light) {
-   .def__button {
-     position: relative;
-     letter-spacing: -0.5px;
-     font-weight: 500;
-     display: inline-block;
-     cursor: pointer;
-     background: linear-gradient(#505050 0%, #202020 50%, #202020 50%);
-     color: white;
-     outline: 3px solid rgba(50, 50, 50, 1);
-     border: 1px solid #505050;
-     border-radius: 6px;
-     padding: 0.5rem 1.25rem;
-     width: fit-content;
-     z-index: 2;
-     margin: 1rem 0rem;
-   }
+.intro-panel,
+figure,
+picture {
+  transition: all 500ms ease-out;
+}
 
-   .def__button:hover {
-     background: linear-gradient(#303030 0%, #202020 50%, #202020 50%);
-     outline: 3px solid rgba(25, 25, 25, 1);
-     border: 1px solid #202020;
-   }
+.scrolled,
+.intro-panel.scrolled,
+figure.scrolled {
+  filter: blur(10px);
+  opacity: 0;
+}
 
- }
-
- @media (prefers-color-scheme: dark) {
-   .def__button {
-     position: relative;
-     letter-spacing: -0.5px;
-     font-weight: 500;
-     display: inline-block;
-     cursor: pointer;
-     background: linear-gradient(#f0f0ff 0%, #c0c0cf 50%, #c0c0cf 50%);
-     color: rgba(0, 0, 0, 0.75);
-     outline: 3px solid rgb(240, 240, 255);
-     border: 1px solid #a0a0af;
-     border-radius: 6px;
-     padding: 0.5rem 1.25rem;
-     width: fit-content;
-     z-index: 2;
-     margin: 1rem 0rem;
-   }
-
-   .def__button:hover {
-     background: linear-gradient(#c0c0cf 0%, #c0c0cf 50%, #c0c0cf 50%);
-     outline: 3px solid rgb(220, 220, 240);
-     border: 1px solid #c0c0cf;
-   }
- }
-
- .intro-panel,
- figure,
- picture {
-   transition: all 500ms ease-out;
- }
-
- .scrolled,
- .intro-panel.scrolled,
- figure.scrolled {
-   filter: blur(10px);
-   opacity: 0;
- }
-
- video {
-   transition: opacity 500ms ease-out;
- }
+video {
+  transition: opacity 500ms ease-out;
+}
 
 /* Hide native video controls on mobile browsers */
 video::-webkit-media-controls {
@@ -155,10 +112,11 @@ video::-webkit-media-controls-fullscreen-button {
 
 /* Better tap targets for mobile */
 @media (max-width: 767px) {
-  button, 
-  a, 
-  input, 
-  textarea, 
+
+  button,
+  a,
+  input,
+  textarea,
   select {
     min-height: 44px;
     min-width: 44px;

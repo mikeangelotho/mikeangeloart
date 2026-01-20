@@ -102,8 +102,6 @@ export default function ProjectPage() {
               altText={lightboxAlt}
             />
           </Show>
-
-
           <Show when={project()?.cover} keyed>
             {p => (
               <Picture
@@ -128,22 +126,14 @@ export default function ProjectPage() {
                   />
                 </div>
                 <span class="text-center"><H1>{project()?.title as string}</H1></span>
-                <div class="hidden lg:flex justify-center gap-1 w-full flex-wrap pt-18 max-w-xl">
-                  <For each={project()?.tags}>
-                    {(tag) => (
-                      <Tag href={`/projects?tags=${tag.replace(" ", "+")}`}>
-                        {tag}
-                      </Tag>
-                    )}
-                  </For>
-                </div>
+                
               </div>
             </article>
           </section>
           <section class="bg-white dark:bg-neutral-950 border-t border-b border-black/10 dark:border-white/10 px-6">
             {/* Breadcrumb Navigation */}
-            <div class="px-6 py-4 mb-18 md:mb-18 bg-white/80 dark:bg-neutral-950/80 backdrop-blur border-b border-black/10 dark:border-white/10">
-              <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-center px-6 py-4 mb-18 md:mb-18 max-w-7xl mx-auto bg-white/80 dark:bg-neutral-950/80 backdrop-blur border-b border-black/10 dark:border-white/10">
+              <div class="w-fit">
                 <Breadcrumbs
                   items={[
                     { name: "Home", url: "/" },
@@ -152,6 +142,15 @@ export default function ProjectPage() {
                   ]}
                 />
               </div>
+              <div class="hidden lg:flex gap-1 w-full max-w-xl overflow-auto scroll-smooth" style="scrollbar-width: none;">
+                  <For each={project()?.tags}>
+                    {(tag) => (
+                      <Tag href={`/projects?tags=${tag.replace(" ", "+")}`}>
+                        {tag}
+                      </Tag>
+                    )}
+                  </For>
+                </div>
             </div>
             <div class="text-black dark:text-white w-fit dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 items-center flex gap-6 flex-col-reverse lg:flex-row bg-neutral-100 dark:bg-neutral-900 border border-black/10 dark:border-white/5 mx-auto">
               <div class="max-w-3xl flex flex-col gap-3 justify-center">
@@ -195,7 +194,7 @@ export default function ProjectPage() {
                   return (
                     <div class="w-full flex flex-col lg:flex-row gap-6 justify-between max-w-[1440px] mx-auto">
                       <div class="w-full flex items-start justify-center md:justify-start">
-                        <div ref={boxRef} class="transition duration-500 max-w-lg dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 flex flex-col gap-6 bg-neutral-100 dark:bg-neutral-900 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white">
+                        <div ref={boxRef} class="transition duration-500 max-w-lg dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-900 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white">
                           <H2>{keypoint.title}</H2>
                           <p class="dark:text-white">{keypoint.description}</p>
                         </div>
