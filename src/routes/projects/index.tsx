@@ -17,6 +17,14 @@ export default function ProjectPage() {
     return [];
   });
 
+  // Make clients a memo that directly reads from searchParams.client
+  const clients = createMemo(() => {
+    if (searchParams.client) {
+      return (searchParams.client as string).split(",");
+    }
+    return [];
+  });
+
   return (
     <>
       <SEO
@@ -52,6 +60,7 @@ export default function ProjectPage() {
       <main class="max-w-7xl mx-auto">
         <Collection
           sortByTags={{ get: tags, set: (newTags) => setSearchParams({ tags: (newTags as string[]).join() }) }}
+          sortByClients={{ get: clients, set: (newClients) => setSearchParams({ client: (newClients as string[]).join() }) }}
           enableFull={true}
           data={collectionData}
           enableSearch={true}

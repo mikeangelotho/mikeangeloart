@@ -126,7 +126,7 @@ export default function ProjectPage() {
                   />
                 </div>
                 <span class="text-center"><H1>{project()?.title as string}</H1></span>
-                
+
               </div>
             </article>
           </section>
@@ -143,14 +143,14 @@ export default function ProjectPage() {
                 />
               </div>
               <div class="hidden lg:flex gap-1 w-full max-w-xl overflow-auto scroll-smooth" style="scrollbar-width: none;">
-                  <For each={project()?.tags}>
-                    {(tag) => (
-                      <Tag href={`/projects?tags=${tag.replace(" ", "+")}`}>
-                        {tag}
-                      </Tag>
-                    )}
-                  </For>
-                </div>
+                <For each={project()?.tags}>
+                  {(tag) => (
+                    <Tag href={`/projects?tags=${tag.replace(" ", "+")}`}>
+                      {tag}
+                    </Tag>
+                  )}
+                </For>
+              </div>
             </div>
             <div class="text-black dark:text-white w-fit dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 items-center flex gap-6 flex-col-reverse lg:flex-row bg-neutral-100 dark:bg-neutral-900 border border-black/10 dark:border-white/5 mx-auto">
               <div class="max-w-3xl flex flex-col gap-3 justify-center">
@@ -228,7 +228,7 @@ export default function ProjectPage() {
                             if (mediaObj.url.includes("mp4")) {
                               return (
                                 <>
-                                  <video ref={keypointMedia as HTMLVideoElement} src={mediaObj.url} autoplay muted loop playsinline class="border border-neutral-100 dark:border-neutral-900 rounded-xl aspect-auto cursor-pointer"
+                                  <video ref={keypointMedia as HTMLVideoElement} src={mediaObj.url} autoplay muted loop playsinline class="max-w-xl max-h-144 border border-neutral-100 dark:border-neutral-900 rounded-xl aspect-auto cursor-pointer"
                                     title={mediaObj.altText}
                                     aria-label={mediaObj.altText}
                                     onClick={() => {
@@ -242,7 +242,7 @@ export default function ProjectPage() {
                                 <Picture
                                   src={mediaObj.url}
                                   alt={mediaObj.altText}
-                                  class="border border-neutral-100 dark:border-neutral-900 w-full h-auto aspect-auto rounded-xl max-w-xl hover:brightness-105 hover:saturate-125 def__animate cursor-pointer"
+                                  class="border border-neutral-100 dark:border-neutral-900 w-full h-auto aspect-auto rounded-3xl max-w-xl max-h-144 hover:brightness-105 hover:saturate-125 def__animate cursor-pointer"
                                   onClick={(event, displayedUrl) => {
                                     setLighboxImg(displayedUrl);
                                     setLightboxAlt(mediaObj.altText);

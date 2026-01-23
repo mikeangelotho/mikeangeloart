@@ -54,7 +54,7 @@ export function extractCategory(tags: string[], title: string): string {
 }
 
 // Generate pagination URL structure
-export function generatePaginationUrl(page: number, category?: string, tags?: string[]): string {
+export function generatePaginationUrl(page: number, category?: string, client?: string, tags?: string[]): string {
   const params = new URLSearchParams();
   
   if (page > 1) {
@@ -63,6 +63,10 @@ export function generatePaginationUrl(page: number, category?: string, tags?: st
   
   if (category && category !== 'all') {
     params.set('category', category);
+  }
+  
+  if (client && client !== 'all') {
+    params.set('client', client);
   }
   
   if (tags && tags.length > 0) {
@@ -78,6 +82,7 @@ export function parseFilterParams(searchParams: Record<string, string>) {
   return {
     page: parseInt(searchParams.page) || 1,
     category: searchParams.category || 'all',
+    client: searchParams.client || '',
     tags: searchParams.tags ? searchParams.tags.split(',').filter(Boolean) : [],
     search: searchParams.search || ''
   };

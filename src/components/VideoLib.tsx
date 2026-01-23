@@ -44,11 +44,13 @@ export default function VideoLib(props: VideoLibProps) {
                             return val;
                         }
                     }).join("/") + "/thumbnail-1-0.png";
-                    return { url: v.url, title: v.title, client: v.client, thumbnail: thumbUrl };
+                    v.thumbnail = thumbUrl;
+                    return v;
                 } else {
                     const req = await fetch(`https://vimeo.com/api/oembed.json?url=${v.url}`);
                     const data: VimeoOEmbedVideo = await req.json();
-                    return { url: v.url, title: v.title, client: v.client, thumbnail: data.thumbnail_url };
+                    v.thumbnail = data.thumbnail_url;
+                    return v;
                 }
             })
         );
@@ -63,15 +65,18 @@ export default function VideoLib(props: VideoLibProps) {
                     <div class="p-6 border-b border-black/10 dark:border-white/10">
                         <H2>Videos</H2>
                     </div>
-                    <ul class="relative overflow-auto divide-y divide-black/5 dark:divide-white/5 h-full max-h-60 w-full pb-36">
+                    <ul class="relative overflow-auto divide-y divide-black/5 dark:divide-white/5 h-full max-h-60 w-full">
                         <For each={videoArray()}>
                             {(listVideo) => {
+                                const [showDesc, setShowDesc] = createSignal(false);
                                 let selector!: HTMLLIElement;
                                 createEffect(() => {
 
                                     if (video().url === listVideo.url) {
+                                        setShowDesc(true);
                                         selector.classList.add("bg-black/5", "dark:bg-white/5")
                                     } else {
+                                        setShowDesc(false);
                                         selector.classList.remove("bg-black/5", "dark:bg-white/5")
                                     }
                                 })
@@ -79,19 +84,21 @@ export default function VideoLib(props: VideoLibProps) {
                                     <li ref={selector} class="cursor-pointer hover:bg-black/2 dark:hover:bg-white/2 p-3 flex items-center gap-3"
                                         onClick={() => {
                                             setVideo(listVideo as Media);
-                                        }}><img class="rounded-xl aspect-video w-24" src={`${listVideo.thumbnail}`} />
-                                        <div class="flex flex-col">
+                                        }}><img class="rounded-xl aspect-square max-w-24 object-cover" src={`${listVideo.thumbnail}`} />
+                                        <div class="flex flex-col gap-1">
                                             <h6>{listVideo.title}</h6>
                                             <p class="text-xs text-black/50 dark:text-white/50">{listVideo.client}</p>
+                                            <Show when={showDesc()}>
+                                                <p class="text-sm">{listVideo.description}</p>
+                                            </Show>
                                         </div>
                                     </li>
                                 )
                             }}
                         </For>
                     </ul>
-                    <div class="pointer-events-none absolute inset-0 rounded-3xl bg-linear-to-b from-transparent from-50% to-black/10 dark:to-black" />
                 </div>
-                <div class="w-full lg:w-2/3 lg:max-w-2xl rounded-xl overflow-hidden">
+                <div class="w-full lg:w-2/3 lg:max-w-2xl rounded-3xl overflow-hidden">
                     <Show when={video()} keyed>
                         <VideoPlayer video={video()} />
                     </Show>

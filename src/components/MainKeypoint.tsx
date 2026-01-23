@@ -68,7 +68,7 @@ export function MainKeypoint(props: {
             <div
                 class="z-1 w-full flex flex-col gap-18 justify-center items-center max-w-5xl mx-auto"
             >
-                <div class="w-full rounded-xl overflow-hidden ring ring-neutral-200 dark:ring-neutral-900">
+                <div class="w-full rounded-3xl overflow-hidden ring ring-neutral-200 dark:ring-neutral-900">
                     <VideoPlayer video={props.data.mainKeypointMedia} />
                 </div>
                 <Show when={props.standalone}>
@@ -81,7 +81,7 @@ export function MainKeypoint(props: {
                                             if (mediaObj.url.includes("mp4")) {
                                                 return (
                                                     <A href={`/projects/${props.data.slug}`}>
-                                                        <video src={mediaObj.url} autoplay muted loop playsinline class="h-24 min-w-24 object-cover rounded-xl" 
+                                                        <video src={mediaObj.url} autoplay muted loop playsinline class="h-24 min-w-24 object-cover rounded-xl"
                                                             title={mediaObj.altText}
                                                             aria-label={mediaObj.altText} />
                                                     </A>
