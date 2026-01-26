@@ -114,7 +114,6 @@ video::-webkit-media-controls-fullscreen-button {
 @media (max-width: 767px) {
 
   button,
-  a,
   input,
   textarea,
   select {

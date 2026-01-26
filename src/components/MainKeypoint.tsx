@@ -15,7 +15,7 @@ export function MainKeypoint(props: {
         <section class="z-1 w-full max-w-7xl mx-auto">
             <header class="w-full z-1 text-black dark:text-white">
                 <div
-                    class={`text-black/5 w-full dark:text-white/5 h-fit border-b border-b-black/5 dark:border-b-white/5 pb-1${!props.standalone ? " mb-6" : ""
+                    class={`text-black/10 w-full dark:text-white/10 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1${!props.standalone ? " mb-6" : ""
                         }`}
                 >
                     <ContainerLabel>Project Highlight</ContainerLabel>

@@ -96,17 +96,6 @@ init(element: HTMLElement, modelName: string) {
     // Mobile performance optimization
     const isMobile = window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     
-    if (isMobile) {
-      // Skip 3D on mobile to improve performance
-      console.log('Mobile device detected, skipping 3D initialization for performance');
-      if (this.placeholder && this.container) {
-        this.placeholder.textContent = "3D View - Desktop Only";
-        this.placeholder.style.fontSize = "16px";
-        this.placeholder.style.color = "rgba(255,255,255,0.6)";
-      }
-      return;
-    }
-    
     this.container = element;
     this.placeholder = document.createElement("div");
     this.placeholder.className = "absolute top-0 left-0";

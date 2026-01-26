@@ -335,7 +335,7 @@ export default function Collection({
                     </For>
                   </div>
                 </div>
-                <div class="flex relative">
+                <div class="hidden lg:flex relative">
                   <button
                     ref={clientsFilter}
                     class="cursor-pointer font-semibold text-xs text-neutral-400 px-2 py-1 rounded-md"

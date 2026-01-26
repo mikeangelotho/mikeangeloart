@@ -9,9 +9,17 @@ export const H1 = (props: { children: JSX.Element }) => {
 };
 
 export const H2 = (props: { children: JSX.Element }) => {
-  return <h2 class="font-semibold text-3xl text-black dark:text-white">{props.children}</h2>;
+  return (
+    <h2 class="font-semibold text-3xl text-black dark:text-white">
+      {props.children}
+    </h2>
+  );
 };
 
 export const H3 = (props: { children: JSX.Element }) => {
-  return <h3 class="font-semibold text-black text-xl dark:text-white mb-2 line-clamp-2">{props.children}</h3>;
+  return (
+    <h3 class="font-semibold text-black text-xl dark:text-white mb-2 line-clamp-2">
+      {props.children}
+    </h3>
+  );
 };

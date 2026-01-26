@@ -18,19 +18,22 @@ export function RelatedProjects(props: RelatedProjectsProps) {
 
     // Calculate similarity score based on shared tags
     const scored = allProjects
-      .filter(project => project.id !== currentProject.id)
-      .map(project => {
+      .filter((project) => project.id !== currentProject.id)
+      .map((project) => {
         const projectTags = project.tags || [];
-        const sharedTags = currentTags.filter(tag => projectTags.includes(tag));
-        const similarity = sharedTags.length / Math.max(currentTags.length, projectTags.length);
+        const sharedTags = currentTags.filter((tag) =>
+          projectTags.includes(tag),
+        );
+        const similarity =
+          sharedTags.length / Math.max(currentTags.length, projectTags.length);
 
         return {
           ...project,
           similarity,
-          sharedTags
+          sharedTags,
         };
       })
-      .filter(project => project.similarity > 0) // Only include projects with shared tags
+      .filter((project) => project.similarity > 0) // Only include projects with shared tags
       .sort((a, b) => b.similarity - a.similarity) // Sort by similarity
       .slice(0, maxItems);
 
@@ -38,13 +41,11 @@ export function RelatedProjects(props: RelatedProjectsProps) {
   };
 
   return (
-    <section class="w-full bg-white dark:bg-neutral-950 border-t border-black/10 dark:border-white/10">
+    <section class="w-full bg-white dark:bg-neutral-950 border-black/10 dark:border-white/10">
       <div class="max-w-7xl mx-auto px-6 py-18 lg:py-36">
         <div class="flex flex-col gap-12">
           <div class="text-center lg:text-left">
-            <H2>
-              Related Projects
-            </H2>
+            <H2>Related Projects</H2>
           </div>
 
           <Show when={relatedProjects().length > 0}>
@@ -75,9 +76,7 @@ export function RelatedProjects(props: RelatedProjectsProps) {
                           />
                         </div>
 
-                        <H3>
-                          {project.title}
-                        </H3>
+                        <H3>{project.title}</H3>
 
                         <p class="text-sm text-black/60 dark:text-white/60 mb-4 line-clamp-2">
                           {project.projectObjective}
@@ -85,9 +84,7 @@ export function RelatedProjects(props: RelatedProjectsProps) {
 
                         <div class="flex flex-wrap gap-1">
                           <For each={project.sharedTags.slice(0, 3)}>
-                            {(tag) => (
-                              <Tag>{tag}</Tag>
-                            )}
+                            {(tag) => <Tag>{tag}</Tag>}
                           </For>
                           {project.sharedTags.length > 3 && (
                             <span class="text-xs text-black/40 dark:text-white/40 px-2 py-1">
@@ -107,7 +104,10 @@ export function RelatedProjects(props: RelatedProjectsProps) {
             <div class="text-center py-12">
               <p class="text-black/60 dark:text-white/60">
                 No related projects found.
-                <a href="/projects" class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 underline ml-1">
+                <a
+                  href="/projects"
+                  class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 underline ml-1"
+                >
                   View all projects
                 </a>
               </p>

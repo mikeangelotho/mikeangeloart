@@ -88,7 +88,7 @@ export default function Navbar() {
           <div ref={mobileMenuIcon} class="bg-white rounded-lg cursor-pointer hover:scale-105 active:scale-95 def__animate lg:hidden text-2xl sm:text-3xl text-black pb-1 sm:pb-2 mb-1 px-3 sm:px-4 py-2 min-w-11 min-h-11 flex items-center justify-center" onClick={() => {
             toggleMobileMenu();
           }}>
-            ⩩
+            <span class="-mt-1">⩩</span>
           </div>
         </div>
       </nav>

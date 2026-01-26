@@ -44,13 +44,12 @@ export default function ProjectPage() {
     }
   });
 
-
-
   createEffect(() => {
-    document.body.classList.toggle("overflow-hidden", lightboxImg() ? true : false)
-  })
-
-
+    document.body.classList.toggle(
+      "overflow-hidden",
+      lightboxImg() ? true : false,
+    );
+  });
 
   return (
     <>
@@ -58,38 +57,41 @@ export default function ProjectPage() {
         {(p) => (
           <SEO
             title={`${p.title} - Portfolio Project by Mike Angelo`}
-            description={`${p.projectObjective?.substring(0, 160)}... Explore this ${p.tags?.join(', ')} project by Mike Angelo, art director and web designer.`}
+            description={`${p.projectObjective?.substring(0, 160)}... Explore this ${p.tags?.join(", ")} project by Mike Angelo, art director and web designer.`}
             canonical={`https://mikeangeloart.com/projects/${p.slug}`}
             ogImage={p.cover}
             ogType="article"
             breadcrumbs={[
               { name: "Home", url: "https://mikeangeloart.com" },
               { name: "Projects", url: "https://mikeangeloart.com/projects" },
-              { name: p.title, url: `https://mikeangeloart.com/projects/${p.slug}` }
+              {
+                name: p.title,
+                url: `https://mikeangeloart.com/projects/${p.slug}`,
+              },
             ]}
             localBusiness={true}
             jsonLd={{
               "@context": "https://schema.org",
               "@type": "CreativeWork",
-              "name": p.title,
-              "description": p.projectObjective,
-              "image": p.cover,
-              "url": `https://mikeangeloart.com/projects/${p.slug}`,
-              "creator": {
+              name: p.title,
+              description: p.projectObjective,
+              image: p.cover,
+              url: `https://mikeangeloart.com/projects/${p.slug}`,
+              creator: {
                 "@type": "Person",
-                "name": "Mike Angelo",
-                "jobTitle": "Art Director & Web Designer"
+                name: "Mike Angelo",
+                jobTitle: "Art Director & Web Designer",
               },
-              "client": {
+              client: {
                 "@type": "Organization",
-                "name": p.clientName
+                name: p.clientName,
               },
-              "keywords": p.tags?.join(", "),
-              "about": p.tags,
-              "dateCreated": p.dateAdded,
-              "dateModified": p.lastModified,
-              "genre": "Portfolio",
-              "learningResourceType": "Portfolio Project"
+              keywords: p.tags?.join(", "),
+              about: p.tags,
+              dateCreated: p.dateAdded,
+              dateModified: p.lastModified,
+              genre: "Portfolio",
+              learningResourceType: "Portfolio Project",
             }}
           />
         )}
@@ -103,7 +105,7 @@ export default function ProjectPage() {
             />
           </Show>
           <Show when={project()?.cover} keyed>
-            {p => (
+            {(p) => (
               <Picture
                 src={p}
                 alt={`${project()?.title} cover image`}
@@ -116,33 +118,37 @@ export default function ProjectPage() {
           <section class="h-full flex items-center bg-white/50 dark:bg-neutral-950/90">
             <article class="flex flex-col items-center w-full px-6">
               <div class="flex flex-col gap-6 items-center w-full py-36 max-w-5xl">
-                <div
-                  class="flex flex-col def__animate w-fit justify-center"
-                >
+                <div class="flex flex-col def__animate w-fit justify-center">
                   <img
                     src={project()?.clientLogo}
                     class="aspect-auto max-w-24 brightness-0 dark:brightness-200 saturate-0 contrast-0 max-h-12"
                     loading="eager"
                   />
                 </div>
-                <span class="text-center"><H1>{project()?.title as string}</H1></span>
-
+                <span class="text-center">
+                  <H1>{project()?.title as string}</H1>
+                </span>
               </div>
             </article>
           </section>
           <section class="bg-white dark:bg-neutral-950 border-t border-b border-black/10 dark:border-white/10 px-6">
             {/* Breadcrumb Navigation */}
-            <div class="flex justify-between items-center px-6 py-4 mb-18 md:mb-18 max-w-7xl mx-auto bg-white/80 dark:bg-neutral-950/80 backdrop-blur border-b border-black/10 dark:border-white/10">
+            <div class="flex flex-col lg:flex-row gap-3 justify-between items-center px-6 py-4 mb-18 md:mb-18 max-w-7xl mx-auto bg-white/80 dark:bg-neutral-950/80 backdrop-blur border-b border-black/10 dark:border-white/10">
               <div class="w-fit">
                 <Breadcrumbs
                   items={[
-                    { name: "Home", url: "/" },
-                    { name: "Projects", url: "/projects" },
-                    { name: project()?.title || "", url: `/projects/${project()?.slug}` }
+                    { name: project()?.clientName as string, url: `/projects?client=${project()?.clientName}` },
+                    {
+                      name: project()?.title || "",
+                      url: `/projects/${project()?.slug}`,
+                    },
                   ]}
                 />
               </div>
-              <div class="hidden lg:flex gap-1 w-full max-w-xl overflow-auto scroll-smooth" style="scrollbar-width: none;">
+              <div
+                class="hidden md:flex gap-1 w-full max-w-lg overflow-auto scroll-smooth"
+                style="scrollbar-width: none;"
+              >
                 <For each={project()?.tags}>
                   {(tag) => (
                     <Tag href={`/projects?tags=${tag.replace(" ", "+")}`}>
@@ -162,7 +168,7 @@ export default function ProjectPage() {
                 </p>
               </div>
             </div>
-            <section class="pb-18 lg:pt-14">
+            <section class="pb-18 pt-14">
               <Show when={project()} keyed>
                 {(p) => <MainKeypoint data={p} />}
               </Show>
@@ -177,14 +183,17 @@ export default function ProjectPage() {
 
                     const observer = new IntersectionObserver(
                       ([entry], observer) => {
-                        boxRef.classList.toggle("scrolled", !entry.isIntersecting);
+                        boxRef.classList.toggle(
+                          "scrolled",
+                          !entry.isIntersecting,
+                        );
                         if (entry.isIntersecting) observer.disconnect();
                       },
                       {
                         root: null,
                         rootMargin: "0px",
-                        threshold: 0.5
-                      }
+                        threshold: 0.5,
+                      },
                     );
 
                     observer.observe(boxRef);
@@ -192,17 +201,19 @@ export default function ProjectPage() {
                     onCleanup(() => observer.disconnect());
                   });
                   return (
-                    <div class="w-full flex flex-col lg:flex-row gap-6 justify-between max-w-[1440px] mx-auto">
-                      <div class="w-full flex items-start justify-center md:justify-start">
-                        <div ref={boxRef} class="transition duration-500 max-w-lg dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-900 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white">
+                    <div class="w-full flex flex-col xl:flex-row gap-6 justify-between max-w-[1440px] mx-auto">
+                      <div class="w-full flex items-start justify-center xl:justify-start">
+                        <div
+                          ref={boxRef}
+                          class="transition duration-500 max-w-lg dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-900 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white"
+                        >
                           <H2>{keypoint.title}</H2>
                           <p class="dark:text-white">{keypoint.description}</p>
                         </div>
                       </div>
-                      <div class="w-full flex flex-col gap-6 lg:gap-18 items-end">
+                      <div class="w-full flex flex-col gap-6 lg:gap-18 items-center xl:items-end">
                         <For each={keypoint.media}>
                           {(mediaObj) => {
-
                             let keypointMedia!: HTMLElement;
 
                             onMount(() => {
@@ -210,14 +221,18 @@ export default function ProjectPage() {
 
                               const observer = new IntersectionObserver(
                                 ([entry], observer) => {
-                                  keypointMedia.classList.toggle("scrolled", !entry.isIntersecting);
-                                  if (entry.isIntersecting) observer.disconnect();
+                                  keypointMedia.classList.toggle(
+                                    "scrolled",
+                                    !entry.isIntersecting,
+                                  );
+                                  if (entry.isIntersecting)
+                                    observer.disconnect();
                                 },
                                 {
                                   root: null,
                                   rootMargin: "0px",
-                                  threshold: 0.5
-                                }
+                                  threshold: 0.5,
+                                },
                               );
 
                               observer.observe(keypointMedia);
@@ -228,15 +243,23 @@ export default function ProjectPage() {
                             if (mediaObj.url.includes("mp4")) {
                               return (
                                 <>
-                                  <video ref={keypointMedia as HTMLVideoElement} src={mediaObj.url} autoplay muted loop playsinline class="max-w-xl max-h-144 border border-neutral-100 dark:border-neutral-900 rounded-xl aspect-auto cursor-pointer"
+                                  <video
+                                    ref={keypointMedia as HTMLVideoElement}
+                                    src={mediaObj.url}
+                                    autoplay
+                                    muted
+                                    loop
+                                    playsinline
+                                    class="max-w-xl max-h-144 border border-neutral-100 dark:border-neutral-900 rounded-xl aspect-auto cursor-pointer"
                                     title={mediaObj.altText}
                                     aria-label={mediaObj.altText}
                                     onClick={() => {
                                       setLighboxImg(mediaObj.url);
                                       setLightboxAlt(mediaObj.altText);
-                                    }} />
+                                    }}
+                                  />
                                 </>
-                              )
+                              );
                             } else {
                               return (
                                 <Picture
@@ -252,7 +275,7 @@ export default function ProjectPage() {
                                   }}
                                   ref={keypointMedia as HTMLPictureElement}
                                 />
-                              )
+                              );
                             }
                           }}
                         </For>
@@ -278,4 +301,3 @@ export default function ProjectPage() {
     </>
   );
 }
-

@@ -24,8 +24,12 @@ export default function Home() {
     };
 
     // Enhanced mobile video autoplay handler
-const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isMobile = window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isMobile =
+      window.innerWidth < 768 ||
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent,
+      );
 
     const attemptAutoplay = async () => {
       if (!videoPanel) return;
@@ -35,30 +39,35 @@ const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
       videoPanel.loop = true;
       videoPanel.controls = false;
       videoPanel.playsInline = true;
-      
+
       // Mobile optimizations
       if (isMobile) {
-        // Reduce video quality on mobile by setting lower resolution if possible
-        videoPanel.style.filter = "blur(0.5px)"; // Slight blur can improve performance
         // Set lower playback rate on mobile to save battery
         videoPanel.playbackRate = 0.9;
       }
 
       try {
         await videoPanel.play();
-        console.log('Background video autoplay successful');
+        console.log("Background video autoplay successful");
       } catch (error) {
-        console.log('Autoplay prevented, will retry on user interaction:', error);
+        console.log(
+          "Autoplay prevented, will retry on user interaction:",
+          error,
+        );
 
         // Set up user interaction listeners
         const enableAutoplay = () => {
           if (videoPanel && videoPanel.paused) {
-            videoPanel.play().catch(e => console.log('Play failed even with interaction:', e));
+            videoPanel
+              .play()
+              .catch((e) =>
+                console.log("Play failed even with interaction:", e),
+              );
           }
         };
 
-        document.addEventListener('touchstart', enableAutoplay, { once: true });
-        document.addEventListener('click', enableAutoplay, { once: true });
+        document.addEventListener("touchstart", enableAutoplay, { once: true });
+        document.addEventListener("click", enableAutoplay, { once: true });
       }
     };
 
@@ -70,7 +79,7 @@ const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     };
 
     if (isIOS) {
-      document.addEventListener('visibilitychange', handleVisibilityChange);
+      document.addEventListener("visibilitychange", handleVisibilityChange);
     }
 
     // Try immediate autoplay
@@ -98,7 +107,7 @@ const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
       });
     }, observerOptions);
 
-const videoObserver = new IntersectionObserver((entries) => {
+    const videoObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const target = entry.target as HTMLElement;
         if (entry.isIntersecting) {
@@ -148,7 +157,10 @@ const videoObserver = new IntersectionObserver((entries) => {
       videoObserver.disconnect();
       window.removeEventListener("scroll", onScroll);
       if (isIOS) {
-        document.removeEventListener('visibilitychange', handleVisibilityChange);
+        document.removeEventListener(
+          "visibilitychange",
+          handleVisibilityChange,
+        );
       }
       if (resizeHandler) {
         window.removeEventListener("resize", resizeHandler);
@@ -168,20 +180,26 @@ const videoObserver = new IntersectionObserver((entries) => {
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "Person",
-          "name": "Mike Angelo",
-          "jobTitle": "Art Director & Web Designer",
-          "description": "Award-winning art director and web designer serving greater New York area",
-          "url": "https://mikeangeloart.com",
-          "address": {
+          name: "Mike Angelo",
+          jobTitle: "Art Director & Web Designer",
+          description:
+            "Award-winning art director and web designer serving greater New York area",
+          url: "https://mikeangeloart.com",
+          address: {
             "@type": "PostalAddress",
-            "addressRegion": "NY",
-            "addressCountry": "US"
+            addressRegion: "NY",
+            addressCountry: "US",
           },
-          "knowsAbout": ["Art Direction", "Web Design", "Advertising Campaigns", "Content Creation"]
+          knowsAbout: [
+            "Art Direction",
+            "Web Design",
+            "Advertising Campaigns",
+            "Content Creation",
+          ],
         }}
       />
       <main class="w-full relative flex flex-col justify-center items-center pb-12 mb-12">
-<video
+        <video
           ref={videoPanel}
           src="/Comp_3.mp4"
           class="w-full dark:-hue-rotate-90 not-dark:hue-rotate-45 not-dark:invert not-dark:brightness-200 -z-10 aspect-video object-cover h-screen mx-auto fixed top-0"
@@ -196,13 +214,15 @@ const videoObserver = new IntersectionObserver((entries) => {
         <section class="mx-auto max-w-7xl overflow-hidden perspective-normal mix-blend-difference h-screen md:pb-12 lg:pb-36 xl:pb-48 w-full flex justify-center items-center md:items-end lg:items-end">
           <article
             ref={introPanel}
-            style={{ transform: "translateZ(calc(var(--scroll-y, 0px) * -0.5))" }}
+            style={{
+              transform: "translateZ(calc(var(--scroll-y, 0px) * -0.5))",
+            }}
             class="intro-panel px-4 sm:px-6 md:px-8 fixed w-fit max-w-[90vw] flex flex-col justify-center items-center md:flex-row gap-4 md:gap-6 lg:gap-8"
           >
             <div class="text-white/20 h-fit not-md:border-b md:border-r md:pr-2 lg:pr-4 pb-1 text-sm md:text-base">
               <ContainerLabel>Intro</ContainerLabel>
             </div>
-            <div class="not-dark:invert flex flex-col gap-4 md:gap-6 py-4 justify-center text-center md:text-left w-full max-w-3xl lg:max-w-4xl xl:max-w-5xl">
+            <div class="md:whitespace-nowrap not-dark:invert flex flex-col gap-4 md:gap-6 py-4 justify-center text-center md:text-left w-full max-w-3xl lg:max-w-4xl xl:max-w-5xl">
               <H1>Hey! My name's Mike.</H1>
               <H2>
                 <span class="font-normal italic transition-opacity duration-100 ease-out">
@@ -217,7 +237,7 @@ const videoObserver = new IntersectionObserver((entries) => {
         <div class="work-panel w-full flex flex-col items-center border-t border-b border-neutral-200 dark:border-neutral-900 backdrop-blur-3xl">
           <section class="flex flex-col justify-center items-center text-black dark:text-white pt-12 md:pt-16 lg:pt-18 xl:pt-24 pb-24 md:pb-32 lg:pb-36 xl:pb-48 px-6 sm:px-8 md:px-12 lg:px-16 max-w-7xl">
             <div class="flex flex-col justify-center items-center">
-<figure
+              <figure
                 ref={wrapper3d}
                 class="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 not-dark:invert"
               ></figure>
@@ -227,17 +247,19 @@ const videoObserver = new IntersectionObserver((entries) => {
                   results.
                 </H2>
                 <p class="pt-4 md:pt-6 max-w-md lg:max-w-lg mx-auto border-t border-neutral-200 dark:border-neutral-800 text-sm md:text-base">
-                  I've developed full ad campaigns, commercials, landing pages and
-                  websites, and countless other digital and physical assets.
+                  I've developed full ad campaigns, commercials, landing pages
+                  and websites, and countless other digital and physical assets.
                 </p>
               </div>
             </div>
           </section>
           <div class="flex flex-col gap-24 md:gap-32 lg:gap-36 xl:gap-48 py-12 md:py-16 lg:py-18 xl:py-24 px-4 sm:px-6 md:px-8 w-full bg-white dark:bg-neutral-950 border-t border-t-neutral-200 dark:border-t-neutral-900">
             <For each={collectionData}>
-              {(collection, idx) => idx() < landingHighlightLength && (
-                <MainKeypoint data={collection} standalone={true} />
-              )}
+              {(collection, idx) =>
+                idx() < landingHighlightLength && (
+                  <MainKeypoint data={collection} standalone={true} />
+                )
+              }
             </For>
           </div>
         </div>
@@ -269,7 +291,7 @@ const videoObserver = new IntersectionObserver((entries) => {
                     name="access_key"
                     value="4ead391c-7d7a-4e29-9e39-9a81fd36f09e"
                   />
-<div class="flex flex-col gap-2">
+                  <div class="flex flex-col gap-2">
                     <Label>Email</Label>
                     <Input type="email" placeholder="Enter your email" />
                   </div>
