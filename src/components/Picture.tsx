@@ -6,6 +6,8 @@ interface PictureProps {
   alt: string;
   class?: string;
   loading?: 'lazy' | 'eager';
+  width?: number | string;
+  height?: number | string;
   onClick?: (event: MouseEvent, displayedUrl: string) => void;
   onError?: (event: Event) => void;
   onLoad?: (event: Event) => void;
@@ -57,6 +59,8 @@ export function Picture(props: PictureProps) {
         alt={props.alt}
         class={props.class}
         loading={props.loading || 'lazy'}
+        width={props.width}
+        height={props.height}
         onClick={handleClick}
         onError={handleError}
         onLoad={handleLoad}
@@ -68,6 +72,8 @@ export function Picture(props: PictureProps) {
 interface ResponsivePictureProps extends Omit<PictureProps, 'src'> {
   src: string;
   sizes?: string;
+  width?: number | string;
+  height?: number | string;
   srcset?: {
     [breakpoint: string]: string; // e.g., { '640w': 'small.jpg', '1280w': 'large.jpg' }
   };
@@ -117,6 +123,8 @@ export function ResponsivePicture(props: ResponsivePictureProps) {
         class={props.class}
         loading={props.loading || 'lazy'}
         sizes={props.sizes}
+        width={props.width}
+        height={props.height}
         onClick={handleClick}
         onError={handleError}
         onLoad={handleLoad}

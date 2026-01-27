@@ -17,7 +17,7 @@ export default function Navbar() {
   let nav!: HTMLDivElement;
   let logoEl!: HTMLDivElement;
   let desktopMenu!: HTMLDivElement;
-  let mobileMenuIcon!: HTMLDivElement;
+  let mobileMenuIcon!: HTMLButtonElement;
 
   const [showMobileMenu, setShowMobileMenu] = createSignal(false);
 
@@ -40,7 +40,7 @@ export default function Navbar() {
       "dark:lg:border-white/10",
       "lg:border-black/5",
       "bg-white/50",
-      "dark:bg-black/80"
+      "dark:bg-black/80",
     ];
     window.addEventListener("scroll", () => {
       const { scrollY } = window;
@@ -50,7 +50,9 @@ export default function Navbar() {
         logoEl.classList.add("not-dark:invert");
       } else {
         nav.classList.remove(...classNamesOnScroll);
-        nav.classList.add("mix-blend-difference");
+        setTimeout(() => {
+          nav.classList.add("mix-blend-difference");
+        }, 1000);
         logoEl.classList.remove("not-dark:invert");
       }
     });
@@ -64,7 +66,7 @@ export default function Navbar() {
             href="/"
             class="font-sans flex items-center gap-3 hover:brightness-50 def__animate"
           >
-            <img src="/MA_Logo_SharpMA_White.svg" loading="eager" width="32" height="auto" class="w-8 h-8 sm:w-9 sm:h-9" />
+            <img src="/MA_Logo_SharpMA_White.svg" loading="eager" width="32" height="auto" class="w-8 h-8 sm:w-9 sm:h-9" alt="Mike Angelo Logo" />
             <span class="font-sans text-xs tracking-[2px] text-white uppercase">
               Mike Angelo
             </span>
@@ -85,11 +87,17 @@ export default function Navbar() {
               setShowMobileMenu(false);
             }} />
           </div>
-          <div ref={mobileMenuIcon} class="bg-white rounded-lg cursor-pointer hover:scale-105 active:scale-95 def__animate lg:hidden text-2xl sm:text-3xl text-black pb-1 sm:pb-2 mb-1 px-3 sm:px-4 py-2 min-w-11 min-h-11 flex items-center justify-center" onClick={() => {
-            toggleMobileMenu();
-          }}>
-            <span class="-mt-1">⩩</span>
-          </div>
+          <button
+            ref={mobileMenuIcon}
+            class="bg-white rounded-lg hover:scale-105 active:scale-95 def__animate lg:hidden text-2xl sm:text-3xl text-black pb-1 sm:pb-2 mb-1 px-3 sm:px-4 py-2 min-w-11 min-h-11 flex items-center justify-center"
+            onClick={() => {
+              toggleMobileMenu();
+            }}
+            aria-label="Toggle navigation menu"
+            aria-expanded={showMobileMenu()}
+          >
+            <span class="-mt-1" aria-hidden="true">⩩</span>
+          </button>
         </div>
       </nav>
       <Show when={showMobileMenu()}>

@@ -199,7 +199,7 @@ export default function Home() {
         }}
       />
       <main class="w-full relative flex flex-col justify-center items-center pb-12 mb-12">
-        <video
+<video
           ref={videoPanel}
           src="/Comp_3.mp4"
           class="w-full dark:-hue-rotate-90 not-dark:hue-rotate-45 not-dark:invert not-dark:brightness-200 -z-10 aspect-video object-cover h-screen mx-auto fixed top-0"
@@ -209,6 +209,8 @@ export default function Home() {
           loop
           controls={false}
           playsinline
+          width="1920"
+          height="1080"
           poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect fill='%23000' width='1920' height='1080'/%3E%3C/svg%3E"
         ></video>
         <section class="mx-auto max-w-7xl overflow-hidden perspective-normal mix-blend-difference h-screen md:pb-12 lg:pb-36 xl:pb-48 w-full flex justify-center items-center md:items-end lg:items-end">

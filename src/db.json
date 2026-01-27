@@ -74,7 +74,7 @@
             "url": "https://cdn.mikeangelo.art/loopwell-the-space-for-well-being/keypoint-media/loopwell-7.png",
             "altText": "Example of an event registration modal on the Loopwell website"
           },
-                    {
+          {
             "url": "https://cdn.mikeangelo.art/loopwell-the-space-for-well-being/keypoint-media/loopwell-mobile-1.mp4",
             "altText": "Video demonstration of the Loopwell website in a mobile window"
           },
@@ -234,7 +234,7 @@
           {
             "url": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/keypoint-media/drone-3.png",
             "altText": "Man happily grabbing a box of Bahlsen leibniz from a drone"
-          }                 
+          }
         ]
       },
       {
@@ -275,7 +275,7 @@
             "url": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/keypoint-media/drone%20descending_1.mp4",
             "altText": "Drones descending on the streets of Montclair, NJ"
           },
-                    {
+          {
             "url": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/keypoint-media/ba-choco.mp4",
             "altText": "Bahlsen new branding teaser"
           },
@@ -296,10 +296,10 @@
     "uuid": "2",
     "id": 2,
     "author": "Mike Angelo",
-    "title": "Mercedes-Benz Marketing",
+    "title": "Mercedes-Benz & Genesis Marketing",
     "slug": "benzel-busch-mercedes-benz-marketing",
     "cover": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/cover.jpg",
-    "coverAlt": "Mercedes-Benz luxury car dealership showroom with premium vehicles and modern architecture",
+    "coverAlt": "Mercedes-Benz AMG driving on a scenic tropical road",
     "tags": [
       "Art Direction",
       "Website Development",
@@ -313,8 +313,8 @@
     "lastModified": "2025-12-02",
     "clientName": "Benzel-Busch",
     "clientLogo": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/BB_CloverLogo_Color.png",
-    "clientLogoAlt": "Benzel-Busch Mercedes-Benz dealership logo with clover emblem",
-    "projectObjective": "Benzel-Busch is the premier Mercedes-Benz and Genesis dealer in North Jersey. Known for their exceptional customer service and unique marketing incentives, they naturally needed automotive advertising that stood out from the noise.",
+    "clientLogoAlt": "Benzel-Busch Mercedes-Benz dealership logo",
+    "projectObjective": "Benzel-Busch is the premier Mercedes-Benz and Genesis dealer in North Jersey. Known for their exceptional customer service and unique marketing incentives, they needed an agency of record to deliver their fast-paced advertising.",
     "mainKeypointMedia": {
       "title": "Parts",
       "client": "Benzel-Busch",
@@ -325,29 +325,41 @@
     },
     "mainKeypointMetricOne": "+20% Website Visits YoY",
     "mainKeypointMetricTwo": "+60% Increase in Sales",
-    "mainKeypointDescription": "We delivered numerous award-winning campaigns, commercials, and marketing materials that leveraged Benzel-Busch's outstanding service and unique sales experience, continuing to drive traffic both online and in-store.",
+    "mainKeypointDescription": "We consistently produced full-coverage advertising campaigns, some award-winning, and used a variety of media strategies that continue to expand Benzel-Busch's reach and influence in the regional market.",
     "projectKeypoints": [
       {
-        "title": "Innovative & Unique Ad Campaigns",
-        "description": "We worked tirelessly to develop new and interesting campaigns that stood out from a sea of APR rates and lease terms. We leveraged Benzel-Busch's unique customer service incentives to get consumers to convert and stay loyal to the brand.",
+        "title": "Distinct Ad Campaigns",
+        "description": "I worked with others to develop new and interesting campaigns that stood out from a sea of APR rates and standard corporate marketing. We leveraged Benzel-Busch's unique tone and customer service incentives to get consumers to convert and stay loyal to the brand.",
         "media": [
           {
             "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/garage-doors.jpg",
-            "altText": "Innovative garage door advertising campaign featuring Mercedes-Benz vehicles and creative messaging"
+            "altText": "Mercedes-Benz print ad that shows a chrome Mercedes-Benz prototype and reads 'Why Garage Doors Have Windows.'"
           },
           {
-            "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/g-wagon.jpg",
-            "altText": "Mercedes-Benz G-Wagon featured in luxury automotive advertising campaign"
+            "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-mother-nature.png",
+            "altText": "Mercedes-Benz G-Wagon facing forward in a mountain landscape and reads 'One Serious Mother for Mother Nature.'"
+          },
+          {
+            "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-goe-brand.png",
+            "altText": "Genesis billboard ad that shows the grill of a Genesis vehicle and reads 'Genesis is the Start of Something New.'"
+          },
+          {
+            "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-email.png",
+            "altText": "Benzel-Busch newsletter displayed on mobile"
+          },
+          {
+            "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-banners.jpg",
+            "altText": "Mercedes-Benz digital advertising banners showcasing electric vehicle specials"
           }
         ]
       },
       {
-        "title": "Monthly Marketing Materials",
-        "description": "Every month we produced marketing materials for new vehicle specials and incentives including organic and paid social media, newsletters, rich media, and print advertising.",
+        "title": "Brand Commercial Production",
+        "description": "We developed and produced commercial spots for most of our campaigns.",
         "media": [
           {
-            "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-banners.jpg",
-            "altText": "Mercedes-Benz digital advertising banners showcasing monthly specials and luxury vehicles"
+            "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-valet-1.png",
+            "altText": "Mercedes-Benz digital advertising banners showcasing electric vehicle specials"
           }
         ]
       },

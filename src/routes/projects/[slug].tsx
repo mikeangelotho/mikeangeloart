@@ -119,10 +119,11 @@ export default function ProjectPage() {
             <article class="flex flex-col items-center w-full px-6">
               <div class="flex flex-col gap-6 items-center w-full py-36 max-w-5xl">
                 <div class="flex flex-col def__animate w-fit justify-center">
-                  <img
+<img
                     src={project()?.clientLogo}
                     class="aspect-auto max-w-24 brightness-0 dark:brightness-200 saturate-0 contrast-0 max-h-12"
                     loading="eager"
+                    alt={`${project()?.clientName} logo`}
                   />
                 </div>
                 <span class="text-center">
@@ -201,8 +202,8 @@ export default function ProjectPage() {
                     onCleanup(() => observer.disconnect());
                   });
                   return (
-                    <div class="w-full flex flex-col xl:flex-row gap-6 justify-between max-w-[1440px] mx-auto">
-                      <div class="w-full flex items-start justify-center xl:justify-start">
+                    <div class="w-full flex flex-col lg:flex-row gap-6 justify-between max-w-[1440px] mx-auto">
+                      <div class="w-full flex items-start justify-center lg:justify-start">
                         <div
                           ref={boxRef}
                           class="transition duration-500 max-w-lg dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-900 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white"
