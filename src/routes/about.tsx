@@ -13,6 +13,7 @@ import { Button, ContainerLabel, Tag } from "~/layout/Cards";
 import { H1, H2 } from "~/layout/Headings";
 import { fetchGithubAvatar } from ".";
 import { fetchGithubInfo, GitHubUser } from "~/hooks";
+import SEO from "~/components/SEO";
 
 const [githubAvatar] = createResource<string>(fetchGithubAvatar);
 
@@ -148,7 +149,7 @@ export default function About() {
               setWindows((prev) => prev.filter((item) => item.label !== label));
             }}
           >
-            <div class="px-2 py-1 border text-xs rounded-md">Χ</div>
+            <div class="px-2 py-1 border text-xs rounded-md" aria-label="Close window">Χ</div>
           </div>{" "}
           <Show when={label}>
             <div class="mb-3 pb-1 w-fit text-black/ dark:text-white border-b dark:border-b-white/10">
@@ -268,9 +269,12 @@ export default function About() {
             noMobile={true}
             options={{ x: 1.325, y: 2 }}
           >
-            <img
+<img
               src={githubAvatar()}
               class="w-18 h-18 rounded-3xl pointer-events-none object-cover"
+              alt="Mike Angelo GitHub avatar"
+              width="72"
+              height="72"
             />
           </Moveable>
         ),
@@ -299,9 +303,12 @@ export default function About() {
                         "diskpart" did the hard way.
                       </p>
                     </div>
-                    <img
+<img
                       class="ring-2 ring-black/10 dark:ring-white/10 md:max-w-1/3 rounded-lg"
                       src="/edited pc guitar me.jpg"
+                      alt="Mike Angelo playing guitar with computer setup"
+                      width="400"
+                      height="300"
                     />
                   </div>
                   <div class="py-6 gap-6 w-full flex flex-col lg:flex-row justify-start items-start lg:items-center">
@@ -324,7 +331,7 @@ export default function About() {
                         <strong class="text-2xl">Etc.</strong>
                       </p>
                       <p>
-                        Away from screens (rare), I play a bit of guitar,
+                        Away from screens, I play a bit of guitar,
                         attempt to skateboard, and stay endlessly fascinated by
                         science, engineering, philosophy, and space.
                       </p>
@@ -360,8 +367,34 @@ export default function About() {
   });
 
   return (
-    <main class="w-full relative">
-      <video
+    <>
+      <SEO
+        title="About Mike Angelo - Art Director & Web Designer"
+        description="Learn about Mike Angelo, an art director and web designer in New York. Discover my journey from breaking computers to creating beautiful digital experiences."
+        canonical="https://mikeangeloart.com/about"
+        ogImage="/og-about.jpg"
+        breadcrumbs={[
+          { name: "Home", url: "https://mikeangeloart.com" },
+          { name: "About", url: "https://mikeangeloart.com/about" }
+        ]}
+        localBusiness={true}
+        organization={true}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Mike Angelo",
+          "jobTitle": "Art Director & Web Designer",
+          "description": "Art director and web designer with a passion for turning ideas into tangible, functional, and beautiful digital experiences.",
+          "url": "https://mikeangeloart.com/about",
+          "knowsAbout": ["Art Direction", "Web Design", "Digital Experiences", "Adobe Creative Suite", "Figma", "Web Development"],
+          "worksFor": {
+            "@type": "Organization",
+            "name": "Freelance"
+          }
+        }}
+      />
+      <main class="w-full relative">
+<video
         ref={videoPanel}
         src="/Comp_3.mp4"
         class="h-screen w-full dark:-hue-rotate-90 not-dark:hue-rotate-45 not-dark:invert not-dark:brightness-200 -z-1 aspect-video object-cover mx-auto fixed top-0"
@@ -370,6 +403,8 @@ export default function About() {
         autoplay
         loop
         playsinline
+        width="1920"
+        height="1080"
       ></video>
       <div class="h-screen w-full fixed backdrop-blur">
         <div class="h-[89vh] pt-22 xl:px-72">
@@ -404,10 +439,12 @@ export default function About() {
                       class="border border-white/10 rounded-xl"
                       style={`background-color: ${icon.color}`}
                     >
-                      <img
+<img
                         src={icon.icon}
                         alt={icon.name}
                         class={`p-1 h-9 w-9 md:h-12 md:w-12 mix-blend-soft-light`}
+                        width="48"
+                        height="48"
                       />
                     </div>
                   </div>
@@ -418,5 +455,6 @@ export default function About() {
         </div>
       </div>
     </main>
+    </>
   );
 }

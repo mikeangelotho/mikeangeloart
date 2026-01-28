@@ -17,7 +17,7 @@ export default function Navbar() {
   let nav!: HTMLDivElement;
   let logoEl!: HTMLDivElement;
   let desktopMenu!: HTMLDivElement;
-  let mobileMenuIcon!: HTMLDivElement;
+  let mobileMenuIcon!: HTMLButtonElement;
 
   const [showMobileMenu, setShowMobileMenu] = createSignal(false);
 
@@ -40,7 +40,7 @@ export default function Navbar() {
       "dark:lg:border-white/10",
       "lg:border-black/5",
       "bg-white/50",
-      "dark:bg-black/80"
+      "dark:bg-black/80",
     ];
     window.addEventListener("scroll", () => {
       const { scrollY } = window;
@@ -50,7 +50,9 @@ export default function Navbar() {
         logoEl.classList.add("not-dark:invert");
       } else {
         nav.classList.remove(...classNamesOnScroll);
-        nav.classList.add("mix-blend-difference");
+        setTimeout(() => {
+          nav.classList.add("mix-blend-difference");
+        }, 1000);
         logoEl.classList.remove("not-dark:invert");
       }
     });
@@ -59,17 +61,14 @@ export default function Navbar() {
   return (
     <>
       <nav ref={nav} class="mix-blend-difference border border-transparent lg:rounded-3xl z-100 top-0 max-w-7xl inset-x-0 lg:mx-6 xl:mx-auto fixed nav__animate">
-        <div ref={logoEl} class="flex justify-between items-center px-6 lg:px-0 py-6 w-full">
+        <div ref={logoEl} class="flex justify-between items-center px-4 sm:px-6 lg:px-0 py-4 sm:py-6 w-full">
           <A
             href="/"
-
-            class="flex items-center gap-3 hover:brightness-50 def__animate"
+            class="font-sans flex items-center gap-3 hover:brightness-50 def__animate"
           >
-            <img src="/MA_Logo_SharpMA_White.svg" loading="eager" width="36" height="auto" />
-            <span class="leading-4 text-xs tracking-[3px] text-white uppercase">
-              Mike
-              <br />
-              Angelo
+            <img src="/MA_Logo_SharpMA_White.svg" loading="eager" width="32" height="auto" class="w-8 h-8 sm:w-9 sm:h-9" alt="Mike Angelo Logo" />
+            <span class="font-sans text-xs tracking-[2px] text-white uppercase">
+              Mike Angelo
             </span>
           </A>
           <div ref={desktopMenu} class="hidden lg:flex gap-6 items-center">
@@ -88,21 +87,27 @@ export default function Navbar() {
               setShowMobileMenu(false);
             }} />
           </div>
-          <div ref={mobileMenuIcon} class="bg-white rounded-lg cursor-pointer hover:scale-105 def__animate lg:hidden text-3xl text-black pb-2 mb-1 px-3" onClick={() => {
-            toggleMobileMenu();
-          }}>
-            ⩩
-          </div>
+          <button
+            ref={mobileMenuIcon}
+            class="bg-white rounded-lg hover:scale-105 active:scale-95 def__animate lg:hidden text-2xl sm:text-3xl text-black pb-1 sm:pb-2 mb-1 px-3 sm:px-4 py-2 min-w-11 min-h-11 flex items-center justify-center"
+            onClick={() => {
+              toggleMobileMenu();
+            }}
+            aria-label="Toggle navigation menu"
+            aria-expanded={showMobileMenu()}
+          >
+            <span class="-mt-1" aria-hidden="true">⩩</span>
+          </button>
         </div>
       </nav>
       <Show when={showMobileMenu()}>
-        <div class="overflow-none z-5 pt-[30vh] fixed w-screen h-screen bg-white/98 dark:bg-black/95">
-          <div class="flex flex-col gap-6 items-end px-24">
+        <div class="overflow-none z-5 pt-[20vh] sm:pt-[30vh] fixed w-screen h-screen bg-white/98 dark:bg-black/95">
+          <div class="flex flex-col gap-4 sm:gap-6 items-center sm:items-end px-6 sm:px-12 md:px-24">
             <ul class="flex flex-col gap-6 items-center">
               <For each={links}>
                 {(link) => {
                   return (
-                    <li class="hover:brightness-50 text-4xl text-black dark:text-white def__animate">
+                    <li class="hover:brightness-50 text-3xl sm:text-4xl text-black dark:text-white def__animate py-2">
                       <A href={link.url} onClick={() => {
                         if (showMobileMenu()) {
                           setShowMobileMenu(false);

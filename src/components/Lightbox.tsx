@@ -1,10 +1,13 @@
 import { Accessor, onCleanup, onMount, Setter } from "solid-js";
 import { Button } from "~/layout/Cards";
+import { Picture } from "~/components/Picture";
 
 const Lightbox = ({
     src,
+    altText,
 }: {
     src: { get: Accessor<string | undefined>; set: Setter<string | undefined> };
+    altText: Accessor<string | undefined>;
 }) => {
     let mediaRef!: Element;
 
@@ -23,11 +26,21 @@ const Lightbox = ({
     }
     )
 
-    const MediaLB = () => {
+const MediaLB = () => {
         if (src.get()?.includes("mp4")) {
-            return <video ref={mediaRef as HTMLVideoElement} src={src.get()} autoplay muted loop playsinline class="max-h-[75dvh] aspect-auto" />
+            return <video ref={mediaRef as HTMLVideoElement} src={src.get()} autoplay muted loop playsinline class="max-h-[75dvh] aspect-auto" 
+                title={altText()} aria-label={altText()} />
         } else {
-            return <img ref={mediaRef as HTMLImageElement} class="max-h-[75dvh]" src={src.get()} />
+            return (
+                <div ref={mediaRef as HTMLDivElement}>
+                    <Picture
+                        src={src.get() || ''}
+                        alt={altText() || ''}
+                        class="max-h-[75dvh] w-auto"
+                        loading="eager"
+                    />
+                </div>
+            )
         }
     }
 

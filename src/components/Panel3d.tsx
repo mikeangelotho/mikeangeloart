@@ -90,8 +90,12 @@ export class SceneManager {
     this.#renderer.render(this.scene, this.camera);
   };
 
-  init(element: HTMLElement, modelName: string) {
+init(element: HTMLElement, modelName: string) {
     if (this.initialized) return;
+    
+    // Mobile performance optimization
+    const isMobile = window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
     this.container = element;
     this.placeholder = document.createElement("div");
     this.placeholder.className = "absolute top-0 left-0";
@@ -117,12 +121,18 @@ export class SceneManager {
     this.controls.enableZoom = false;
     this.controls.enablePan = false;
     this.controls.update();
-    this.#renderer = new three.WebGLRenderer({ antialias: true, alpha: true });
+// Performance optimizations
+    const pixelRatio = Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2);
+    this.#renderer = new three.WebGLRenderer({ 
+      antialias: !isMobile, // Disable antialiasing on mobile
+      alpha: true,
+      powerPreference: "high-performance"
+    });
     this.#renderer.setSize(width, height);
     this.#renderer.setClearColor(0x000000, 0);
     this.#renderer.toneMapping = three.ACESFilmicToneMapping;
     this.#renderer.toneMappingExposure = 1;
-    this.#renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.#renderer.setPixelRatio(pixelRatio);
     this.#renderer.shadowMap.enabled = true;
     this.#renderer.shadowMap.type = three.PCFSoftShadowMap;
     this.#renderer.domElement.style.position = "absolute";
@@ -211,8 +221,10 @@ export class SceneManager {
     const dirLight = new three.DirectionalLight(0xffffff, 2);
     dirLight.position.set(10, 10, 10);
     dirLight.castShadow = true;
-    dirLight.shadow.mapSize.width = 1024;
-    dirLight.shadow.mapSize.height = 1024;
+// Reduce shadow quality on mobile
+    const shadowSize = isMobile ? 512 : 1024;
+    dirLight.shadow.mapSize.width = shadowSize;
+    dirLight.shadow.mapSize.height = shadowSize;
     this.scene.add(dirLight);
 
     const shadowPlaneGeo = new three.PlaneGeometry(50, 50);
@@ -223,8 +235,12 @@ export class SceneManager {
     shadowPlane.receiveShadow = false;
     this.scene.add(shadowPlane);
 
-    this.scrollHandler = () => {
-      if (this.model) this.model.rotation.y += 0.075;
+this.scrollHandler = () => {
+      if (this.model) {
+        // Reduce scroll rotation frequency on mobile
+        const rotationAmount = isMobile ? 0.04 : 0.075;
+        this.model.rotation.y += rotationAmount;
+      }
     };
     window.addEventListener("scroll", this.scrollHandler);
     

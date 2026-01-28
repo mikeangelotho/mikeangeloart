@@ -22,12 +22,13 @@ export default function ThemeToggle(props: { onClick: () => void }) {
         }
     }
 
-    return (
-        <span
-            class="cursor-pointer select-none invert"
+return (
+        <button
+            class="cursor-pointer select-none invert bg-transparent border-none p-0"
             onClick={clickHandler}
+            aria-label={`Switch to ${darkMode() ? 'light' : 'dark'} mode`}
         >
             {darkMode() ? "🌙" : "☀️"}
-        </span>
+        </button>
     )
 }

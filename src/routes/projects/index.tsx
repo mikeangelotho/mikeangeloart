@@ -2,6 +2,7 @@ import data from "../../db.json";
 import Collection, { PortfolioCollection } from "~/components/Collection";
 import { useSearchParams } from "@solidjs/router";
 import { createEffect, createMemo, createSignal, onMount } from "solid-js";
+import SEO from "~/components/SEO";
 
 const collectionData: PortfolioCollection[] = data;
 
@@ -16,14 +17,55 @@ export default function ProjectPage() {
     return [];
   });
 
+  // Make clients a memo that directly reads from searchParams.client
+  const clients = createMemo(() => {
+    if (searchParams.client) {
+      return (searchParams.client as string).split(",");
+    }
+    return [];
+  });
+
   return (
-    <main class="max-w-7xl mx-auto">
-      <Collection
-        sortByTags={{ get: tags, set: (newTags) => setSearchParams({ tags: (newTags as string[]).join() }) }}
-        enableFull={true}
-        data={collectionData}
-        enableSearch={true}
+    <>
+      <SEO
+        title="Projects - Mike Angelo | Art Director & Web Designer Portfolio"
+        description="Explore Mike Angelo's portfolio of art direction, web design, and advertising campaigns for clients in New York and beyond."
+        canonical="https://mikeangeloart.com/projects"
+        ogImage="/og-home.jpg"
+        breadcrumbs={[
+          { name: "Home", url: "https://mikeangeloart.com" },
+          { name: "Projects", url: "https://mikeangeloart.com/projects" }
+        ]}
+        localBusiness={true}
+        organization={true}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "name": "Portfolio Projects",
+          "description": "A collection of art direction, web design, and advertising campaign projects by Mike Angelo.",
+          "url": "https://mikeangeloart.com/projects",
+          "mainEntity": {
+            "@type": "ItemList",
+            "numberOfItems": collectionData.length,
+            "itemListElement": collectionData.map((project, index) => ({
+              "@type": "ListItem",
+              "position": index + 1,
+              "name": project.title,
+              "description": project.projectObjective,
+              "url": `https://mikeangeloart.com/projects/${project.slug}`
+            }))
+          }
+        }}
       />
-    </main>
+      <main class="max-w-7xl mx-auto">
+        <Collection
+          sortByTags={{ get: tags, set: (newTags) => setSearchParams({ tags: (newTags as string[]).join() }) }}
+          sortByClients={{ get: clients, set: (newClients) => setSearchParams({ client: (newClients as string[]).join() }) }}
+          enableFull={true}
+          data={collectionData}
+          enableSearch={true}
+        />
+      </main>
+    </>
   );
 }
