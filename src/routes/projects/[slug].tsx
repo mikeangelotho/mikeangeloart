@@ -254,7 +254,7 @@ export default function ProjectPage() {
                                     muted
                                     loop
                                     playsinline
-                                    class="max-w-3xl max-h-180 border border-neutral-200 dark:border-neutral-900 rounded-xl aspect-auto cursor-pointer"
+                                    class="lg:max-w-3xl max-h-180 border border-neutral-200 dark:border-neutral-900 rounded-xl aspect-auto cursor-pointer"
                                     title={mediaObj.altText}
                                     aria-label={mediaObj.altText}
                                     onClick={() => {
@@ -269,7 +269,7 @@ export default function ProjectPage() {
                                 <Picture
                                   src={mediaObj.url}
                                   alt={mediaObj.altText}
-                                  class="border border-neutral-200 dark:border-neutral-900 w-full h-auto aspect-auto rounded-3xl max-w-3xl max-h-180 hover:brightness-105 hover:saturate-125 def__animate cursor-pointer"
+                                  class="border border-neutral-200 dark:border-neutral-900 w-full h-auto aspect-auto rounded-3xl lg:max-w-3xl max-h-180 hover:brightness-105 hover:saturate-125 def__animate cursor-pointer"
                                   onClick={(event, displayedUrl) => {
                                     setLighboxImg(displayedUrl);
                                     setLightboxAlt(mediaObj.altText);
