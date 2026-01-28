@@ -119,7 +119,7 @@ export default function ProjectPage() {
             <article class="flex flex-col items-center w-full px-6">
               <div class="flex flex-col gap-6 items-center w-full py-36 max-w-5xl">
                 <div class="flex flex-col def__animate w-fit justify-center">
-<img
+                  <img
                     src={project()?.clientLogo}
                     class="aspect-auto max-w-24 brightness-0 dark:brightness-200 saturate-0 contrast-0 max-h-12"
                     loading="eager"
@@ -138,7 +138,10 @@ export default function ProjectPage() {
               <div class="w-fit">
                 <Breadcrumbs
                   items={[
-                    { name: project()?.clientName as string, url: `/projects?client=${project()?.clientName}` },
+                    {
+                      name: project()?.clientName as string,
+                      url: `/projects?client=${project()?.clientName}`,
+                    },
                     {
                       name: project()?.title || "",
                       url: `/projects/${project()?.slug}`,
@@ -206,7 +209,7 @@ export default function ProjectPage() {
                       <div class="w-full flex items-start justify-center lg:justify-start">
                         <div
                           ref={boxRef}
-                          class="transition duration-500 max-w-lg dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-900 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white"
+                          class="transition duration-500 max-w-3xl lg:max-w-xl dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-900 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white"
                         >
                           <H2>{keypoint.title}</H2>
                           <p class="dark:text-white">{keypoint.description}</p>
@@ -251,7 +254,7 @@ export default function ProjectPage() {
                                     muted
                                     loop
                                     playsinline
-                                    class="max-w-xl max-h-144 border border-neutral-100 dark:border-neutral-900 rounded-xl aspect-auto cursor-pointer"
+                                    class="max-w-3xl max-h-180 border border-neutral-200 dark:border-neutral-900 rounded-xl aspect-auto cursor-pointer"
                                     title={mediaObj.altText}
                                     aria-label={mediaObj.altText}
                                     onClick={() => {
@@ -266,7 +269,7 @@ export default function ProjectPage() {
                                 <Picture
                                   src={mediaObj.url}
                                   alt={mediaObj.altText}
-                                  class="border border-neutral-100 dark:border-neutral-900 w-full h-auto aspect-auto rounded-3xl max-w-xl max-h-144 hover:brightness-105 hover:saturate-125 def__animate cursor-pointer"
+                                  class="border border-neutral-200 dark:border-neutral-900 w-full h-auto aspect-auto rounded-3xl max-w-3xl max-h-180 hover:brightness-105 hover:saturate-125 def__animate cursor-pointer"
                                   onClick={(event, displayedUrl) => {
                                     setLighboxImg(displayedUrl);
                                     setLightboxAlt(mediaObj.altText);

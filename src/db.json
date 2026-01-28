@@ -358,8 +358,24 @@
         "description": "We developed and produced commercial spots for most of our campaigns. This gave us the ability to advertise brand-specific content more frequently to stand out from other dealerships using corporate assets.",
         "media": [
           {
-            "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-valet-1.png",
-            "altText": "Mercedes-Benz digital advertising banners showcasing electric vehicle specials"
+            "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-rr-gif.mp4",
+            "altText": "Annual Benzel-Busch Road Rally days-long event featuring test drives, high-performance models, and other attractions"
+          },
+          {
+            "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-sani-still.png",
+            "altText": "Still from the 'Valet' spot by Benzel-Busch showing an unusual man receiving the keys back to his car"
+          },
+          {
+            "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-nyc-gif.mp4",
+            "altText": "Special NYC-area brand gif promoting concierge services for customers"
+          },
+          {
+            "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-sprinter.jpg",
+            "altText": "A Benzel-Busch customer sitting in the back of their custom Mercedes-Benz Sprinter featured for van life"
+          },
+          {
+            "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-f1-gif.mp4",
+            "altText": "Formula 1 Monaco Grand Prix watch party event footage at Benzel-Busch Mercedes dealership"
           }
         ]
       },
@@ -372,8 +388,20 @@
             "altText": "Benzel-Busch responsive website demo showing inventory search and vehicle details"
           },
           {
+            "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-sig-event.png",
+            "altText": "Hero image for the Genesis Signature Event"
+          },
+          {
             "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-site-2.mp4",
             "altText": "Mobile website demonstration featuring financing calculator and appointment scheduling"
+          },
+          {
+            "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-ev.png",
+            "altText": "Promo image for Mercedes-Benz' EV lineup"
+          },
+          {
+            "url": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-blog.png",
+            "altText": "Mobile view of a Benzel-Busch blog post highlighting a marketing incentive"
           }
         ]
       }
@@ -385,7 +413,7 @@
         "url": "https://video.gumlet.io/693618f203bcee22ddeecad9/69598c25d73a53e69e7ff654/main.m3u8",
         "thumbnail": "",
         "altText": "Formula 1 Monaco Grand Prix watch party event at Benzel-Busch Mercedes dealership",
-        "description": "Luxury automotive customer appreciation event featuring F1 racing entertainment"
+        "description": "Formula 1 Monaco Grand Prix watch party event at Benzel-Busch Mercedes dealership"
       },
       {
         "title": "Sales",
@@ -393,7 +421,15 @@
         "url": "https://video.gumlet.io/693618f203bcee22ddeecad9/693cb2927ada4a2333072e2a/main.m3u8",
         "thumbnail": "",
         "altText": "Mercedes-Benz sales promotional video showcasing luxury vehicles and customer service",
-        "description": "Automotive sales campaign highlighting the premium car buying experience"
+        "description": "Mercedes-Benz sales promotional video showcasing luxury vehicles and customer service"
+      },
+      {
+        "title": "Road Rally",
+        "client": "Benzel-Busch",
+        "url": "https://video.gumlet.io/693618f203bcee22ddeecad9/69793d1ec2fb61ce193992f2/main.m3u8",
+        "thumbnail": "",
+        "altText": "Annual Benzel-Busch Road Rally days-long event featuring test drives, high-performance models, and other attractions",
+        "description": "Annual Benzel-Busch Road Rally days-long event featuring test drives, high-performance models, and other attractions"
       },
       {
         "title": "Valet",
@@ -672,128 +708,6 @@
           {
             "url": "https://cdn.mikeangelo.art/benzel-busch-seasonal-road-trip-series/keypoint-media/bb-social-2.png",
             "altText": "User-generated social media content from Mercedes-Benz road trips"
-          }
-        ]
-      }
-    ],
-    "projectVideos": []
-  },
-  {
-    "uuid": "6",
-    "id": 6,
-    "author": "Mike Angelo",
-    "title": "Hide Them at Home",
-    "slug": "bahlsen-hide-them-at-home",
-    "cover": "https://cdn.mikeangelo.art/bahlsen-hide-them-at-home/cover.webp",
-    "coverAlt": "Bahlsen snack advertising campaign themed around at-home lockdown humor",
-    "tags": [
-      "Ad Campaign",
-      "Video Editing",
-      "Digital Banners",
-      "Organic Social Media",
-      "Paid Social Media"
-    ],
-    "dateAdded": "2025-12-02",
-    "lastModified": "2025-12-02",
-    "clientName": "Bahlsen",
-    "clientLogo": "https://cdn.mikeangelo.art/bahlsen-hide-them-at-home/Bahlsen%20Blu.webp",
-    "clientLogoAlt": "Bahlsen logo",
-    "projectObjective": "Advertising was at a stand-still due to COVID, so Bahlsen asked us to quickly come up with a campaign that would capitalize on the silence.",
-    "mainKeypointMedia": {
-      "title": "Hide Them at Home",
-      "client": "Bahlsen",
-      "url": "https://video.gumlet.io/693618f203bcee22ddeecad9/697142b0bcef432370039392/main.m3u8",
-      "thumbnail": "",
-      "altText": "Bahlsen COVID-era snack campaign video",
-      "description": "Playful campaign highlighting the struggle of sharing snacks during lockdown"
-    },
-    "mainKeypointMetricOne": "+80% Website Views",
-    "mainKeypointMetricTwo": "+20% Sales Increase",
-    "mainKeypointDescription": "We created a fun, relatable campaign about hiding your favorite snacks during COVID lockdowns.",
-    "projectKeypoints": [
-      {
-        "title": "Developing the Campaign",
-        "description": "We developed humorous scenarios inspired by shared lockdown experiences.",
-        "media": [
-          {
-            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
-            "altText": "Bahlsen Hide Them at Home campaign concept imagery"
-          }
-        ]
-      },
-      {
-        "title": "Concept Development",
-        "description": "We developed humorous scenarios inspired by shared lockdown experiences.",
-        "media": [
-          {
-            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
-            "altText": "Bahlsen Hide Them at Home campaign concept imagery"
-          }
-        ]
-      },
-      {
-        "title": "Concept Development",
-        "description": "We developed humorous scenarios inspired by shared lockdown experiences.",
-        "media": [
-          {
-            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
-            "altText": "Bahlsen Hide Them at Home campaign concept imagery"
-          }
-        ]
-      }
-    ],
-    "projectVideos": []
-  },
-  {
-    "uuid": "7",
-    "id": 7,
-    "author": "Mike Angelo",
-    "title": "EV Incentives & Protection Plan",
-    "slug": "benzel-busch-ev-incentive-protection-program",
-    "cover": "https://cdn.mikeangelo.art/benzel-busch-ev-incentive-protection-program/cover.webp",
-    "coverAlt": "Benzel-Busch electric vehicle incentive and protection plan advertising campaign",
-    "tags": [
-      "Ad Campaign",
-      "Video Editing",
-      "Art Direction",
-      "Organic Social Media",
-      "Paid Social Media"
-    ],
-    "dateAdded": "2025-12-02",
-    "lastModified": "2025-12-02",
-    "clientName": "Benzel-Busch",
-    "clientLogo": "https://cdn.mikeangelo.art/client-logos/MA_25-26-Website_ClientIcons_250x250_Bahlsen_white.png",
-    "clientLogoAlt": "Benzel-Busch logo",
-    "projectObjective": "Benzel-Busch developed an electric vehicle upgrade and protection plan program and asked us to create campaigns to build awareness.",
-    "mainKeypointMedia": {
-      "title": "EV Incentives & Protection",
-      "client": "Benzel-Busch",
-      "url": "https://player.vimeo.com/video/1081725997",
-      "thumbnail": "",
-      "altText": "Benzel-Busch electric vehicle incentive campaign video",
-      "description": "Mini-campaigns addressing EV myths and vehicle protection scenarios"
-    },
-    "mainKeypointMetricOne": "+50% Social Media Engagements",
-    "mainKeypointMetricTwo": "+15% In-Store Leads",
-    "mainKeypointDescription": "Two mini-campaigns tackled EV misconceptions and highlighted real-world protection plan use cases.",
-    "projectKeypoints": [
-      {
-        "title": "EV Myth Busting",
-        "description": "We interviewed actors exaggerating common EV myths to show how easy switching can be.",
-        "media": [
-          {
-            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
-            "altText": "Electric vehicle myth-busting campaign visuals"
-          }
-        ]
-      },
-      {
-        "title": "Protection Plan Scenarios",
-        "description": "We created lighthearted scenarios demonstrating the value of vehicle protection plans.",
-        "media": [
-          {
-            "url": "https://cdn.mikeangelo.art/project-thumbnails/MA_25-26-Website_ProjectThumbnails_1024x768_BahlsenDrone.jpg",
-            "altText": "Vehicle protection plan campaign scenarios"
           }
         ]
       }

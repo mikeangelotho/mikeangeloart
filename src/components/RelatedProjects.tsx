@@ -1,4 +1,4 @@
-import { For, Show } from "solid-js";
+import { For, onMount, Show } from "solid-js";
 import { PortfolioCollection } from "./Collection";
 import { Tag } from "~/layout/Cards";
 import { H2, H3 } from "~/layout/Headings";
@@ -51,51 +51,64 @@ export function RelatedProjects(props: RelatedProjectsProps) {
           <Show when={relatedProjects().length > 0}>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <For each={relatedProjects()}>
-                {(project) => (
-                  <div class="group relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300">
-                    <a
-                      href={`/projects/${project.slug}`}
-                      class="block w-full h-full"
-                    >
-                      <div class="aspect-video overflow-hidden bg-neutral-100 dark:bg-neutral-900">
-                        <img
-                          src={project.cover}
-                          alt={project.title}
-                          class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                          loading="lazy"
-                        />
-                      </div>
+                {(project, idx) => {
+                  let card!: HTMLDivElement;
+                  onMount(() => {
+                    if (idx() === maxItems - 1) {
+                      card.classList.remove("grid");
+                      card.classList.add("hidden", "lg:grid");
+                    }
+                  });
 
-                      <div class="p-6">
-                        <div class="flex items-start justify-between gap-4 mb-3">
+                  return (
+                    <div
+                      ref={card}
+                      class="group relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300"
+                    >
+                      <a
+                        href={`/projects/${project.slug}`}
+                        class="block w-full h-full"
+                      >
+                        <div class="aspect-video overflow-hidden bg-neutral-100 dark:bg-neutral-900">
                           <img
-                            src={project.clientLogo}
-                            alt={project.clientName}
-                            class="w-8 h-8 object-contain brightness-0 dark:brightness-200 saturate-0 contrast-0"
+                            src={project.cover}
+                            alt={project.title}
+                            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                             loading="lazy"
                           />
                         </div>
 
-                        <H3>{project.title}</H3>
+                        <div class="p-6">
+                          <div class="flex items-start justify-between gap-4 mb-3">
+                            <img
+                              src={project.clientLogo}
+                              alt={project.clientName}
+                              class="w-8 h-8 object-contain brightness-0 dark:brightness-200 saturate-0 contrast-0"
+                              loading="lazy"
+                            />
+                          </div>
 
-                        <p class="text-sm text-black/60 dark:text-white/60 mb-4 line-clamp-2">
-                          {project.projectObjective}
-                        </p>
+                          <H3>{project.title}</H3>
 
-                        <div class="flex flex-wrap gap-1">
-                          <For each={project.sharedTags.slice(0, 3)}>
-                            {(tag) => <Tag>{tag}</Tag>}
-                          </For>
-                          {project.sharedTags.length > 3 && (
-                            <span class="text-xs text-black/40 dark:text-white/40 px-2 py-1">
-                              +{project.sharedTags.length - 3} more
-                            </span>
-                          )}
+                          <p class="text-sm text-black/60 dark:text-white/60 mb-4 line-clamp-2">
+                            {project.projectObjective}
+                          </p>
+
+                          <div class="flex flex-wrap gap-1">
+                            <For each={project.sharedTags.slice(0, 3)}>
+                              {(tag) => <Tag>{tag}</Tag>}
+                            </For>
+                            {project.sharedTags.length > 3 && (
+                              <span class="text-xs text-black/40 dark:text-white/40 px-2 py-1">
+                                +{project.sharedTags.length - 3} more
+                              </span>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    </a>
-                  </div>
-                )}
+                      </a>
+                    </div>
+                  );
+                }}
               </For>
             </div>
           </Show>
