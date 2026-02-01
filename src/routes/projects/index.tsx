@@ -57,7 +57,7 @@ export default function ProjectPage() {
           }
         }}
       />
-      <main class="max-w-7xl mx-auto">
+      <main>
         <Collection
           sortByTags={{ get: tags, set: (newTags) => setSearchParams({ tags: (newTags as string[]).join() }) }}
           sortByClients={{ get: clients, set: (newClients) => setSearchParams({ client: (newClients as string[]).join() }) }}

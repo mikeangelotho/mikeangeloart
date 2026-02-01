@@ -1,66 +1,67 @@
-// BreadcrumbList schema generator
-export function generateBreadcrumbList(breadcrumbs: Array<{ name: string; url: string }>) {
+/**
+ * Schema generators
+ * Clean, canonical, and aligned with current SEO + AI parsing behavior
+ */
+
+// BreadcrumbList schema
+export function generateBreadcrumbList(
+  breadcrumbs: Array<{ name: string; url: string }>
+) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": breadcrumbs.map((breadcrumb, index) => ({
+    itemListElement: breadcrumbs.map((breadcrumb, index) => ({
       "@type": "ListItem",
-      "position": index + 1,
-      "name": breadcrumb.name,
-      "item": breadcrumb.url
+      position: index + 1,
+      name: breadcrumb.name,
+      item: breadcrumb.url
     }))
   };
 }
 
-// Import enhanced NYC Local SEO
+// Import LocalBusiness schema
 import { generateNYCLocalBusinessSchema } from "./nycSeo";
 
-// LocalBusiness schema for NYC targeting (legacy function for backward compatibility)
+// LocalBusiness (primary business entity)
 export function generateLocalBusiness() {
   return generateNYCLocalBusinessSchema();
 }
 
-// Organization schema
+// Organization schema (lightweight, brand-level)
 export function generateOrganization() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Mike Angelo - Art Director & Web Designer",
-    "url": "https://mikeangeloart.com",
-    "logo": "https://mikeangeloart.com/favicon.svg",
-    "description": "Art Director & Web Designer serving the greater New York area, specializing in advertising campaigns, web design, and content creation.",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "customer service",
-      "availableLanguage": "English"
-    },
-    "sameAs": [
-      "https://linkedin.com/in/mikeangelo",
-      "https://twitter.com/mikeangelo"
+    name: "Mike Angelo — Art Director & Web Developer",
+    url: "https://mikeangelo.art",
+    logo: "https://mikeangelo.art/favicon.svg",
+    description:
+      "Independent art director and web developer working with brands and startups across New Jersey and New York City.",
+    sameAs: [
+      "https://linkedin.com/in/mikeangelotho",
+      "https://www.behance.net/mikeangelotho"
     ]
   };
 }
 
-// Service schema for service areas
-export function generateService(serviceName: string, description: string) {
+// Service schema (used for pages / sections, not global business identity)
+export function generateService(
+  serviceName: string,
+  description: string
+) {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
-    "name": serviceName,
-    "description": description,
-    "provider": {
-      "@type": "Organization",
-      "name": "Mike Angelo - Art Director & Web Designer",
-      "url": "https://mikeangeloart.com"
+    name: serviceName,
+    description,
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Mike Angelo — Art Director & Web Developer",
+      url: "https://mikeangelo.art"
     },
-    "areaServed": {
-      "@type": "GeoCircle",
-      "geoMidpoint": {
-        "@type": "GeoCoordinates",
-        "latitude": "40.7128",
-        "longitude": "-74.0060"
-      },
-      "geoRadius": "100"
+    areaServed: {
+      "@type": "Place",
+      name: "New York City & Northern New Jersey"
     }
   };
 }

@@ -1,69 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://mikeangeloart.com/</loc>
-    <lastmod>2026-01-16T21:38:39.004Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <loc>https://mikeangelo.art/</loc>
+    <lastmod>2026-02-01</lastmod>
   </url>
   <url>
-    <loc>https://mikeangeloart.com/about</loc>
-    <lastmod>2026-01-16T21:38:39.005Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://mikeangelo.art/about</loc>
+    <lastmod>2026-02-01</lastmod>
   </url>
   <url>
-    <loc>https://mikeangeloart.com/projects</loc>
-    <lastmod>2026-01-16T21:38:39.005Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://mikeangelo.art/projects</loc>
+    <lastmod>2026-02-01</lastmod>
   </url>
   <url>
-    <loc>https://mikeangeloart.com/projects/loopwell-the-space-for-well-being</loc>
-    <lastmod>2025-12-02T00:00:00.000Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://mikeangelo.art/projects/loopwell-the-space-for-well-being</loc>
+    <lastmod>2025-12-02</lastmod>
   </url>
   <url>
-    <loc>https://mikeangeloart.com/projects/bahlsen-drone-drop-pop-up</loc>
-    <lastmod>2025-12-02T00:00:00.000Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://mikeangelo.art/projects/bahlsen-drone-drop-pop-up</loc>
+    <lastmod>2025-12-02</lastmod>
   </url>
   <url>
-    <loc>https://mikeangeloart.com/projects/benzel-busch-mercedes-benz-marketing</loc>
-    <lastmod>2025-12-02T00:00:00.000Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://mikeangelo.art/projects/benzel-busch-mercedes-benz-marketing</loc>
+    <lastmod>2025-12-02</lastmod>
   </url>
   <url>
-    <loc>https://mikeangeloart.com/projects/gym-source-your-home-your-gym</loc>
-    <lastmod>2025-12-02T00:00:00.000Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://mikeangelo.art/projects/gym-source-your-home-your-gym</loc>
+    <lastmod>2025-12-02</lastmod>
   </url>
   <url>
-    <loc>https://mikeangeloart.com/projects/blauner-fitness-fuel-your-fitness-fire</loc>
-    <lastmod>2025-12-02T00:00:00.000Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://mikeangelo.art/projects/blauner-fitness-fuel-your-fitness-fire</loc>
+    <lastmod>2025-12-02</lastmod>
   </url>
   <url>
-    <loc>https://mikeangeloart.com/projects/benzel-busch-seasonal-road-trip-series</loc>
-    <lastmod>2025-12-02T00:00:00.000Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://mikeangelo.art/projects/benzel-busch-seasonal-road-trip-series</loc>
+    <lastmod>2025-12-02</lastmod>
   </url>
   <url>
-    <loc>https://mikeangeloart.com/projects/bahlsen-hide-them-at-home</loc>
-    <lastmod>2025-12-02T00:00:00.000Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mikeangeloart.com/projects/benzel-busch-ev-incentive-protection-program</loc>
-    <lastmod>2025-12-02T00:00:00.000Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://mikeangelo.art/projects/bahlsen-secret-stash</loc>
+    <lastmod>2025-12-02</lastmod>
   </url>
 </urlset>

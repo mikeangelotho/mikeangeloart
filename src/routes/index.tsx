@@ -7,6 +7,7 @@ import { H1, H2 } from "~/layout/Headings";
 import { Button, ContainerLabel } from "~/layout/Cards";
 import { MainKeypoint } from "~/components/MainKeypoint";
 import SEO from "~/components/SEO";
+import { Input, Label } from "~/layout/Forms";
 
 const collectionData: PortfolioCollection[] = data;
 const landingHighlightLength = 3;
@@ -114,7 +115,7 @@ export default function Home() {
           target.style.opacity = "1";
           // Resume playback when visible
           if (videoPanel && videoPanel.paused) {
-            videoPanel.play().catch(() => {});
+            videoPanel.play().catch(() => { });
           }
         } else {
           target.style.opacity = isMobile ? "0" : "0.25";
@@ -198,8 +199,8 @@ export default function Home() {
           ],
         }}
       />
-      <main class="w-full relative flex flex-col justify-center items-center pb-12 mb-12">
-<video
+      <main class="w-full relative flex flex-col justify-center items-center">
+        <video
           ref={videoPanel}
           src="/Comp_3.mp4"
           class="w-full dark:-hue-rotate-90 not-dark:hue-rotate-45 not-dark:invert not-dark:brightness-200 -z-10 aspect-video object-cover h-screen mx-auto fixed top-0"
@@ -236,7 +237,7 @@ export default function Home() {
             </div>
           </article>
         </section>
-        <div class="work-panel w-full flex flex-col items-center border-t border-b border-neutral-200 dark:border-neutral-900 backdrop-blur-3xl">
+        <div class="w-full flex flex-col items-center border-t border-b border-neutral-200 dark:border-neutral-900 backdrop-blur-3xl">
           <section class="flex flex-col justify-center items-center text-black dark:text-white pt-12 md:pt-16 lg:pt-18 xl:pt-24 pb-24 md:pb-32 lg:pb-36 xl:pb-48 px-6 sm:px-8 md:px-12 lg:px-16 max-w-7xl">
             <div class="flex flex-col justify-center items-center">
               <figure
@@ -265,15 +266,14 @@ export default function Home() {
             </For>
           </div>
         </div>
-        <div class="bg-white dark:bg-black/90 w-full">
-          <div class="w-full">
+        <div class="w-full flex flex-col items-center border-t border-b border-neutral-200 dark:border-neutral-900 backdrop-blur-3xl">
+          <div class="bg-neutral-100 dark:bg-black/90 w-full">
             <Collection
               data={collectionData}
-              enableFull={collectionData.length < 3 ? true : false}
             />
           </div>
-          <div class="pt-18 pb-36 lg:border-t lg:border-b border-t-neutral-200 dark:border-t-neutral-900 border-b-neutral-200 dark:border-b-neutral-900 w-full dark:bg-neutral-950">
-            <section class="flex flex-col lg:flex-row gap-12 md:gap-16 lg:gap-18 xl:gap-24 items-center px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 pt-12 md:pt-16 lg:pt-18 xl:pt-24 mx-auto lg:max-w-7xl w-full">
+          <div class="py-36 lg:border-t border-t-neutral-200 dark:border-t-neutral-900 border-b-neutral-200 dark:border-b-neutral-900 w-full">
+            <section class="flex flex-col lg:flex-row gap-12 md:gap-16 lg:gap-18 xl:gap-24 items-center px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mx-auto lg:max-w-7xl w-full">
               <div class="flex flex-col gap-4 md:gap-6 lg:max-w-md xl:max-w-lg px-4 sm:px-6">
                 <H2>Drop a line.</H2>
                 <p class="text-black dark:text-white">
@@ -318,34 +318,6 @@ export default function Home() {
   );
 }
 
-const Label = (props: { children: string }) => {
-  return (
-    <label class="text-sm text-black/25 dark:text-white/25">
-      {props.children}
-    </label>
-  );
-};
 
-const Input = ({
-  type,
-  placeholder,
-}: {
-  type: string;
-  placeholder: string;
-}) => {
-  return (
-    <input
-      type={type}
-      class="placeholder-black/25 dark:placeholder-white/25 bg-white dark:bg-white/5 text-black/25 focus:text-black dark:text-white/25 dark:focus:text-white rounded-md px-3 py-2 sm:py-3 outline outline-transparent border border-neutral-300 dark:border-neutral-900 focus:outline-black/50 dark:focus:outline-white/50 hover:outline-black/25 dark:hover:outline-white/25 def__animate text-base"
-      placeholder={placeholder}
-    />
-  );
-};
 
-export async function fetchGithubAvatar() {
-  const req = await fetch("https://api.github.com/users/bippolaroid");
-  if (req.ok) {
-    const json: any = await req.json();
-    return json["avatar_url"];
-  }
-}
+

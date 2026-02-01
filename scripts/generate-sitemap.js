@@ -2,46 +2,41 @@ import { writeFile } from "fs/promises";
 import { join } from "path";
 import data from "../src/db.json" with { type: "json" };
 
-const baseUrl = "https://mikeangeloart.com";
+const baseUrl = "https://mikeangelo.art";
 
 const staticPages = [
-  { url: "/", changefreq: "weekly", priority: "1.0" },
-  { url: "/about", changefreq: "monthly", priority: "0.8" },
-  { url: "/projects", changefreq: "weekly", priority: "0.9" }
+  { url: "/", lastmod: new Date() },
+  { url: "/about", lastmod: new Date() },
+  { url: "/projects", lastmod: new Date() }
 ];
 
-const generateSitemap = () => {
-  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-`;
+const formatDate = (date) =>
+  date.toISOString().split("T")[0];
 
-  // Add static pages
+const generateSitemap = () => {
+  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+  sitemap += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+
   staticPages.forEach(page => {
     sitemap += `  <url>
     <loc>${baseUrl}${page.url}</loc>
-    <lastmod>${new Date().toISOString()}</lastmod>
-    <changefreq>${page.changefreq}</changefreq>
-    <priority>${page.priority}</priority>
-  </url>
-`;
+    <lastmod>${formatDate(page.lastmod)}</lastmod>
+  </url>\n`;
   });
 
-  // Add project pages
   data.forEach(project => {
+    if (!project.slug || !project.lastModified) return;
+
     sitemap += `  <url>
     <loc>${baseUrl}/projects/${project.slug}</loc>
-    <lastmod>${new Date(project.lastModified).toISOString()}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-`;
+    <lastmod>${formatDate(new Date(project.lastModified))}</lastmod>
+  </url>\n`;
   });
 
   sitemap += `</urlset>`;
   return sitemap;
 };
 
-const sitemap = generateSitemap();
-writeFile(join(process.cwd(), "public", "sitemap.xml"), sitemap)
-  .then(() => console.log("Sitemap generated successfully!"))
-  .catch(err => console.error("Error generating sitemap:", err));
+writeFile(join(process.cwd(), "public", "sitemap.xml"), generateSitemap())
+  .then(() => console.log("Sitemap generated for mikeangelo.art"))
+  .catch(console.error);

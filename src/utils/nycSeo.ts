@@ -1,156 +1,164 @@
-// NYC Local SEO utilities
+// NYC / NJ Local SEO configuration
 export const nycLocalSeoConfig = {
   business: {
-    name: "Mike Angelo - Art Director & Web Designer",
-    description: "Award-winning art director and web designer serving the greater New York City area, specializing in advertising campaigns, web design, and digital content creation.",
+    name: "Mike Angelo — Art Director & Web Developer",
+    description:
+      "Independent art director and web developer working with brands and startups across New Jersey and New York City. Specializing in brand systems, visual identity, and custom web experiences.",
     url: "https://mikeangelo.art",
-    telephone: "+1-555-0123",
     email: "m.angelo@177edgar.com",
     address: {
       "@type": "PostalAddress",
-      "addressLocality": "New Jersey",
-      "addressRegion": "NJ",
-      "postalCode": "07095",
-      "addressCountry": "US",
-      "streetAddress": "Serving all of NJ and NYC boroughs"
+      addressLocality: "New Jersey",
+      addressRegion: "NJ",
+      postalCode: "07095",
+      addressCountry: "US",
+      streetAddress: "Serving New Jersey and New York City"
     },
     geo: {
       "@type": "GeoCoordinates",
-      "latitude": "40.7128",
-      "longitude": "-74.0060"
+      latitude: "40.7195",
+      longitude: "-74.0776"
     }
   },
-  
+
   serviceAreas: [
+    // NJ
     "Hoboken",
     "Jersey City",
-    "Edison",
-    "New Brunswick",
+    "Newark",
     "Princeton",
-    "Trenton",
+    "New Brunswick",
     "Red Bank",
+
+    // NYC
     "New York City",
-    "Manhattan", 
+    "Manhattan",
     "Brooklyn",
     "Queens",
     "Bronx",
-    "Staten Island",
-    "Westchester County",
+
+    // Broader regions
     "Northern New Jersey",
+    "Westchester County",
     "Long Island"
   ],
-  
+
   services: [
     {
-      "name": "Art Direction",
-      "description": "Professional art direction services for advertising campaigns, branding, and visual identity projects."
+      name: "Art Direction",
+      description:
+        "Art direction for brands, campaigns, and digital products, with a focus on clarity, systems, and long-term visual coherence."
     },
     {
-      "name": "Web Design & Development", 
-      "description": "Custom website design and development with responsive layouts and modern technologies."
+      name: "Brand Identity & Systems",
+      description:
+        "Brand identity design and scalable visual systems including logos, typography, color, and brand guidelines."
     },
     {
-      "name": "Digital Marketing",
-      "description": "Comprehensive digital marketing including social media, content creation, and online advertising."
+      name: "Web Design & Development",
+      description:
+        "Custom website design and frontend development using modern frameworks, optimized for performance and longevity."
     },
     {
-      "name": "Video Production",
-      "description": "Professional video production services for commercials, branded content, and social media."
-    },
-    {
-      "name": "Brand Development",
-      "description": "Complete brand development services including logo design, brand guidelines, and visual identity."
+      name: "Creative Technology",
+      description:
+        "Design-led development for interactive, experimental, or technically complex digital experiences."
     }
   ],
-  
+
   targetKeywords: [
-    "art director new york",
-    "web designer nyc", 
-    "advertising agency manhattan",
-    "web design brooklyn",
-    "digital marketing queens",
-    "brand development nyc",
-    "visual identity design",
-    "nyc web development",
-    "new york art direction",
-    "website design brooklyn",
-    "creative agency nyc",
-    "digital advertising manhattan"
+    // Core identity
+    "art director nyc",
+    "freelance art director new york",
+    "brand art director nyc",
+    "visual identity designer nyc",
+
+    // Web + build
+    "web designer and developer nyc",
+    "creative web developer nyc",
+    "frontend web designer nyc",
+    "custom website design brooklyn",
+
+    // Brand + systems
+    "brand identity design new york",
+    "brand systems designer nyc",
+    "digital brand design studio nyc",
+
+    // Studio / positioning
+    "independent creative studio nyc",
+    "creative technologist new york",
+    "art director who codes"
   ],
-  
+
   hoursOfOperation: [
     {
       "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
       ],
-      "opens": "010:00",
-      "closes": "20:00"
-    },
-    {
-      "@type": "OpeningHoursSpecification", 
-      "dayOfWeek": ["Saturday", "Sunday"],
-      "opens": "10:00",
-      "closes": "14:00"
+      opens: "10:00",
+      closes: "20:00"
     }
   ]
 };
 
-// Enhanced LocalBusiness schema for NYC
+// LocalBusiness schema
 export function generateNYCLocalBusinessSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     ...nycLocalSeoConfig.business,
-    "areaServed": {
+    areaServed: {
       "@type": "GeoCircle",
-      "geoMidpoint": nycLocalSeoConfig.business.geo,
-      "geoRadius": {
+      geoMidpoint: nycLocalSeoConfig.business.geo,
+      geoRadius: {
         "@type": "QuantitativeValue",
-        "value": "50",
-        "unitCode": "MI"
+        value: 50,
+        unitCode: "MI"
       }
     },
-    "serviceArea": nycLocalSeoConfig.serviceAreas.map(area => ({
-      "@type": "City",
-      "name": area
-    })),
-    "hasOfferCatalog": {
+    hasOfferCatalog: {
       "@type": "OfferCatalog",
-      "name": "Services",
-      "itemListElement": nycLocalSeoConfig.services.map((service, index) => ({
+      name: "Services",
+      itemListElement: nycLocalSeoConfig.services.map((service, index) => ({
         "@type": "Offer",
-        "itemOffered": {
+        position: index + 1,
+        itemOffered: {
           "@type": "Service",
-          "name": service.name,
-          "description": service.description
-        },
-        "position": index + 1
+          name: service.name,
+          description: service.description
+        }
       }))
     },
-    "openingHoursSpecification": nycLocalSeoConfig.hoursOfOperation,
-    "sameAs": [
+    openingHoursSpecification: nycLocalSeoConfig.hoursOfOperation,
+    sameAs: [
       "https://linkedin.com/in/mikeangelo",
-      "https://www.behance.net/mikeangelotho"    ]
+      "https://www.behance.net/mikeangelotho"
+    ]
   };
 }
 
-// Service area schema for each NYC borough
+// Service area schema
 export function generateServiceAreaSchema(serviceArea: string) {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
-    "name": `Art Direction & Web Design in ${serviceArea}`,
-    "description": `Professional art direction, web design, and digital marketing services for businesses in ${serviceArea}.`,
-    "provider": {
+    name: `Art Direction & Web Design in ${serviceArea}`,
+    description:
+      `Art direction, brand identity, and custom web development for businesses and startups in ${serviceArea}.`,
+    provider: {
       "@type": "LocalBusiness",
-      "name": nycLocalSeoConfig.business.name,
-      "url": nycLocalSeoConfig.business.url
+      name: nycLocalSeoConfig.business.name,
+      url: nycLocalSeoConfig.business.url
     },
-    "areaServed": {
-      "@type": "City",
-      "name": serviceArea
+    areaServed: {
+      "@type": "Place",
+      name: serviceArea
     },
-    "serviceType": nycLocalSeoConfig.services.map(s => s.name)
+    serviceType: nycLocalSeoConfig.services.map(s => s.name)
   };
 }

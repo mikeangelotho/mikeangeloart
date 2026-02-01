@@ -705,5 +705,87 @@
       }
     ],
     "projectVideos": []
+  },
+  {
+    "uuid": "6",
+    "id": 6,
+    "author": "Mike Angelo",
+    "title": "Secret Stash",
+    "slug": "bahlsen-secret-stash",
+    "cover": "https://cdn.mikeangelo.art/bahlsen-secret-stash/cover.webp",
+    "coverAlt": "Bahlsen snack advertising campaign themed around at-home lockdown humor",
+    "tags": [
+      "Ad Campaign",
+      "Video Editing",
+      "Digital Banners",
+      "Organic Social Media",
+      "Paid Social Media"
+    ],
+    "dateAdded": "2025-12-02",
+    "lastModified": "2025-12-02",
+    "clientName": "Bahlsen",
+    "clientLogo": "https://cdn.mikeangelo.art/bahlsen-secret-stash/Bahlsen%20Blu.webp",
+    "clientLogoAlt": "Bahlsen logo",
+    "projectObjective": "Bahlsen wanted to grow its market share in the U.S. by promoting their products with a family-friendly and engaging digital campaign.",
+    "mainKeypointMedia": {
+      "title": "Secret Stash",
+      "client": "Bahlsen",
+      "url": "https://video.gumlet.io/693618f203bcee22ddeecad9/697142b0bcef432370039392/main.m3u8",
+      "thumbnail": "",
+      "altText": "Bahlsen commercial spot showing a couple at home struggling to keep their Bahlsen snacks hidden from each other",
+      "description": "Playful campaign highlighting the struggle of sharing snacks during lockdown"
+    },
+    "mainKeypointMetricOne": "+80% Website Views",
+    "mainKeypointMetricTwo": "+20% Sales Increase",
+    "mainKeypointDescription": "Sometimes our favorite snacks are the ones we hide from others. We wanted to capture that with a playful campaign that highlighted the struggles of keeping your favorite snacks safe in your home.",
+    "projectKeypoints": [
+      {
+        "title": "Commercial Shoot & Campaign Pivot",
+        "description": "I worked with my team to develop a 30-second commercial spot and various campaign assets. COVID came shortly after filming, so we shifted the focus of the campaign to be about the struggles of sharing snacks during lockdown.",
+        "media": [
+          {
+            "url": "https://cdn.mikeangelo.art/bahlsen-secret-stash/keypoint-media/ba-logo-gif.mp4",
+            "altText": "Bahlsen end card animation"
+          },
+          {
+            "url": "https://cdn.mikeangelo.art/bahlsen-secret-stash/keypoint-media/ba-stash-bts-counter.png",
+            "altText": "Bahlsen Secret Stash behind the scenes"
+          },
+          {
+            "url": "https://cdn.mikeangelo.art/bahlsen-secret-stash/keypoint-media/ba-screen.mp4",
+            "altText": "Bahlsen Secret Stash behind the scenes"
+          }
+        ]
+      },
+      {
+        "title": "Student Short Film Competition",
+        "description": "To support the arts and students affected by the lockdown, we held a short film competition where students could submit their own interpretations of \"sharing snacks with others.\" We gave them full creative control and they blew us away. The submissions were judged by the client and agency, and winners received cash prizes and Bahlsen products.",
+        "media": [
+          {
+            "url": "https://cdn.mikeangelo.art/bahlsen-secret-stash/keypoint-media/ba-stash-finalists.png",
+            "altText": "Short Film Competition finalists"
+          },
+          {
+            "url": "https://cdn.mikeangelo.art/bahlsen-secret-stash/keypoint-media/ba-sister.mp4",
+            "altText": "\"The Sister\" submission for the Short Film Competition"
+          }
+        ]
+      },
+      {
+        "title": "Organic Social Media Content",
+        "description": "In addition to a paid social media campaign, we shared user-generated content from Bahlsen customers exposing their secret hiding spots for their favorite snacks.",
+        "media": [
+          {
+            "url": "https://cdn.mikeangelo.art/bahlsen-secret-stash/keypoint-media/ba-hiding-social.png",
+            "altText": "Various users on social media showing their hiding spots for Bahlsen snacks"
+          },
+          {
+            "url": "https://cdn.mikeangelo.art/bahlsen-secret-stash/keypoint-media/ba-foil.mp4",
+            "altText": "User on social media showing a hiding spot for Bahlsen snacks"
+          }
+        ]
+      }
+    ],
+    "projectVideos": []
   }
 ]

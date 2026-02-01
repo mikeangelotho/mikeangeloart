@@ -11,7 +11,7 @@ import {
 import { ContainerLabel, Tag } from "~/layout/Cards";
 import { H1, H2 } from "~/layout/Headings";
 import data from "../../db.json";
-import Collection, { PortfolioCollection } from "~/components/Collection";
+import { PortfolioCollection } from "~/components/Collection";
 import VideoLib from "~/components/VideoLib";
 import { MainKeypoint } from "~/components/MainKeypoint";
 import { Lightbox } from "~/components/Lightbox";
@@ -19,7 +19,6 @@ import SEO from "~/components/SEO";
 import { RelatedProjects } from "~/components/RelatedProjects";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { Picture } from "~/components/Picture";
-import { createImageSources } from "~/utils/image";
 
 const collectionData: PortfolioCollection[] = data;
 

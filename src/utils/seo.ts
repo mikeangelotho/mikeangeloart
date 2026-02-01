@@ -1,89 +1,95 @@
 /**
- * Clean slug generation utilities
+ * Slug & URL utilities
+ * Designed for stability, readability, and AI-friendly indexing
  */
 
-// Generate a clean, SEO-friendly slug from a string
-export function generateSlug(text: string): string {
-  return text
+// Generate a clean, deterministic, SEO-safe slug
+export function generateSlug(input: string): string {
+  return input
+    .normalize("NFKD")                    // Handle accented characters
     .toLowerCase()
     .trim()
-    // Replace spaces and special characters with hyphens
-    .replace(/[^\w\s-]/g, '') // Remove special characters except spaces and hyphens
-    .replace(/[\s_-]+/g, '-') // Replace spaces, underscores with hyphens
-    .replace(/^-+|-+$/g, '') // Remove leading/trailing hyphens
-    .replace(/--+/g, '-'); // Replace multiple hyphens with single
+    .replace(/[\u0300-\u036f]/g, "")      // Remove diacritics
+    .replace(/[^a-z0-9\s-]/g, "")         // Remove non-url-safe characters
+    .replace(/[\s_-]+/g, "-")             // Normalize separators
+    .replace(/^-+|-+$/g, "");             // Trim hyphens
 }
 
-// Validate if a slug is clean and SEO-friendly
+// Validate slug structure (used before routing or indexing)
 export function validateSlug(slug: string): boolean {
-  // Must be lowercase, alphanumeric with hyphens only
-  const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-  return slugRegex.test(slug) && slug.length >= 3 && slug.length <= 100;
+  return (
+    /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) &&
+    slug.length >= 3 &&
+    slug.length <= 80
+  );
 }
 
-// Generate category-based URL structure
+// Generate canonical project URL
 export function generateCategoryUrl(category: string, slug: string): string {
-  const cleanCategory = generateSlug(category);
-  return `/projects/${cleanCategory}/${slug}`;
+  return `/projects/${generateSlug(category)}/${slug}`;
 }
 
-// Extract category from tags or create one based on content
+// Derive category from explicit tags first, then title heuristics
 export function extractCategory(tags: string[], title: string): string {
-  // Priority order for categories
-  const categoryPriority = [
-    'web design', 'website development', 'art direction', 
-    'advertising', 'video editing', 'content creation',
-    'branding', 'digital marketing', 'experiential marketing'
-  ];
-  
-  // Look for priority tags first
-  for (const priority of categoryPriority) {
-    if (tags.some(tag => tag.toLowerCase().includes(priority))) {
-      return priority.replace(/\s+/g, '-');
+  const normalizedTags = tags.map(t => t.toLowerCase());
+
+  const categoryMap: Record<string, string[]> = {
+    "web-design": ["web", "website", "frontend", "ui", "ux"],
+    "branding": ["brand", "identity", "logo"],
+    "art-direction": ["art direction", "creative direction"],
+    "advertising": ["campaign", "advertising"],
+    "content": ["content", "social"],
+    "creative-technology": ["interactive", "experimental", "tech"]
+  };
+
+  for (const [category, keywords] of Object.entries(categoryMap)) {
+    if (
+      normalizedTags.some(tag =>
+        keywords.some(keyword => tag.includes(keyword))
+      )
+    ) {
+      return category;
     }
   }
-  
-  // Fallback to analyzing title/content
+
   const titleLower = title.toLowerCase();
-  if (titleLower.includes('web') || titleLower.includes('site')) return 'web-design';
-  if (titleLower.includes('brand') || titleLower.includes('logo')) return 'branding';
-  if (titleLower.includes('video') || titleLower.includes('campaign')) return 'advertising';
-  if (titleLower.includes('social') || titleLower.includes('content')) return 'content';
-  
-  return 'general';
+
+  for (const [category, keywords] of Object.entries(categoryMap)) {
+    if (keywords.some(keyword => titleLower.includes(keyword))) {
+      return category;
+    }
+  }
+
+  return "general";
 }
 
-// Generate pagination URL structure
-export function generatePaginationUrl(page: number, category?: string, client?: string, tags?: string[]): string {
+// Generate pagination + filter URL (stable + shareable)
+export function generatePaginationUrl(
+  page = 1,
+  category?: string,
+  client?: string,
+  tags?: string[]
+): string {
   const params = new URLSearchParams();
-  
-  if (page > 1) {
-    params.set('page', page.toString());
-  }
-  
-  if (category && category !== 'all') {
-    params.set('category', category);
-  }
-  
-  if (client && client !== 'all') {
-    params.set('client', client);
-  }
-  
-  if (tags && tags.length > 0) {
-    params.set('tags', tags.join(','));
-  }
-  
-  const queryString = params.toString();
-  return `/projects${queryString ? '?' + queryString : ''}`;
+
+  if (page > 1) params.set("page", String(page));
+  if (category && category !== "all") params.set("category", category);
+  if (client && client !== "all") params.set("client", client);
+  if (tags?.length) params.set("tags", tags.join(","));
+
+  const query = params.toString();
+  return `/projects${query ? `?${query}` : ""}`;
 }
 
-// Parse URL parameters for filtering
-export function parseFilterParams(searchParams: Record<string, string>) {
+// Parse query params safely for filters/search
+export function parseFilterParams(
+  searchParams: Record<string, string | undefined>
+) {
   return {
-    page: parseInt(searchParams.page) || 1,
-    category: searchParams.category || 'all',
-    client: searchParams.client || '',
-    tags: searchParams.tags ? searchParams.tags.split(',').filter(Boolean) : [],
-    search: searchParams.search || ''
+    page: Math.max(1, Number(searchParams.page) || 1),
+    category: searchParams.category || "all",
+    client: searchParams.client || "",
+    tags: searchParams.tags?.split(",").filter(Boolean) ?? [],
+    search: searchParams.search || ""
   };
 }

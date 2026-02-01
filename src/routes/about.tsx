@@ -1,5 +1,4 @@
 import {
-  createEffect,
   createResource,
   createSignal,
   For,
@@ -9,9 +8,9 @@ import {
   Show,
 } from "solid-js";
 import { init3dScene } from "~/components/Panel3d";
-import { Button, ContainerLabel, Tag } from "~/layout/Cards";
+import { ContainerLabel, Tag } from "~/layout/Cards";
 import { H1, H2 } from "~/layout/Headings";
-import { fetchGithubAvatar } from ".";
+import { fetchGithubAvatar } from "~/utils/github";
 import { fetchGithubInfo, GitHubUser } from "~/hooks";
 import SEO from "~/components/SEO";
 
@@ -170,12 +169,10 @@ export default function About() {
       const { x, y, width, height } = element.getBoundingClientRect();
       const { clientX, clientY } = e;
       requestAnimationFrame(() => {
-        element.style.left = `clamp(12px, ${clientX - width / 2}px, ${
-          innerWidth - width - 12
-        }px)`;
-        element.style.top = `clamp(96px, ${clientY - height / 2}px, ${
-          innerHeight - height - 144
-        }px)`;
+        element.style.left = `clamp(12px, ${clientX - width / 2}px, ${innerWidth - width - 12
+          }px)`;
+        element.style.top = `clamp(96px, ${clientY - height / 2}px, ${innerHeight - height - 144
+          }px)`;
       });
     }
   }
@@ -269,7 +266,7 @@ export default function About() {
             noMobile={true}
             options={{ x: 1.325, y: 2 }}
           >
-<img
+            <img
               src={githubAvatar()}
               class="w-18 h-18 rounded-3xl pointer-events-none object-cover"
               alt="Mike Angelo GitHub avatar"
@@ -297,13 +294,10 @@ export default function About() {
                         <strong class="text-2xl">How It Started</strong>
                       </p>
                       <p>
-                        Immediately after my dad purchased our first family
-                        computer, I took it apart and broke it. It was so
-                        awesome. I got to see a processor, and I learned what
-                        "diskpart" did the hard way.
+                        New Jersey, 1998: My dad buys our family a Windows PC. I learn how computers work, and I discover online gaming. Fast forward some years, and some broken computers, and I'm designing forum banners in Photoshop and building gaming communities.
                       </p>
                     </div>
-<img
+                    <img
                       class="ring-2 ring-black/10 dark:ring-white/10 md:max-w-1/3 rounded-lg"
                       src="/edited pc guitar me.jpg"
                       alt="Mike Angelo playing guitar with computer setup"
@@ -311,33 +305,30 @@ export default function About() {
                       height="300"
                     />
                   </div>
+
                   <div class="py-6 gap-6 w-full flex flex-col lg:flex-row justify-start items-start lg:items-center">
                     <div class="flex flex-col gap-3">
                       <p>
-                        <strong class="text-2xl">How It's Going</strong>
+                        <strong class="text-2xl">How It’s Going</strong>
                       </p>
                       <p>
-                        That same curiosity and persistance still exists today
-                        in a refined way. Preferably without breaking things. I
-                        turned my curiosity into a passion for turning ideas
-                        into tangible, functional, and beautiful digital
-                        experiences.
+                        My passion for designing and building is stronger than ever. Whether it's brand assets, marketing campaigns, landing pages, or app interfaces, I love bringing fresh ideas to life and building systems around them.
                       </p>
                     </div>
                   </div>
+
                   <div class="py-6 gap-6 w-full flex flex-col lg:flex-row justify-start items-start lg:items-center">
                     <div class="flex flex-col gap-3">
                       <p>
                         <strong class="text-2xl">Etc.</strong>
                       </p>
                       <p>
-                        Away from screens, I play a bit of guitar,
-                        attempt to skateboard, and stay endlessly fascinated by
-                        science, engineering, philosophy, and space.
+                        Aside from my daily screen activities, I like to hike and get lost in nature, write electric guitar songs that I immediately forget, attempt to skateboard, and stay endlessly curious about engineering, philosophy, and the universe.
                       </p>
                     </div>
                   </div>
                 </div>
+
               </div>
             </Box>
           </Moveable>
@@ -394,67 +385,67 @@ export default function About() {
         }}
       />
       <main class="w-full relative">
-<video
-        ref={videoPanel}
-        src="/Comp_3.mp4"
-        class="h-screen w-full dark:-hue-rotate-90 not-dark:hue-rotate-45 not-dark:invert not-dark:brightness-200 -z-1 aspect-video object-cover mx-auto fixed top-0"
-        preload="metadata"
-        muted
-        autoplay
-        loop
-        playsinline
-        width="1920"
-        height="1080"
-      ></video>
-      <div class="h-screen w-full fixed backdrop-blur">
-        <div class="h-[89vh] pt-22 xl:px-72">
-          <div
-            ref={desktop}
-            class="border-t border-b h-full overflow-x-hidden flex flex-col gap-6 border-black/10 dark:border-white/10 p-6"
-          >
-            <For each={windows()}>{(item) => item.window}</For>
+        <video
+          ref={videoPanel}
+          src="/Comp_3.mp4"
+          class="h-screen w-full dark:-hue-rotate-90 not-dark:hue-rotate-45 not-dark:invert not-dark:brightness-200 -z-1 aspect-video object-cover mx-auto fixed top-0"
+          preload="metadata"
+          muted
+          autoplay
+          loop
+          playsinline
+          width="1920"
+          height="1080"
+        ></video>
+        <div class="h-screen w-full fixed backdrop-blur">
+          <div class="h-[89vh] pt-22 xl:px-72">
+            <div
+              ref={desktop}
+              class="border-t border-b h-full overflow-x-hidden flex flex-col gap-6 border-black/10 dark:border-white/10 p-6"
+            >
+              <For each={windows()}>{(item) => item.window}</For>
+            </div>
           </div>
-        </div>
-        <div class="h-[10vh] pt-3 flex items-center px-4">
-          <div
-            class="p-3 max-w-7xl mx-auto w-fit h-fit border border-black/20 dark:border-white/10 rounded-3xl bg-white/80 dark:bg-black/80 flex flex-row justify-center items-center overflow-x-auto"
-            style="scrollbar-width: none;"
-          >
-            <For each={taskbarIcons}>
-              {(icon) => {
-                return (
-                  <div
-                    class={`cursor-pointer def__animate px-0.5 hover:px-1.5 shrink-0 hover:scale-110 hover:-translate-y-1`}
-                    onClick={async () => {
-                      if (windowMap().includes(icon.name)) return;
-                      const newWin = await newWindow(icon.name);
-                      setWindows((prev) => [
-                        ...prev,
-                        { label: icon.name, window: newWin },
-                      ]);
-                      setWindowMap((prev) => [...prev, icon.name]);
-                    }}
-                  >
+          <div class="h-[10vh] pt-3 flex items-center px-4">
+            <div
+              class="p-3 max-w-7xl mx-auto w-fit h-fit border border-black/20 dark:border-white/10 rounded-3xl bg-white/80 dark:bg-black/80 flex flex-row justify-center items-center overflow-x-auto"
+              style="scrollbar-width: none;"
+            >
+              <For each={taskbarIcons}>
+                {(icon) => {
+                  return (
                     <div
-                      class="border border-white/10 rounded-xl"
-                      style={`background-color: ${icon.color}`}
+                      class={`cursor-pointer def__animate px-0.5 hover:px-1.5 shrink-0 hover:scale-110 hover:-translate-y-1`}
+                      onClick={async () => {
+                        if (windowMap().includes(icon.name)) return;
+                        const newWin = await newWindow(icon.name);
+                        setWindows((prev) => [
+                          ...prev,
+                          { label: icon.name, window: newWin },
+                        ]);
+                        setWindowMap((prev) => [...prev, icon.name]);
+                      }}
                     >
-<img
-                        src={icon.icon}
-                        alt={icon.name}
-                        class={`p-1 h-9 w-9 md:h-12 md:w-12 mix-blend-soft-light`}
-                        width="48"
-                        height="48"
-                      />
+                      <div
+                        class="border border-white/10 rounded-xl"
+                        style={`background-color: ${icon.color}`}
+                      >
+                        <img
+                          src={icon.icon}
+                          alt={icon.name}
+                          class={`p-1 h-9 w-9 md:h-12 md:w-12 mix-blend-soft-light`}
+                          width="48"
+                          height="48"
+                        />
+                      </div>
                     </div>
-                  </div>
-                );
-              }}
-            </For>
+                  );
+                }}
+              </For>
+            </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
     </>
   );
 }
