@@ -294,7 +294,7 @@ export default function About() {
                         <strong class="text-2xl">How It Started</strong>
                       </p>
                       <p>
-                        New Jersey, 1998: My dad buys our family a Windows PC. I learn how computers work, and I discover online gaming. Fast forward some years, and some broken computers, and I'm designing forum banners in Photoshop and building gaming communities.
+                        New Jersey, 1998: My dad buys our family a Windows PC from Radioshack. I learn how computers work, and I discover online gaming. Fast forward some years, and some broken computers, and I'm designing forum banners in Photoshop and building gaming communities.
                       </p>
                     </div>
                     <img
