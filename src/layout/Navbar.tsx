@@ -96,7 +96,7 @@ export default function Navbar() {
             aria-label="Toggle navigation menu"
             aria-expanded={showMobileMenu()}
           >
-            <span class="-mt-1" aria-hidden="true">⩩</span>
+            <span class="-mt-2" aria-hidden="true">⩩</span>
           </button>
         </div>
       </nav>

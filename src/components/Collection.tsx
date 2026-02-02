@@ -35,7 +35,7 @@ export interface PortfolioCollection extends Collection {
   mainKeypointMetricTwo: string;
   mainKeypointDescription: string;
   projectKeypoints: PortfolioKeypoint[];
-  projectVideos: Media[]
+  projectVideos: Media[];
 }
 
 interface PortfolioKeypoint {
@@ -84,7 +84,8 @@ export default function Collection({
     for (const tag of project.tags) {
       if (!allTags.includes(tag)) allTags.push(tag);
     }
-    if (!allClients.includes(project.clientName)) allClients.push(project.clientName);
+    if (!allClients.includes(project.clientName))
+      allClients.push(project.clientName);
   }
 
   const [showTagMenu, setShowTagMenu] = createSignal<boolean>(false);
@@ -128,11 +129,15 @@ export default function Collection({
     // searchParams and setSearchParams must be retrieved reactively inside the effect
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const currentTagsInUrl = searchParams.tags ? (searchParams.tags as string).split(',') : [];
+    const currentTagsInUrl = searchParams.tags
+      ? (searchParams.tags as string).split(",")
+      : [];
     const currentTagsInProp = sortByTags?.get() || [];
     const tagsToSet = tagSort(); // The internal state of Collection
 
-    const currentClientsInUrl = searchParams.client ? (searchParams.client as string).split(',') : [];
+    const currentClientsInUrl = searchParams.client
+      ? (searchParams.client as string).split(",")
+      : [];
     const currentClientsInProp = sortByClients?.get() || [];
     const clientsToSet = clientSort(); // The internal state of Collection
 
@@ -147,8 +152,10 @@ export default function Collection({
     }
 
     // Prevent redundant updates to URL search params
-    const tagsChanged = JSON.stringify(currentTagsInUrl) !== JSON.stringify(tagsToSet);
-    const clientsChanged = JSON.stringify(currentClientsInUrl) !== JSON.stringify(clientsToSet);
+    const tagsChanged =
+      JSON.stringify(currentTagsInUrl) !== JSON.stringify(tagsToSet);
+    const clientsChanged =
+      JSON.stringify(currentClientsInUrl) !== JSON.stringify(clientsToSet);
 
     if (tagsChanged || clientsChanged) {
       const newParams: Record<string, string> = {};
@@ -167,7 +174,6 @@ export default function Collection({
       setSearchParams(newParams);
     }
   });
-
 
   onMount(() => {
     // Initial check for sortByTags from parent might still be needed if it's set async
@@ -196,12 +202,14 @@ export default function Collection({
   }
 
   function filterData(tags: string[], clients: string[]) {
-    return data.filter(project => {
+    return data.filter((project) => {
       // Check tag match
-      const hasTagMatch = tags.length === 0 || tags.some(tag => project.tags.includes(tag));
+      const hasTagMatch =
+        tags.length === 0 || tags.some((tag) => project.tags.includes(tag));
 
       // Check client match
-      const hasClientMatch = clients.length === 0 || clients.includes(project.clientName);
+      const hasClientMatch =
+        clients.length === 0 || clients.includes(project.clientName);
 
       // Return true if project matches both tag and client criteria
       return hasTagMatch && hasClientMatch;
@@ -211,7 +219,7 @@ export default function Collection({
   return (
     <section class="z-1 py-18 mx-auto">
       <Show when={enableSearch}>
-        <div class="bg-neutral-100 dark:bg-neutral-900 border-t border-b md:border border-neutral-200 dark:border-neutral-950 z-2 mt-6 lg:mt-9 p-1 md:rounded-xl flex items-center justify-between fixed not-md:w-full md:inset-x-[5vw] xl:inset-x-[15vw] 2xl:inset-x-[25vw]">
+        <div class="bg-neutral-100 dark:bg-neutral-900 border-t border-b md:border border-neutral-200 dark:border-neutral-950 z-2 mt-2 md:mt-10 p-1 md:rounded-xl flex items-center justify-between fixed not-md:w-full md:inset-x-[5vw] xl:inset-x-[15vw] 2xl:inset-x-[25vw]">
           <div class="flex gap-3 items-center justify-between w-full">
             <div class="flex justify-between w-full gap-3">
               <div class="flex relative pr-3 border-r border-r-black/10 dark:border-r-white/10">
@@ -230,7 +238,10 @@ export default function Collection({
                   ref={tagsMenu}
                   class="z-1 hidden min-w-xs rounded-xl backdrop-blur-xl text-black dark:text-white bg-white/80 dark:bg-black/80 absolute mt-12 border border-black/10 text-sm"
                 >
-                  <div class="flex flex-col py-3 max-h-60 overflow-x-auto" style="scrollbar-width: none;">
+                  <div
+                    class="flex flex-col py-3 max-h-60 overflow-x-auto"
+                    style="scrollbar-width: none;"
+                  >
                     <For each={allTags}>
                       {(tag) => {
                         return (
@@ -241,7 +252,7 @@ export default function Collection({
                                 setTagSort([...tagSort(), tag]);
                               } else {
                                 setTagSort(
-                                  tagSort().filter((val) => val !== tag)
+                                  tagSort().filter((val) => val !== tag),
                                 );
                               }
                             }}
@@ -259,7 +270,8 @@ export default function Collection({
                     class="cursor-pointer font-semibold text-xs text-neutral-400 px-2 py-1 rounded-md"
                     onClick={(e) => {
                       setShowClientMenu(!showClientMenu());
-                      if (showClientMenu()) clientsMenu.classList.remove("hidden");
+                      if (showClientMenu())
+                        clientsMenu.classList.remove("hidden");
                       else clientsMenu.classList.add("hidden");
                     }}
                   >
@@ -269,7 +281,10 @@ export default function Collection({
                     ref={clientsMenu}
                     class="z-1 hidden min-w-xs rounded-xl backdrop-blur-xl text-black dark:text-white bg-white/80 dark:bg-black/80 absolute mt-12 border border-black/10 text-sm"
                   >
-                    <div class="flex flex-col py-3 max-h-60 overflow-x-auto" style="scrollbar-width: none;">
+                    <div
+                      class="flex flex-col py-3 max-h-60 overflow-x-auto"
+                      style="scrollbar-width: none;"
+                    >
                       <For each={allClients}>
                         {(client) => {
                           return (
@@ -280,12 +295,16 @@ export default function Collection({
                                   setClientSort([...clientSort(), client]);
                                 } else {
                                   setClientSort(
-                                    clientSort().filter((val) => val !== client)
+                                    clientSort().filter(
+                                      (val) => val !== client,
+                                    ),
                                   );
                                 }
                               }}
                             >
-                              {clientSort().includes(client) ? `× ${client}` : client}
+                              {clientSort().includes(client)
+                                ? `× ${client}`
+                                : client}
                             </span>
                           );
                         }}
@@ -294,13 +313,17 @@ export default function Collection({
                   </div>
                 </div>
               </div>
-              <div class="w-full items-center justify-start flex gap-1 overflow-x-auto" style="scrollbar-width: none;">
-
+              <div
+                class="w-full items-center justify-start flex gap-1 overflow-x-auto"
+                style="scrollbar-width: none;"
+              >
                 <For each={clientSort()}>
                   {(client) => (
                     <Tag
                       onClick={() => {
-                        setClientSort(clientSort().filter((val) => val !== client));
+                        setClientSort(
+                          clientSort().filter((val) => val !== client),
+                        );
                       }}
                     >
                       {`× ${client}`}
@@ -322,7 +345,7 @@ export default function Collection({
               <Show when={tagSort().length > 0 || clientSort().length > 0}>
                 <button
                   ref={clearFilter}
-                  class="text-nowrap cursor-pointer font-semibold text-xs text-neutral-400 px-2 py-1 rounded-md"
+                  class="lg:text-nowrap cursor-pointer font-semibold text-xs text-neutral-400 px-2 py-1 rounded-md"
                   onClick={() => {
                     sortByTags?.set([]);
                     sortByClients?.set([]);
@@ -337,15 +360,19 @@ export default function Collection({
           </div>
         </div>
       </Show>
-      <div
-        class={`flex mx-auto flex-col lg:flex-row py-18`}
-      >
+      <div class={`flex mx-auto flex-col lg:flex-row py-18`}>
         <Show
           when={!enableFull}
           fallback={
             <div class="flex flex-col gap-3 lg:grid lg:grid-cols-3 lg:gap-1 w-full px-6 pt-6 lg:pt-18">
               <For each={sortedData()}>
-                {(item) => <CollectionCell galleryCover={true} enableFull={true} data={item} />}
+                {(item) => (
+                  <CollectionCell
+                    galleryCover={true}
+                    enableFull={true}
+                    data={item}
+                  />
+                )}
               </For>
             </div>
           }
@@ -357,14 +384,18 @@ export default function Collection({
             <CollectionRow>
               <For each={sortedData()}>
                 {(item, idx) =>
-                  idx() % 2 === 0 ? <CollectionCell galleryCover={true} data={item} /> : null
+                  idx() % 2 === 0 ? (
+                    <CollectionCell galleryCover={true} data={item} />
+                  ) : null
                 }
               </For>
             </CollectionRow>
             <CollectionRow>
               <For each={sortedData()}>
                 {(item, idx) =>
-                  idx() % 2 ? <CollectionCell galleryCover={true} data={item} /> : null
+                  idx() % 2 ? (
+                    <CollectionCell galleryCover={true} data={item} />
+                  ) : null
                 }
               </For>
             </CollectionRow>

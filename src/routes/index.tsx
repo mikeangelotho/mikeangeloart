@@ -115,7 +115,7 @@ export default function Home() {
           target.style.opacity = "1";
           // Resume playback when visible
           if (videoPanel && videoPanel.paused) {
-            videoPanel.play().catch(() => { });
+            videoPanel.play().catch(() => {});
           }
         } else {
           target.style.opacity = isMobile ? "0" : "0.25";
@@ -250,8 +250,10 @@ export default function Home() {
                   results.
                 </H2>
                 <p class="pt-4 md:pt-6 max-w-md lg:max-w-lg mx-auto border-t border-neutral-200 dark:border-neutral-800 text-sm md:text-base">
-                  I've developed full ad campaigns, commercials, landing pages
-                  and websites, and countless other digital and physical assets.
+                  I've worked with small businesses, local artists, and
+                  marketing agencies to produce high-quality creative assets,
+                  engaging video and motion design, comprehensive custom
+                  websites, and full-scope advertising campaigns.
                 </p>
               </div>
             </div>
@@ -268,9 +270,7 @@ export default function Home() {
         </div>
         <div class="w-full flex flex-col items-center border-t border-b border-neutral-200 dark:border-neutral-900 backdrop-blur-3xl">
           <div class="bg-neutral-100 dark:bg-black/90 w-full">
-            <Collection
-              data={collectionData}
-            />
+            <Collection data={collectionData} />
           </div>
           <div class="py-36 lg:border-t border-t-neutral-200 dark:border-t-neutral-900 border-b-neutral-200 dark:border-b-neutral-900 w-full">
             <section class="flex flex-col lg:flex-row gap-12 md:gap-16 lg:gap-18 xl:gap-24 items-center px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mx-auto lg:max-w-7xl w-full">
@@ -317,7 +317,3 @@ export default function Home() {
     </>
   );
 }
-
-
-
-
