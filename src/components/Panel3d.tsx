@@ -90,12 +90,12 @@ export class SceneManager {
     this.#renderer.render(this.scene, this.camera);
   };
 
-init(element: HTMLElement, modelName: string) {
+  init(element: HTMLElement, modelName: string) {
     if (this.initialized) return;
-    
+
     // Mobile performance optimization
     const isMobile = window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
+
     this.container = element;
     this.placeholder = document.createElement("div");
     this.placeholder.className = "absolute top-0 left-0";
@@ -121,9 +121,9 @@ init(element: HTMLElement, modelName: string) {
     this.controls.enableZoom = false;
     this.controls.enablePan = false;
     this.controls.update();
-// Performance optimizations
+    // Performance optimizations
     const pixelRatio = Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2);
-    this.#renderer = new three.WebGLRenderer({ 
+    this.#renderer = new three.WebGLRenderer({
       antialias: !isMobile, // Disable antialiasing on mobile
       alpha: true,
       powerPreference: "high-performance"
@@ -166,8 +166,8 @@ init(element: HTMLElement, modelName: string) {
         canvas.height = 256;
         const ctx = canvas.getContext("2d")!;
         const gradient = ctx.createLinearGradient(0, 0, 0, 256);
-        gradient.addColorStop(0, "#cdc2ffff");
-        gradient.addColorStop(1, "#9fffe0ff");
+        gradient.addColorStop(0, "#00c0ffff");
+        gradient.addColorStop(1, "#0060ffff");
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, 2, 256);
 
@@ -180,7 +180,7 @@ init(element: HTMLElement, modelName: string) {
         const defaultMaterial = new three.MeshPhysicalMaterial({
           map: gradientTexture,
           metalness: 0,
-          roughness: 0.4,
+          roughness: 0,
           transmission: 1.25,
           thickness: 1,
           envMap: this.scene?.environment,
@@ -221,7 +221,7 @@ init(element: HTMLElement, modelName: string) {
     const dirLight = new three.DirectionalLight(0xffffff, 2);
     dirLight.position.set(10, 10, 10);
     dirLight.castShadow = true;
-// Reduce shadow quality on mobile
+    // Reduce shadow quality on mobile
     const shadowSize = isMobile ? 512 : 1024;
     dirLight.shadow.mapSize.width = shadowSize;
     dirLight.shadow.mapSize.height = shadowSize;
@@ -235,7 +235,7 @@ init(element: HTMLElement, modelName: string) {
     shadowPlane.receiveShadow = false;
     this.scene.add(shadowPlane);
 
-this.scrollHandler = () => {
+    this.scrollHandler = () => {
       if (this.model) {
         // Reduce scroll rotation frequency on mobile
         const rotationAmount = isMobile ? 0.04 : 0.075;
@@ -243,7 +243,7 @@ this.scrollHandler = () => {
       }
     };
     window.addEventListener("scroll", this.scrollHandler);
-    
+
     this.initialized = true;
     this.startAnimation();
   }

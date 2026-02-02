@@ -250,7 +250,7 @@ export default function About() {
         label: "Logo",
         window: (
           <Moveable label="Logo" noMobile={true} options={{ x: 1.65, y: 4 }}>
-            <div ref={wrapper3D} class="w-36 h-36 pointer-events-none"></div>
+            <figure ref={wrapper3D} class="w-36 h-36 pointer-events-none dark:invert dark:hue-rotate-180"></figure>
           </Moveable>
         ),
       },
@@ -387,8 +387,8 @@ export default function About() {
       <main class="w-full relative">
         <video
           ref={videoPanel}
-          src="/Comp_3.mp4"
-          class="h-screen w-full dark:-hue-rotate-90 not-dark:hue-rotate-45 not-dark:invert not-dark:brightness-200 -z-1 aspect-video object-cover mx-auto fixed top-0"
+          src="https://cdn.mikeangelo.art/bg-2.mp4"
+          class="h-screen w-full dark:invert dark:hue-rotate-180 -z-1 aspect-video object-cover mx-auto fixed top-0"
           preload="metadata"
           muted
           autoplay

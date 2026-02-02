@@ -115,7 +115,7 @@ export default function Home() {
           target.style.opacity = "1";
           // Resume playback when visible
           if (videoPanel && videoPanel.paused) {
-            videoPanel.play().catch(() => {});
+            videoPanel.play().catch(() => { });
           }
         } else {
           target.style.opacity = isMobile ? "0" : "0.25";
@@ -202,8 +202,8 @@ export default function Home() {
       <main class="w-full relative flex flex-col justify-center items-center">
         <video
           ref={videoPanel}
-          src="/Comp_3.mp4"
-          class="w-full dark:-hue-rotate-90 not-dark:hue-rotate-45 not-dark:invert not-dark:brightness-200 -z-10 aspect-video object-cover h-screen mx-auto fixed top-0"
+          src="https://cdn.mikeangelo.art/bg-2.mp4"
+          class="w-full dark:invert dark:hue-rotate-180 -z-10 aspect-video object-cover h-screen mx-auto fixed top-0"
           preload="metadata"
           muted
           autoplay
@@ -237,12 +237,12 @@ export default function Home() {
             </div>
           </article>
         </section>
-        <div class="w-full flex flex-col items-center border-t border-b border-neutral-200 dark:border-neutral-900 backdrop-blur-3xl">
+        <div class="w-full flex flex-col items-center border-t border-b border-neutral-200 dark:border-neutral-900 backdrop-blur-3xl backdrop-brightness-125 dark:backdrop-brightness-20">
           <section class="flex flex-col justify-center items-center text-black dark:text-white pt-12 md:pt-16 lg:pt-18 xl:pt-24 pb-24 md:pb-32 lg:pb-36 xl:pb-48 px-6 sm:px-8 md:px-12 lg:px-16 max-w-7xl">
             <div class="flex flex-col justify-center items-center">
               <figure
                 ref={wrapper3d}
-                class="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 not-dark:invert"
+                class="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 dark:invert dark:hue-rotate-180"
               ></figure>
               <div class="p-4 sm:p-6 md:p-8 max-w-3xl text-center flex flex-col gap-4 md:gap-6 rounded-2xl md:rounded-3xl">
                 <H2>
@@ -268,7 +268,7 @@ export default function Home() {
             </For>
           </div>
         </div>
-        <div class="w-full flex flex-col items-center border-t border-b border-neutral-200 dark:border-neutral-900 backdrop-blur-3xl">
+        <div class="w-full flex flex-col items-center border-t border-b border-neutral-200 dark:border-neutral-900 backdrop-blur-3xl backdrop-brightness-125 dark:backdrop-brightness-20">
           <div class="bg-neutral-100 dark:bg-black/90 w-full">
             <Collection data={collectionData} />
           </div>

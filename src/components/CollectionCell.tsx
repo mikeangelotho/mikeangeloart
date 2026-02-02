@@ -12,74 +12,110 @@ export function CollectionCell({
   enableFull?: boolean;
   galleryCover?: boolean;
 }) {
-  function SlideshowCover() {
-    const keypointMedia = createMemo(() => {
-      return data.projectKeypoints
-        .flatMap((kp) => kp.media.map((m) => m.url))
-        .filter((url) => !url.endsWith(".mp4"));
-    });
 
-    const [randIdx, setRandIdx] = createSignal(
-      Math.floor(Math.random() * keypointMedia().length),
+  function SlideshowCover() {
+    const keypointMedia = createMemo(() =>
+      data.projectKeypoints
+        .flatMap((kp) => kp.media.map((m) => m.url))
+        .filter((url) => !url.endsWith(".mp4")),
     );
-    let coverRef: HTMLImageElement | undefined;
+
+    const images = keypointMedia();
+    if (images.length === 0) return null;
+
+    const startIdx = Math.floor(Math.random() * images.length);
+
+    const [showA, setShowA] = createSignal(true);
+    const [aIdx, setAIdx] = createSignal(startIdx);
+    const [bIdx, setBIdx] = createSignal((startIdx + 1) % images.length);
+
+    const nextIdx = (i: number) => (i + 1) % images.length;
+    const prevIdx = (i: number) => (i - 1 + images.length) % images.length;
+
+    const goNext = () => {
+      if (showA()) {
+        setBIdx(nextIdx(aIdx()));
+      } else {
+        setAIdx(nextIdx(bIdx()));
+      }
+      setShowA((v) => !v);
+    };
+
+    const goPrev = () => {
+      if (showA()) {
+        setBIdx(prevIdx(aIdx()));
+      } else {
+        setAIdx(prevIdx(bIdx()));
+      }
+      setShowA((v) => !v);
+    };
+
+    // timing offset per card
+    const baseDelay = 9000;
+    const offset =
+      ((data.slug?.length ?? 0) * 137) % 2000 + Math.random() * 1500;
 
     onMount(() => {
-      if (keypointMedia().length <= 1) return;
-
-      const interval = setInterval(() => {
-        coverRef?.classList.add("opacity-0");
-        setTimeout(() => {
-          setRandIdx((prev) => (prev + 1) % keypointMedia().length);
-          coverRef?.classList.remove("opacity-0");
-        }, 700);
-      }, 10000);
-
+      if (images.length <= 1) return;
+      const interval = setInterval(goNext, baseDelay + offset);
       return () => clearInterval(interval);
     });
 
-    const handleNext = (e: MouseEvent) => {
+    const next = (e: MouseEvent) => {
       e.stopPropagation();
-      setRandIdx((prev) => (prev + 1) % keypointMedia().length);
+      goNext();
     };
 
-    const handlePrev = (e: MouseEvent) => {
+    const prev = (e: MouseEvent) => {
       e.stopPropagation();
-      setRandIdx(
-        (prev) => (prev - 1 + keypointMedia().length) % keypointMedia().length,
-      );
+      goPrev();
     };
 
     return (
       <>
-        <div class="group-hover/card:opacity-100 def__animate opacity-0 absolute inset-0 flex justify-between items-center px-6 pointer-events-none z-10">
+        {/* controls */}
+        <div class="group-hover/card:opacity-100 opacity-0 absolute inset-0 flex justify-between items-center px-6 pointer-events-none z-10 def__animate">
           <div
-            class="pointer-events-auto select-none hover:scale-105 cursor-pointer px-3 py-1 text-sm bg-white/80 dark:bg-black/80 backdrop-blur-3xl backdrop-brightness-150 text-black dark:text-white rounded-lg not-dark:border border-neutral-200"
-            onClick={handlePrev}
+            class="pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/80 dark:bg-black/80 dark:text-white rounded-lg hover:scale-105"
+            onClick={prev}
           >
             ❮
           </div>
-
           <div
-            class="pointer-events-auto select-none hover:scale-105 cursor-pointer px-3 py-1 text-sm bg-white/80 dark:bg-black/80 backdrop-blur-3xl backdrop-brightness-150 text-black dark:text-white rounded-lg not-dark:border border-neutral-200"
-            onClick={handleNext}
+            class="pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/80 dark:bg-black/80 dark:text-white rounded-lg hover:scale-105"
+            onClick={next}
           >
             ❯
           </div>
         </div>
 
-        <A href={`/projects/${data.slug}`}>
-          <img
-            ref={coverRef}
-            src={keypointMedia()[randIdx()]}
-            class="h-full w-full object-cover def__animate opacity-100 transition-opacity duration-700"
-            loading="lazy"
-            alt=""
-          />
+        <A href={`/projects/${data.slug}`} class="absolute inset-0">
+          <div class="relative h-full w-full overflow-hidden">
+            {/* Layer A */}
+            <img
+              src={images[aIdx()]}
+              class={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 will-change-[opacity]
+              ${showA() ? "opacity-100" : "opacity-0"}`}
+              loading="lazy"
+              alt=""
+            />
+
+            {/* Layer B */}
+            <img
+              src={images[bIdx()]}
+              class={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 will-change-[opacity]
+              ${showA() ? "opacity-0" : "opacity-100"}`}
+              loading="lazy"
+              alt=""
+            />
+          </div>
         </A>
       </>
     );
   }
+
+
+
 
   return (
     <article
@@ -98,9 +134,8 @@ export function CollectionCell({
         const cells = document.querySelectorAll(".cell-container");
         cells.forEach((cell) => cell.classList.remove("saturate-0"));
       }}
-      class={`group/card cell-container relative overflow-hidden hover:brightness-115 hover:saturate-125 def__animate ${
-        !enableFull ? `w-72 h-96 xl:h-108 md:w-100 xl:w-xl` : `h-120 w-full`
-      }`}
+      class={`group/card cell-container relative overflow-hidden hover:brightness-115 hover:saturate-125 def__animate ${!enableFull ? `w-72 h-96 xl:h-108 md:w-100 xl:w-xl` : `h-120 w-full`
+        }`}
     >
       <Show
         when={galleryCover}
