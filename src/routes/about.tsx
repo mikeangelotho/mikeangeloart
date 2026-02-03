@@ -363,7 +363,7 @@ export default function About() {
         title="About Mike Angelo - Art Director & Web Designer"
         description="Learn about Mike Angelo, an art director and web designer in New York. Discover my journey from breaking computers to creating beautiful digital experiences."
         canonical="https://mikeangeloart.com/about"
-        ogImage="/og-about.jpg"
+        ogImage="/MA_Logo_SharpMA_White.svg"
         breadcrumbs={[
           { name: "Home", url: "https://mikeangeloart.com" },
           { name: "About", url: "https://mikeangeloart.com/about" }
