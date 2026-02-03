@@ -173,7 +173,7 @@ export default function Home() {
     <>
       <SEO
         title="Mike Angelo - Art Director & Web Designer in New York"
-        description="Award-winning art director and web designer serving NYC. Specializing in advertising campaigns, web design, and digital content creation that delivers results."
+        description="Art director and web designer/developer in New Jersey and NYC. Specializing in advertising campaigns, web design, and digital content creation that delivers results."
         canonical="https://mikeangeloart.com"
         ogImage="/og-home.jpg"
         localBusiness={true}
@@ -184,7 +184,7 @@ export default function Home() {
           name: "Mike Angelo",
           jobTitle: "Art Director & Web Designer",
           description:
-            "Award-winning art director and web designer serving greater New York area",
+            "Art director and web designer serving New Jersey and the greater New York area",
           url: "https://mikeangeloart.com",
           address: {
             "@type": "PostalAddress",
@@ -202,7 +202,7 @@ export default function Home() {
       <main class="w-full relative flex flex-col justify-center items-center">
         <video
           ref={videoPanel}
-          src="https://cdn.mikeangelo.art/bg-2.mp4"
+          src="https://cdn.mikeangelo.art/bg-3.mp4"
           class="w-full dark:invert dark:hue-rotate-180 -z-10 aspect-video object-cover h-screen mx-auto fixed top-0"
           preload="metadata"
           muted
@@ -214,7 +214,7 @@ export default function Home() {
           height="1080"
           poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect fill='%23000' width='1920' height='1080'/%3E%3C/svg%3E"
         ></video>
-        <section class="mx-auto max-w-7xl overflow-hidden perspective-normal mix-blend-difference h-screen md:pb-12 lg:pb-36 xl:pb-48 w-full flex justify-center items-center md:items-end lg:items-end">
+        <section class="mx-auto max-w-7xl overflow-hidden perspective-normal mix-blend-difference h-screen pb-48 lg:pb-36 xl:pb-48 w-full flex justify-center items-center">
           <article
             ref={introPanel}
             style={{
@@ -223,10 +223,10 @@ export default function Home() {
             class="intro-panel px-4 sm:px-6 md:px-8 fixed w-fit max-w-[90vw] flex flex-col justify-center items-center md:flex-row gap-4 md:gap-6 lg:gap-8"
           >
             <div class="text-white/20 h-fit not-md:border-b md:border-r md:pr-2 lg:pr-4 pb-1 text-sm md:text-base">
-              <ContainerLabel>Intro</ContainerLabel>
+              <ContainerLabel>Welcome</ContainerLabel>
             </div>
             <div class="md:whitespace-nowrap not-dark:invert flex flex-col gap-4 md:gap-6 py-4 justify-center text-center md:text-left w-full max-w-3xl lg:max-w-4xl xl:max-w-5xl">
-              <H1>Hey! My name's Mike.</H1>
+              <H1>My name's Mike.</H1>
               <H2>
                 <span class="font-normal italic transition-opacity duration-100 ease-out">
                   I'm an art director <br class="block md:hidden" />& web
@@ -237,7 +237,7 @@ export default function Home() {
             </div>
           </article>
         </section>
-        <div class="w-full flex flex-col items-center border-t border-b border-neutral-200 dark:border-neutral-900 backdrop-blur-3xl backdrop-brightness-125 dark:backdrop-brightness-20">
+        <div class="w-full flex flex-col items-center border-t border-b border-neutral-200 dark:border-neutral-900 backdrop-blur-3xl backdrop-saturate-200 dark:backdrop-brightness-150">
           <section class="flex flex-col justify-center items-center text-black dark:text-white pt-12 md:pt-16 lg:pt-18 xl:pt-24 pb-24 md:pb-32 lg:pb-36 xl:pb-48 px-6 sm:px-8 md:px-12 lg:px-16 max-w-7xl">
             <div class="flex flex-col justify-center items-center">
               <figure
@@ -249,7 +249,7 @@ export default function Home() {
                   I like to make things look good, function well, and deliver
                   results.
                 </H2>
-                <p class="pt-4 md:pt-6 max-w-md lg:max-w-lg mx-auto border-t border-neutral-200 dark:border-neutral-800 text-sm md:text-base">
+                <p class="pt-4 md:pt-6 max-w-md lg:max-w-lg mx-auto border-t border-neutral-200 dark:border-neutral-800">
                   I've worked with small businesses, local artists, and
                   marketing agencies to produce high-quality creative assets,
                   engaging video and motion design, comprehensive custom
@@ -268,7 +268,7 @@ export default function Home() {
             </For>
           </div>
         </div>
-        <div class="w-full flex flex-col items-center border-t border-b border-neutral-200 dark:border-neutral-900 backdrop-blur-3xl backdrop-brightness-125 dark:backdrop-brightness-20">
+        <div class="w-full flex flex-col items-center border-t border-b border-neutral-200 dark:border-neutral-900 backdrop-blur-3xl backdrop-saturate-200 dark:backdrop-brightness-150">
           <div class="bg-neutral-100 dark:bg-black/90 w-full">
             <Collection data={collectionData} />
           </div>

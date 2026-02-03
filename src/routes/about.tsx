@@ -387,7 +387,7 @@ export default function About() {
       <main class="w-full relative">
         <video
           ref={videoPanel}
-          src="https://cdn.mikeangelo.art/bg-2.mp4"
+          src="https://cdn.mikeangelo.art/bg-3.mp4"
           class="h-screen w-full dark:invert dark:hue-rotate-180 -z-1 aspect-video object-cover mx-auto fixed top-0"
           preload="metadata"
           muted
