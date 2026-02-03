@@ -115,7 +115,7 @@ export default function Home() {
           target.style.opacity = "1";
           // Resume playback when visible
           if (videoPanel && videoPanel.paused) {
-            videoPanel.play().catch(() => { });
+            videoPanel.play().catch(() => {});
           }
         } else {
           target.style.opacity = isMobile ? "0" : "0.25";
@@ -249,7 +249,7 @@ export default function Home() {
                   I like to make things look good, function well, and deliver
                   results.
                 </H2>
-                <p class="pt-4 md:pt-6 max-w-md lg:max-w-lg mx-auto border-t border-neutral-200 dark:border-neutral-800">
+                <p class="pt-4 md:pt-6 max-w-md lg:max-w-lg mx-auto border-t border-black/10 dark:border-white/10">
                   I've worked with small businesses, local artists, and
                   marketing agencies to produce high-quality creative assets,
                   engaging video and motion design, comprehensive custom
