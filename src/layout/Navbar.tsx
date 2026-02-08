@@ -66,7 +66,7 @@ export default function Navbar() {
             href="/"
             class="font-sans flex items-center gap-3 hover:brightness-50 def__animate"
           >
-            <img src="/MA_Logo_SharpMA_White.svg" loading="eager" width="32" height="auto" class="w-8 h-8 sm:w-9 sm:h-9" alt="Mike Angelo Logo" />
+            <img src="https://cdn.mikeangelo.art/MA_Logo_SharpMA_White.svg" loading="eager" width="32" height="auto" class="w-8 h-8 sm:w-9 sm:h-9" alt="Mike Angelo Logo" />
             <span class="font-sans text-xs tracking-[2px] text-white uppercase">
               Mike Angelo
             </span>
@@ -89,7 +89,7 @@ export default function Navbar() {
           </div>
           <button
             ref={mobileMenuIcon}
-            class="bg-white rounded-lg hover:scale-105 active:scale-95 def__animate lg:hidden text-2xl sm:text-3xl text-black pb-1 sm:pb-2 mb-1 px-3 sm:px-4 py-2 min-w-11 min-h-11 flex items-center justify-center"
+            class="bg-white rounded-lg hover:scale-105 active:scale-95 def__animate lg:hidden text-2xl sm:text-3xl text-black pb-1 sm:pb-2 px-3 sm:px-4 py-2 min-w-11 min-h-11 flex items-center justify-center"
             onClick={() => {
               toggleMobileMenu();
             }}

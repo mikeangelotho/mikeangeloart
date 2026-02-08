@@ -8,7 +8,7 @@ import {
   Show,
 } from "solid-js";
 import { init3dScene } from "~/components/Panel3d";
-import { ContainerLabel, Tag } from "~/layout/Cards";
+import { Button, ContainerLabel, Tag } from "~/layout/Cards";
 import { H1, H2 } from "~/layout/Headings";
 import { fetchGithubAvatar } from "~/utils/github";
 import { fetchGithubInfo, GitHubUser } from "~/hooks";
@@ -19,48 +19,42 @@ const [githubAvatar] = createResource<string>(fetchGithubAvatar);
 const taskbarIcons = [
   {
     name: "Photoshop",
-    icon: "/MA_WebIcons_Ps.svg",
+    icon: "https://cdn.mikeangelo.art/MA_WebIcons_Ps.svg",
     color: "#002341ff",
-    url: "https://www.behance.net/mikeangelotho",
   },
   {
     name: "Illustrator",
-    icon: "/MA_WebIcons_Ai.svg",
+    icon: "https://cdn.mikeangelo.art/MA_WebIcons_Ai.svg",
     color: "#532100ff",
-    url: "https://www.behance.net/mikeangelotho",
   },
   {
     name: "InDesign",
-    icon: "/MA_WebIcons_Id.svg",
+    icon: "https://cdn.mikeangelo.art/MA_WebIcons_Id.svg",
     color: "#7c0029ff",
-    url: "https://www.behance.net/mikeangelotho",
   },
   {
     name: "Premiere Pro",
-    icon: "/MA_WebIcons_Pr.svg",
+    icon: "https://cdn.mikeangelo.art/MA_WebIcons_Pr.svg",
     color: "#000e55ff",
-    url: "https://www.behance.net/mikeangelotho",
   },
   {
     name: "After Effects",
-    icon: "/MA_WebIcons_Ae.svg",
+    icon: "https://cdn.mikeangelo.art/MA_WebIcons_Ae.svg",
     color: "#000e55ff",
-    url: "https://www.behance.net/mikeangelotho",
   },
   {
     name: "Figma",
-    icon: "/MA_WebIcons_Figma.svg",
+    icon: "https://cdn.mikeangelo.art/MA_WebIcons_Figma.svg",
     color: "#1d0319",
-    url: "https://www.figma.com/@mangelo",
   },
   {
     name: "VS Code",
-    icon: "/MA_WebIcons_VSCode.svg",
+    icon: "https://cdn.mikeangelo.art/MA_WebIcons_VSCode.svg",
     color: "#0065A9",
   },
   {
     name: "Blender",
-    icon: "/MA_WebIcons_Blender.svg",
+    icon: "https://cdn.mikeangelo.art/MA_WebIcons_Blender.svg",
     color: "#ca6500ff",
   },
 ];
@@ -148,7 +142,12 @@ export default function About() {
               setWindows((prev) => prev.filter((item) => item.label !== label));
             }}
           >
-            <div class="px-2 py-1 border text-xs rounded-md" aria-label="Close window">Χ</div>
+            <div
+              class="px-2 py-1 border text-xs rounded-md"
+              aria-label="Close window"
+            >
+              Χ
+            </div>
           </div>{" "}
           <Show when={label}>
             <div class="mb-3 pb-1 w-fit text-black/ dark:text-white border-b dark:border-b-white/10">
@@ -169,17 +168,19 @@ export default function About() {
       const { x, y, width, height } = element.getBoundingClientRect();
       const { clientX, clientY } = e;
       requestAnimationFrame(() => {
-        element.style.left = `clamp(12px, ${clientX - width / 2}px, ${innerWidth - width - 12
-          }px)`;
-        element.style.top = `clamp(96px, ${clientY - height / 2}px, ${innerHeight - height - 144
-          }px)`;
+        element.style.left = `clamp(12px, ${clientX - width / 2}px, ${
+          innerWidth - width - 12
+        }px)`;
+        element.style.top = `clamp(96px, ${clientY - height / 2}px, ${
+          innerHeight - height - 144
+        }px)`;
       });
     }
   }
 
   const Box = ({ children }: { children: JSXElement }) => {
     return (
-      <div class="p-6 rounded-xl gap-6 w-full border border-black/10 bg-white dark:border-white/10 dark:border-t dark:bg-black/90 dark:border-t-white text-black dark:text-white">
+      <div class="p-6 rounded-xl gap-6 w-full border border-black/10 bg-white/95 dark:border-white/10 dark:border-t dark:bg-black/95 dark:border-t-white text-black dark:text-white">
         {children}
       </div>
     );
@@ -250,12 +251,16 @@ export default function About() {
         label: "Logo",
         window: (
           <Moveable label="Logo" noMobile={true} options={{ x: 1.65, y: 4 }}>
-            <figure ref={wrapper3D} class="w-36 h-36 pointer-events-none dark:invert dark:hue-rotate-180"></figure>
+            <figure
+              ref={wrapper3D}
+              class="w-36 h-36 pointer-events-none dark:invert dark:hue-rotate-180"
+            ></figure>
           </Moveable>
         ),
       },
     ]);
 
+    /*
     setWindows((prev) => [
       ...prev,
       {
@@ -277,6 +282,7 @@ export default function About() {
         ),
       },
     ]);
+    */
 
     setWindows((prev) => [
       ...prev,
@@ -288,31 +294,45 @@ export default function About() {
               <div class="flex flex-col gap-8">
                 <H1>About Me</H1>
                 <div class="flex flex-col gap-6 border-t border-b border-black/10 dark:border-white/10 pt-6 max-h-[40vh] overflow-y-auto pr-6 pb-6 mb-6">
-                  <div class="py-6 gap-6 w-full flex flex-col lg:flex-row-reverse justify-start items-start lg:items-center">
+                  <div class="py-6 gap-6 w-full flex flex-col lg:flex-row justify-start items-center">
                     <div class="flex flex-col gap-3">
                       <p>
                         <strong class="text-2xl">How It Started</strong>
                       </p>
                       <p>
-                        New Jersey, 1998: My dad buys our family a Windows PC from Radioshack. I learn how computers work, and I discover online gaming. Fast forward some years, and some broken computers, and I'm designing forum banners in Photoshop and building gaming communities.
+                        New Jersey, 1998: My dad buys our family a Windows PC
+                        from Radioshack. I learn how computers work, and I
+                        discover online gaming. Fast forward some years, and
+                        some broken computers, and I'm designing forum banners
+                        in Photoshop and building gaming communities.
                       </p>
                     </div>
                     <img
                       class="ring-2 ring-black/10 dark:ring-white/10 md:max-w-1/3 rounded-lg"
-                      src="/edited pc guitar me.jpg"
-                      alt="Mike Angelo playing guitar with computer setup"
+                      src="https://cdn.mikeangelo.art/me-guitar-pc.jpg"
+                      alt="Me doin my thing: playing guitar at the computer"
                       width="400"
                       height="300"
                     />
                   </div>
 
-                  <div class="py-6 gap-6 w-full flex flex-col lg:flex-row justify-start items-start lg:items-center">
+                  <div class="py-6 gap-6 w-full flex flex-col-reverse lg:flex-row items-center">
+                    <img
+                      class="ring-2 ring-black/10 dark:ring-white/10 md:max-w-1/3 rounded-lg"
+                      src="https://cdn.mikeangelo.art/MA_Headshot_FINAL_CROP.png"
+                      alt="Me doin my thing: standing in front of a brick wall"
+                      width="400"
+                      height="300"
+                    />
                     <div class="flex flex-col gap-3">
                       <p>
                         <strong class="text-2xl">How It’s Going</strong>
                       </p>
                       <p>
-                        My passion for designing and building is stronger than ever. Whether it's brand assets, marketing campaigns, landing pages, or app interfaces, I love bringing fresh ideas to life and building systems around them.
+                        My passion for designing and building is stronger than
+                        ever. Whether it's brand assets, marketing campaigns,
+                        landing pages, or app interfaces, I love bringing fresh
+                        ideas to life and building systems around them.
                       </p>
                     </div>
                   </div>
@@ -323,12 +343,15 @@ export default function About() {
                         <strong class="text-2xl">Etc.</strong>
                       </p>
                       <p>
-                        Aside from my daily screen activities, I like to hike and get lost in nature, write electric guitar songs that I immediately forget, attempt to skateboard, and stay endlessly curious about engineering, philosophy, and the universe.
+                        Aside from my daily screen activities, I like to hike
+                        and get lost in nature, write electric guitar songs that
+                        I immediately forget, attempt to skateboard, and stay
+                        endlessly curious about engineering, philosophy, and the
+                        universe.
                       </p>
                     </div>
                   </div>
                 </div>
-
               </div>
             </Box>
           </Moveable>
@@ -337,20 +360,38 @@ export default function About() {
     ]);
 
     /*
-    setWindows(prev => [...prev, {
-      label: "Alert", window: <Moveable label="Alert" options={{ x: 2, y: 1.5 }}>
-        <Box>
-          <div class="flex flex-col items-center gap-6">
-            <p class="text-sm opacity-20">A resume has been detected.</p>
-            <Button type="button" onClick={() => {
-              window.open("https://example.com/your-resume.pdf", "_blank"); // Placeholder URL, please update!
-            }}>View Resume</Button>        </div>
-        </Box>
-      </Moveable>
-    }]);
+    setWindows((prev) => [
+      ...prev,
+      {
+        label: "Alert",
+        window: (
+          <Moveable label="Alert" options={{ x: 2, y: 1.5 }}>
+            <Box>
+              <div class="flex flex-col items-center gap-6">
+                <p class="text-sm opacity-20">A resume has been detected.</p>
+                <Button
+                  type="button"
+                  onClick={() => {
+                    window.open(
+                      "https://example.com/your-resume.pdf",
+                      "_blank",
+                    ); // Placeholder URL, please update!
+                  }}
+                >
+                  View Resume
+                </Button>{" "}
+              </div>
+            </Box>
+          </Moveable>
+        ),
+      },
+    ]);
     */
 
-    const [sceneManager, observer] = init3dScene(wrapper3D, "/MA_Logo_3D.glb");
+    const [sceneManager, observer] = init3dScene(
+      wrapper3D,
+      "https://cdn.mikeangelo.art/MA_Logo_3D.glb",
+    );
     onCleanup(() => {
       sceneManager.dispose();
       observer.disconnect();
@@ -360,28 +401,36 @@ export default function About() {
   return (
     <>
       <SEO
-        title="About Mike Angelo - Art Director & Web Designer"
-        description="Learn about Mike Angelo, an art director and web designer in New York. Discover my journey from breaking computers to creating beautiful digital experiences."
+        title="About Mike Angelo - Art Director & Web Developer"
+        description="Learn about Mike Angelo, an art director and web designer in the greater New York area. Discover my journey from breaking computers to creating beautiful digital experiences."
         canonical="https://mikeangeloart.com/about"
         ogImage="/MA_Logo_SharpMA_White.svg"
         breadcrumbs={[
           { name: "Home", url: "https://mikeangeloart.com" },
-          { name: "About", url: "https://mikeangeloart.com/about" }
+          { name: "About", url: "https://mikeangeloart.com/about" },
         ]}
         localBusiness={true}
         organization={true}
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "Person",
-          "name": "Mike Angelo",
-          "jobTitle": "Art Director & Web Designer",
-          "description": "Art director and web designer with a passion for turning ideas into tangible, functional, and beautiful digital experiences.",
-          "url": "https://mikeangeloart.com/about",
-          "knowsAbout": ["Art Direction", "Web Design", "Digital Experiences", "Adobe Creative Suite", "Figma", "Web Development"],
-          "worksFor": {
+          name: "Mike Angelo",
+          jobTitle: "Art Director & Web Designer",
+          description:
+            "Art director and web designer with a passion for turning ideas into tangible, functional, and beautiful digital experiences.",
+          url: "https://mikeangeloart.com/about",
+          knowsAbout: [
+            "Art Direction",
+            "Web Design",
+            "Digital Experiences",
+            "Adobe Creative Suite",
+            "Figma",
+            "Web Development",
+          ],
+          worksFor: {
             "@type": "Organization",
-            "name": "Freelance"
-          }
+            name: "Freelance",
+          },
         }}
       />
       <main class="w-full relative">

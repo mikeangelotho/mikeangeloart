@@ -133,7 +133,7 @@ export default function Home() {
     const threeJsObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          sceneManager.init(wrapper3d, "/MA_Logo_3D.glb");
+          sceneManager.init(wrapper3d, "https://cdn.mikeangelo.art/MA_Logo_3D.glb");
           resizeHandler = () => {
             if (sceneManager) {
               sceneManager.handleResize(wrapper3d);

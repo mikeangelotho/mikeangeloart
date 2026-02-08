@@ -39,7 +39,7 @@ export interface GitHubUser {
 }
 
 export async function fetchGithubInfo(key?: keyof GitHubUser) {
-    const res: GitHubUser = await fetch("https://api.github.com/users/bippolaroid").then(res => res.json());
+    const res: GitHubUser = await fetch("https://api.github.com/users/mikeangelotho").then(res => res.json());
     if (key) {
         return res[key];
     } else {
