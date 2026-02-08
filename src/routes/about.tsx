@@ -319,7 +319,7 @@ export default function About() {
                   <div class="py-6 gap-6 w-full flex flex-col-reverse lg:flex-row items-center">
                     <img
                       class="ring-2 ring-black/10 dark:ring-white/10 md:max-w-1/3 rounded-lg"
-                      src="https://cdn.mikeangelo.art/MA_Headshot_FINAL_CROP.png"
+                      src="https://cdn.mikeangelo.art/MA_Headshot_FINAL_BLUR.png"
                       alt="Me doin my thing: standing in front of a brick wall"
                       width="400"
                       height="300"
