@@ -31,7 +31,7 @@ export default function ProjectPage() {
         title="Projects - Mike Angelo | Art Director & Web Designer Portfolio"
         description="Explore Mike Angelo's portfolio of art direction, web design and development, and advertising campaigns for clients in New Jersey and New York."
         canonical="https://mikeangeloart.com/projects"
-        ogImage="/og-home.jpg"
+        ogImage="https://cdn.mikeangelo.art/og-default.png"
         breadcrumbs={[
           { name: "Home", url: "https://mikeangeloart.com" },
           { name: "Projects", url: "https://mikeangeloart.com/projects" },

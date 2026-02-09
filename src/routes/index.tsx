@@ -175,7 +175,7 @@ export default function Home() {
         title="Mike Angelo - Art Director & Web Designer in New York"
         description="Art director and web designer/developer in New Jersey and NYC. Specializing in advertising campaigns, web design, and digital content creation that delivers results."
         canonical="https://mikeangeloart.com"
-        ogImage="/MA_Logo_SharpMA_White.svg"
+        ogImage="https://cdn.mikeangelo.art/og-default.png"
         localBusiness={true}
         organization={true}
         jsonLd={{
