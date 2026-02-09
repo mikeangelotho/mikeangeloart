@@ -55,7 +55,7 @@ export default function ProjectPage() {
       <Show when={project()} fallback={<div>Loading</div>} keyed>
         {(p) => (
           <SEO
-            title={`${p.title} - Portfolio Project by Mike Angelo`}
+            title={`${p.title} | Art Director & Web Developer Portfolio Project by Mike Angelo`}
             description={`${p.projectObjective?.substring(0, 160)}... Explore this ${p.tags?.join(", ")} project by Mike Angelo, art director and web designer.`}
             canonical={`https://mikeangeloart.com/projects/${p.slug}`}
             ogImage={p.cover}

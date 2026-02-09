@@ -28,7 +28,7 @@ export default function ProjectPage() {
   return (
     <>
       <SEO
-        title="Projects - Mike Angelo | Art Director & Web Designer Portfolio"
+        title="Projects | Portfolio of Mike Angelo, Art Director & Web Designer in New Jersey"
         description="Explore Mike Angelo's portfolio of art direction, web design and development, and advertising campaigns for clients in New Jersey and New York."
         canonical="https://mikeangeloart.com/projects"
         ogImage="https://cdn.mikeangelo.art/og-default.png"

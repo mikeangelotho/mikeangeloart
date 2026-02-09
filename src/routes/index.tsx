@@ -172,7 +172,7 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="Mike Angelo - Art Director & Web Designer in New York"
+        title="Mike Angelo | Art Director & Web Designer in New Jersey and the greater New York area"
         description="Art director and web designer/developer in New Jersey and NYC. Specializing in advertising campaigns, web design, and digital content creation that delivers results."
         canonical="https://mikeangeloart.com"
         ogImage="https://cdn.mikeangelo.art/og-default.png"
