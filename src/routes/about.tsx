@@ -298,7 +298,7 @@ export default function About() {
                   type="button"
                   onClick={() => {
                     window.open(
-                      "https://drive.google.com/file/d/1Qncf3HuNKunJlEhnK5MyHyVTXC7stL9j/view?usp=drive_link",
+                      "https://drive.google.com/file/d/19YC8e7dQdSdLOgxJTxqWJAuy_Z8jGFNK/view?usp=drive_link",
                       "_blank",
                     ); // Placeholder URL, please update!
                   }}
