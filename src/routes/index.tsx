@@ -1,4 +1,4 @@
-import { For, onCleanup, onMount } from "solid-js";
+import { createSignal, For, onCleanup, onMount, Show } from "solid-js";
 import { PortfolioCollection } from "~/components/Collection";
 import { SceneManager } from "~/components/Panel3d";
 import data from "../db.json";
@@ -133,7 +133,10 @@ export default function Home() {
     const threeJsObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          sceneManager.init(wrapper3d, "https://cdn.mikeangelo.art/MA_Logo_3D.glb");
+          sceneManager.init(
+            wrapper3d,
+            "https://cdn.mikeangelo.art/MA_Logo_3D.glb",
+          );
           resizeHandler = () => {
             if (sceneManager) {
               sceneManager.handleResize(wrapper3d);
@@ -282,34 +285,7 @@ export default function Home() {
                   say hi, feel free to send me a message!
                 </p>
               </div>
-              <form
-                class="w-full flex flex-col gap-4 md:gap-6 p-4 sm:p-6 bg-neutral-100 dark:bg-neutral-900 rounded-2xl md:rounded-3xl border dark:border-t-white border-neutral-300 dark:border-neutral-900 dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)]"
-                action="https://api.web3forms.com/submit"
-                method="post"
-              >
-                <div class="flex flex-col gap-3">
-                  <input
-                    type="hidden"
-                    name="access_key"
-                    value="33167a9e-992e-4a3e-af3b-96ab4976a6b3"
-                  />
-                  <div class="flex flex-col gap-2">
-                    <Label>Email</Label>
-                    <Input type="email" placeholder="Enter your email" />
-                  </div>
-                  <div class="flex flex-col gap-2">
-                    <Label>Message</Label>
-                    <textarea
-                      class="min-h-24 sm:min-h-32 md:min-h-36 placeholder-black/25 resize-none dark:placeholder-white/25 bg-white dark:bg-white/5 text-black/25 focus:text-black dark:text-white/25 dark:focus:text-white rounded-md px-3 py-2 sm:py-3 outline outline-transparent border border-black/10 dark:border-white/10 focus:outline-black/50 dark:focus:outline-white/50 hover:outline-black/25 dark:hover:outline-white/25 def__animate text-base touch-resize"
-                      placeholder="Enter your message"
-                      rows="4"
-                    ></textarea>
-                  </div>
-                </div>
-                <div>
-                  <Button type="submit">Send Me a Message</Button>
-                </div>
-              </form>
+              <Web3Form />
             </section>
           </div>
         </div>
@@ -317,3 +293,55 @@ export default function Home() {
     </>
   );
 }
+
+const Web3Form = () => {
+  const [result, setResult] = createSignal("");
+
+  const onSubmit = async (event: any) => {
+    event.preventDefault();
+    setResult("Sending....");
+    const formData = new FormData(event.target);
+    formData.append("access_key", "33167a9e-992e-4a3e-af3b-96ab4976a6b3");
+
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data: any = await response.json();
+    if (data.success) {
+      setResult("Form Submitted Successfully");
+      event.target.reset();
+    } else {
+      setResult("Error");
+    }
+  };
+
+  return (
+    <form onSubmit={onSubmit} class="w-full">
+      <div class="flex flex-col gap-3 w-full">
+        <div class="flex flex-col">
+          <Label>Name</Label>
+          <Input name="name" type="text" placeholder="Enter your name" />
+        </div>
+        <div class="flex flex-col">
+          <Label>Email</Label>
+          <Input name="email" type="email" placeholder="Enter your email" />
+        </div>
+        <div class="flex flex-col">
+          <Label>Message</Label>
+          <textarea
+            class="min-h-24 sm:min-h-32 md:min-h-36 placeholder-black/25 resize-none dark:placeholder-white/25 bg-white dark:bg-white/5 text-black/25 focus:text-black dark:text-white/25 dark:focus:text-white rounded-md px-3 py-2 sm:py-3 outline outline-transparent border border-black/10 dark:border-white/10 focus:outline-black/50 dark:focus:outline-white/50 hover:outline-black/25 dark:hover:outline-white/25 def__animate text-base touch-resize"
+            placeholder="Enter your message"
+            name="message"
+            required
+          ></textarea>
+        </div>
+        <Button type="submit">Send Message</Button>
+        <Show when={result().length > 0}>
+          <span class="text-black/10 dark:text-white/50">{result()}</span>
+        </Show>
+      </div>
+    </form>
+  );
+};
