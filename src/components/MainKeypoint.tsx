@@ -1,6 +1,6 @@
 import { ContainerLabel, LinkButton, Tag } from "~/layout/Cards";
 import { PortfolioCollection } from "./Collection";
-import { For, JSX, Show } from "solid-js";
+import { For, JSX, onMount, Show } from "solid-js";
 import { A } from "@solidjs/router";
 import { H1, H2 } from "~/layout/Headings";
 import VideoPlayer from "./VideoPlayer";
@@ -106,6 +106,8 @@ const MediaScroller = (props: { data: PortfolioCollection, children: JSX.Element
         urls.push(projectKeypoints[s1].media[s2].url);
     }
 
+    let msGroup1!: HTMLDivElement, msGroup2!: HTMLDivElement;
+
     const MsMedia = (props: { class: string, src: string }) => {
         if (props.src.endsWith(".mp4")) {
             return (
@@ -118,17 +120,29 @@ const MediaScroller = (props: { data: PortfolioCollection, children: JSX.Element
         }
     }
 
+    onMount(() => {
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+                const { target } = entry;
+                target.classList.toggle("scrolled", !entry.isIntersecting);
+            })
+        });
+
+        observer.observe(msGroup1);
+        observer.observe(msGroup2);
+    })
+
     return (
         <div class="w-full flex gap-18 flex-col">
             <MsMedia class="aspect-video object-cover w-full max-w-5xl mx-auto rounded-lg" src={urls[0]} />
-            <div class="xl:pr-96 flex flex-col xl:flex-row justify-center xl:items-end gap-18 w-full">
+            <div ref={msGroup1} class="def__animate lg:pr-96 flex flex-col lg:flex-row justify-center lg:items-end gap-18 w-full">
                 <MsMedia class="aspect-square object-cover max-h-54 rounded-lg -mb-12" src={urls[1]} />
                 <MsMedia class="aspect-video object-cover max-h-72 rounded-lg" src={urls[2]} />
             </div>
             <div class="w-full flex justify-center">
                 {props.children}
             </div>
-            <div class="xl:pl-96 flex flex-col xl:flex-row justify-center xl:items-start gap-18 w-full">
+            <div ref={msGroup2} class="def__animate lg:pl-96 flex flex-col lg:flex-row justify-center lg:items-start gap-18 w-full">
                 <MsMedia class="aspect-video object-cover max-h-72 rounded-lg" src={urls[3]} />
                 <MsMedia class="aspect-square object-cover max-h-54 rounded-lg -mt-12" src={urls[4]} />
             </div>

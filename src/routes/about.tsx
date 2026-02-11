@@ -117,24 +117,40 @@ export default function About() {
       });
     });
 
+    const clickHandler = (e: MouseEvent) => {
+      container.classList.add("z-1");
+      const onMove = (e: MouseEvent) => moveRect(e, container);
+
+      window.addEventListener("mousemove", onMove);
+      const stop = () => {
+        container.classList.remove("z-1");
+        window.removeEventListener("mousemove", onMove);
+        window.removeEventListener("mouseup", stop);
+      };
+
+      window.addEventListener("mouseup", stop);
+    }
+
+    const touchHandler = (e: TouchEvent) => {
+      container.classList.add("z-1");
+      const onMove = (e: TouchEvent) => moveRectTouch(e, container);
+      window.addEventListener("touchmove", onMove);
+      const stop = () => {
+        container.classList.remove("z-1");
+        window.removeEventListener("touchmove", onMove);
+        window.removeEventListener("touchend", stop);
+      };
+
+      window.addEventListener("touchend", stop);
+    }
+
     return (
       <div
         ref={container}
         class={`w-fit max-w-7xl h-fit relative mx-auto flex flex-col justify-center md:items-start items-center def__animate md:hover:scale-101 md:absolute md:cursor-grab md:select-none
           ${noMobile ? ` hidden md:block` : ``}`}
-        onMouseDown={(e) => {
-          container.classList.add("z-1");
-          const onMove = (e: MouseEvent) => moveRect(e, container);
-
-          window.addEventListener("mousemove", onMove);
-          const stop = () => {
-            container.classList.remove("z-1");
-            window.removeEventListener("mousemove", onMove);
-            window.removeEventListener("mouseup", stop);
-          };
-
-          window.addEventListener("mouseup", stop);
-        }}
+        onMouseDown={(e) => clickHandler(e)}
+        onTouchStart={(e) => touchHandler(e)}
       >
         <div class="opacity-10 def__animate hover:opacity-80">
           <div
@@ -168,8 +184,22 @@ export default function About() {
   function moveRect(e: MouseEvent, element: HTMLDivElement) {
     if (window.innerWidth > 768) {
       const { innerWidth, innerHeight } = window;
-      const { x, y, width, height } = element.getBoundingClientRect();
+      const { width, height } = element.getBoundingClientRect();
       const { clientX, clientY } = e;
+      requestAnimationFrame(() => {
+        element.style.left = `clamp(12px, ${clientX - width / 2}px, ${innerWidth - width - 12
+          }px)`;
+        element.style.top = `clamp(96px, ${clientY - height / 2}px, ${innerHeight - height - 144
+          }px)`;
+      });
+    }
+  }
+
+  function moveRectTouch(e: TouchEvent, element: HTMLDivElement) {
+    if (window.innerWidth > 768) {
+      const { innerWidth, innerHeight } = window;
+      const { width, height } = element.getBoundingClientRect();
+      const { clientX, clientY } = e.touches[0];
       requestAnimationFrame(() => {
         element.style.left = `clamp(12px, ${clientX - width / 2}px, ${innerWidth - width - 12
           }px)`;
@@ -228,7 +258,7 @@ export default function About() {
         break;
       default:
         newWindow = (
-          <Moveable options={{ x: 3, y: 3, z:0 }} label={label}>
+          <Moveable options={{ x: 3, y: 3, z: 0 }} label={label}>
             <Box>
               <div class="flex flex-col gap-6 w-fit">
                 <H2>Down for Maintenance</H2>
@@ -251,7 +281,7 @@ export default function About() {
       {
         label: "Logo",
         window: (
-          <Moveable label="Logo" noMobile={true} options={{ x: 1.42, y: 1.75, z: 3 }}>
+          <Moveable label="Logo" noMobile={true} options={{ x: 1.42, y: 1.75, z: 0 }}>
             <figure
               ref={wrapper3D}
               class="w-36 h-36 pointer-events-none dark:invert dark:hue-rotate-180"
@@ -285,39 +315,12 @@ export default function About() {
     ]);
     */
 
-        setWindows((prev) => [
-      ...prev,
-      {
-        label: "Alert",
-        window: (
-          <Moveable label="Alert" options={{ x: 1.45, y: 4, z: 3 }}>
-            <Box>
-              <div class="flex flex-col items-center gap-6">
-                <p class="text-sm">A resume has been detected.</p>
-                <Button
-                  type="button"
-                  onClick={() => {
-                    window.open(
-                      "https://drive.google.com/file/d/19YC8e7dQdSdLOgxJTxqWJAuy_Z8jGFNK/view?usp=drive_link",
-                      "_blank",
-                    ); // Placeholder URL, please update!
-                  }}
-                >
-                  View Resume
-                </Button>{" "}
-              </div>
-            </Box>
-          </Moveable>
-        ),
-      },
-    ]);
-
-        setWindows((prev) => [
+    setWindows((prev) => [
       ...prev,
       {
         label: "Profile Summary",
         window: (
-          <Moveable label="Profile Summary" options={{ x: 6.5, y: 8, z: 2 }}>
+          <Moveable label="Profile Summary" options={{ x: 6.5, y: 8, z: 0 }}>
             <Box>
               <div class="flex flex-col gap-8 max-w-3xl">
                 <div class="flex flex-col gap-6 border-t border-b border-black/10 dark:border-white/10 pt-6 max-h-[40vh] lg:max-h-[60vh] overflow-y-auto pr-6">
@@ -379,6 +382,33 @@ export default function About() {
                     </div>
                   </div>
                 </div>
+              </div>
+            </Box>
+          </Moveable>
+        ),
+      },
+    ]);
+
+    setWindows((prev) => [
+      ...prev,
+      {
+        label: "Alert",
+        window: (
+          <Moveable label="Alert" options={{ x: 1.45, y: 4, z: 0 }}>
+            <Box>
+              <div class="flex flex-col items-center gap-6">
+                <p class="text-sm">A resume has been detected.</p>
+                <Button
+                  type="button"
+                  onClick={() => {
+                    window.open(
+                      "https://drive.google.com/file/d/19YC8e7dQdSdLOgxJTxqWJAuy_Z8jGFNK/view?usp=drive_link",
+                      "_blank",
+                    ); // Placeholder URL, please update!
+                  }}
+                >
+                  View Resume
+                </Button>{" "}
               </div>
             </Box>
           </Moveable>

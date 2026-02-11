@@ -74,15 +74,15 @@ export function CollectionCell({
     return (
       <>
         {/* controls */}
-        <div class="group-hover/card:opacity-100 opacity-0 absolute inset-0 flex justify-between items-center px-6 pointer-events-none z-10 def__animate">
+        <div class="group-hover/card:opacity-100 xl:opacity-0 absolute inset-0 flex justify-between items-center px-6 pointer-events-none z-10 def__animate">
           <div
-            class="pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/80 dark:bg-black/80 dark:text-white rounded-lg hover:scale-105"
+            class="h-18 flex items-center pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/80 dark:bg-black/80 dark:text-white rounded-lg hover:scale-105"
             onClick={prev}
           >
             ❮
           </div>
           <div
-            class="pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/80 dark:bg-black/80 dark:text-white rounded-lg hover:scale-105"
+            class="h-18 flex items-center pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/80 dark:bg-black/80 dark:text-white rounded-lg hover:scale-105"
             onClick={next}
           >
             ❯
@@ -162,7 +162,7 @@ export function CollectionCell({
         />
       </A>
 
-      <div class="min-h-18 lg:min-h-12 justify-center lg:rounded-3xl w-full lg:w-auto lg:inset-x-3 flex flex-col gap-2 def__animate group/tag group-hover/card:opacity-100 p-6 lg:opacity-0 absolute bottom-0 lg:bottom-3 bg-white/50 dark:bg-black/30 mx-auto backdrop-blur-xl backdrop-brightness-140 dark:backdrop-brightness-25">
+      <div class="min-h-18 lg:min-h-12 justify-center lg:rounded-3xl w-full lg:w-auto lg:inset-x-3 flex flex-col gap-2 def__animate group/tag group-hover/card:opacity-100 p-6 xl:opacity-0 absolute bottom-0 lg:bottom-3 bg-white/50 dark:bg-black/30 mx-auto backdrop-blur-xl backdrop-brightness-140 dark:backdrop-brightness-25">
         <header class="flex flex-col">
           <A
             href={`/projects?client=${data.clientName}`}

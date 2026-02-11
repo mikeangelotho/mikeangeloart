@@ -265,6 +265,7 @@ export default function ProjectPage() {
                               return (
                                 <Picture
                                   src={mediaObj.url}
+                                  loading="lazy"
                                   alt={mediaObj.altText}
                                   class="border border-neutral-200 dark:border-neutral-900 w-full h-auto aspect-auto rounded-3xl lg:max-w-3xl max-h-180 hover:brightness-105 hover:saturate-125 def__animate cursor-pointer"
                                   onClick={(event, displayedUrl) => {
