@@ -32,10 +32,7 @@ export default function VideoJSPlayer(props: { video: Media }) {
         player.poster(props.video.thumbnail);
     });
     return (
-        <div data-vjs-player>
-            <div
-                ref={playerRef}
-            ></div>
+        <div class="w-full rounded-lg overflow-hidden" data-vjs-player ref={playerRef}>
         </div>
     );
 }

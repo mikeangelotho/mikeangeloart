@@ -17,7 +17,7 @@ export default function VideoPlayer(props: { video: Media }) {
     } else {
         if (props.video.url.includes("mp4")) {
             return (
-                <video src={props.video.url} autoplay muted loop playsinline class="min-h-24 min-w-24 w-full object-cover rounded-xl"
+                <video src={props.video.url} autoplay muted loop playsinline class="min-h-24 min-w-24 w-full object-cover"
                     title={props.video.altText}
                     aria-label={props.video.altText} />
             )

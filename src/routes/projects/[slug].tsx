@@ -113,8 +113,8 @@ export default function ProjectPage() {
               />
             )}
           </Show>
-          <div class="-z-1 w-full fixed h-screen dark:backdrop-brightness-150 backdrop-saturate-200 bg-white mix-blend-soft-light"></div>
-          <section class="h-full flex items-center bg-white/50 dark:bg-neutral-950/90">
+          <div class="-z-1 w-full fixed h-screen backdrop-brightness-125 dark:backdrop-brightness-150 backdrop-saturate-150"></div>
+          <section class="h-full flex items-center bg-white/25 dark:bg-black/75">
             <article class="flex flex-col items-center w-full px-6">
               <div class="flex flex-col gap-6 items-center w-full py-36 max-w-5xl">
                 <div class="flex flex-col def__animate w-fit justify-center">
@@ -131,9 +131,9 @@ export default function ProjectPage() {
               </div>
             </article>
           </section>
-          <section class="bg-white dark:bg-neutral-950 border-t border-b border-black/10 dark:border-white/10 px-6">
+          <section class="bg-white dark:bg-black/95 border-t border-b border-black/10 dark:border-white/10 px-6">
             {/* Breadcrumb Navigation */}
-            <div class="flex flex-col lg:flex-row gap-3 justify-between items-center px-6 py-4 mb-18 md:mb-18 max-w-7xl mx-auto bg-white/80 dark:bg-neutral-950/80 backdrop-blur border-b border-black/10 dark:border-white/10">
+            <div class="flex flex-col lg:flex-row gap-3 justify-between items-center px-6 py-18 max-w-7xl mx-auto">
               <div class="w-fit">
                 <Breadcrumbs
                   items={[
@@ -161,7 +161,7 @@ export default function ProjectPage() {
                 </For>
               </div>
             </div>
-            <div class="text-black dark:text-white w-fit dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 items-center flex gap-6 flex-col-reverse lg:flex-row bg-neutral-100 dark:bg-neutral-900 border border-black/10 dark:border-white/5 mx-auto">
+            <div class="mb-36 text-black dark:text-white w-fit dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 items-center flex gap-6 flex-col-reverse lg:flex-row bg-neutral-100 dark:bg-black/50 border border-black/10 dark:border-white/10 dark:border-t dark:border-t-white mx-auto">
               <div class="max-w-3xl flex flex-col gap-3 justify-center">
                 <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1">
                   <ContainerLabel>Objective</ContainerLabel>
@@ -171,12 +171,10 @@ export default function ProjectPage() {
                 </p>
               </div>
             </div>
-            <section class="pb-18 pt-14">
-              <Show when={project()} keyed>
-                {(p) => <MainKeypoint data={p} />}
-              </Show>
-            </section>
-            <section class="flex flex-col gap-6 lg:gap-18 border-t border-black/10 dark:border-white/10 py-18 lg:py-36">
+            <Show when={project()} keyed>
+              {(p) => <MainKeypoint data={p} />}
+            </Show>
+            <section class="flex flex-col gap-6 lg:gap-18 mt-36 border-t border-black/10 dark:border-white/10 py-18 lg:py-36">
               <For each={project()?.projectKeypoints}>
                 {(keypoint) => {
                   let boxRef!: HTMLDivElement;
@@ -208,7 +206,7 @@ export default function ProjectPage() {
                       <div class="w-full flex items-start justify-center lg:justify-start">
                         <div
                           ref={boxRef}
-                          class="transition duration-500 max-w-3xl lg:max-w-xl dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-900 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white"
+                          class="transition duration-500 max-w-3xl lg:max-w-xl dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 flex flex-col gap-4 bg-neutral-100 dark:bg-black/50 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white"
                         >
                           <H2>{keypoint.title}</H2>
                           <p class="dark:text-white">{keypoint.description}</p>

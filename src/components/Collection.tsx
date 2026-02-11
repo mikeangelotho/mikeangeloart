@@ -31,6 +31,7 @@ export interface PortfolioCollection extends Collection {
   coverAlt: string;
   projectObjective: string;
   mainKeypointMedia: Media;
+  mainKeypointFeatured: number[][];
   mainKeypointMetricOne: string;
   mainKeypointMetricTwo: string;
   mainKeypointDescription: string;

@@ -115,7 +115,7 @@ export default function Home() {
           target.style.opacity = "1";
           // Resume playback when visible
           if (videoPanel && videoPanel.paused) {
-            videoPanel.play().catch(() => {});
+            videoPanel.play().catch(() => { });
           }
         } else {
           target.style.opacity = isMobile ? "0" : "0.25";
@@ -240,7 +240,7 @@ export default function Home() {
             </div>
           </article>
         </section>
-        <div class="w-full flex flex-col items-center border-t border-b border-neutral-200 dark:border-neutral-900 backdrop-blur-3xl backdrop-saturate-200 dark:backdrop-brightness-150">
+        <div class="w-full flex flex-col items-center border-t border-b border-black/10 dark:border-white/10 backdrop-blur-3xl backdrop-saturate-200 dark:backdrop-brightness-150">
           <section class="flex flex-col justify-center items-center text-black dark:text-white pt-12 md:pt-16 lg:pt-18 xl:pt-24 pb-24 md:pb-32 lg:pb-36 xl:pb-48 px-6 sm:px-8 md:px-12 lg:px-16 max-w-7xl">
             <div class="flex flex-col justify-center items-center">
               <figure
@@ -261,7 +261,7 @@ export default function Home() {
               </div>
             </div>
           </section>
-          <div class="flex flex-col gap-24 md:gap-32 lg:gap-36 xl:gap-48 py-12 md:py-16 lg:py-18 xl:py-24 px-4 sm:px-6 md:px-8 w-full bg-white dark:bg-neutral-950 border-t border-t-neutral-200 dark:border-t-neutral-900">
+          <div class="flex flex-col px-6 w-full bg-white dark:bg-black/75">
             <For each={collectionData}>
               {(collection, idx) =>
                 idx() < landingHighlightLength && (

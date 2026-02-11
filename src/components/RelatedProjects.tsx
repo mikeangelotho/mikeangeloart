@@ -41,7 +41,7 @@ export function RelatedProjects(props: RelatedProjectsProps) {
   };
 
   return (
-    <section class="w-full bg-white dark:bg-neutral-950 border-black/10 dark:border-white/10">
+    <section class="w-full bg-white dark:bg-black border-black/10 dark:border-white/10">
       <div class="max-w-7xl mx-auto px-6 py-18 lg:py-36">
         <div class="flex flex-col gap-12">
           <div class="text-center lg:text-left">
