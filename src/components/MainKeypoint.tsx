@@ -111,7 +111,7 @@ const MediaScroller = (props: { data: PortfolioCollection, children: JSX.Element
     const MsMedia = (props: { class: string, src: string }) => {
         if (props.src.endsWith(".mp4")) {
             return (
-                <video class={props.class} autoplay muted loop src={props.src}></video>
+                <video class={props.class} autoplay muted loop playsinline src={props.src}></video>
             );
         } else {
             return (
