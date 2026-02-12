@@ -1,7 +1,7 @@
 import data from "../../db.json";
 import Collection, { PortfolioCollection } from "~/components/Collection";
 import { useSearchParams } from "@solidjs/router";
-import { createEffect, createMemo, createSignal, onMount } from "solid-js";
+import { createMemo } from "solid-js";
 import SEO from "~/components/SEO";
 
 const collectionData: PortfolioCollection[] = data;

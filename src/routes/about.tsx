@@ -1,5 +1,4 @@
 import {
-  createResource,
   createSignal,
   For,
   JSXElement,
@@ -9,12 +8,12 @@ import {
 } from "solid-js";
 import { init3dScene } from "~/components/Panel3d";
 import { Button, ContainerLabel, Tag } from "~/layout/Cards";
-import { H1, H2 } from "~/layout/Headings";
-import { fetchGithubAvatar } from "~/utils/github";
+import { H2 } from "~/layout/Headings";
+//import { fetchGithubAvatar } from "~/utils/github";
 import { fetchGithubInfo, GitHubUser } from "~/hooks";
 import SEO from "~/components/SEO";
 
-const [githubAvatar] = createResource<string>(fetchGithubAvatar);
+//const [githubAvatar] = createResource<string>(fetchGithubAvatar);
 
 const taskbarIcons = [
   {
