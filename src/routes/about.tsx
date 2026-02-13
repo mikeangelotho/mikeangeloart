@@ -12,6 +12,7 @@ import { H2 } from "~/layout/Headings";
 //import { fetchGithubAvatar } from "~/utils/github";
 import { fetchGithubInfo, GitHubUser } from "~/hooks";
 import SEO from "~/components/SEO";
+import BgGradient from "~/components/BgGradient";
 
 //const [githubAvatar] = createResource<string>(fetchGithubAvatar);
 
@@ -461,6 +462,7 @@ export default function About() {
         }}
       />
       <main class="w-full relative">
+        {/*
         <video
           ref={videoPanel}
           src="https://cdn.mikeangelo.art/bg-3.mp4"
@@ -473,6 +475,8 @@ export default function About() {
           width="1920"
           height="1080"
         ></video>
+        */}
+        <BgGradient />
         <div class="h-screen w-full fixed backdrop-blur">
           <div class="h-[89vh] pt-22 xl:px-72">
             <div

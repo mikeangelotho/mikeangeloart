@@ -8,6 +8,7 @@ import { Button, ContainerLabel } from "~/layout/Cards";
 import { MainKeypoint } from "~/components/MainKeypoint";
 import SEO from "~/components/SEO";
 import { Input, Label } from "~/layout/Forms";
+import BgGradient from "~/components/BgGradient";
 
 const collectionData: PortfolioCollection[] = data;
 const landingHighlightLength = 3;
@@ -15,7 +16,7 @@ const landingHighlightLength = 3;
 export default function Home() {
   let introPanel!: HTMLDivElement;
   let wrapper3d!: HTMLDivElement;
-  let videoPanel!: HTMLVideoElement;
+  //let videoPanel!: HTMLVideoElement;
 
   onMount(() => {
     const observerOptions = {
@@ -32,59 +33,62 @@ export default function Home() {
         navigator.userAgent,
       );
 
-    const attemptAutoplay = async () => {
-      if (!videoPanel) return;
+    /*
+  const attemptAutoplay = async () => {
+    if (!videoPanel) return;
 
-      // Ensure required attributes are set
-      videoPanel.muted = true;
-      videoPanel.loop = true;
-      videoPanel.controls = false;
-      videoPanel.playsInline = true;
+    // Ensure required attributes are set
+    videoPanel.muted = true;
+    videoPanel.loop = true;
+    videoPanel.controls = false;
+    videoPanel.playsInline = true;
 
-      // Mobile optimizations
-      if (isMobile) {
-        // Set lower playback rate on mobile to save battery
-        videoPanel.playbackRate = 0.9;
-      }
-
-      try {
-        await videoPanel.play();
-        console.log("Background video autoplay successful");
-      } catch (error) {
-        console.log(
-          "Autoplay prevented, will retry on user interaction:",
-          error,
-        );
-
-        // Set up user interaction listeners
-        const enableAutoplay = () => {
-          if (videoPanel && videoPanel.paused) {
-            videoPanel
-              .play()
-              .catch((e) =>
-                console.log("Play failed even with interaction:", e),
-              );
-          }
-        };
-
-        document.addEventListener("touchstart", enableAutoplay, { once: true });
-        document.addEventListener("click", enableAutoplay, { once: true });
-      }
-    };
-
-    // iOS-specific: handle visibility changes
-    const handleVisibilityChange = () => {
-      if (!document.hidden && videoPanel && videoPanel.paused) {
-        attemptAutoplay();
-      }
-    };
-
-    if (isIOS) {
-      document.addEventListener("visibilitychange", handleVisibilityChange);
+    // Mobile optimizations
+    if (isMobile) {
+      // Set lower playback rate on mobile to save battery
+      videoPanel.playbackRate = 0.9;
     }
 
-    // Try immediate autoplay
-    attemptAutoplay();
+    try {
+      await videoPanel.play();
+      console.log("Background video autoplay successful");
+    } catch (error) {
+      console.log(
+        "Autoplay prevented, will retry on user interaction:",
+        error,
+      );
+
+      // Set up user interaction listeners
+      const enableAutoplay = () => {
+        if (videoPanel && videoPanel.paused) {
+          videoPanel
+            .play()
+            .catch((e) =>
+              console.log("Play failed even with interaction:", e),
+            );
+        }
+      };
+
+      document.addEventListener("touchstart", enableAutoplay, { once: true });
+      document.addEventListener("click", enableAutoplay, { once: true });
+    }
+  };
+  
+
+  // iOS-specific: handle visibility changes
+  const handleVisibilityChange = () => {
+    if (!document.hidden && videoPanel && videoPanel.paused) {
+      attemptAutoplay();
+    }
+  };
+
+  if (isIOS) {
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+  }
+
+  // Try immediate autoplay
+  attemptAutoplay();
+  */
 
     let ticking = false;
     const onScroll = () => {
@@ -108,6 +112,7 @@ export default function Home() {
       });
     }, observerOptions);
 
+    /*
     const videoObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const target = entry.target as HTMLElement;
@@ -126,6 +131,7 @@ export default function Home() {
         }
       });
     }, observerOptions);
+    */
 
     const sceneManager = new SceneManager(12);
     let resizeHandler: () => void;
@@ -152,20 +158,22 @@ export default function Home() {
     opacityObserver.observe(introPanel);
     opacityObserver.observe(wrapper3d);
     opacityObserver.observe(introPanel);
-    videoObserver.observe(videoPanel);
+    //videoObserver.observe(videoPanel);
 
     onCleanup(() => {
       sceneManager.dispose();
       threeJsObserver.disconnect();
       opacityObserver.disconnect();
-      videoObserver.disconnect();
+      //videoObserver.disconnect();
       window.removeEventListener("scroll", onScroll);
+      /*
       if (isIOS) {
         document.removeEventListener(
           "visibilitychange",
           handleVisibilityChange,
         );
       }
+        */
       if (resizeHandler) {
         window.removeEventListener("resize", resizeHandler);
       }
@@ -203,10 +211,9 @@ export default function Home() {
         }}
       />
       <main class="w-full relative flex flex-col justify-center items-center">
-        <video
-          ref={videoPanel}
+        {/*        <video
           src="https://cdn.mikeangelo.art/bg-3.mp4"
-          class="w-full dark:invert dark:hue-rotate-180 -z-10 aspect-video object-cover h-screen mx-auto fixed top-0"
+          class="hidden w-full dark:invert dark:hue-rotate-180 -z-10 aspect-video object-cover h-screen mx-auto fixed top-0"
           preload="metadata"
           muted
           autoplay
@@ -216,14 +223,15 @@ export default function Home() {
           width="1920"
           height="1080"
           poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect fill='%23000' width='1920' height='1080'/%3E%3C/svg%3E"
-        ></video>
-        <section class="mx-auto max-w-7xl overflow-hidden perspective-normal mix-blend-difference h-screen pb-48 lg:pb-36 xl:pb-48 w-full flex justify-center items-center">
+        ></video>*/}
+        <BgGradient />
+        <section class="mx-auto max-w-7xl overflow-hidden perspective-normal mix-blend-difference h-screen  w-full flex justify-center items-center">
           <article
             ref={introPanel}
             style={{
               transform: "translateZ(calc(var(--scroll-y, 0px) * -0.5))",
             }}
-            class="intro-panel px-4 sm:px-6 md:px-8 fixed w-fit max-w-[90vw] flex flex-col justify-center items-center md:flex-row gap-4 md:gap-6 lg:gap-8"
+            class="intro-panel px-4 sm:px-6 md:px-8 pb-36 fixed w-fit max-w-[90vw] flex flex-col justify-center items-center md:flex-row gap-4 md:gap-6 lg:gap-8"
           >
             <div class="text-white/20 h-fit not-md:border-b md:border-r md:pr-2 lg:pr-4 pb-1 text-sm md:text-base">
               <ContainerLabel>Welcome</ContainerLabel>
@@ -240,7 +248,7 @@ export default function Home() {
             </div>
           </article>
         </section>
-        <div class="w-full flex flex-col items-center border-t border-b border-black/10 dark:border-white/10 backdrop-blur-3xl backdrop-saturate-200 dark:backdrop-brightness-150">
+        <div class="w-full flex flex-col items-center border-t border-b border-black/10 dark:border-white/10 backdrop-blur-3xl backdrop-saturate-200 dark:backdrop-brightness-125">
           <section class="flex flex-col justify-center items-center text-black dark:text-white pt-12 md:pt-16 lg:pt-18 xl:pt-24 pb-24 md:pb-32 lg:pb-36 xl:pb-48 px-6 sm:px-8 md:px-12 lg:px-16 max-w-7xl">
             <div class="flex flex-col justify-center items-center">
               <figure
