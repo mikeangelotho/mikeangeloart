@@ -134,7 +134,7 @@ export function CollectionCell({
         const cells = document.querySelectorAll(".cell-container");
         cells.forEach((cell) => cell.classList.remove("saturate-0"));
       }}
-      class={`group/card cell-container relative overflow-hidden hover:brightness-115 hover:saturate-125 def__animate ${!enableFull ? `w-72 h-96 xl:h-108 md:w-100 xl:w-xl` : `h-120 w-full`
+      class={`group/card cell-container relative overflow-hidden hover:brightness-115 hover:saturate-125 rounded-xl def__animate ${!enableFull ? `w-72 h-96 xl:h-108 md:w-100 xl:w-xl` : `h-120 w-full`
         }`}
     >
       <Show

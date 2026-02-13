@@ -58,7 +58,7 @@ export interface Media {
 }
 
 function CollectionRow({ children }: { children: JSXElement }) {
-  return <div class="gap-x-1 flex justify-start w-full">{children}</div>;
+  return <div class="gap-x-3 flex justify-start w-full">{children}</div>;
 }
 
 export default function Collection({
@@ -365,7 +365,7 @@ export default function Collection({
         <Show
           when={!enableFull}
           fallback={
-            <div class="flex flex-col gap-3 lg:grid lg:grid-cols-3 lg:gap-1 w-full px-6 pt-6 lg:pt-18">
+            <div class="flex flex-col gap-3 lg:grid lg:grid-cols-3 lg:gap-3 w-full px-6 pt-6 lg:pt-18">
               <For each={sortedData()}>
                 {(item) => (
                   <CollectionCell
@@ -379,7 +379,7 @@ export default function Collection({
           }
         >
           <div
-            class="md:px-12 gap-y-1 w-full grid overflow-x-auto scroll-smooth"
+            class="md:px-12 gap-y-3 w-full grid overflow-x-auto scroll-smooth"
             style="scrollbar-width: none;"
           >
             <CollectionRow>

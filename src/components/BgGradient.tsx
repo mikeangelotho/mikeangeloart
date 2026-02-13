@@ -10,7 +10,8 @@ export default function BgGradient() {
         const canvas = canvasRef;
         const staticCanvas = staticRef;
         window.addEventListener("mousemove", (e) => {
-
+            e.stopPropagation();
+            e.preventDefault();
             const rect = canvas.getBoundingClientRect();
             const mouseX = e.clientX - rect.left;
             const mouseY = e.clientY - rect.top;
@@ -125,7 +126,7 @@ export default function BgGradient() {
     });
 
     return (
-        <div class="fixed inset-0 bg-black overflow-hidden not-dark:invert not-dark:hue-rotate-180 contrast-125 brightness-125">
+        <div class="fixed inset-0 bg-black overflow-hidden not-dark:invert not-dark:hue-rotate-145 contrast-125 brightness-125">
             <canvas
                 ref={canvasRef}
                 class="transform-gpu perspective-midrange fixed inset-0 w-full h-full blur-3xl"

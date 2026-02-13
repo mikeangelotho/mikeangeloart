@@ -9,6 +9,9 @@ import { MainKeypoint } from "~/components/MainKeypoint";
 import SEO from "~/components/SEO";
 import { Input, Label } from "~/layout/Forms";
 import BgGradient from "~/components/BgGradient";
+import { DotLottie } from '@lottiefiles/dotlottie-web';
+import anim from "../anim.json"
+
 
 const collectionData: PortfolioCollection[] = data;
 const landingHighlightLength = 3;
@@ -16,79 +19,120 @@ const landingHighlightLength = 3;
 export default function Home() {
   let introPanel!: HTMLDivElement;
   let wrapper3d!: HTMLDivElement;
-  //let videoPanel!: HTMLVideoElement;
+  let lottieCanvas!: HTMLCanvasElement;
 
   onMount(() => {
+    // Detect device capabilities
+    const isMobile = window.innerWidth < 768 || 
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    // Check available memory (if supported)
+    const deviceMemory = (navigator as any).deviceMemory || 4; // Default to 4GB if unavailable
+    const isLowEndDevice = deviceMemory <= 4 || isMobile;
+
+    const dotLottie = new DotLottie({
+      canvas: lottieCanvas,
+      data: anim,
+      autoplay: true,
+      loop: true,
+      renderConfig: {
+        // Aggressive DPI reduction on mobile/low-end devices
+        devicePixelRatio: isLowEndDevice ? 0.5 : 1,
+      },
+      mode: 'forward',
+      useFrameInterpolation: false,
+    });
+
+    // Much slower on mobile
+    dotLottie.setSpeed(isLowEndDevice ? 0.3 : 0.5);
+
+    let animationFrameId: number;
+    let lastFrameTime = 0;
+    const targetFPS = isLowEndDevice ? 15 : 24; // Even lower FPS on mobile
+    const frameInterval = 1000 / targetFPS;
+
+    const throttledRender = (currentTime: number) => {
+      const elapsed = currentTime - lastFrameTime;
+      
+      if (elapsed > frameInterval) {
+        lastFrameTime = currentTime - (elapsed % frameInterval);
+      }
+      
+      if (!document.hidden) {
+        animationFrameId = requestAnimationFrame(throttledRender);
+      }
+    };
+
+    const handleVisibility = () => {
+      if (document.hidden) {
+        dotLottie.pause();
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+        }
+      } else {
+        dotLottie.play();
+        animationFrameId = requestAnimationFrame(throttledRender);
+      }
+    };
+
+    {/*}
+    const handleResize = () => {
+      // AGGRESSIVE canvas size reduction
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      
+      let scale: number;
+      if (width < 640) {
+        scale = 0.4; // Extra small mobile
+      } else if (width < 768) {
+        scale = 0.5; // Mobile
+      } else if (width < 1024) {
+        scale = 0.7; // Tablet
+      } else {
+        scale = 0.85; // Desktop (still reduced)
+      }
+      
+
+      
+      // Canvas display size (what user sees - upscaled via CSS)
+      lottieCanvas.style.width = `${width}px`;
+      lottieCanvas.style.height = `${height}px`;
+      
+      // Apply slight blur to hide upscaling artifacts
+      lottieCanvas.style.filter = isLowEndDevice ? 'blur(0.5px)' : 'none';
+    };
+
+    handleResize();
+
+    document.addEventListener("visibilitychange", handleVisibility);
+    window.addEventListener("resize", handleResize);
+    */}
+
+    animationFrameId = requestAnimationFrame(throttledRender);
+
     const observerOptions = {
       root: null,
       rootMargin: "0px",
       threshold: 0.5,
     };
 
-    // Enhanced mobile video autoplay handler
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isMobile =
-      window.innerWidth < 768 ||
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent,
-      );
 
-    /*
-  const attemptAutoplay = async () => {
-    if (!videoPanel) return;
-
-    // Ensure required attributes are set
-    videoPanel.muted = true;
-    videoPanel.loop = true;
-    videoPanel.controls = false;
-    videoPanel.playsInline = true;
-
-    // Mobile optimizations
-    if (isMobile) {
-      // Set lower playback rate on mobile to save battery
-      videoPanel.playbackRate = 0.9;
-    }
-
-    try {
-      await videoPanel.play();
-      console.log("Background video autoplay successful");
-    } catch (error) {
-      console.log(
-        "Autoplay prevented, will retry on user interaction:",
-        error,
-      );
-
-      // Set up user interaction listeners
-      const enableAutoplay = () => {
-        if (videoPanel && videoPanel.paused) {
-          videoPanel
-            .play()
-            .catch((e) =>
-              console.log("Play failed even with interaction:", e),
-            );
+    // Aggressive pause when scrolled away
+    const lottieObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting && !document.hidden) {
+          dotLottie.pause();
+          // Free up memory by clearing canvas when not visible
+          const ctx = lottieCanvas.getContext('2d');
+          if (ctx) {
+            ctx.clearRect(0, 0, lottieCanvas.width, lottieCanvas.height);
+          }
+        } else if (entry.isIntersecting && !document.hidden) {
+          dotLottie.play();
         }
-      };
-
-      document.addEventListener("touchstart", enableAutoplay, { once: true });
-      document.addEventListener("click", enableAutoplay, { once: true });
-    }
-  };
-  
-
-  // iOS-specific: handle visibility changes
-  const handleVisibilityChange = () => {
-    if (!document.hidden && videoPanel && videoPanel.paused) {
-      attemptAutoplay();
-    }
-  };
-
-  if (isIOS) {
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-  }
-
-  // Try immediate autoplay
-  attemptAutoplay();
-  */
+      });
+    }, { threshold: 0.05 }); // Very aggressive threshold
 
     let ticking = false;
     const onScroll = () => {
@@ -111,27 +155,6 @@ export default function Home() {
         target.classList.toggle("scrolled", !entry.isIntersecting);
       });
     }, observerOptions);
-
-    /*
-    const videoObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        const target = entry.target as HTMLElement;
-        if (entry.isIntersecting) {
-          target.style.opacity = "1";
-          // Resume playback when visible
-          if (videoPanel && videoPanel.paused) {
-            videoPanel.play().catch(() => { });
-          }
-        } else {
-          target.style.opacity = isMobile ? "0" : "0.25";
-          // Pause video on mobile when not visible to save battery
-          if (isMobile && videoPanel && !videoPanel.paused) {
-            videoPanel.pause();
-          }
-        }
-      });
-    }, observerOptions);
-    */
 
     const sceneManager = new SceneManager(12);
     let resizeHandler: () => void;
@@ -158,22 +181,20 @@ export default function Home() {
     opacityObserver.observe(introPanel);
     opacityObserver.observe(wrapper3d);
     opacityObserver.observe(introPanel);
-    //videoObserver.observe(videoPanel);
+    //lottieObserver.observe(lottieCanvas);
 
     onCleanup(() => {
       sceneManager.dispose();
       threeJsObserver.disconnect();
       opacityObserver.disconnect();
-      //videoObserver.disconnect();
-      window.removeEventListener("scroll", onScroll);
-      /*
-      if (isIOS) {
-        document.removeEventListener(
-          "visibilitychange",
-          handleVisibilityChange,
-        );
+      lottieObserver.disconnect();
+      dotLottie.destroy();
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
       }
-        */
+      document.removeEventListener("visibilitychange", handleVisibility);
+      //window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", onScroll);
       if (resizeHandler) {
         window.removeEventListener("resize", resizeHandler);
       }
@@ -211,27 +232,19 @@ export default function Home() {
         }}
       />
       <main class="w-full relative flex flex-col justify-center items-center">
-        {/*        <video
-          src="https://cdn.mikeangelo.art/bg-3.mp4"
-          class="hidden w-full dark:invert dark:hue-rotate-180 -z-10 aspect-video object-cover h-screen mx-auto fixed top-0"
-          preload="metadata"
-          muted
-          autoplay
-          loop
-          controls={false}
-          playsinline
-          width="1920"
-          height="1080"
-          poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect fill='%23000' width='1920' height='1080'/%3E%3C/svg%3E"
-        ></video>*/}
         <BgGradient />
+        {/*<canvas 
+          class="border border-red-500 fixed top-0 left-0 w-full h-screen object-cover aspect-video" 
+          ref={lottieCanvas}
+          style="will-change: auto; image-rendering: auto;"
+        ></canvas>*/}
         <section class="mx-auto max-w-7xl overflow-hidden perspective-normal mix-blend-difference h-screen  w-full flex justify-center items-center">
           <article
             ref={introPanel}
             style={{
               transform: "translateZ(calc(var(--scroll-y, 0px) * -0.5))",
             }}
-            class="intro-panel px-4 sm:px-6 md:px-8 pb-36 fixed w-fit max-w-[90vw] flex flex-col justify-center items-center md:flex-row gap-4 md:gap-6 lg:gap-8"
+            class="intro-panel px-4 sm:px-6 md:px-8 fixed w-fit max-w-[90vw] flex flex-col justify-center items-center md:flex-row gap-4 md:gap-6 lg:gap-8"
           >
             <div class="text-white/20 h-fit not-md:border-b md:border-r md:pr-2 lg:pr-4 pb-1 text-sm md:text-base">
               <ContainerLabel>Welcome</ContainerLabel>
@@ -269,7 +282,7 @@ export default function Home() {
               </div>
             </div>
           </section>
-          <div class="flex flex-col px-6 w-full bg-white dark:bg-black/75">
+          <div class="flex flex-col px-6 w-full bg-white/90 dark:bg-black/90">
             <For each={collectionData}>
               {(collection, idx) =>
                 idx() < landingHighlightLength && (
@@ -280,7 +293,7 @@ export default function Home() {
           </div>
         </div>
         <div class="w-full flex flex-col items-center border-t border-b border-neutral-200 dark:border-neutral-900 backdrop-blur-3xl backdrop-saturate-200 dark:backdrop-brightness-150">
-          <div class="bg-neutral-100 dark:bg-black/90 w-full">
+          <div class="bg-white dark:bg-black w-full">
             <Collection data={collectionData} />
           </div>
           <div class="py-36 lg:border-t border-t-neutral-200 dark:border-t-neutral-900 border-b-neutral-200 dark:border-b-neutral-900 w-full">

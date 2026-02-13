@@ -11,6 +11,7 @@
 		"generate-sitemap": "node scripts/generate-sitemap.js"
 	},
 	"dependencies": {
+		"@lottiefiles/dotlottie-web": "^0.63.0",
 		"@solidjs/meta": "^0.29.4",
 		"@solidjs/router": "^0.15.4",
 		"@solidjs/start": "^1.2.1",

@@ -1,4 +1,5 @@
 import { Title, Meta, Link } from "@solidjs/meta";
+import { For, Show } from "solid-js";
 import { generateBreadcrumbList, generateLocalBusiness, generateOrganization } from "~/utils/schema";
 
 interface SEOProps {
@@ -60,17 +61,23 @@ export default function SEO(props: SEOProps) {
       <Meta name="description" content={description} />
       
       {/* Canonical URL */}
-      {canonical && <Link rel="canonical" href={canonical} />}
+      <Show when={canonical}>
+        <Link rel="canonical" href={canonical!} />
+      </Show>
       
       {/* Robots */}
-      {noindex && <Meta name="robots" content="noindex, nofollow" />}
+      <Show when={noindex}>
+        <Meta name="robots" content="noindex, nofollow" />
+      </Show>
       
       {/* Open Graph */}
       <Meta property="og:type" content={ogType} />
       <Meta property="og:title" content={title} />
       <Meta property="og:description" content={description} />
       <Meta property="og:image" content={ogImage} />
-      {canonical && <Meta property="og:url" content={canonical} />}
+      <Show when={canonical}>
+        <Meta property="og:url" content={canonical!} />
+      </Show>
       <Meta property="og:site_name" content="Mike Angelo - Art Director & Web Designer" />
       <Meta property="og:locale" content="en_US" />
       
@@ -79,11 +86,15 @@ export default function SEO(props: SEOProps) {
       <Meta name="twitter:title" content={title} />
       <Meta name="twitter:description" content={description} />
       <Meta name="twitter:image" content={ogImage} />
-      {twitterSite && <Meta name="twitter:site" content={twitterSite} />}
-      {twitterSite && <Meta name="twitter:creator" content={twitterSite} />}
+      <Show when={twitterSite}>
+        <Meta name="twitter:site" content={twitterSite!} />
+        <Meta name="twitter:creator" content={twitterSite!} />
+      </Show>
       
       {/* Facebook Domain Verification */}
-      {facebookDomainId && <Meta name="facebook-domain-verification" content={facebookDomainId} />}
+      <Show when={facebookDomainId}>
+        <Meta name="facebook-domain-verification" content={facebookDomainId!} />
+      </Show>
       
       {/* Additional Meta */}
       <Meta name="author" content="Mike Angelo" />
@@ -91,11 +102,13 @@ export default function SEO(props: SEOProps) {
       <Meta name="viewport" content="width=device-width, initial-scale=1.0" />
       
       {/* Structured Data */}
-      {structuredData.map((schema) => (
-        <script type="application/ld+json">
-          {JSON.stringify(schema)}
-        </script>
-      ))}
+      <For each={structuredData}>
+        {(schema) => (
+          <script type="application/ld+json">
+            {JSON.stringify(schema)}
+          </script>
+        )}
+      </For>
     </>
   );
 }
