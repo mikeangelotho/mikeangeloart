@@ -130,9 +130,9 @@ export class SceneManager {
     // Performance optimizations
     const pixelRatio = Math.min(window.devicePixelRatio, isMobile ? 1 : 1.5);
     this.#renderer = new three.WebGLRenderer({
-      antialias: !isMobile, // Disable antialiasing on mobile
+      antialias: true,
       alpha: true,
-      powerPreference: "high-performance",
+      powerPreference: "default",
     });
     this.#renderer.setSize(width, height);
     this.#renderer.setClearColor(0x000000, 0);
