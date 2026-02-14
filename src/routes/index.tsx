@@ -1,16 +1,17 @@
-import { createSignal, For, onCleanup, onMount, Show } from "solid-js";
+import { For, onCleanup, onMount } from "solid-js";
 import { PortfolioCollection } from "~/components/Collection";
 import { SceneManager } from "~/components/Panel3d";
 import data from "../db.json";
 import Collection from "~/components/Collection";
 import { H1, H2 } from "~/layout/Headings";
-import { Button, ContainerLabel } from "~/layout/Cards";
+import {  ContainerLabel } from "~/layout/Cards";
 import { MainKeypoint } from "~/components/MainKeypoint";
 import SEO from "~/components/SEO";
-import { Input, Label } from "~/layout/Forms";
 import BgGradient from "~/components/BgGradient";
-import { DotLottie } from '@lottiefiles/dotlottie-web';
-import anim from "../anim.json"
+import anim from "../anim.json?raw"
+import { Web3Form } from "~/components/Web3Form";
+import { LottieAnim } from "~/components/LottieAnim";
+
 
 
 const collectionData: PortfolioCollection[] = data;
@@ -19,120 +20,13 @@ const landingHighlightLength = 3;
 export default function Home() {
   let introPanel!: HTMLDivElement;
   let wrapper3d!: HTMLDivElement;
-  let lottieCanvas!: HTMLCanvasElement;
 
   onMount(() => {
-    // Detect device capabilities
-    const isMobile = window.innerWidth < 768 || 
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    // Check available memory (if supported)
-    const deviceMemory = (navigator as any).deviceMemory || 4; // Default to 4GB if unavailable
-    const isLowEndDevice = deviceMemory <= 4 || isMobile;
-
-    const dotLottie = new DotLottie({
-      canvas: lottieCanvas,
-      data: anim,
-      autoplay: true,
-      loop: true,
-      renderConfig: {
-        // Aggressive DPI reduction on mobile/low-end devices
-        devicePixelRatio: isLowEndDevice ? 0.5 : 1,
-      },
-      mode: 'forward',
-      useFrameInterpolation: false,
-    });
-
-    // Much slower on mobile
-    dotLottie.setSpeed(isLowEndDevice ? 0.3 : 0.5);
-
-    let animationFrameId: number;
-    let lastFrameTime = 0;
-    const targetFPS = isLowEndDevice ? 15 : 24; // Even lower FPS on mobile
-    const frameInterval = 1000 / targetFPS;
-
-    const throttledRender = (currentTime: number) => {
-      const elapsed = currentTime - lastFrameTime;
-      
-      if (elapsed > frameInterval) {
-        lastFrameTime = currentTime - (elapsed % frameInterval);
-      }
-      
-      if (!document.hidden) {
-        animationFrameId = requestAnimationFrame(throttledRender);
-      }
-    };
-
-    const handleVisibility = () => {
-      if (document.hidden) {
-        dotLottie.pause();
-        if (animationFrameId) {
-          cancelAnimationFrame(animationFrameId);
-        }
-      } else {
-        dotLottie.play();
-        animationFrameId = requestAnimationFrame(throttledRender);
-      }
-    };
-
-    {/*}
-    const handleResize = () => {
-      // AGGRESSIVE canvas size reduction
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-      
-      let scale: number;
-      if (width < 640) {
-        scale = 0.4; // Extra small mobile
-      } else if (width < 768) {
-        scale = 0.5; // Mobile
-      } else if (width < 1024) {
-        scale = 0.7; // Tablet
-      } else {
-        scale = 0.85; // Desktop (still reduced)
-      }
-      
-
-      
-      // Canvas display size (what user sees - upscaled via CSS)
-      lottieCanvas.style.width = `${width}px`;
-      lottieCanvas.style.height = `${height}px`;
-      
-      // Apply slight blur to hide upscaling artifacts
-      lottieCanvas.style.filter = isLowEndDevice ? 'blur(0.5px)' : 'none';
-    };
-
-    handleResize();
-
-    document.addEventListener("visibilitychange", handleVisibility);
-    window.addEventListener("resize", handleResize);
-    */}
-
-    animationFrameId = requestAnimationFrame(throttledRender);
-
     const observerOptions = {
       root: null,
       rootMargin: "0px",
       threshold: 0.5,
     };
-
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-
-    // Aggressive pause when scrolled away
-    const lottieObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting && !document.hidden) {
-          dotLottie.pause();
-          // Free up memory by clearing canvas when not visible
-          const ctx = lottieCanvas.getContext('2d');
-          if (ctx) {
-            ctx.clearRect(0, 0, lottieCanvas.width, lottieCanvas.height);
-          }
-        } else if (entry.isIntersecting && !document.hidden) {
-          dotLottie.play();
-        }
-      });
-    }, { threshold: 0.05 }); // Very aggressive threshold
 
     let ticking = false;
     const onScroll = () => {
@@ -181,18 +75,12 @@ export default function Home() {
     opacityObserver.observe(introPanel);
     opacityObserver.observe(wrapper3d);
     opacityObserver.observe(introPanel);
-    //lottieObserver.observe(lottieCanvas);
 
     onCleanup(() => {
       sceneManager.dispose();
       threeJsObserver.disconnect();
       opacityObserver.disconnect();
-      lottieObserver.disconnect();
-      dotLottie.destroy();
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-      }
-      document.removeEventListener("visibilitychange", handleVisibility);
+      
       //window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", onScroll);
       if (resizeHandler) {
@@ -233,11 +121,7 @@ export default function Home() {
       />
       <main class="w-full relative flex flex-col justify-center items-center">
         <BgGradient />
-        {/*<canvas 
-          class="border border-red-500 fixed top-0 left-0 w-full h-screen object-cover aspect-video" 
-          ref={lottieCanvas}
-          style="will-change: auto; image-rendering: auto;"
-        ></canvas>*/}
+        {/*<LottieAnim data={anim} />*/}
         <section class="mx-auto max-w-7xl overflow-hidden perspective-normal mix-blend-difference h-screen  w-full flex justify-center items-center">
           <article
             ref={introPanel}
@@ -253,15 +137,14 @@ export default function Home() {
               <H1>My name's Mike.</H1>
               <H2>
                 <span class="font-normal italic transition-opacity duration-100 ease-out">
-                  I'm an art director <br class="block md:hidden" />& web
-                  developer
+                  I'm an Creative Technologist
                 </span>
                 .
               </H2>
             </div>
           </article>
         </section>
-        <div class="w-full flex flex-col items-center border-t border-b border-black/10 dark:border-white/10 backdrop-blur-3xl backdrop-saturate-200">
+        <div class="w-full flex flex-col bg-white/5 items-center border-t border-b border-black/10 dark:border-white/10 backdrop-blur-3xl backdrop-saturate-200">
           <section class="flex flex-col justify-center items-center text-black dark:text-white pt-12 md:pt-16 lg:pt-18 xl:pt-24 pb-24 md:pb-32 lg:pb-36 xl:pb-48 px-6 sm:px-8 md:px-12 lg:px-16 max-w-7xl">
             <div class="flex flex-col justify-center items-center">
               <figure
@@ -314,55 +197,3 @@ export default function Home() {
     </>
   );
 }
-
-const Web3Form = () => {
-  const [result, setResult] = createSignal("");
-
-  const onSubmit = async (event: any) => {
-    event.preventDefault();
-    setResult("Sending....");
-    const formData = new FormData(event.target);
-    formData.append("access_key", "33167a9e-992e-4a3e-af3b-96ab4976a6b3");
-
-    const response = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      body: formData,
-    });
-
-    const data: any = await response.json();
-    if (data.success) {
-      setResult("Form Submitted Successfully");
-      event.target.reset();
-    } else {
-      setResult("Error");
-    }
-  };
-
-  return (
-    <form onSubmit={onSubmit} class="w-full">
-      <div class="flex flex-col gap-3 w-full">
-        <div class="flex flex-col">
-          <Label>Name</Label>
-          <Input name="name" type="text" placeholder="Enter your name" />
-        </div>
-        <div class="flex flex-col">
-          <Label>Email</Label>
-          <Input name="email" type="email" placeholder="Enter your email" />
-        </div>
-        <div class="flex flex-col">
-          <Label>Message</Label>
-          <textarea
-            class="min-h-24 sm:min-h-32 md:min-h-36 placeholder-black/25 resize-none dark:placeholder-white/50 bg-white dark:bg-white/25 text-black focus:text-black dark:text-white dark:focus:text-white rounded-md px-3 py-2 sm:py-3 outline outline-transparent border border-black/10 dark:border-white/10 focus:outline-black/50 dark:focus:outline-white/50 hover:outline-black/25 dark:hover:outline-white/25 def__animate text-base touch-resize"
-            placeholder="Enter your message"
-            name="message"
-            required
-          ></textarea>
-        </div>
-        <Button type="submit">Send Message</Button>
-        <Show when={result().length > 0}>
-          <span class="text-black/10 dark:text-white/50">{result()}</span>
-        </Show>
-      </div>
-    </form>
-  );
-};

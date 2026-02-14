@@ -16,8 +16,8 @@ export default function Icon(props: { name: string, height: number, width: numbe
             </Match>
             <Match when={props.name === "terminal"}>
                 <svg width={props.width} height={props.height} viewBox={`0 0 ${props.width} ${props.height}`} fill="white" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 2L6 22" stroke="currentColor" stroke-width="2" stroke-linecap="square" />
-                    <path d="M18 2L14 22" stroke="currentColor" stroke-width="2" stroke-linecap="square" />
+                    <path d="M5 2L10 25" stroke="currentColor" stroke-width="5" stroke-linecap="square" />
+                    <path d="M15 2L20 25" stroke="currentColor" stroke-width="5" stroke-linecap="square" />
                 </svg>
             </Match>
         </Switch>

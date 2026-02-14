@@ -67,7 +67,7 @@ export default function Navbar() {
             href="/"
             class="font-sans flex items-center gap-3 hover:brightness-50 def__animate"
           >
-            <img src="https://cdn.mikeangelo.art/MA_Logo_SharpMA_White.svg" loading="eager" width="32" height="auto" class="w-8 h-8 sm:w-9 sm:h-9" alt="Mike Angelo Logo" />
+            <img src="https://cdn.mikeangelo.art/MA_Logo_SharpMA_White.svg" loading="eager" width="32" height="auto" class="w-12 h-12 sm:w-12 sm:h-12" alt="Mike Angelo Logo" />
             <span class="font-sans text-xs tracking-[2px] text-white uppercase">
               Mike Angelo
             </span>
@@ -83,7 +83,7 @@ export default function Navbar() {
                   );
                 }}
               </For>
-              <li><Icon name="github" width={24} height={24} /></li>
+              <li><Icon name="github" width={20} height={20} /></li>
               <li class="dark:invert"><ThemeToggle onClick={() => {
                 setShowMobileMenu(false);
               }} /></li>
@@ -92,7 +92,7 @@ export default function Navbar() {
           </div>
           <button
             ref={mobileMenuIcon}
-            class="cursor-pointer bg-white rounded-lg hover:scale-105 active:scale-95 def__animate lg:hidden text-2xl sm:text-3xl text-black pb-1 sm:pb-2 px-3 sm:px-4 py-2 min-w-11 min-h-11 flex items-center justify-center"
+            class="cursor-pointer bg-white rounded-lg hover:scale-105 active:scale-95 min-h-8 min-w-8 md:p-3 def__animate lg:hidden flex items-center justify-center"
             onClick={() => {
               toggleMobileMenu();
             }}
@@ -104,7 +104,7 @@ export default function Navbar() {
         </div>
       </nav>
       <Show when={showMobileMenu()}>
-        <div class="overflow-none z-5 pt-[20vh] sm:pt-[30vh] fixed w-screen h-screen bg-white/98 dark:bg-black/95">
+        <div class="overflow-none z-20 pt-[20vh] sm:pt-[30vh] fixed w-screen h-screen bg-white/98 dark:bg-black/97">
           <div class="flex flex-col gap-4 sm:gap-6 items-center sm:items-end px-6 sm:px-12 md:px-24">
             <ul class="flex flex-col gap-6 items-center sm:items-end">
               <For each={links}>
