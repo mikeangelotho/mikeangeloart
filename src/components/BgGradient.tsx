@@ -44,14 +44,14 @@ export default function BgGradient() {
 
         const drawGradient = () => {
             // Smooth interpolation for mouse position (easing)
-            mouseX += (targetMouseX - mouseX) * 0.05;
-            mouseY += (targetMouseY - mouseY) * 0.05;
+            mouseX += (targetMouseX - mouseX) * 0.5;
+            mouseY += (targetMouseY - mouseY) * 0.5;
             
             // Clear canvas
             ctx.clearRect(0, 0, width, height);
 
             // Animated parameters for smooth movement (Vercel-style)
-            const moveSpeed = 0.005;
+            const moveSpeed = 0.015;
             const scaleSpeed = 0.0005;
             const timeMoveSpeed = time * moveSpeed;
 
@@ -61,10 +61,10 @@ export default function BgGradient() {
 
             // Multiple moving focal points for more dynamic effect
             const focal1X = width + Math.sin(timeMoveSpeed) * width * -0.25 + mouseInfluenceX;
-            const focal1Y = height * 0.5 + Math.cos(timeMoveSpeed) * height * 0.15 + mouseInfluenceY;
+            const focal1Y = height * 1.5 + Math.cos(timeMoveSpeed) * height * 0.15 + mouseInfluenceY;
 
             const focal2X = width * 0.1 + Math.sin(timeMoveSpeed) * width * 0.25;
-            const focal2Y = height * 1.25 + Math.cos(timeMoveSpeed) * height * 0.15;
+            const focal2Y = height * 1.5 + Math.cos(timeMoveSpeed) * height * 0.15;
 
             const radiusScale = height * 0.75 * (3 + Math.sin(time * scaleSpeed) * 0.1);
 

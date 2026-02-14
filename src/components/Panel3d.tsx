@@ -98,7 +98,7 @@ export class SceneManager {
 
     this.container = element;
     this.placeholder = document.createElement("div");
-    this.placeholder.className = "absolute top-0 left-0";
+    this.placeholder.className = "absolute top-0 left-0 text-black/10 dark:text-white/10";
     this.placeholder.textContent = "Loading 3D";
     this.placeholder.style.color = "lightgray";
     this.placeholder.style.fontSize = "14px";

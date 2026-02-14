@@ -1,11 +1,32 @@
 import { DotLottie } from "@lottiefiles/dotlottie-web";
-import { onCleanup, onMount } from "solid-js";
+import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
 
 export const LottieAnim = (props: { data: string }) => {
   let lottieCanvas!: HTMLCanvasElement;
   let containerDiv!: HTMLDivElement;
 
+  const [isPaused, setIsPaused] = createSignal(false);
+
   onMount(() => {
+    document.addEventListener("scroll", () => {
+      const scrollY = window.scrollY;
+      if(scrollY >= 800 && !isPaused()) {
+        setIsPaused(true);
+      }
+
+      if(scrollY < 800 && isPaused()) {
+        setIsPaused(false);
+      }
+    })
+
+    createEffect(() => {
+      if (isPaused()) {
+        dotLottie.pause();
+      } else {
+        dotLottie.play();
+      }
+    })
+
     const isMobile =
       window.innerWidth < 768 ||
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -27,7 +48,7 @@ export const LottieAnim = (props: { data: string }) => {
       mode: "forward",
       useFrameInterpolation: true,
       renderConfig: {
-        devicePixelRatio: isLowEndDevice ? 0.5 : 1,
+        devicePixelRatio: 1,
       },
     });
 
@@ -117,7 +138,7 @@ export const LottieAnim = (props: { data: string }) => {
   });
 
   return (
-    <div ref={containerDiv} class="scale-125 fixed inset-0 overflow-hidden -z-10">
+    <div ref={containerDiv} class="scale-125 fixed inset-0 overflow-hidden -z-10 not-dark:invert">
       <canvas
         ref={lottieCanvas}
         class="absolute top-1/2 left-1/2 mix-blend-overlay"
