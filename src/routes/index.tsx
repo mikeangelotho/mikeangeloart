@@ -137,7 +137,7 @@ export default function Home() {
               <H1>My name's Mike.</H1>
               <H2>
                 <span class="font-normal italic transition-opacity duration-100 ease-out">
-                  I'm an Creative Technologist
+                  I'm a Creative Technologist
                 </span>
                 .
               </H2>
