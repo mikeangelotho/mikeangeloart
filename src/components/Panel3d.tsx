@@ -128,7 +128,7 @@ export class SceneManager {
     this.controls.enablePan = false;
     this.controls.update();
     // Performance optimizations
-    const pixelRatio = Math.min(window.devicePixelRatio, isMobile ? 0.5 : 1);
+    const pixelRatio = Math.min(window.devicePixelRatio, isMobile ? 1 : 1.5);
     this.#renderer = new three.WebGLRenderer({
       antialias: !isMobile, // Disable antialiasing on mobile
       alpha: true,
