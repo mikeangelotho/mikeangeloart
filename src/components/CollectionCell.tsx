@@ -1,5 +1,5 @@
 import { A } from "@solidjs/router";
-import { PortfolioCollection } from "./Collection";
+import { PortfolioCollection } from "~/types";
 import { createSignal, For, onMount, Show, createMemo } from "solid-js";
 import { Tag } from "~/layout/Cards";
 

@@ -1,141 +1,173 @@
-import { onMount, onCleanup, createSignal, Show } from 'solid-js';
+import { onMount, onCleanup, createSignal, Show } from "solid-js";
 
 export default function BgGradient() {
-    let animationFrameId: number;
-    let time = 0;
+  let animationFrameId: number;
+  let time = 0;
 
-    let canvasContainer!: HTMLDivElement;
-    
-    // Mouse position for gradient influence
-    let mouseX = 0;
-    let mouseY = 0;
-    let targetMouseX = 0;
-    let targetMouseY = 0;
+  let canvasContainer!: HTMLDivElement;
 
-    onMount(() => {
-        const canvas = document.createElement("canvas");
-        canvas.className = "fixed inset-0 w-full h-full saturate-200";
-        const ctx = canvas.getContext('2d', { alpha: false })!; // Disable alpha for better performance
-        let width: number, height: number;
+  // Mouse position for gradient influence
+  let mouseX = 0;
+  let mouseY = 0;
+  let targetMouseX = 0;
+  let targetMouseY = 0;
 
-        // Throttle mousemove with RAF for smoother performance
-        let mouseUpdateQueued = false;
-        const handleMouseMove = (e: MouseEvent) => {
-            if (mouseUpdateQueued) return;
-            mouseUpdateQueued = true;
-            
-            requestAnimationFrame(() => {
-                targetMouseX = e.clientX;
-                targetMouseY = e.clientY;
-                mouseUpdateQueued = false;
-            });
-        };
+  let lastMouseMoveTime = 0;
+  let isMouseMoving = false;
 
-        window.addEventListener("mousemove", handleMouseMove, { passive: true });
+  onMount(() => {
+    const canvas = document.createElement("canvas");
+    canvas.className = "fixed inset-0 w-full h-full saturate-200";
+    const ctx = canvas.getContext("2d", {
+      alpha: false,
+      desynchronized: true, // Better performance for animations
+    })!;
+    let width: number, height: number;
 
-        const resize = () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-            
-            // Initialize mouse position to center if not set
-            if (mouseX === 0 && mouseY === 0) {
-                mouseX = targetMouseX = width / 2;
-                mouseY = targetMouseY = height / 2;
-            }
-        };
+    let mouseUpdateQueued = false;
+    const handleMouseMove = (e: MouseEvent) => {
+      if (mouseUpdateQueued) return;
+      mouseUpdateQueued = true;
 
-        const drawGradient = () => {
-            // Smooth interpolation for mouse position (easing)
-            mouseX += (targetMouseX - mouseX) * 0.5;
-            mouseY += (targetMouseY - mouseY) * 0.5;
-            
-            // Clear canvas
-            ctx.clearRect(0, 0, width, height);
+      requestAnimationFrame(() => {
+        targetMouseX = e.clientX;
+        targetMouseY = e.clientY;
+        lastMouseMoveTime = Date.now();
+        isMouseMoving = true;
+        mouseUpdateQueued = false;
+      });
+    };
 
-            // Animated parameters for smooth movement (Vercel-style)
-            const moveSpeed = 0.015;
-            const scaleSpeed = 0.0005;
-            const timeMoveSpeed = time * moveSpeed;
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
-            // Mouse influence on first gradient (subtle offset)
-            const mouseInfluenceX = (mouseX - width / 2) * 0.15;
-            const mouseInfluenceY = (mouseY - height / 2) * 0.15;
+    const resize = () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
 
-            // Multiple moving focal points for more dynamic effect
-            const focal1X = width + Math.sin(timeMoveSpeed) * width * -0.25 + mouseInfluenceX;
-            const focal1Y = height * 1.5 + Math.cos(timeMoveSpeed) * height * 0.15 + mouseInfluenceY;
+      // Initialize mouse position to center if not set
+      if (mouseX === 0 && mouseY === 0) {
+        mouseX = targetMouseX = width / 2;
+        mouseY = targetMouseY = height / 2;
+      }
+    };
 
-            const focal2X = width * 0.1 + Math.sin(timeMoveSpeed) * width * 0.25;
-            const focal2Y = height * 1.5 + Math.cos(timeMoveSpeed) * height * 0.15;
+    const drawGradient = () => {
+      // Smooth interpolation for mouse position (easing)
+      mouseX += (targetMouseX - mouseX) * 0.5;
+      mouseY += (targetMouseY - mouseY) * 0.5;
 
-            const radiusScale = height * 0.75 * (3 + Math.sin(time * scaleSpeed) * 0.1);
+      // Clear canvas
+      ctx.clearRect(0, 0, width, height);
 
-            // First gradient - main blue glow
-            const gradient1 = ctx.createRadialGradient(
-                focal1X, focal1Y, 0,
-                focal1X, focal1Y, radiusScale
-            );
+      // Animated parameters for smooth movement (Vercel-style)
+      const moveSpeed = 0.015;
+      const scaleSpeed = 0.0005;
+      const timeMoveSpeed = time * moveSpeed;
 
-            gradient1.addColorStop(0, 'rgba(100, 125, 200, 0.8)'); // Bright blue
-            gradient1.addColorStop(0.3, 'rgba(150, 100, 200, 0.4)');
-            gradient1.addColorStop(0.5, 'rgba(150, 60, 150, 0.2)');
-            gradient1.addColorStop(0.9, 'rgba(0, 40, 100, 0.05)');
-            gradient1.addColorStop(1, 'rgba(0, 20, 50, 0)'); // Fade to transparent
+      // Mouse influence on first gradient (subtle offset)
+      const mouseInfluenceX = (mouseX - width / 2) * 0.15;
+      const mouseInfluenceY = (mouseY - height / 2) * 0.15;
 
-            ctx.fillStyle = gradient1;
-            ctx.fillRect(0, 0, width, height);
+      // Multiple moving focal points for more dynamic effect
+      const focal1X =
+        width + Math.sin(timeMoveSpeed) * width * -0.25 + mouseInfluenceX;
+      const focal1Y =
+        height * 1.5 +
+        Math.cos(timeMoveSpeed) * height * 0.15 +
+        mouseInfluenceY;
 
-            // Second gradient for depth
-            const gradient2 = ctx.createRadialGradient(
-                focal2X, focal2Y, 0,
-                focal2X, focal2Y, radiusScale
-            );
+      const focal2X = width * 0.1 + Math.sin(timeMoveSpeed) * width * 0.25;
+      const focal2Y = height * 1.5 + Math.cos(timeMoveSpeed) * height * 0.15;
 
-            gradient2.addColorStop(0, 'rgba(255, 220, 255, 0.6)');
-            gradient2.addColorStop(0.4, 'rgba(0, 100, 200, 0.3)');
-            gradient2.addColorStop(0.9, 'rgba(0, 70, 150, 0.1)');
-            gradient2.addColorStop(1, 'rgba(0, 40, 100, 0)');
+      const radiusScale =
+        height * 0.75 * (3 + Math.sin(time * scaleSpeed) * 0.1);
 
-            ctx.globalCompositeOperation = 'screen';
-            ctx.fillStyle = gradient2;
-            ctx.fillRect(0, 0, width, height);
-            ctx.globalCompositeOperation = 'source-over';
+      // First gradient - main blue glow
+      const gradient1 = ctx.createRadialGradient(
+        focal1X,
+        focal1Y,
+        0,
+        focal1X,
+        focal1Y,
+        radiusScale,
+      );
 
-            // Top black gradient overlay
-            const topGradient = ctx.createLinearGradient(0, 0, 0, height * 0.6);
-            topGradient.addColorStop(0, 'rgba(30, 30, 30, 1)'); // Pure black at top
-            topGradient.addColorStop(0.5, 'rgba(30, 30, 30, 0.8)');
-            topGradient.addColorStop(1, 'rgba(30, 30, 30, 0)'); // Fade out
+      gradient1.addColorStop(0, "rgba(100, 125, 200, 0.8)"); // Bright blue
+      gradient1.addColorStop(0.3, "rgba(150, 100, 200, 0.4)");
+      gradient1.addColorStop(0.5, "rgba(150, 60, 150, 0.2)");
+      gradient1.addColorStop(0.9, "rgba(0, 40, 100, 0.05)");
+      gradient1.addColorStop(1, "rgba(0, 20, 50, 0)"); // Fade to transparent
 
-            ctx.fillStyle = topGradient;
-            ctx.fillRect(0, 0, width, height);
-        };
+      ctx.fillStyle = gradient1;
+      ctx.fillRect(0, 0, width, height);
 
-        const animate = () => {
-            time++;
-            drawGradient();
-            animationFrameId = requestAnimationFrame(animate);
-        };
+      // Second gradient for depth
+      const gradient2 = ctx.createRadialGradient(
+        focal2X,
+        focal2Y,
+        0,
+        focal2X,
+        focal2Y,
+        radiusScale,
+      );
 
-        // Initialize
-        resize();
-        window.addEventListener('resize', resize, { passive: true });
-        animate();
+      gradient2.addColorStop(0, "rgba(255, 220, 255, 0.6)");
+      gradient2.addColorStop(0.4, "rgba(0, 100, 200, 0.3)");
+      gradient2.addColorStop(0.9, "rgba(0, 70, 150, 0.1)");
+      gradient2.addColorStop(1, "rgba(0, 40, 100, 0)");
 
-        canvasContainer.appendChild(canvas);
+      ctx.globalCompositeOperation = "screen";
+      ctx.fillStyle = gradient2;
+      ctx.fillRect(0, 0, width, height);
+      ctx.globalCompositeOperation = "source-over";
 
-        // Cleanup
-        onCleanup(() => {
-            window.removeEventListener('resize', resize);
-            window.removeEventListener('mousemove', handleMouseMove);
-            if (animationFrameId) {
-                cancelAnimationFrame(animationFrameId);
-            }
-        });
+      // Top black gradient overlay
+      const topGradient = ctx.createLinearGradient(0, 0, 0, height * 0.6);
+      topGradient.addColorStop(0, "rgba(30, 30, 30, 1)"); // Pure black at top
+      topGradient.addColorStop(0.5, "rgba(30, 30, 30, 0.8)");
+      topGradient.addColorStop(1, "rgba(30, 30, 30, 0)"); // Fade out
+
+      ctx.fillStyle = topGradient;
+      ctx.fillRect(0, 0, width, height);
+    };
+
+    let lastFrameTime = 0;
+    const targetFPS = 30;
+    const frameInterval = 1000 / targetFPS;
+
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - lastFrameTime;
+
+      if (elapsed >= frameInterval) {
+        lastFrameTime = currentTime - (elapsed % frameInterval);
+        time++;
+        drawGradient();
+      }
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    // Initialize
+    resize();
+    window.addEventListener("resize", resize, { passive: true });
+
+    animationFrameId = requestAnimationFrame(animate);
+    canvasContainer.appendChild(canvas);
+
+    // Cleanup
+    onCleanup(() => {
+      window.removeEventListener("resize", resize);
+      window.removeEventListener("mousemove", handleMouseMove);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
     });
+  });
 
-    return (
-        <div ref={canvasContainer} class="fixed inset-0 bg-black overflow-hidden not-dark:invert not-dark:hue-rotate-145 contrast-125 brightness-125 -z-10">
-        </div>
-    );
+  return (
+    <div
+      ref={canvasContainer}
+      class="fixed inset-0 bg-black overflow-hidden not-dark:invert not-dark:hue-rotate-145 contrast-125 brightness-125 -z-10"
+    ></div>
+  );
 }

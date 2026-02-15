@@ -1,7 +1,7 @@
 import * as three from "three";
 import { GLTFLoader, HDRLoader } from "three/examples/jsm/Addons.js";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
-import { onCleanup, onMount } from "solid-js";
+import { onCleanup, onMount, Suspense } from "solid-js";
 import { H2 } from "~/layout/Headings";
 
 export class SceneManager {
@@ -343,10 +343,12 @@ export default function Panel3d({
             <H2>{headline}</H2>
             <p class="text-black/50 dark:text-white/50">{paragraph}</p>
           </div>
+          <Suspense>
           <div
             ref={wrapper3d}
             class="hover:scale-95 my-12 lg:my-0 min-h-72 mx-auto w-full def__animate cursor-grab"
           ></div>
+          </Suspense>
         </div>
       </div>
     </section>

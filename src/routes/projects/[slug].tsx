@@ -1,7 +1,7 @@
-import { useNavigate, useParams } from "@solidjs/router";
+import { createAsync, useNavigate, useParams } from "@solidjs/router";
 import {
   createEffect,
-  createResource,
+  createMemo,
   createSignal,
   For,
   onCleanup,
@@ -10,8 +10,6 @@ import {
 } from "solid-js";
 import { ContainerLabel, Tag } from "~/layout/Cards";
 import { H1, H2 } from "~/layout/Headings";
-import data from "../../db.json";
-import { PortfolioCollection } from "~/components/Collection";
 import VideoLib from "~/components/VideoLib";
 import { MainKeypoint } from "~/components/MainKeypoint";
 import { Lightbox } from "~/components/Lightbox";
@@ -19,26 +17,34 @@ import SEO from "~/components/SEO";
 import { RelatedProjects } from "~/components/RelatedProjects";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { Picture } from "~/components/Picture";
-
-const collectionData: PortfolioCollection[] = data;
+import { PortfolioCollection } from "~/types";
 
 export default function ProjectPage() {
   const params = useParams();
   const navigate = useNavigate();
 
-  async function findCollection(slug: string) {
-    for (const collection of collectionData) {
-      if (collection.slug === slug) return collection;
+  const portfolioCollection = createAsync(async () => {
+    const res = await fetch ("https://cdn.mikeangelo.art/db.json");
+    return (await res.json()) as PortfolioCollection[];
+  });
+
+  const project = createMemo(() => {
+    const collection = portfolioCollection();
+    if (collection) {
+      for (const project of collection) {
+        if (project.slug === params.slug) {
+          return project;
+        }
+      }
     }
-  }
+  });
 
-  const [project] = createResource(() => params.slug, findCollection);
-
-  const [lightboxImg, setLighboxImg] = createSignal<string>();
+  const [lightboxImg, setLightboxImg] = createSignal<string>();
   const [lightboxAlt, setLightboxAlt] = createSignal<string>();
 
   createEffect(() => {
-    if (project.state === "ready" && !project()) {
+    const collection = portfolioCollection();
+    if (collection && !project()) {
       navigate("/projects", { replace: true });
     }
   });
@@ -99,7 +105,7 @@ export default function ProjectPage() {
         <Show when={project()} fallback={<div>Loading</div>} keyed>
           <Show when={lightboxImg()}>
             <Lightbox
-              src={{ get: lightboxImg, set: setLighboxImg }}
+              src={{ get: lightboxImg, set: setLightboxImg }}
               altText={lightboxAlt}
             />
           </Show>
@@ -202,7 +208,7 @@ export default function ProjectPage() {
                     onCleanup(() => observer.disconnect());
                   });
                   return (
-                    <div class="w-full flex flex-col lg:flex-row gap-6 justify-between max-w-[1440px] mx-auto">
+                    <div class="w-full flex flex-col lg:flex-row gap-6 justify-between max-w-360 mx-auto">
                       <div class="w-full flex items-start justify-center lg:justify-start">
                         <div
                           ref={boxRef}
@@ -255,7 +261,7 @@ export default function ProjectPage() {
                                     title={mediaObj.altText}
                                     aria-label={mediaObj.altText}
                                     onClick={() => {
-                                      setLighboxImg(mediaObj.url);
+                                      setLightboxImg(mediaObj.url);
                                       setLightboxAlt(mediaObj.altText);
                                     }}
                                   />
@@ -269,7 +275,7 @@ export default function ProjectPage() {
                                   alt={mediaObj.altText}
                                   class="border border-neutral-200 dark:border-neutral-900 w-full h-auto aspect-auto rounded-3xl lg:max-w-3xl max-h-180 hover:brightness-105 hover:saturate-125 def__animate cursor-pointer"
                                   onClick={(event, displayedUrl) => {
-                                    setLighboxImg(displayedUrl);
+                                    setLightboxImg(displayedUrl);
                                     setLightboxAlt(mediaObj.altText);
                                   }}
                                   onDisplayUrlChange={(displayedUrl) => {
@@ -295,7 +301,7 @@ export default function ProjectPage() {
           {/* Related Projects */}
           <RelatedProjects
             currentProject={project()!}
-            allProjects={collectionData}
+            allProjects={portfolioCollection() || []}
             maxItems={3}
           />
         </Show>

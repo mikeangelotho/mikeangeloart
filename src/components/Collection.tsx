@@ -1,4 +1,4 @@
-import { A, useSearchParams } from "@solidjs/router";
+import { useSearchParams } from "@solidjs/router";
 import {
   Accessor,
   createEffect,
@@ -11,57 +11,13 @@ import {
 } from "solid-js";
 import { Tag } from "~/layout/Cards";
 import { CollectionCell } from "./CollectionCell";
-
-interface Collection {
-  uuid: string;
-  id: number;
-  author: string;
-  slug: string;
-  title: string;
-  cover: string;
-  tags: string[];
-  dateAdded: string;
-  lastModified: string;
-}
-
-export interface PortfolioCollection extends Collection {
-  clientName: string;
-  clientLogo: string;
-  clientLogoAlt: string;
-  coverAlt: string;
-  projectObjective: string;
-  mainKeypointMedia: Media;
-  mainKeypointFeatured: number[][];
-  mainKeypointMetricOne: string;
-  mainKeypointMetricTwo: string;
-  mainKeypointDescription: string;
-  projectKeypoints: PortfolioKeypoint[];
-  projectVideos: Media[];
-}
-
-interface PortfolioKeypoint {
-  title: string;
-  description: string;
-  media: {
-    url: string;
-    altText: string;
-  }[];
-}
-
-export interface Media {
-  title: string;
-  client: string;
-  url: string;
-  thumbnail: string;
-  altText: string;
-  description: string;
-}
+import { PortfolioCollection } from "~/types";
 
 function CollectionRow({ children }: { children: JSXElement }) {
   return <div class="gap-x-3 flex justify-start w-full">{children}</div>;
 }
 
-export default function Collection({
+export default function CollectionGrid({
   data,
   sortByTags,
   sortByClients,

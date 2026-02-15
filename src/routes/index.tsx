@@ -1,25 +1,25 @@
-import { For, onCleanup, onMount } from "solid-js";
-import { PortfolioCollection } from "~/components/Collection";
+import { createResource, For, onCleanup, onMount, Show, Suspense } from "solid-js";
+import { PortfolioCollection } from "~/types";
 import { SceneManager } from "~/components/Panel3d";
-import data from "../db.json";
 import Collection from "~/components/Collection";
 import { H1, H2 } from "~/layout/Headings";
-import {  ContainerLabel } from "~/layout/Cards";
+import { ContainerLabel } from "~/layout/Cards";
 import { MainKeypoint } from "~/components/MainKeypoint";
 import SEO from "~/components/SEO";
 import BgGradient from "~/components/BgGradient";
-import anim from "../anim.json?raw"
+import anim from "../anim.json?raw";
 import { Web3Form } from "~/components/Web3Form";
 import { LottieAnim } from "~/components/LottieAnim";
 
-
-
-const collectionData: PortfolioCollection[] = data;
 const landingHighlightLength = 3;
 
 export default function Home() {
   let introPanel!: HTMLDivElement;
   let wrapper3d!: HTMLDivElement;
+
+  const [portfolioCollection] = createResource(() =>
+    import("../db.json").then((m) => m.default),
+  );
 
   onMount(() => {
     const observerOptions = {
@@ -80,7 +80,7 @@ export default function Home() {
       sceneManager.dispose();
       threeJsObserver.disconnect();
       opacityObserver.disconnect();
-      
+
       //window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", onScroll);
       if (resizeHandler) {
@@ -121,7 +121,9 @@ export default function Home() {
       />
       <main class="w-full relative flex flex-col justify-center items-center">
         <BgGradient />
+        <Suspense>
         <LottieAnim data={anim} />
+        </Suspense>
         <section class="mx-auto max-w-7xl overflow-hidden perspective-normal mix-blend-difference h-screen  w-full flex justify-center items-center">
           <article
             ref={introPanel}
@@ -157,14 +159,16 @@ export default function Home() {
                   results.
                 </H2>
                 <p class="pt-4 md:pt-6 max-w-md lg:max-w-lg mx-auto border-t border-black/10 dark:border-white/10">
-                  I've worked with businesses and agencies to produce high-quality creative assets,
-                  engaging video and motion design, custom websites and web solutions, and comprehensive advertising campaigns.
+                  I've worked with businesses and agencies to produce
+                  high-quality creative assets, engaging video and motion
+                  design, custom websites and web solutions, and comprehensive
+                  advertising campaigns.
                 </p>
               </div>
             </div>
           </section>
           <div class="flex flex-col px-6 w-full bg-white/90 dark:bg-black/90">
-            <For each={collectionData}>
+            <For each={portfolioCollection()}>
               {(collection, idx) =>
                 idx() < landingHighlightLength && (
                   <MainKeypoint data={collection} standalone={true} />
@@ -175,7 +179,11 @@ export default function Home() {
         </div>
         <div class="w-full flex flex-col items-center border-t border-b border-black/10 dark:border-white/10 backdrop-blur-3xl backdrop-saturate-200 dark:backdrop-brightness-150">
           <div class="bg-white dark:bg-black w-full">
-            <Collection data={collectionData} />
+            <Show when={portfolioCollection()}>
+              <Collection
+                data={portfolioCollection() as PortfolioCollection[]}
+              />
+            </Show>
           </div>
           <div class="py-36 lg:border-t border-t-black/10 dark:border-t-white/10 border-b-black/10 dark:border-b-white/10 w-full">
             <section class="flex flex-col lg:flex-row gap-12 md:gap-16 lg:gap-18 xl:gap-24 items-center px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mx-auto lg:max-w-7xl w-full">

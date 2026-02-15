@@ -1,5 +1,5 @@
 import { For, onMount, Show } from "solid-js";
-import { PortfolioCollection } from "./Collection";
+import { PortfolioCollection } from "~/types";
 import { Tag } from "~/layout/Cards";
 import { H2, H3 } from "~/layout/Headings";
 

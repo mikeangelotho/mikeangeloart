@@ -53,3 +53,5 @@ export const Web3Form = () => {
     </form>
   );
 };
+
+export default Web3Form;

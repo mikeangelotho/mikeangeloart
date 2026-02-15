@@ -1,4 +1,4 @@
-import { Media } from "./Collection";
+import { Media } from "~/types";
 import VideoJSPlayer from "./VideoJSPlayer";
 
 export default function VideoPlayer(props: { video: Media }) {

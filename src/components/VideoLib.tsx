@@ -5,7 +5,7 @@ import {
   For,
   Show,
 } from "solid-js";
-import { Media } from "./Collection";
+import { Media } from "~/types";
 import { H2 } from "~/layout/Headings";
 import VideoPlayer from "./VideoPlayer";
 

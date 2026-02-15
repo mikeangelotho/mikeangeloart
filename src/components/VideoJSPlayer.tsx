@@ -1,7 +1,7 @@
 import { onMount } from "solid-js";
 import videojs from "video.js";
 import 'video.js/dist/video-js.css';
-import { Media } from "./Collection";
+import { Media } from "~/types";
 
 export default function VideoJSPlayer(props: { video: Media }) {
     let playerRef!: HTMLDivElement;

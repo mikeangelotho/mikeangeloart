@@ -1,8 +1,9 @@
 import data from "../../db.json";
-import Collection, { PortfolioCollection } from "~/components/Collection";
+import { PortfolioCollection } from "~/types";
 import { useSearchParams } from "@solidjs/router";
 import { createMemo } from "solid-js";
 import SEO from "~/components/SEO";
+import CollectionGrid from "~/components/Collection";
 
 const collectionData: PortfolioCollection[] = data;
 
@@ -59,7 +60,7 @@ export default function ProjectPage() {
         }}
       />
       <main>
-        <Collection
+        <CollectionGrid
           sortByTags={{
             get: tags,
             set: (newTags) =>
