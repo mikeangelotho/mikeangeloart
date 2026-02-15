@@ -49,7 +49,7 @@ export const LottieAnim = (props: { data: string }) => {
       mode: "forward",
       useFrameInterpolation: true,
       renderConfig: {
-        devicePixelRatio: isLowEndDevice ? 0.5 : 1,
+        devicePixelRatio: isLowEndDevice ? 1 : 2,
       },
     });
 
