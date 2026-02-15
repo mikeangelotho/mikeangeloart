@@ -1,13 +1,14 @@
-import data from "../../db.json";
 import { PortfolioCollection } from "~/types";
-import { useSearchParams } from "@solidjs/router";
+import { createAsync, useSearchParams } from "@solidjs/router";
 import { createMemo } from "solid-js";
 import SEO from "~/components/SEO";
 import CollectionGrid from "~/components/Collection";
 
-const collectionData: PortfolioCollection[] = data;
-
 export default function ProjectPage() {
+  const portfolioCollection = createAsync(async () => {
+    const res = await fetch("https://cdn.mikeangelo.art/db.json");
+    return (await res.json()) as PortfolioCollection[];
+  });
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Make tags a memo that directly reads from searchParams.tags
@@ -48,8 +49,8 @@ export default function ProjectPage() {
           url: "https://mikeangeloart.com/projects",
           mainEntity: {
             "@type": "ItemList",
-            numberOfItems: collectionData.length,
-            itemListElement: collectionData.map((project, index) => ({
+            numberOfItems: portfolioCollection()?.length,
+            itemListElement: portfolioCollection()?.map((project, index) => ({
               "@type": "ListItem",
               position: index + 1,
               name: project.title,
@@ -72,7 +73,7 @@ export default function ProjectPage() {
               setSearchParams({ client: (newClients as string[]).join() }),
           }}
           enableFull={true}
-          data={collectionData}
+          data={portfolioCollection() as PortfolioCollection[]}
           enableSearch={true}
         />
       </main>

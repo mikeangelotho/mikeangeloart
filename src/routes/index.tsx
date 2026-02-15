@@ -1,4 +1,11 @@
-import { createResource, For, onCleanup, onMount, Show, Suspense } from "solid-js";
+import {
+  createResource,
+  For,
+  onCleanup,
+  onMount,
+  Show,
+  Suspense,
+} from "solid-js";
 import { PortfolioCollection } from "~/types";
 import { SceneManager } from "~/components/Panel3d";
 import Collection from "~/components/Collection";
@@ -7,9 +14,9 @@ import { ContainerLabel } from "~/layout/Cards";
 import { MainKeypoint } from "~/components/MainKeypoint";
 import SEO from "~/components/SEO";
 import BgGradient from "~/components/BgGradient";
-import anim from "../anim.json?raw";
 import { Web3Form } from "~/components/Web3Form";
 import { LottieAnim } from "~/components/LottieAnim";
+import { createAsync } from "@solidjs/router";
 
 const landingHighlightLength = 3;
 
@@ -17,9 +24,15 @@ export default function Home() {
   let introPanel!: HTMLDivElement;
   let wrapper3d!: HTMLDivElement;
 
-  const [portfolioCollection] = createResource(() =>
-    import("../db.json").then((m) => m.default),
-  );
+  const portfolioCollection = createAsync(async () => {
+    const res = await fetch("https://cdn.mikeangelo.art/db.json");
+    return (await res.json()) as PortfolioCollection[];
+  });
+
+  const animation = createAsync(async () => {
+    const res = await fetch("https://cdn.mikeangelo.art/anim.json");
+    return (await res.json()) as string;
+  });
 
   onMount(() => {
     const observerOptions = {
@@ -122,7 +135,7 @@ export default function Home() {
       <main class="w-full relative flex flex-col justify-center items-center">
         <BgGradient />
         <Suspense>
-        <LottieAnim data={anim} />
+          <LottieAnim data={animation() as string} />
         </Suspense>
         <section class="mx-auto max-w-7xl overflow-hidden perspective-normal mix-blend-difference h-screen  w-full flex justify-center items-center">
           <article
