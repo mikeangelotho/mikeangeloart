@@ -1,6 +1,7 @@
 import {
   createResource,
   For,
+  lazy,
   onCleanup,
   onMount,
   Show,
@@ -15,7 +16,6 @@ import { MainKeypoint } from "~/components/MainKeypoint";
 import SEO from "~/components/SEO";
 import BgGradient from "~/components/BgGradient";
 import { Web3Form } from "~/components/Web3Form";
-import { LottieAnim } from "~/components/LottieAnim";
 import { createAsync } from "@solidjs/router";
 
 const landingHighlightLength = 3;
@@ -33,6 +33,8 @@ export default function Home() {
     const res = await fetch("https://cdn.mikeangelo.art/anim.json");
     return (await res.json()) as string;
   });
+
+  const LottieAnim = lazy(() => import("../components/LottieAnim"));
 
   onMount(() => {
     const observerOptions = {

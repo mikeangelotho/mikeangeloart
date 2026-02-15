@@ -49,11 +49,11 @@ export const LottieAnim = (props: { data: string }) => {
       mode: "forward",
       useFrameInterpolation: true,
       renderConfig: {
-        devicePixelRatio: isLowEndDevice ? 1 : 2,
+        devicePixelRatio: isLowEndDevice ? .75 : 1,
       },
     });
 
-    dotLottie.setSpeed(isLowEndDevice ? 0.3 : 0.5);
+    dotLottie.setSpeed(isLowEndDevice ? 0.5 : 1);
 
     const updateCanvasScale = () => {
       const viewportWidth = window.innerWidth;
@@ -65,7 +65,7 @@ export const LottieAnim = (props: { data: string }) => {
     };
 
     // Set canvas size once
-    const dpr = isLowEndDevice ? 0.5 : 1;
+    const dpr = isLowEndDevice ? .1 : 2;
     lottieCanvas.width = DESKTOP_WIDTH * dpr;
     lottieCanvas.height = DESKTOP_HEIGHT * dpr;
     lottieCanvas.style.width = `${DESKTOP_WIDTH}px`;
