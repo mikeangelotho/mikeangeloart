@@ -2,22 +2,27 @@ import { DotLottie } from "@lottiefiles/dotlottie-web";
 import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
 
 export const LottieAnim = (props: { data: string }) => {
-  let lottieCanvas!: HTMLCanvasElement;
-  let containerDiv!: HTMLDivElement;
+  let canvasContainer!: HTMLDivElement;
 
   const [isPaused, setIsPaused] = createSignal(false);
 
   onMount(() => {
+    let lottieCanvas = document.createElement("canvas");
+    lottieCanvas.className = "absolute top-1/2 left-1/2 mix-blend-overlay";
+    lottieCanvas.style.willChange = "true";
+    lottieCanvas.style.imageRendering = "auto";
+    lottieCanvas.style.transformOrigin = "center";
+
     document.addEventListener("scroll", () => {
       const scrollY = window.scrollY;
-      if(scrollY >= 800 && !isPaused()) {
+      if (scrollY >= 800 && !isPaused()) {
         setIsPaused(true);
       }
 
-      if(scrollY < 800 && isPaused()) {
+      if (scrollY < 800 && isPaused()) {
         setIsPaused(false);
       }
-    })
+    });
 
     createEffect(() => {
       if (isPaused()) {
@@ -25,7 +30,7 @@ export const LottieAnim = (props: { data: string }) => {
       } else {
         dotLottie.play();
       }
-    })
+    });
 
     const isMobile =
       window.innerWidth < 768 ||
@@ -128,6 +133,8 @@ export const LottieAnim = (props: { data: string }) => {
 
     observer.observe(lottieCanvas);
 
+    canvasContainer.appendChild(lottieCanvas);
+
     onCleanup(() => {
       observer.disconnect();
       dotLottie.destroy();
@@ -138,12 +145,9 @@ export const LottieAnim = (props: { data: string }) => {
   });
 
   return (
-    <div ref={containerDiv} class="scale-125 fixed inset-0 overflow-hidden -z-10 not-dark:invert">
-      <canvas
-        ref={lottieCanvas}
-        class="absolute top-1/2 left-1/2 mix-blend-overlay"
-        style="will-change: transform; image-rendering: auto; transform-origin: center;"
-      />
-    </div>
+    <div
+      ref={canvasContainer}
+      class="scale-125 fixed inset-0 overflow-hidden -z-10 not-dark:invert"
+    ></div>
   );
 };

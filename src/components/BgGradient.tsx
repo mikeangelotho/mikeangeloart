@@ -1,9 +1,10 @@
-import { onMount, onCleanup } from 'solid-js';
+import { onMount, onCleanup, createSignal, Show } from 'solid-js';
 
 export default function BgGradient() {
-    let canvasRef!: HTMLCanvasElement;
     let animationFrameId: number;
     let time = 0;
+
+    let canvasContainer!: HTMLDivElement;
     
     // Mouse position for gradient influence
     let mouseX = 0;
@@ -12,7 +13,8 @@ export default function BgGradient() {
     let targetMouseY = 0;
 
     onMount(() => {
-        const canvas = canvasRef;
+        const canvas = document.createElement("canvas");
+        canvas.className = "fixed inset-0 w-full h-full saturate-200";
         const ctx = canvas.getContext('2d', { alpha: false })!; // Disable alpha for better performance
         let width: number, height: number;
 
@@ -120,6 +122,8 @@ export default function BgGradient() {
         window.addEventListener('resize', resize, { passive: true });
         animate();
 
+        canvasContainer.appendChild(canvas);
+
         // Cleanup
         onCleanup(() => {
             window.removeEventListener('resize', resize);
@@ -131,11 +135,7 @@ export default function BgGradient() {
     });
 
     return (
-        <div class="fixed inset-0 bg-black overflow-hidden not-dark:invert not-dark:hue-rotate-145 contrast-125 brightness-125 -z-10">
-            <canvas
-                ref={canvasRef}
-                class="fixed inset-0 w-full h-full saturate-200"
-            />
+        <div ref={canvasContainer} class="fixed inset-0 bg-black overflow-hidden not-dark:invert not-dark:hue-rotate-145 contrast-125 brightness-125 -z-10">
         </div>
     );
 }
