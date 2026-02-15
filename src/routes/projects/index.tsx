@@ -1,6 +1,6 @@
 import { PortfolioCollection } from "~/types";
 import { createAsync, useSearchParams } from "@solidjs/router";
-import { createMemo } from "solid-js";
+import { createMemo, Show } from "solid-js";
 import SEO from "~/components/SEO";
 import CollectionGrid from "~/components/Collection";
 
@@ -61,6 +61,7 @@ export default function ProjectPage() {
         }}
       />
       <main>
+        <Show when={portfolioCollection()}>
         <CollectionGrid
           sortByTags={{
             get: tags,
@@ -76,6 +77,7 @@ export default function ProjectPage() {
           data={portfolioCollection() as PortfolioCollection[]}
           enableSearch={true}
         />
+        </Show>
       </main>
     </>
   );
