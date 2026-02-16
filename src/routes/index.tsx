@@ -153,13 +153,15 @@ export default function Home() {
             </div>
           </section>
           <div class="flex flex-col px-6 w-full bg-white/90 dark:bg-black/90">
-            <For each={portfolioCollection()}>
-              {(collection, idx) =>
-                idx() < landingHighlightLength && (
-                  <MainKeypoint data={collection} standalone={true} />
-                )
-              }
-            </For>
+            <Show when={portfolioCollection()}>
+              <For each={portfolioCollection()}>
+                {(collection, idx) =>
+                  idx() < landingHighlightLength && (
+                    <MainKeypoint data={collection} standalone={true} />
+                  )
+                }
+              </For>
+            </Show>
           </div>
         </div>
         <div class="w-full flex flex-col items-center border-t border-b border-black/10 dark:border-white/10 backdrop-blur-3xl backdrop-saturate-200 dark:backdrop-brightness-150">
