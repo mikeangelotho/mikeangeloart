@@ -17,6 +17,7 @@ import SEO from "~/components/SEO";
 import BgGradient from "~/components/BgGradient";
 import { Web3Form } from "~/components/Web3Form";
 import { createAsync } from "@solidjs/router";
+import LottieAnim from "../components/LottieAnim";
 
 const landingHighlightLength = 3;
 
@@ -32,8 +33,6 @@ export default function Home() {
     const res = await fetch("https://cdn.mikeangelo.art/anim.json");
     return (await res.json()) as string;
   });
-
-  const LottieAnim = lazy(() => import("../components/LottieAnim"));
 
   onMount(() => {
     const observerOptions = {
@@ -104,10 +103,10 @@ export default function Home() {
       <main class="w-full relative flex flex-col justify-center items-center">
         <BgGradient />
         <Show when={animation()}>
-  <Suspense fallback={null}>
-    <LottieAnim data={animation() as string} />
-  </Suspense>
-</Show>
+          <Suspense fallback={<div class="fixed inset-0 -z-10" />}>
+            <LottieAnim data={animation() as string} />
+          </Suspense>
+        </Show>
         <section class="mx-auto max-w-7xl overflow-hidden perspective-normal mix-blend-difference h-screen  w-full flex justify-center items-center">
           <article
             ref={introPanel}
