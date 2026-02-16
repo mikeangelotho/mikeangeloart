@@ -8,7 +8,7 @@ import {
   Suspense,
 } from "solid-js";
 import { PortfolioCollection } from "~/types";
-import { SceneManager } from "~/components/Panel3d";
+import Panel3d, { SceneManager } from "~/components/Panel3d";
 import Collection from "~/components/Collection";
 import { H1, H2 } from "~/layout/Headings";
 import { ContainerLabel } from "~/layout/Cards";
@@ -22,7 +22,6 @@ const landingHighlightLength = 3;
 
 export default function Home() {
   let introPanel!: HTMLDivElement;
-  let wrapper3d!: HTMLDivElement;
 
   const portfolioCollection = createAsync(async () => {
     const res = await fetch("https://cdn.mikeangelo.art/db.json");
@@ -65,42 +64,11 @@ export default function Home() {
       });
     }, observerOptions);
 
-    const sceneManager = new SceneManager(12);
-    let resizeHandler: () => void;
-
-    const threeJsObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          sceneManager.init(
-            wrapper3d,
-            "https://cdn.mikeangelo.art/MA_Logo_3D.glb",
-          );
-          resizeHandler = () => {
-            if (sceneManager) {
-              sceneManager.handleResize(wrapper3d);
-            }
-          };
-          window.addEventListener("resize", resizeHandler);
-          observer.unobserve(wrapper3d);
-        }
-      });
-    }, observerOptions);
-
-    threeJsObserver.observe(wrapper3d);
     opacityObserver.observe(introPanel);
-    opacityObserver.observe(wrapper3d);
     opacityObserver.observe(introPanel);
 
     onCleanup(() => {
-      sceneManager.dispose();
-      threeJsObserver.disconnect();
       opacityObserver.disconnect();
-
-      //window.removeEventListener("resize", handleResize);
-      window.removeEventListener("scroll", onScroll);
-      if (resizeHandler) {
-        window.removeEventListener("resize", resizeHandler);
-      }
     });
   });
 
@@ -136,9 +104,11 @@ export default function Home() {
       />
       <main class="w-full relative flex flex-col justify-center items-center">
         <BgGradient />
-        <Suspense>
-          <LottieAnim data={animation() as string} />
-        </Suspense>
+        <Show when={animation()}>
+          <Suspense>
+            <LottieAnim data={animation() as string} />
+          </Suspense>
+        </Show>
         <section class="mx-auto max-w-7xl overflow-hidden perspective-normal mix-blend-difference h-screen  w-full flex justify-center items-center">
           <article
             ref={introPanel}
@@ -154,26 +124,26 @@ export default function Home() {
               <H1>My name's Mike.</H1>
               <H2>
                 <span class="font-normal italic transition-opacity duration-100 ease-out">
-                  I'm a Creative Technologist
+                  I'm a Creative Technologist.
                 </span>
-                .
               </H2>
             </div>
           </article>
         </section>
-        <div class="w-full flex flex-col bg-white/5 items-center border-t border-b border-black/10 dark:border-white/10 backdrop-blur-3xl backdrop-saturate-200 dark:backdrop-brightness-150">
-          <section class="flex flex-col justify-center items-center text-black dark:text-white pt-12 md:pt-16 lg:pt-18 xl:pt-24 pb-24 md:pb-32 lg:pb-36 xl:pb-48 px-6 sm:px-8 md:px-12 lg:px-16 max-w-7xl">
+        <div class="w-full flex flex-col items-center border-t border-black/10 dark:border-white/10 backdrop-blur-3xl backdrop-saturate-200 dark:backdrop-brightness-150">
+          <section class="relative flex flex-col justify-center items-center text-black py-36 lg:py-54 dark:text-white px-6 sm:px-8 md:px-12 lg:px-16 max-w-7xl">
             <div class="flex flex-col justify-center items-center">
-              <figure
-                ref={wrapper3d}
-                class="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 dark:invert dark:hue-rotate-180"
-              ></figure>
-              <div class="p-4 sm:p-6 md:p-8 max-w-2xl text-center flex flex-col gap-4 md:gap-6 rounded-2xl md:rounded-3xl">
-                <H2>
-                  I like to make things look good, function well, and deliver
-                  results.
-                </H2>
-                <p class="pt-4 md:pt-6 max-w-md lg:max-w-lg mx-auto border-t border-black/10 dark:border-white/10">
+              <div class="max-w-2xl text-center flex flex-col gap-6 rounded-2xl md:rounded-3xl">
+                <Suspense>
+                  <Panel3d model="https://cdn.mikeangelo.art/MA_Logo_3D.glb" />
+                </Suspense>
+                <span class="dark:text-shadow-lg text-shadow-black/10">
+                  <H2>
+                    I like to make things look good, function well, and deliver
+                    results.
+                  </H2>
+                </span>
+                <p class="p-6 rounded-xl bg-white/90 dark:bg-black/80 mx-auto border border-black/10 dark:border-white/10 dark:border-t dark:border-t-white">
                   I've worked with businesses and agencies to produce
                   high-quality creative assets, engaging video and motion
                   design, custom websites and web solutions, and comprehensive

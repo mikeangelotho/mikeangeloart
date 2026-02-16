@@ -176,7 +176,7 @@ export default function CollectionGrid({
   return (
     <section class="z-1 py-18 mx-auto">
       <Show when={enableSearch}>
-        <div class="bg-neutral-100 dark:bg-neutral-900 border-t border-b md:border border-neutral-200 dark:border-neutral-950 z-2 mt-2 md:mt-10 p-1 md:rounded-xl flex items-center justify-between fixed not-md:w-full md:inset-x-[5vw] xl:inset-x-[15vw] 2xl:inset-x-[25vw]">
+        <div class="bg-neutral-100 dark:bg-black/90 border-t border-b md:border border-black/10 dark:border-white/10 z-2 mt-2 md:mt-10 p-1 md:rounded-xl flex items-center justify-between fixed not-md:w-full md:inset-x-[5vw] xl:inset-x-[15vw] 2xl:inset-x-[25vw]">
           <div class="flex gap-3 items-center justify-between w-full">
             <div class="flex justify-between w-full gap-3">
               <div class="flex relative pr-3 border-r border-r-black/10 dark:border-r-white/10">

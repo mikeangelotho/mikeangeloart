@@ -6,15 +6,13 @@ import {
   onMount,
   Show,
 } from "solid-js";
-import { init3dScene } from "~/components/Panel3d";
 import { Button, ContainerLabel, Tag } from "~/layout/Cards";
 import { H2 } from "~/layout/Headings";
-//import { fetchGithubAvatar } from "~/utils/github";
 import { fetchGithubInfo, GitHubUser } from "~/hooks";
 import SEO from "~/components/SEO";
 import BgGradient from "~/components/BgGradient";
+import Panel3d from "~/components/Panel3d";
 
-//const [githubAvatar] = createResource<string>(fetchGithubAvatar);
 
 const taskbarIcons = [
   {
@@ -276,44 +274,6 @@ export default function About() {
   };
 
   onMount(() => {
-    setWindows((prev) => [
-      ...prev,
-      {
-        label: "Logo",
-        window: (
-          <Moveable label="Logo" noMobile={true} options={{ x: 1.42, y: 1.75, z: 0 }}>
-            <figure
-              ref={wrapper3D}
-              class="w-36 h-36 pointer-events-none dark:invert dark:hue-rotate-180"
-            ></figure>
-          </Moveable>
-        ),
-      },
-    ]);
-
-    /*
-    setWindows((prev) => [
-      ...prev,
-      {
-        label: "Identification",
-        window: (
-          <Moveable
-            label="Identification"
-            noMobile={true}
-            options={{ x: 1.325, y: 2 }}
-          >
-            <img
-              src={githubAvatar()}
-              class="w-18 h-18 rounded-3xl pointer-events-none object-cover"
-              alt="Mike Angelo GitHub avatar"
-              width="72"
-              height="72"
-            />
-          </Moveable>
-        ),
-      },
-    ]);
-    */
 
     setWindows((prev) => [
       ...prev,
@@ -415,15 +375,6 @@ export default function About() {
         ),
       },
     ]);
-
-    const [sceneManager, observer] = init3dScene(
-      wrapper3D,
-      "https://cdn.mikeangelo.art/MA_Logo_3D.glb",
-    );
-    onCleanup(() => {
-      sceneManager.dispose();
-      observer.disconnect();
-    });
   });
 
   return (
@@ -462,20 +413,6 @@ export default function About() {
         }}
       />
       <main class="w-full relative">
-        {/*
-        <video
-          ref={videoPanel}
-          src="https://cdn.mikeangelo.art/bg-3.mp4"
-          class="h-screen w-full dark:invert dark:hue-rotate-180 -z-1 aspect-video object-cover mx-auto fixed top-0"
-          preload="metadata"
-          muted
-          autoplay
-          loop
-          playsinline
-          width="1920"
-          height="1080"
-        ></video>
-        */}
         <BgGradient />
         <div class="h-screen w-full fixed backdrop-blur">
           <div class="h-[89vh] pt-22 xl:px-72">

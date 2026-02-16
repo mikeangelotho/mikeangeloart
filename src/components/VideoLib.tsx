@@ -72,7 +72,7 @@ export default function VideoLib(props: VideoLibProps) {
   return (
     <Show when={videoArray()}>
       <section class="justify-center w-full flex flex-col-reverse lg:flex-row-reverse items-center gap-6 pb-36 pt-18 md:pt-0">
-        <div class="w-full relative bg-neutral-100 dark:bg-neutral-900 overflow-hidden rounded-3xl border dark:border-t-white dark:shadow-[0px_-18px_18px_-18px_rgba(255,255,255,0.5)] border-black/5 dark:border-white/5 text-black dark:text-white">
+        <div class="w-full relative bg-neutral-100 dark:bg-black/80 overflow-hidden rounded-3xl border dark:border-t-white border-black/5 dark:border-white/5 text-black dark:text-white">
           <div class="p-6 border-b border-black/10 dark:border-white/10">
             <H2>Videos</H2>
           </div>

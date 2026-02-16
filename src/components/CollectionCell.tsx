@@ -76,13 +76,13 @@ export function CollectionCell({
         {/* controls */}
         <div class="group-hover/card:opacity-100 xl:opacity-0 absolute inset-0 flex justify-between items-center px-6 pointer-events-none z-10 def__animate">
           <div
-            class="h-18 flex items-center pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/80 dark:bg-black/80 dark:text-white rounded-lg hover:scale-105"
+            class="h-18 flex items-center pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/90 dark:bg-black/90 dark:text-white rounded-lg hover:scale-105"
             onClick={prev}
           >
             ❮
           </div>
           <div
-            class="h-18 flex items-center pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/80 dark:bg-black/80 dark:text-white rounded-lg hover:scale-105"
+            class="h-18 flex items-center pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/90 dark:bg-black/90 dark:text-white rounded-lg hover:scale-105"
             onClick={next}
           >
             ❯
@@ -134,7 +134,7 @@ export function CollectionCell({
         const cells = document.querySelectorAll(".cell-container");
         cells.forEach((cell) => cell.classList.remove("saturate-0"));
       }}
-      class={`group/card cell-container relative overflow-hidden hover:brightness-115 hover:saturate-125 rounded-xl def__animate ${!enableFull ? `w-72 h-96 xl:h-108 md:w-100 xl:w-xl` : `h-120 w-full`
+      class={`not-dark:border not-dark:border-black/10 group/card cell-container relative overflow-hidden hover:brightness-115 hover:saturate-125 rounded-xl def__animate ${!enableFull ? `w-72 h-96 xl:h-108 md:w-100 xl:w-xl` : `h-120 w-full`
         }`}
     >
       <Show

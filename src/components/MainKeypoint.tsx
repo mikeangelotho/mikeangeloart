@@ -16,11 +16,11 @@ export function MainKeypoint(props: {
             <header class="w-full z-1 text-black dark:text-white max-w-7xl mx-auto">
                 <Show when={props.standalone}>
                     <div class="flex flex-col lg:flex-row pb-36 gap-12 justify-center items-center w-full">
-                        <div class="flex flex-col lg:flex-row gap-6">
+                        <div class="flex flex-col items-center lg:flex-row gap-6">
                             <div class="lg:border-r lg:pr-6 border-black/10 dark:border-white/10">
                                 <img
                                     src={props.data.clientLogo}
-                                    class="mx-auto brightness-0 dark:brightness-200 saturate-0 contrast-0 opacity-50 max-h-10 max-w-22"
+                                    class="mx-auto brightness-0 dark:brightness-200 saturate-0 contrast-0 opacity-50 max-h-8 max-w-18"
                                     loading="lazy"
                                     alt={props.data.clientLogoAlt}
                                 />
@@ -32,7 +32,7 @@ export function MainKeypoint(props: {
                                 <H2>{props.data.title}</H2>
                             </A>
                         </div>
-                        <div class="group lg:max-w-md flex flex-col gap-3 text-black dark:text-white w-full border p-6 rounded-3xl shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] bg-white dark:bg-black/50 border-black/10 dark:border-white/5 dark:border-t-white">
+                        <div class="group lg:max-w-md flex flex-col gap-3 text-black dark:text-white w-full border p-6 rounded-3xl shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] bg-neutral-100 dark:bg-black/50 border-black/10 dark:border-white/5 dark:border-t-white">
                             <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1">
                                 <ContainerLabel>Objective</ContainerLabel>
                             </div>
@@ -62,7 +62,7 @@ export function MainKeypoint(props: {
             >
                 <Show when={props.standalone} fallback={<VideoPlayer video={props.data.mainKeypointMedia} />}>
                     <MediaSpread data={props.data}>
-                        <article class="text-black dark:text-white w-fit dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 items-center flex gap-6 flex-col-reverse lg:flex-row bg-white/50 dark:bg-black/50 border border-black/10 dark:border-white/5">
+                        <article class="text-black dark:text-white w-fit shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 items-center flex gap-6 flex-col-reverse lg:flex-row bg-neutral-100 dark:bg-black/50 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white">
                             {/*
                     <div class="flex flex-col w-full lg:w-fit min-w-72 justify-center gap-3 border border-neutral-200 bg-neutral-50 dark:bg-neutral-800 dark:border-neutral-700 p-3 rounded-xl dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)]">
                         <Metric icon="/MA_Icons25_Lightbulb.svg">
@@ -74,7 +74,7 @@ export function MainKeypoint(props: {
                     </div>
                     */}
                             <div class="max-w-3xl flex flex-col gap-3 justify-center">
-                                <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1">
+                                <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1 ">
                                     <ContainerLabel>Strategy</ContainerLabel>
                                 </div>
                                 <p class="text-left text-black dark:text-white">

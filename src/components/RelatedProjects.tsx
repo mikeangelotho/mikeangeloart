@@ -63,7 +63,7 @@ export function RelatedProjects(props: RelatedProjectsProps) {
                   return (
                     <div
                       ref={card}
-                      class="group relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300"
+                      class="group relative overflow-hidden rounded-2xl not-dark:bg-neutral-100 border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300"
                     >
                       <a
                         href={`/projects/${project.slug}`}
