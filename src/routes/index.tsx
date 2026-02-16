@@ -133,7 +133,6 @@ export default function Home() {
           <section class="relative flex flex-col justify-center items-center text-black py-36 lg:py-54 dark:text-white px-6 sm:px-8 md:px-12 lg:px-16 max-w-7xl">
             <div class="flex flex-col justify-center items-center">
               <div class="max-w-2xl text-center flex flex-col gap-6 rounded-2xl md:rounded-3xl">
-                  <Panel3d model="https://cdn.mikeangelo.art/MA_Logo_3D.glb" />
                 <span class="dark:text-shadow-lg text-shadow-black/10">
                   <H2>
                     I like to make things look good, function well, and deliver
