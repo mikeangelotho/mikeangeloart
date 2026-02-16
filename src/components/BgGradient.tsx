@@ -7,6 +7,7 @@ export default function BgGradient() {
   let canvas!: HTMLCanvasElement;
 
   const [bgReady, setBgReady] = createSignal(false);
+  const [isPaused, setIsPaused] = createSignal(false);
 
   // Mouse position for gradient influence
   let mouseX = 0;
@@ -20,31 +21,6 @@ export default function BgGradient() {
       desynchronized: true, // Better performance for animations
     })!;
     let width: number, height: number;
-
-    let mouseUpdateQueued = false;
-    const handleMouseMove = (e: MouseEvent) => {
-      if (mouseUpdateQueued) return;
-      mouseUpdateQueued = true;
-
-      requestAnimationFrame(() => {
-        targetMouseX = e.clientX;
-        targetMouseY = e.clientY;
-        mouseUpdateQueued = false;
-      });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
-
-    const resize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-
-      // Initialize mouse position to center if not set
-      if (mouseX === 0 && mouseY === 0) {
-        mouseX = targetMouseX = width / 2;
-        mouseY = targetMouseY = height / 2;
-      }
-    };
 
     const drawGradient = () => {
       // Smooth interpolation for mouse position (easing)
@@ -135,25 +111,61 @@ export default function BgGradient() {
 
       if (elapsed >= frameInterval) {
         lastFrameTime = currentTime - (elapsed % frameInterval);
-        time++;
+        if (!isPaused()) time++;
         drawGradient();
       }
 
       animationFrameId = requestAnimationFrame(animate);
     };
 
+    const resize = () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+
+      // Initialize mouse position to center if not set
+      if (mouseX === 0 && mouseY === 0) {
+        mouseX = targetMouseX = width / 2;
+        mouseY = targetMouseY = height / 2;
+      }
+    };
+
+    let scrollTimeout: number;
+    const handleScroll = () => {
+      if (scrollTimeout) return;
+      scrollTimeout = window.setTimeout(() => {
+        const { scrollY } = window;
+        setIsPaused(scrollY >= 1000);
+        scrollTimeout = 0;
+      }, 100);
+    };
+
+    let mouseUpdateQueued = false;
+    const handleMouseMove = (e: MouseEvent) => {
+      if (mouseUpdateQueued) return;
+      mouseUpdateQueued = true;
+
+      requestAnimationFrame(() => {
+        targetMouseX = e.clientX;
+        targetMouseY = e.clientY;
+        mouseUpdateQueued = false;
+      });
+    };
+
     // Initialize
     resize();
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", resize, { passive: true });
 
     animationFrameId = requestAnimationFrame(animate);
     setBgReady(true);
 
     createEffect(() => {
-      if(bgReady()) {
+      if (bgReady()) {
         setTimeout(() => {
-        canvas.classList.add("opacity-100");
-        }, 500)
+          canvas.classList.add("opacity-100");
+        }, 150)
       }
     })
 
@@ -161,6 +173,7 @@ export default function BgGradient() {
     onCleanup(() => {
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("scroll", handleScroll);
       if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
       }
@@ -169,7 +182,7 @@ export default function BgGradient() {
 
   return (
     <div class="-z-10 fixed top-0 left-0 inset-0 w-full h-full bg-linear-to-t from-blue-800 to-transparent">
-    <canvas ref={canvas} class="w-full h-full def__animate not-dark:invert not-dark:hue-rotate-145 contrast-125 brightness-125 saturate-200 opacity-0" style="will-change: transform;image-rendering: auto;transform-origin: center;"></canvas>
+      <canvas ref={canvas} class="w-full h-full def__animate not-dark:invert not-dark:hue-rotate-145 contrast-125 brightness-125 saturate-200 opacity-0" style="will-change: transform;image-rendering: auto;transform-origin: center;"></canvas>
     </div>
   );
 }

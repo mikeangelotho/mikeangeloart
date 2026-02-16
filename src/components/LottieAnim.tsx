@@ -12,33 +12,13 @@ export const LottieAnim = (props: { url: string }) => {
   });
 
   onMount(() => {
-    let scrollTimeout: number;
-    const handleScroll = () => {
-      if (scrollTimeout) return;
-      scrollTimeout = window.setTimeout(() => {
-        const scrollY = window.scrollY;
-        setIsPaused(scrollY >= 800);
-        scrollTimeout = 0;
-      }, 100);
-    };
-
-    document.addEventListener("scroll", handleScroll, { passive: true });
-
-    createEffect(() => {
-      if (isPaused()) {
-        dotLottie.pause();
-      } else {
-        dotLottie.play();
-      }
-    });
-
     const isMobile = window.innerWidth < 768 ||
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     const deviceMemory = (navigator as any).deviceMemory || 4;
     const isLowEndDevice = deviceMemory <= 4 || isMobile;
 
-    const DESKTOP_WIDTH = 1280;
-    const DESKTOP_HEIGHT = 720;
+    const DESKTOP_WIDTH = 1920;
+    const DESKTOP_HEIGHT = 1080;
 
     const dotLottie = new DotLottie({
       canvas: lottieCanvas,
@@ -87,34 +67,37 @@ export const LottieAnim = (props: { url: string }) => {
       }
     };
 
+    let scrollTimeout: number;
+    const handleScroll = () => {
+      if (scrollTimeout) return;
+      scrollTimeout = window.setTimeout(() => {
+        const { scrollY } = window;
+        setIsPaused(scrollY >= 600);
+        scrollTimeout = 0;
+      }, 100);
+    };
+
+    document.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleResize, { passive: true });
     document.addEventListener("visibilitychange", handleVisibility);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting && !document.hidden) {
-            dotLottie.pause();
-          } else if (entry.isIntersecting && !document.hidden && !isPaused()) {
-            dotLottie.play();
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    observer.observe(lottieCanvas);
-    
     createEffect(() => {
-      if(animation()) {
+      if (animation()) {
         setTimeout(() => {
-        lottieCanvas.classList.add("opacity-100");
+          lottieCanvas.classList.add("opacity-100");
         }, 500)
       }
     })
 
+    createEffect(() => {
+      if (isPaused()) {
+        dotLottie.pause();
+      } else {
+        dotLottie.play();
+      }
+    });
+
     onCleanup(() => {
-      observer.disconnect();
       dotLottie.destroy();
       if (scrollTimeout) clearTimeout(scrollTimeout);
       if (resizeTimeout) clearTimeout(resizeTimeout);

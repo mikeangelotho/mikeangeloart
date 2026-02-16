@@ -97,8 +97,8 @@ export default function Home() {
         }}
       />
       <main class="w-full relative flex flex-col justify-center items-center">
-        <BgGradient />
         <Suspense>
+          <BgGradient />
           <LottieAnim url="https://cdn.mikeangelo.art/anim.json" />
         </Suspense>
         <section class="mx-auto max-w-7xl overflow-hidden perspective-normal mix-blend-difference h-screen  w-full flex justify-center items-center">
