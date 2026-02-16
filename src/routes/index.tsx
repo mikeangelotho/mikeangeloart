@@ -1,5 +1,4 @@
 import {
-  createResource,
   For,
   lazy,
   onCleanup,
@@ -17,8 +16,8 @@ import SEO from "~/components/SEO";
 import BgGradient from "~/components/BgGradient";
 import { Web3Form } from "~/components/Web3Form";
 import { createAsync } from "@solidjs/router";
-import LottieAnim from "../components/LottieAnim";
 
+const LottieAnim = lazy(() => import("../components/LottieAnim"));
 const landingHighlightLength = 3;
 
 export default function Home() {
