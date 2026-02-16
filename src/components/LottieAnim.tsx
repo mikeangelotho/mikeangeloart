@@ -58,7 +58,7 @@ export const LottieAnim = (props: { data: string }) => {
     };
 
     // Set canvas size once
-    const dpr = isLowEndDevice ? .1 : 2;
+    const dpr = isLowEndDevice ? 0.5 : 2;
     lottieCanvas.width = DESKTOP_WIDTH * dpr;
     lottieCanvas.height = DESKTOP_HEIGHT * dpr;
     lottieCanvas.style.width = `${DESKTOP_WIDTH}px`;
