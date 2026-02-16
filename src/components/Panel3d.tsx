@@ -1,7 +1,7 @@
 import * as three from "three";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
-import { onCleanup, onMount, Suspense } from "solid-js";
+import { createSignal, onCleanup, onMount, Suspense } from "solid-js";
 
 export class SceneManager {
   #renderer: three.WebGLRenderer | null = null;
@@ -248,6 +248,8 @@ export class SceneManager {
 export default function Panel3d(props: { model: string }) {
   let wrapper!: HTMLDivElement;
 
+  const [modelRdy, setModelRdy] = createSignal(false);
+
   onMount(() => {
     const sceneManager = new SceneManager(8);
 
@@ -261,7 +263,7 @@ export default function Panel3d(props: { model: string }) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          entry.target.classList.toggle("opacity-25", entry.isIntersecting);
+          entry.target.classList.toggle("opacity-75", entry.isIntersecting);
           if (entry.isIntersecting) {
             if (sceneManager.container === null) {
               sceneManager.init(wrapper, props.model);
@@ -274,10 +276,12 @@ export default function Panel3d(props: { model: string }) {
           }
         });
       },
-      { threshold: 0.1 }, // Lowered threshold for better mobile detection
+      { threshold: 0.5 }, // Lowered threshold for better mobile detection
     );
 
     observer.observe(wrapper);
+
+    setModelRdy(true);
 
     onCleanup(() => {
       window.removeEventListener("resize", resizeHandler);
@@ -289,7 +293,7 @@ export default function Panel3d(props: { model: string }) {
   return (
     <div
       ref={wrapper}
-      class="absolute top-0 left-0 h-full mx-auto w-full def__animate -z-1 opacity-0 not-dark:invert not-dark:hue-rotate-145 contrast-125 brightness-125"
+      class="absolute top-0 left-0 h-full mx-auto w-full def__animate -z-1 opacity-0 blur-xs not-dark:invert not-dark:hue-rotate-145 contrast-125 brightness-125"
     ></div>
   );
 }

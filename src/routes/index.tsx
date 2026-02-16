@@ -7,33 +7,30 @@ import {
   Suspense,
 } from "solid-js";
 import { PortfolioCollection } from "~/types";
-import Panel3d, { SceneManager } from "~/components/Panel3d";
 import Collection from "~/components/Collection";
 import { H1, H2 } from "~/layout/Headings";
 import { ContainerLabel } from "~/layout/Cards";
 import { MainKeypoint } from "~/components/MainKeypoint";
 import SEO from "~/components/SEO";
-import BgGradient from "~/components/BgGradient";
 import { Web3Form } from "~/components/Web3Form";
 import { createAsync } from "@solidjs/router";
 
-const LottieAnim = lazy(() => import("../components/LottieAnim"));
 const landingHighlightLength = 3;
 
 export default function Home() {
   let introPanel!: HTMLDivElement;
+
+  const LottieAnim = lazy(() => import("../components/LottieAnim"));
+  const BgGradient = lazy(() => import("../components/BgGradient"));
+  const Panel3d = lazy(() => import("../components/Panel3d"));
 
   const portfolioCollection = createAsync(async () => {
     const res = await fetch("https://cdn.mikeangelo.art/db.json");
     return (await res.json()) as PortfolioCollection[];
   });
 
-  const animation = createAsync(async () => {
-    const res = await fetch("https://cdn.mikeangelo.art/anim.json");
-    return (await res.json()) as string;
-  });
-
   onMount(() => {
+
     const observerOptions = {
       root: null,
       rootMargin: "0px",
@@ -101,10 +98,8 @@ export default function Home() {
       />
       <main class="w-full relative flex flex-col justify-center items-center">
         <BgGradient />
-        <Suspense fallback={<div class="fixed inset-0 -z-10" />}>
-          <Show when={animation()}>
-            <LottieAnim data={animation() as string} />
-          </Show>
+        <Suspense>
+          <LottieAnim url="https://cdn.mikeangelo.art/anim.json" />
         </Suspense>
         <section class="mx-auto max-w-7xl overflow-hidden perspective-normal mix-blend-difference h-screen  w-full flex justify-center items-center">
           <article
@@ -131,7 +126,9 @@ export default function Home() {
           <section class="relative flex flex-col justify-center items-center text-black py-36 lg:py-54 dark:text-white px-6 sm:px-8 md:px-12 lg:px-16 max-w-7xl">
             <div class="flex flex-col justify-center items-center">
               <div class="max-w-2xl text-center flex flex-col gap-6 rounded-2xl md:rounded-3xl">
-                <Panel3d model="https://cdn.mikeangelo.art/MA_Logo_3D.glb" />
+                <Suspense>
+                  <Panel3d model="https://cdn.mikeangelo.art/MA_Logo_3D.glb" />
+                </Suspense>
                 <span class="dark:text-shadow-lg text-shadow-black/10">
                   <H2>
                     I like to make things look good, function well, and deliver

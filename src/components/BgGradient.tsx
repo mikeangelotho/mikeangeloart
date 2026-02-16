@@ -1,10 +1,12 @@
-import { onMount, onCleanup, createSignal, Show } from "solid-js";
+import { onMount, onCleanup, createSignal, Show, createEffect } from "solid-js";
 
 export default function BgGradient() {
   let animationFrameId: number;
   let time = 0;
 
-  let canvasContainer!: HTMLDivElement;
+  let canvas!: HTMLCanvasElement;
+
+  const [bgReady, setBgReady] = createSignal(false);
 
   // Mouse position for gradient influence
   let mouseX = 0;
@@ -12,12 +14,7 @@ export default function BgGradient() {
   let targetMouseX = 0;
   let targetMouseY = 0;
 
-  let lastMouseMoveTime = 0;
-  let isMouseMoving = false;
-
   onMount(() => {
-    const canvas = document.createElement("canvas");
-    canvas.className = "fixed inset-0 w-full h-full saturate-200";
     const ctx = canvas.getContext("2d", {
       alpha: false,
       desynchronized: true, // Better performance for animations
@@ -32,8 +29,6 @@ export default function BgGradient() {
       requestAnimationFrame(() => {
         targetMouseX = e.clientX;
         targetMouseY = e.clientY;
-        lastMouseMoveTime = Date.now();
-        isMouseMoving = true;
         mouseUpdateQueued = false;
       });
     };
@@ -152,7 +147,15 @@ export default function BgGradient() {
     window.addEventListener("resize", resize, { passive: true });
 
     animationFrameId = requestAnimationFrame(animate);
-    canvasContainer.appendChild(canvas);
+    setBgReady(true);
+
+    createEffect(() => {
+      if(bgReady()) {
+        setTimeout(() => {
+        canvas.classList.add("opacity-100");
+        }, 500)
+      }
+    })
 
     // Cleanup
     onCleanup(() => {
@@ -165,9 +168,8 @@ export default function BgGradient() {
   });
 
   return (
-    <div
-      ref={canvasContainer}
-      class="fixed inset-0 bg-black overflow-hidden not-dark:invert not-dark:hue-rotate-145 contrast-125 brightness-125 -z-10"
-    ></div>
+    <div class="-z-10 fixed top-0 left-0 inset-0 w-full h-full bg-linear-to-t from-blue-800 to-transparent">
+    <canvas ref={canvas} class="w-full h-full def__animate not-dark:invert not-dark:hue-rotate-145 contrast-125 brightness-125 saturate-200 opacity-0" style="will-change: transform;image-rendering: auto;transform-origin: center;"></canvas>
+    </div>
   );
 }

@@ -1,9 +1,15 @@
 import { DotLottie } from "@lottiefiles/dotlottie-web";
-import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
+import { createAsync } from "@solidjs/router";
+import { createEffect, createSignal, onCleanup, onMount, Show } from "solid-js";
 
-export const LottieAnim = (props: { data: string }) => {
+export const LottieAnim = (props: { url: string }) => {
   let lottieCanvas!: HTMLCanvasElement;
   const [isPaused, setIsPaused] = createSignal(false);
+
+  const animation = createAsync(async () => {
+    const res = await fetch(props.url);
+    return (await res.json()) as string;
+  });
 
   onMount(() => {
     let scrollTimeout: number;
@@ -31,12 +37,12 @@ export const LottieAnim = (props: { data: string }) => {
     const deviceMemory = (navigator as any).deviceMemory || 4;
     const isLowEndDevice = deviceMemory <= 4 || isMobile;
 
-    const DESKTOP_WIDTH = 1920;
-    const DESKTOP_HEIGHT = 1080;
+    const DESKTOP_WIDTH = 1280;
+    const DESKTOP_HEIGHT = 720;
 
     const dotLottie = new DotLottie({
       canvas: lottieCanvas,
-      data: props.data,
+      data: animation(),
       autoplay: true,
       loop: true,
       mode: "forward",
@@ -58,7 +64,7 @@ export const LottieAnim = (props: { data: string }) => {
     };
 
     // Set canvas size once
-    const dpr = isLowEndDevice ? 0.5 : 2;
+    const dpr = isLowEndDevice ? 0.5 : 1;
     lottieCanvas.width = DESKTOP_WIDTH * dpr;
     lottieCanvas.height = DESKTOP_HEIGHT * dpr;
     lottieCanvas.style.width = `${DESKTOP_WIDTH}px`;
@@ -94,10 +100,18 @@ export const LottieAnim = (props: { data: string }) => {
           }
         });
       },
-      { threshold: 0.05 }
+      { threshold: 0.5 }
     );
 
     observer.observe(lottieCanvas);
+    
+    createEffect(() => {
+      if(animation()) {
+        setTimeout(() => {
+        lottieCanvas.classList.add("opacity-100");
+        }, 500)
+      }
+    })
 
     onCleanup(() => {
       observer.disconnect();
@@ -111,8 +125,10 @@ export const LottieAnim = (props: { data: string }) => {
   });
 
   return (
-    <div class="scale-125 fixed inset-0 overflow-hidden -z-10 not-dark:invert">
-      <canvas ref={lottieCanvas} class="absolute top-1/2 left-1/2 mix-blend-overlay" style="will-change: transform;image-rendering: auto;transform-origin: center;"></canvas>
+    <div class="w-full fixed top-1/2 left-1/2 h-screen -z-10 not-dark:invert mix-blend-hard-light">
+      <Show when={animation()}>
+        <canvas ref={lottieCanvas} class="fixed top-1/2 left-1/2 opacity-0 def__animate" style="will-change: transform;image-rendering: auto;transform-origin: center;"></canvas>
+      </Show>
     </div>
   );
 };
