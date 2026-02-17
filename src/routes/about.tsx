@@ -380,8 +380,8 @@ export default function About() {
   return (
     <>
       <SEO
-        title="About Mike Angelo | Comprehensive Ad Campaigns and Web Design in New Jersey and New York"
-        description="Learn about Mike Angelo, an art director and web designer in the greater New York area. Discover my journey from breaking computers to creating beautiful digital experiences."
+        title="About Mike Angelo | Creative Technologist in New Jersey and New York | Graphic and Motion Design, Web Development, and Advertising Campaigns"
+        description="Learn more about Mike Angelo, a Creative Technologist in New Jersey specializing in creative design, comprehensive marketing campaigns, and web design and development."
         canonical="https://mikeangeloart.com/about"
         ogImage="https://cdn.mikeangelo.art/og-default.png"
         breadcrumbs={[

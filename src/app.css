@@ -18,6 +18,10 @@
   p, h3, h4, span, a {
     font-family: var(--custom-font-2);
   }
+
+  h3 {
+    font-size: 1.5rem;
+  }
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -31,22 +35,23 @@
 }
 
 .def__animate {
-  transition: all 150ms ease-out;
+  transition: all 500ms ease-out;
+}
+
+.fade__animate {
+  transition: all 1000ms ease-out;
 }
 
 .nav__animate {
   transition: all 1s ease-out;
 }
 
-.intro-panel,
 figure,
 picture {
   transition: all 500ms ease-out;
 }
 
-.scrolled,
-.intro-panel.scrolled,
-figure.scrolled {
+.scrolled {
   filter: blur(10px);
   opacity: 0;
 }

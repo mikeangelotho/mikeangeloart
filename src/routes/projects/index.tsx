@@ -30,8 +30,8 @@ export default function ProjectPage() {
   return (
     <>
       <SEO
-        title="Projects | Portfolio of Mike Angelo, Art Director & Web Designer in New Jersey"
-        description="Explore Mike Angelo's portfolio of art direction, web design and development, and advertising campaigns for clients in New Jersey and New York."
+        title="Creative Portfolio of Mike Angelo | Creative Technologist in New Jersey and New York | Brand Design, Video Editing and Motion Design, and Web Design"
+        description="Explore Mike Angelo's portfolio of art direction, web development, and advertising campaigns for clients big and small in New Jersey and New York."
         canonical="https://mikeangeloart.com/projects"
         ogImage="https://cdn.mikeangelo.art/og-default.png"
         breadcrumbs={[
@@ -62,21 +62,21 @@ export default function ProjectPage() {
       />
       <main>
         <Show when={portfolioCollection()}>
-        <CollectionGrid
-          sortByTags={{
-            get: tags,
-            set: (newTags) =>
-              setSearchParams({ tags: (newTags as string[]).join() }),
-          }}
-          sortByClients={{
-            get: clients,
-            set: (newClients) =>
-              setSearchParams({ client: (newClients as string[]).join() }),
-          }}
-          enableFull={true}
-          data={portfolioCollection() as PortfolioCollection[]}
-          enableSearch={true}
-        />
+          <CollectionGrid
+            sortByTags={{
+              get: tags,
+              set: (newTags) =>
+                setSearchParams({ tags: (newTags as string[]).join() }),
+            }}
+            sortByClients={{
+              get: clients,
+              set: (newClients) =>
+                setSearchParams({ client: (newClients as string[]).join() }),
+            }}
+            enableFull={true}
+            data={portfolioCollection() as PortfolioCollection[]}
+            enableSearch={true}
+          />
         </Show>
       </main>
     </>

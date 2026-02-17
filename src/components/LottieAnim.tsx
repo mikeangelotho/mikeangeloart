@@ -108,9 +108,9 @@ export const LottieAnim = (props: { url: string }) => {
   });
 
   return (
-    <div class="w-full fixed top-1/2 left-1/2 h-screen -z-10 not-dark:invert mix-blend-hard-light">
+    <div class="w-full fixed top-1/2 left-1/2 h-screen -z-10 mix-blend-hard-light">
       <Show when={animation()}>
-        <canvas ref={lottieCanvas} class="fixed top-1/2 left-1/2 opacity-0 def__animate" style="will-change: transform;image-rendering: auto;transform-origin: center;"></canvas>
+        <canvas ref={lottieCanvas} class="fixed top-1/2 left-1/2 opacity-0 not-dark:invert def__animate" style="will-change: transform;image-rendering: auto;transform-origin: center;"></canvas>
       </Show>
     </div>
   );

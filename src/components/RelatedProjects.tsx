@@ -42,7 +42,7 @@ export function RelatedProjects(props: RelatedProjectsProps) {
 
   return (
     <section class="w-full bg-white dark:bg-black border-black/10 dark:border-white/10">
-      <div class="max-w-7xl mx-auto px-6 py-18 lg:py-36">
+      <div class="max-w-7xl mx-auto px-6 py-18">
         <div class="flex flex-col gap-12">
           <div class="text-center lg:text-left">
             <H2>Related Projects</H2>
@@ -63,7 +63,7 @@ export function RelatedProjects(props: RelatedProjectsProps) {
                   return (
                     <div
                       ref={card}
-                      class="group relative overflow-hidden rounded-2xl not-dark:bg-neutral-100 border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300"
+                      class="group relative overflow-hidden rounded-2xl shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] not-dark:bg-neutral-100 border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300"
                     >
                       <a
                         href={`/projects/${project.slug}`}

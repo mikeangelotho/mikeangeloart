@@ -38,7 +38,7 @@ interface VideoLibProps {
 }
 
 export default function VideoLib(props: VideoLibProps) {
-  const [videoArray, { refetch }] = createResource(getVideoInfo);
+  const [videoArray] = createResource(getVideoInfo);
   const [video, setVideo] = createSignal(props.videos[0]);
 
   async function getVideoInfo() {
@@ -71,12 +71,12 @@ export default function VideoLib(props: VideoLibProps) {
 
   return (
     <Show when={videoArray()}>
-      <section class="justify-center w-full flex flex-col-reverse lg:flex-row-reverse items-center gap-6 pb-36 pt-18 md:pt-0">
-        <div class="w-full relative bg-neutral-100 dark:bg-black/80 overflow-hidden rounded-3xl border dark:border-t-white border-black/5 dark:border-white/5 text-black dark:text-white">
+      <section class="justify-center w-full flex flex-col-reverse lg:flex-row-reverse items-center gap-6 pb-36 pt-18 md:pt-0 max-w-7xl mx-auto">
+        <div class="w-full relative max-w-md bg-neutral-100 dark:bg-black/80 shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] overflow-hidden rounded-3xl border dark:border-t-white border-black/5 dark:border-white/5 text-black dark:text-white">
           <div class="p-6 border-b border-black/10 dark:border-white/10">
             <H2>Videos</H2>
           </div>
-          <ul class="relative overflow-auto divide-y divide-black/5 dark:divide-white/5 h-full max-h-96 w-full">
+          <ul class="relative overflow-auto divide-y divide-black/5 dark:divide-white/5 h-full max-h-72 w-full">
             <For each={videoArray()}>
               {(listVideo) => {
                 const [showDesc, setShowDesc] = createSignal(false);

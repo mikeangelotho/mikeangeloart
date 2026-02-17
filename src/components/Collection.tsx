@@ -14,7 +14,7 @@ import { CollectionCell } from "./CollectionCell";
 import { PortfolioCollection } from "~/types";
 
 function CollectionRow({ children }: { children: JSXElement }) {
-  return <div class="gap-x-3 flex justify-start w-full">{children}</div>;
+  return <div class="gap-x-6 flex justify-start w-full">{children}</div>;
 }
 
 export default function CollectionGrid({
@@ -340,13 +340,10 @@ export default function CollectionGrid({
           >
             <CollectionRow>
               <For each={sortedData()}>
-                {(item, idx) =>
-                  idx() % 2 === 0 ? (
-                    <CollectionCell galleryCover={true} data={item} />
-                  ) : null
-                }
+                {(item) => <CollectionCell galleryCover={true} data={item} /> }
               </For>
             </CollectionRow>
+            {/*
             <CollectionRow>
               <For each={sortedData()}>
                 {(item, idx) =>
@@ -356,6 +353,7 @@ export default function CollectionGrid({
                 }
               </For>
             </CollectionRow>
+            */}
           </div>
         </Show>
       </div>

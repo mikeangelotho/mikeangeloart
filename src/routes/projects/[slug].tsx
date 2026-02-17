@@ -11,20 +11,20 @@ import {
 import { ContainerLabel, Tag } from "~/layout/Cards";
 import { H1, H2 } from "~/layout/Headings";
 import VideoLib from "~/components/VideoLib";
-import { MainKeypoint } from "~/components/MainKeypoint";
 import { Lightbox } from "~/components/Lightbox";
 import SEO from "~/components/SEO";
 import { RelatedProjects } from "~/components/RelatedProjects";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { Picture } from "~/components/Picture";
-import { PortfolioCollection } from "~/types";
+import { Media, PortfolioCollection } from "~/types";
+import VideoPlayer from "~/components/VideoPlayer";
 
 export default function ProjectPage() {
   const params = useParams();
   const navigate = useNavigate();
 
   const portfolioCollection = createAsync(async () => {
-    const res = await fetch ("https://cdn.mikeangelo.art/db.json");
+    const res = await fetch("https://cdn.mikeangelo.art/db.json");
     return (await res.json()) as PortfolioCollection[];
   });
 
@@ -61,8 +61,8 @@ export default function ProjectPage() {
       <Show when={project()} fallback={<div>Loading</div>} keyed>
         {(p) => (
           <SEO
-            title={`${p.title} | Art Director & Web Developer Portfolio Project by Mike Angelo`}
-            description={`${p.projectObjective?.substring(0, 160)}... Explore this ${p.tags?.join(", ")} project by Mike Angelo, art director and web designer.`}
+            title={`${p.title} | Creative Technologist Portfolio Project by Mike Angelo | Creative Design, Advertising Campaigns, and Web Design and Development`}
+            description={`${p.projectObjective?.substring(0, 160)}... Explore this ${p.tags?.join(", ")} project by Mike Angelo, a Creative Technologist in New Jersey and New York.`}
             canonical={`https://mikeangeloart.com/projects/${p.slug}`}
             ogImage={p.cover}
             ogType="article"
@@ -137,9 +137,9 @@ export default function ProjectPage() {
               </div>
             </article>
           </section>
-          <section class="bg-white dark:bg-black/95 border-t border-b border-black/10 dark:border-white/10 px-6">
+          <section class="bg-white dark:bg-black/95 border-t border-b border-black/10 dark:border-white/10 px-6 dark:backdrop-saturate-200 dark:backdrop-brightness-125">
             {/* Breadcrumb Navigation */}
-            <div class="flex flex-col lg:flex-row gap-3 justify-between items-center px-6 py-18 max-w-7xl mx-auto">
+            <div class="flex flex-col lg:flex-row gap-3 justify-between items-center px-6 py-9 max-w-7xl mx-auto">
               <div class="w-fit">
                 <Breadcrumbs
                   items={[
@@ -167,20 +167,30 @@ export default function ProjectPage() {
                 </For>
               </div>
             </div>
-            <div class="mb-36 text-black dark:text-white w-fit dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 items-center flex gap-6 flex-col-reverse lg:flex-row bg-neutral-100 dark:bg-black/50 border border-black/10 dark:border-white/10 dark:border-t dark:border-t-white mx-auto">
-              <div class="max-w-3xl flex flex-col gap-3 justify-center">
-                <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1">
-                  <ContainerLabel>Objective</ContainerLabel>
+            <div class="w-full flex flex-col gap-18 items-center justify-center max-w-7xl mx-auto">
+              <div class="text-black dark:text-white w-fit shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 items-center flex gap-6 flex-col-reverse lg:flex-row bg-neutral-100 dark:bg-black border border-black/10 dark:border-white/10 dark:border-t dark:border-t-white mx-auto">
+                <div class="max-w-3xl flex flex-col gap-3 justify-center">
+                  <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1">
+                    <ContainerLabel>Objective</ContainerLabel>
+                  </div>
+                  <p class="text-left text-black dark:text-white">
+                    {project()?.projectObjective}
+                  </p>
                 </div>
-                <p class="text-left text-black dark:text-white">
-                  {project()?.projectObjective}
-                </p>
               </div>
+              <VideoPlayer video={project()?.mainKeypointMedia as Media} />
+              <article class="text-black dark:text-white w-fit shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 items-center flex gap-6 flex-col-reverse lg:flex-row bg-neutral-100 dark:bg-black border border-black/10 dark:border-white/10 dark:border-t dark:border-t-white">
+                <div class="max-w-3xl flex flex-col gap-3 justify-center">
+                  <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1 ">
+                    <ContainerLabel>Strategy</ContainerLabel>
+                  </div>
+                  <p class="text-left text-black dark:text-white">
+                    {project()?.mainKeypointDescription}
+                  </p>
+                </div>
+              </article>
             </div>
-            <Show when={project()} keyed>
-              {(p) => <MainKeypoint data={p} />}
-            </Show>
-            <section class="flex flex-col gap-6 lg:gap-18 mt-36 border-t border-black/10 dark:border-white/10 py-18 lg:py-36">
+            <section class="flex flex-col gap-6 lg:gap-18 mt-18 border-t border-black/10 dark:border-white/10 py-18 lg:py-36">
               <For each={project()?.projectKeypoints}>
                 {(keypoint) => {
                   let boxRef!: HTMLDivElement;
@@ -212,7 +222,7 @@ export default function ProjectPage() {
                       <div class="w-full flex items-start justify-center lg:justify-start">
                         <div
                           ref={boxRef}
-                          class="transition duration-500 max-w-3xl lg:max-w-xl dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 flex flex-col gap-4 bg-neutral-100 dark:bg-black/50 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white"
+                          class="fade__animate max-w-3xl lg:max-w-xl shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 flex flex-col gap-4 bg-neutral-100 dark:bg-black border border-black/10 dark:border-white/10 dark:border-t dark:border-t-white"
                         >
                           <H2>{keypoint.title}</H2>
                           <p class="dark:text-white">{keypoint.description}</p>
@@ -257,7 +267,7 @@ export default function ProjectPage() {
                                     muted
                                     loop
                                     playsinline
-                                    class="lg:max-w-3xl max-h-180 border border-neutral-200 dark:border-neutral-900 rounded-xl aspect-auto cursor-pointer"
+                                    class="lg:max-w-3xl max-h-180 border-6 border-neutral-200 dark:border-white/5 rounded-3xl aspect-auto cursor-pointer"
                                     title={mediaObj.altText}
                                     aria-label={mediaObj.altText}
                                     onClick={() => {
@@ -273,7 +283,7 @@ export default function ProjectPage() {
                                   src={mediaObj.url}
                                   loading="lazy"
                                   alt={mediaObj.altText}
-                                  class="border border-neutral-200 dark:border-neutral-900 w-full h-auto aspect-auto rounded-3xl lg:max-w-3xl max-h-180 hover:brightness-105 hover:saturate-125 def__animate cursor-pointer"
+                                  class="border-6 border-neutral-200 dark:border-white/5 w-full h-auto aspect-auto rounded-3xl lg:max-w-3xl max-h-180 hover:brightness-105 hover:-translate-y-3 fade__animate cursor-pointer"
                                   onClick={(event, displayedUrl) => {
                                     setLightboxImg(displayedUrl);
                                     setLightboxAlt(mediaObj.altText);

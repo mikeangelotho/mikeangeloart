@@ -49,7 +49,7 @@ export const LinkButton = ({
   return (
     <A
       href={href}
-      class="w-full block text-center lg:w-fit cursor-pointer text-xs def__button uppercase tracking-wider font-bold border border-white/10 hover:border-white/5 dark:border-black/10 dark:hover:border-black/5 def__animate text-white hover:text-white/50 dark:text-black dark:hover:text-black/50 px-6 py-3 rounded-lg bg-linear-to-tr from-neutral-900 to-neutral-600 hover:to-neutral-900 dark:from-neutral-300 from-50% dark:to-neutral-50 dark:hover:to-neutral-300">
+      class="w-full text-3xl block text-center lg:w-fit cursor-pointer def__button font-bold border border-white/10 hover:border-white/5 dark:border-black/10 dark:hover:border-black/5 def__animate text-white hover:text-white/50 dark:text-black dark:hover:text-black/50 px-18 py-6 lg:px-36 lg:py-9 rounded-lg bg-linear-to-tr from-neutral-900 to-neutral-600 hover:to-neutral-900 dark:from-neutral-300 from-50% dark:to-neutral-50 dark:hover:to-neutral-300">
       {children}
     </A>
   );
@@ -68,7 +68,7 @@ export const Button = ({
     <button
       type={type}
       onClick={onClick}
-      class="w-full lg:w-fit cursor-pointer text-xs uppercase tracking-wider font-bold border border-white/10 hover:border-white/5 dark:border-black/10 dark:hover:border-black/5 def__animate text-white hover:text-white/50 dark:text-black dark:hover:text-black/50 px-6 py-3 rounded-lg bg-linear-to-tr from-neutral-900 to-neutral-600 hover:to-neutral-900 dark:from-neutral-300 from-50% dark:to-neutral-50 dark:hover:to-neutral-300"    >
+      class="w-full lg:w-fit cursor-pointer text-sm font-bold border border-white/10 hover:border-white/5 dark:border-black/10 dark:hover:border-black/5 def__animate text-white hover:text-white/50 dark:text-black dark:hover:text-black/50 px-6 py-3 rounded-lg bg-linear-to-tr from-neutral-900 to-neutral-600 hover:to-neutral-900 dark:from-neutral-300 from-50% dark:to-neutral-50 dark:hover:to-neutral-300"    >
       {children}
     </button>
   );

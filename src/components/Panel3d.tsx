@@ -17,7 +17,7 @@ export default function Panel3d(props: { model: string }) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          entry.target.classList.toggle("opacity-75", entry.isIntersecting);
+          entry.target.classList.toggle("scrolled", !entry.isIntersecting);
           if (entry.isIntersecting) {
             if (sceneManager.container === null) {
               sceneManager.init(wrapper, props.model);
@@ -45,7 +45,7 @@ export default function Panel3d(props: { model: string }) {
   return (
     <div
       ref={wrapper}
-      class="absolute top-0 left-0 h-full mx-auto w-full def__animate -z-1 opacity-0 blur-xs not-dark:invert not-dark:hue-rotate-145 contrast-125 brightness-125"
+      class="absolute top-0 left-0 h-full mx-auto w-full def__animate -z-1 opacity-10 dark:opacity-5 blur not-dark:invert not-dark:hue-rotate-145 brightness-200"
     ></div>
   );
 }
