@@ -115,7 +115,6 @@ export default function Home() {
         >
           <Suspense>
             <BgGradient />
-            <LottieAnim url="https://cdn.mikeangelo.art/anim.json" />
           </Suspense>
         </section>
         <section class="mx-auto max-w-7xl overflow-hidden perspective-normal mix-blend-difference h-screen  w-full flex justify-center items-center">

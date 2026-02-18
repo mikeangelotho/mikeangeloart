@@ -77,7 +77,7 @@ export default function Navbar() {
               loading="eager"
               width="32"
               height="auto"
-              class="w-12 h-12 sm:w-12 sm:h-12"
+              class="w-9 h-9"
               alt="Mike Angelo Logo"
             />
             <span class="font-sans text-xs tracking-[2px] text-white uppercase">

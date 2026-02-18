@@ -36,8 +36,8 @@ export default function BgGradient() {
       const scaleSpeed = 0.0005;
       const t = time * moveSpeed;
 
-      const mouseInfluenceX = (mouseX - width / 2) * 0.15;
-      const mouseInfluenceY = (mouseY - height / 2) * 0.15;
+      const mouseInfluenceX = (mouseX - width / 2) * 1;
+      const mouseInfluenceY = (mouseY - height / 2) * 1;
 
       const focal1X = width + Math.sin(t) * width * -0.25 + mouseInfluenceX;
       const focal1Y = height * 1.5 + Math.cos(t) * height * 0.15 + mouseInfluenceY;
