@@ -4,7 +4,7 @@ export const LottieAnim = (props: { url: string }) => {
   let container!: HTMLDivElement;
   const [isScrolling, setIsScrolling] = createSignal(false);
 
-  onMount(() => {
+  onMount(async () => {
     createEffect(() => {
       if (isScrolling()) {
         setTimeout(() => {
@@ -13,7 +13,6 @@ export const LottieAnim = (props: { url: string }) => {
       }
     });
 
-    requestIdleCallback(async () => {
       const lottie = (await import("lottie-web")).default;
 
       const isMobile =
@@ -55,7 +54,6 @@ export const LottieAnim = (props: { url: string }) => {
         window.removeEventListener("scroll", scrollHandler);
       });
     });
-  });
 
   return (
     <div

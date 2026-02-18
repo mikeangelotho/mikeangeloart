@@ -7,9 +7,7 @@ export default class SceneManager {
   private camera: three.PerspectiveCamera | null = null;
   private model: three.Object3D | null = null;
   private scrollHandler: (() => void) | null = null;
-  private resizeHandler: (() => void) | null = null;
-  private placeholder: HTMLElement | null = null;
-  container: HTMLElement | null = null;
+  private animationId: number | null = null;
   private initialized = false;
   _zoom: number;
 
@@ -17,46 +15,26 @@ export default class SceneManager {
     this._zoom = zoom;
   }
 
-  dispose() {
-    if (this.placeholder) {
-      this.placeholder.remove();
-      this.placeholder = null;
-    }
+  // NEW: Start the animation loop
+  startAnimation() {
+    if (this.animationId) return; // Already running
+    const animate = () => {
+      this.animationId = requestAnimationFrame(animate);
+      if (this.model) {
+        // Optional: Continuous slow rotation
+        this.model.rotation.y += 0.005;
+      }
+      this.render();
+    };
+    animate();
+  }
 
-    if (this.scrollHandler) {
-      window.removeEventListener("scroll", this.scrollHandler);
-      this.scrollHandler = null;
+  // NEW: Stop the animation loop to save battery/CPU
+  stopAnimation() {
+    if (this.animationId) {
+      cancelAnimationFrame(this.animationId);
+      this.animationId = null;
     }
-
-    if (this.resizeHandler) {
-      window.removeEventListener("resize", this.resizeHandler);
-      this.resizeHandler = null;
-    }
-
-    if (this.#renderer) {
-      this.#renderer.dispose();
-      this.#renderer.domElement.remove();
-      this.#renderer = null;
-    }
-
-    if (this.scene) {
-      this.scene.traverse((obj) => {
-        if (obj instanceof three.Mesh) {
-          obj.geometry?.dispose();
-          if (Array.isArray(obj.material)) {
-            obj.material.forEach((mat) => mat.dispose());
-          } else {
-            obj.material?.dispose();
-          }
-        }
-      });
-      this.scene = null;
-    }
-
-    this.camera = null;
-    this.model = null;
-    this.container = null;
-    this.initialized = false;
   }
 
   private render() {
@@ -67,20 +45,9 @@ export default class SceneManager {
 
   init(element: HTMLElement, modelName: string) {
     if (this.initialized) return;
+    this.initialized = true;
 
-    const isMobile =
-      window.innerWidth < 768 ||
-      /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-    this.container = element;
-
-    // Placeholder
-    this.placeholder = document.createElement("div");
-    this.placeholder.className =
-      "absolute top-0 left-0 text-black/10 dark:text-white/10 w-full h-full flex items-center justify-center";
-    this.placeholder.textContent = "Loading 3D";
-    this.container.appendChild(this.placeholder);
-
+    const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const width = element.offsetWidth;
     const height = element.offsetHeight;
 
@@ -88,112 +55,78 @@ export default class SceneManager {
     this.camera = new three.PerspectiveCamera(25, width / height, 0.1, 10);
     this.camera.position.z = 6;
 
-    // Renderer (lighter config)
     this.#renderer = new three.WebGLRenderer({
       antialias: !isMobile,
       alpha: true,
       powerPreference: "low-power",
     });
 
-    const pixelRatio = Math.min(
-      window.devicePixelRatio,
-      isMobile ? 0.75 : 1
-    );
-
-    this.#renderer.setPixelRatio(pixelRatio);
+    this.#renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 0.75 : 1));
     this.#renderer.setSize(width, height);
-
-    // Disable expensive tone mapping
-    this.#renderer.toneMapping = three.NoToneMapping;
-
     element.appendChild(this.#renderer.domElement);
 
-    // Load model
     const gltfLoader = new GLTFLoader();
     gltfLoader.load(modelName, (gltf) => {
-      if (this.placeholder) {
-        this.placeholder.remove();
-        this.placeholder = null;
-      }
-
       this.model = gltf.scene;
       this.scene!.add(this.model);
+      this.model.rotation.set(-0.33, 0.66, 0);
 
-      this.model.rotation.y = 0.66;
-      this.model.rotation.x = -0.33;
-
-      // Gradient texture
+      // Simple material setup
       const canvas = document.createElement("canvas");
-      canvas.width = 128;
-      canvas.height = 128;
-
+      canvas.width = 2; canvas.height = 2;
       const ctx = canvas.getContext("2d")!;
-      const gradient = ctx.createLinearGradient(0, 0, 128, 128);
-      gradient.addColorStop(0, "#3366ff");
-      gradient.addColorStop(1, "#ffffff");
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, 128, 128);
+      const grad = ctx.createLinearGradient(0, 0, 0, 2);
+      grad.addColorStop(0, "#3366ff");
+      grad.addColorStop(1, "#ffffff");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 2, 2);
 
-      const gradientTexture = new three.CanvasTexture(canvas);
-      gradientTexture.colorSpace = three.SRGBColorSpace;
-
-      // Cheaper material
-      const defaultMaterial = new three.MeshStandardMaterial({
-        map: gradientTexture,
-        metalness: 0,
-        roughness: 0.4,
+      const mat = new three.MeshStandardMaterial({ 
+        map: new three.CanvasTexture(canvas),
+        roughness: 0.4 
       });
 
       this.model.traverse((child) => {
-        if (child instanceof three.Mesh) {
-          child.material = defaultMaterial;
-        }
+        if (child instanceof three.Mesh) child.material = mat;
       });
-
-      this.render(); // Render once after load
+      
+      this.render();
     });
 
-    // Simple lighting (no shadows)
     const ambient = new three.AmbientLight(0xffffff, 0.8);
-    this.scene.add(ambient);
-
     const dirLight = new three.DirectionalLight(0xffffff, 1.2);
     dirLight.position.set(5, 5, 5);
-    this.scene.add(dirLight);
+    this.scene.add(ambient, dirLight);
 
-    // Scroll rotation (render only when needed)
     this.scrollHandler = () => {
-      if (!this.model) return;
-
-      const rotationAmount = isMobile ? 0.04 : 0.075;
-      this.model.rotation.y += rotationAmount;
-
-      this.render();
+      if (this.model) {
+        this.model.rotation.y += isMobile ? 0.04 : 0.075;
+        if (!this.animationId) this.render(); // Render on scroll if loop is stopped
+      }
     };
-
-    window.addEventListener("scroll", this.scrollHandler);
-
-    this.initialized = true;
+    window.addEventListener("scroll", this.scrollHandler, { passive: true });
   }
 
   handleResize(element: HTMLElement) {
     if (!this.camera || !this.#renderer) return;
-
     const width = element.offsetWidth;
     const height = element.offsetHeight;
-
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
-
-    const isMobile = window.innerWidth < 768;
-    const pixelRatio = Math.min(
-      window.devicePixelRatio,
-      isMobile ? 0.75 : 1
-    );
-
-    this.#renderer.setPixelRatio(pixelRatio);
     this.#renderer.setSize(width, height);
-
     this.render();
+  }
+
+  dispose() {
+    this.stopAnimation();
+    if (this.scrollHandler) window.removeEventListener("scroll", this.scrollHandler);
+    if (this.#renderer) {
+      this.#renderer.dispose();
+      this.#renderer.domElement.remove();
+    }
+    this.scene?.traverse((obj: any) => {
+      if (obj.geometry) obj.geometry.dispose();
+      if (obj.material) Array.isArray(obj.material) ? obj.material.forEach((m: any) => m.dispose()) : obj.material.dispose();
+    });
   }
 }

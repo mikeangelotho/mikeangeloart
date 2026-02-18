@@ -2,9 +2,10 @@ import { onCleanup, onMount } from "solid-js";
 
 export default function Panel3d(props: { model: string }) {
   let wrapper!: HTMLDivElement;
+  let sceneManager: any = null;
+  let isLoading = false; // Prevents double-imports
 
   onMount(() => {
-    let sceneManager: any;
     let resizeHandler: () => void;
 
     const observer = new IntersectionObserver(
@@ -13,24 +14,21 @@ export default function Panel3d(props: { model: string }) {
           entry.target.classList.toggle("scrolled", !entry.isIntersecting);
 
           if (entry.isIntersecting) {
-            // ⬇️ lazy load only when visible
-            if (!sceneManager) {
+            // Lazy load check
+            if (!sceneManager && !isLoading) {
+              isLoading = true;
               const mod = await import("~/three/SceneManager");
-              const SceneManager = mod.default;
-
-              sceneManager = new SceneManager(8);
-
-              resizeHandler = () => {
-                if (wrapper) {
-                  sceneManager.handleResize(wrapper);
-                }
-              };
-
-              sceneManager.init(wrapper, props.model);
+              sceneManager = new mod.default(8);
+              
+              resizeHandler = () => sceneManager.handleResize(wrapper);
               window.addEventListener("resize", resizeHandler);
+              
+              sceneManager.init(wrapper, props.model);
+              isLoading = false;
             }
 
-            sceneManager.startAnimation();
+            // Only call if successfully loaded
+            sceneManager?.startAnimation();
           } else {
             sceneManager?.stopAnimation();
           }
@@ -51,7 +49,7 @@ export default function Panel3d(props: { model: string }) {
   return (
     <div
       ref={wrapper}
-      class="absolute top-0 left-0 h-full mx-auto w-full def__animate -z-1 opacity-15 dark:opacity-15 blur not-dark:invert not-dark:hue-rotate-145 brightness-200"
+      class="absolute top-0 left-0 h-full mx-auto w-full def__animate -z-1 opacity-15 blur not-dark:invert not-dark:hue-rotate-145 brightness-200 pointer-events-none"
     />
   );
 }
