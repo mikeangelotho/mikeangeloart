@@ -41,7 +41,7 @@ export default function Home() {
     const observerOptions = {
       root: null,
       rootMargin: "0px",
-      threshold: 0.75,
+      threshold: 0.5,
     };
 
     const opacityObserver = new IntersectionObserver((entries, observer) => {
@@ -142,18 +142,13 @@ export default function Home() {
         <section class="bg-white/50 dark:bg-black/90 w-full flex flex-col items-center border-t border-black/10 dark:border-white/10 dark:backdrop-brightness-125 backdrop-saturate-150">
           <div class="relative flex flex-col justify-center items-center text-black py-36 lg:py-96 dark:text-white px-6 sm:px-8 md:px-12 lg:px-16 max-w-7xl">
             <div class="flex flex-col justify-center items-center">
-              <div class="max-w-3xl flex flex-col gap-9 lg:gap-18">
+              <div class="max-w-3xl flex flex-col gap-18 lg:gap-9">
                 <Suspense>
                   <Panel3d model="https://cdn.mikeangelo.art/MA_Logo_3D.glb" />
                 </Suspense>
                 <span class="dark:text-shadow-lg text-shadow-black/10 text-center">
                   <H2>
-                    I bridge design and technology to turn
-                    <br />
-                    <em class="text-cyan-500 dark:text-blue-300">
-                      'what if'
-                    </em>{" "}
-                    into high-performing experiences.
+                    I bridge design and technology to turn<br /><em>'what if'</em> into high-performing experiences.
                   </H2>
                 </span>
                 <div

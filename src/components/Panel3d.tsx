@@ -36,7 +36,7 @@ export default function Panel3d(props: { model: string }) {
           }
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.25 }
     );
 
     observer.observe(wrapper);
