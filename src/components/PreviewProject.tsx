@@ -21,7 +21,7 @@ export function PreviewProject(props: {
           if (entry.isIntersecting) observer.unobserve(target);
         });
       },
-      { threshold: 0.5 },
+      { threshold: 0.1 },
     );
 
     fadeObserver.observe(objectiveContainer);

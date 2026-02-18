@@ -114,8 +114,7 @@ export default function Home() {
           ref={bgComponents}
         >
           <Suspense>
-            {/*<BgGradient />*/}
-            <div class="w-full h-screen fixed top-0 left-0 bg-linear-to-t from-cyan-500 dark:from-blue-800 to transparent" />
+            <BgGradient />
             <LottieAnim url="https://cdn.mikeangelo.art/anim.json" />
           </Suspense>
         </section>
