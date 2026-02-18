@@ -45,7 +45,7 @@ export default function Panel3d(props: { model: string }) {
   return (
     <div
       ref={wrapper}
-      class="absolute top-0 left-0 h-full mx-auto w-full def__animate -z-1 opacity-10 dark:opacity-5 blur not-dark:invert not-dark:hue-rotate-145 brightness-200"
+      class="absolute top-0 left-0 h-full mx-auto w-full def__animate -z-1 opacity-15 dark:opacity-15 blur not-dark:invert not-dark:hue-rotate-145 brightness-200"
     ></div>
   );
 }

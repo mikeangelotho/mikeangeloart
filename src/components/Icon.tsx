@@ -5,7 +5,7 @@ export default function Icon(props: { name: string, height: number, width: numbe
     return (
         <Switch>
             <Match when={props.name === "github"}>
-                <a href="https://github.com/mikeangelotho/mikeangeloart">
+                <a href="https://github.com/mikeangelotho/mikeangeloart" target="_blank">
                     <svg aria-hidden="true" class="octicon octicon-mark-github" viewBox={`0 0 ${props.width} ${props.height}`}
                         width={props.width} height={props.height} fill="white" display="inline-block" overflow="visible"
                         style="vertical-align:text-bottom">

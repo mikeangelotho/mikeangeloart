@@ -12,8 +12,11 @@ export const LottieAnim = (props: { url: string }) => {
   });
 
   onMount(() => {
-    const isMobile = window.innerWidth < 768 ||
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isMobile =
+      window.innerWidth < 768 ||
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent,
+      );
     const deviceMemory = (navigator as any).deviceMemory || 4;
     const isLowEndDevice = deviceMemory <= 4 || isMobile;
 
@@ -28,7 +31,7 @@ export const LottieAnim = (props: { url: string }) => {
       mode: "forward",
       useFrameInterpolation: true,
       renderConfig: {
-        devicePixelRatio: isLowEndDevice ? .75 : 1,
+        devicePixelRatio: isLowEndDevice ? 0.75 : 1,
       },
     });
 
@@ -85,9 +88,9 @@ export const LottieAnim = (props: { url: string }) => {
       if (animation()) {
         setTimeout(() => {
           lottieCanvas.classList.add("opacity-100");
-        }, 500)
+        }, 500);
       }
-    })
+    });
 
     createEffect(() => {
       if (isPaused()) {
@@ -108,12 +111,16 @@ export const LottieAnim = (props: { url: string }) => {
   });
 
   return (
-    <div class="w-full fixed top-1/2 left-1/2 h-screen -z-10 mix-blend-hard-light">
+    <div class="w-full fixed top-1/2 left-1/2 h-screen">
       <Show when={animation()}>
-        <canvas ref={lottieCanvas} class="fixed top-1/2 left-1/2 opacity-0 not-dark:invert def__animate" style="will-change: transform;image-rendering: auto;transform-origin: center;"></canvas>
+        <canvas
+          ref={lottieCanvas}
+          class="fixed top-1/2 left-1/2 opacity-0 not-dark:invert def__animate"
+          style="will-change: transform;image-rendering: auto;transform-origin: center;"
+        ></canvas>
       </Show>
     </div>
   );
 };
 
-export default LottieAnim
+export default LottieAnim;

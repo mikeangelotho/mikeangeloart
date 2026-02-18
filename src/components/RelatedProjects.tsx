@@ -63,13 +63,13 @@ export function RelatedProjects(props: RelatedProjectsProps) {
                   return (
                     <div
                       ref={card}
-                      class="group relative overflow-hidden rounded-2xl shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] not-dark:bg-neutral-100 border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300"
+                      class="group relative overflow-hidden rounded-2xl shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] bg-neutral-100 dark:bg-neutral-950 border border-neutral-300 dark:border-neutral-900"
                     >
                       <a
                         href={`/projects/${project.slug}`}
                         class="block w-full h-full"
                       >
-                        <div class="aspect-video overflow-hidden bg-neutral-100 dark:bg-neutral-900">
+                        <div class="aspect-video overflow-hidden bg-neutral-100 dark:bg-neutral-950">
                           <img
                             src={project.cover}
                             alt={project.title}

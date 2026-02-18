@@ -165,9 +165,9 @@ export default function BgGradient() {
       if (bgReady()) {
         setTimeout(() => {
           canvas.classList.add("opacity-100");
-        }, 150)
+        }, 150);
       }
-    })
+    });
 
     // Cleanup
     onCleanup(() => {
@@ -181,8 +181,12 @@ export default function BgGradient() {
   });
 
   return (
-    <div class="-z-10 fixed top-0 left-0 inset-0 w-full h-full bg-linear-to-t from-blue-800 not-dark:from-cyan-400 to-transparent">
-      <canvas ref={canvas} class="w-full h-full def__animate not-dark:invert not-dark:hue-rotate-145 contrast-125 brightness-125 saturate-200 opacity-0" style="will-change: transform;image-rendering: auto;transform-origin: center;"></canvas>
+    <div class="fixed top-0 left-0 inset-0 w-full h-full bg-linear-to-t from-blue-800 not-dark:from-cyan-400 to-transparent">
+      <canvas
+        ref={canvas}
+        class="w-full h-full def__animate not-dark:invert not-dark:hue-rotate-145 contrast-125 brightness-125 saturate-200 opacity-0"
+        style="will-change: transform;image-rendering: auto;transform-origin: center;"
+      ></canvas>
     </div>
   );
 }

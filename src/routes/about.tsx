@@ -11,8 +11,6 @@ import { H2 } from "~/layout/Headings";
 import { fetchGithubInfo, GitHubUser } from "~/hooks";
 import SEO from "~/components/SEO";
 import BgGradient from "~/components/BgGradient";
-import Panel3d from "~/components/Panel3d";
-
 
 const taskbarIcons = [
   {
@@ -75,7 +73,7 @@ export default function About() {
     options = {
       x: 0,
       y: 0,
-      z: 0
+      z: 0,
     },
     noMobile = false,
   }: {
@@ -127,7 +125,7 @@ export default function About() {
       };
 
       window.addEventListener("mouseup", stop);
-    }
+    };
 
     const touchHandler = (e: TouchEvent) => {
       container.classList.add("z-1");
@@ -140,7 +138,7 @@ export default function About() {
       };
 
       window.addEventListener("touchend", stop);
-    }
+    };
 
     return (
       <div
@@ -185,10 +183,12 @@ export default function About() {
       const { width, height } = element.getBoundingClientRect();
       const { clientX, clientY } = e;
       requestAnimationFrame(() => {
-        element.style.left = `clamp(12px, ${clientX - width / 2}px, ${innerWidth - width - 12
-          }px)`;
-        element.style.top = `clamp(96px, ${clientY - height / 2}px, ${innerHeight - height - 144
-          }px)`;
+        element.style.left = `clamp(12px, ${clientX - width / 2}px, ${
+          innerWidth - width - 12
+        }px)`;
+        element.style.top = `clamp(96px, ${clientY - height / 2}px, ${
+          innerHeight - height - 144
+        }px)`;
       });
     }
   }
@@ -199,10 +199,12 @@ export default function About() {
       const { width, height } = element.getBoundingClientRect();
       const { clientX, clientY } = e.touches[0];
       requestAnimationFrame(() => {
-        element.style.left = `clamp(12px, ${clientX - width / 2}px, ${innerWidth - width - 12
-          }px)`;
-        element.style.top = `clamp(96px, ${clientY - height / 2}px, ${innerHeight - height - 144
-          }px)`;
+        element.style.left = `clamp(12px, ${clientX - width / 2}px, ${
+          innerWidth - width - 12
+        }px)`;
+        element.style.top = `clamp(96px, ${clientY - height / 2}px, ${
+          innerHeight - height - 144
+        }px)`;
       });
     }
   }
@@ -274,7 +276,6 @@ export default function About() {
   };
 
   onMount(() => {
-
     setWindows((prev) => [
       ...prev,
       {
@@ -414,7 +415,7 @@ export default function About() {
       />
       <main class="w-full relative">
         <BgGradient />
-        <div class="h-screen w-full fixed backdrop-blur">
+        <div class="h-screen w-full fixed">
           <div class="h-[89vh] pt-22 xl:px-72">
             <div
               ref={desktop}

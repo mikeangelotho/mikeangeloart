@@ -42,6 +42,12 @@ export default function ProjectPage() {
   const [lightboxImg, setLightboxImg] = createSignal<string>();
   const [lightboxAlt, setLightboxAlt] = createSignal<string>();
 
+  const observerOptions = {
+    root: null,
+    rootMargin: "0px",
+    threshold: 0.5,
+  };
+
   createEffect(() => {
     const collection = portfolioCollection();
     if (collection && !project()) {
@@ -119,7 +125,7 @@ export default function ProjectPage() {
               />
             )}
           </Show>
-          <div class="-z-1 w-full fixed h-screen backdrop-brightness-125 dark:backdrop-brightness-150 backdrop-saturate-150"></div>
+          <div class="-z-1 w-full fixed h-screen dark:backdrop-brightness-125 backdrop-saturate-150"></div>
           <section class="h-full flex items-center bg-white/25 dark:bg-black/75">
             <article class="flex flex-col items-center w-full px-6">
               <div class="flex flex-col gap-6 items-center w-full py-36 max-w-5xl">
@@ -137,7 +143,7 @@ export default function ProjectPage() {
               </div>
             </article>
           </section>
-          <section class="bg-white dark:bg-black/95 border-t border-b border-black/10 dark:border-white/10 px-6 dark:backdrop-saturate-200 dark:backdrop-brightness-125">
+          <section class="bg-white dark:bg-black border-t border-b border-black/10 dark:border-white/10 px-6">
             {/* Breadcrumb Navigation */}
             <div class="flex flex-col lg:flex-row gap-3 justify-between items-center px-6 py-9 max-w-7xl mx-auto">
               <div class="w-fit">
@@ -168,7 +174,7 @@ export default function ProjectPage() {
               </div>
             </div>
             <div class="w-full flex flex-col gap-18 items-center justify-center max-w-7xl mx-auto">
-              <div class="text-black dark:text-white w-fit shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 items-center flex gap-6 flex-col-reverse lg:flex-row bg-neutral-100 dark:bg-black border border-black/10 dark:border-white/10 dark:border-t dark:border-t-white mx-auto">
+              <div class="text-black dark:text-white w-fit shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 items-center flex gap-6 flex-col-reverse lg:flex-row bg-neutral-100 dark:bg-neutral-950 border border-neutral-300 dark:border-neutral-900 dark:border-t dark:border-t-white mx-auto">
                 <div class="max-w-3xl flex flex-col gap-3 justify-center">
                   <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1">
                     <ContainerLabel>Objective</ContainerLabel>
@@ -179,7 +185,7 @@ export default function ProjectPage() {
                 </div>
               </div>
               <VideoPlayer video={project()?.mainKeypointMedia as Media} />
-              <article class="text-black dark:text-white w-fit shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 items-center flex gap-6 flex-col-reverse lg:flex-row bg-neutral-100 dark:bg-black border border-black/10 dark:border-white/10 dark:border-t dark:border-t-white">
+              <article class="text-black dark:text-white w-fit shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 items-center flex gap-6 flex-col-reverse lg:flex-row bg-neutral-100 dark:bg-neutral-950 border border-neutral-300 dark:border-neutral-900 dark:border-t dark:border-t-white">
                 <div class="max-w-3xl flex flex-col gap-3 justify-center">
                   <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1 ">
                     <ContainerLabel>Strategy</ContainerLabel>
@@ -196,33 +202,35 @@ export default function ProjectPage() {
                   let boxRef!: HTMLDivElement;
 
                   onMount(() => {
-                    if (!boxRef) return;
-
-                    const observer = new IntersectionObserver(
-                      ([entry], observer) => {
-                        boxRef.classList.toggle(
-                          "scrolled",
-                          !entry.isIntersecting,
-                        );
-                        if (entry.isIntersecting) observer.disconnect();
+                    const opacityObserver = new IntersectionObserver(
+                      (entries, observer) => {
+                        entries.forEach((entry) => {
+                          const target = entry.target as HTMLElement;
+                          target.classList.add("translate-y-9");
+                          if (entry.isIntersecting) {
+                            target.classList.remove("scrolled");
+                            target.classList.remove("translate-y-9");
+                            observer.unobserve(target);
+                          } else {
+                            target.classList.add("scrolled");
+                            target.classList.add("translate-y-9");
+                          }
+                        });
                       },
-                      {
-                        root: null,
-                        rootMargin: "0px",
-                        threshold: 0.5,
-                      },
+                      observerOptions,
                     );
 
-                    observer.observe(boxRef);
-
-                    onCleanup(() => observer.disconnect());
+                    opacityObserver.observe(boxRef);
+                    onCleanup(() => {
+                      opacityObserver.disconnect();
+                    });
                   });
                   return (
                     <div class="w-full flex flex-col lg:flex-row gap-6 justify-between max-w-360 mx-auto">
                       <div class="w-full flex items-start justify-center lg:justify-start">
                         <div
                           ref={boxRef}
-                          class="fade__animate max-w-3xl lg:max-w-xl shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 flex flex-col gap-4 bg-neutral-100 dark:bg-black border border-black/10 dark:border-white/10 dark:border-t dark:border-t-white"
+                          class="fade__animate max-w-3xl lg:max-w-xl shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-950 border border-neutral-300 dark:border-neutral-900 dark:border-t dark:border-t-white"
                         >
                           <H2>{keypoint.title}</H2>
                           <p class="dark:text-white">{keypoint.description}</p>
@@ -234,27 +242,28 @@ export default function ProjectPage() {
                             let keypointMedia!: HTMLElement;
 
                             onMount(() => {
-                              if (!keypointMedia) return;
-
-                              const observer = new IntersectionObserver(
-                                ([entry], observer) => {
-                                  keypointMedia.classList.toggle(
-                                    "scrolled",
-                                    !entry.isIntersecting,
-                                  );
-                                  if (entry.isIntersecting)
-                                    observer.disconnect();
+                              const opacityObserver = new IntersectionObserver(
+                                (entries, observer) => {
+                                  entries.forEach((entry) => {
+                                    const target = entry.target as HTMLElement;
+                                    target.classList.add("translate-y-9");
+                                    if (entry.isIntersecting) {
+                                      target.classList.remove("scrolled");
+                                      target.classList.remove("translate-y-9");
+                                      observer.unobserve(target);
+                                    } else {
+                                      target.classList.add("scrolled");
+                                      target.classList.add("translate-y-9");
+                                    }
+                                  });
                                 },
-                                {
-                                  root: null,
-                                  rootMargin: "0px",
-                                  threshold: 0.5,
-                                },
+                                observerOptions,
                               );
 
-                              observer.observe(keypointMedia);
-
-                              onCleanup(() => observer.disconnect());
+                              opacityObserver.observe(keypointMedia);
+                              onCleanup(() => {
+                                opacityObserver.disconnect();
+                              });
                             });
 
                             if (mediaObj.url.includes("mp4")) {
@@ -267,7 +276,7 @@ export default function ProjectPage() {
                                     muted
                                     loop
                                     playsinline
-                                    class="lg:max-w-3xl max-h-180 border-6 border-neutral-200 dark:border-white/5 rounded-3xl aspect-auto cursor-pointer"
+                                    class="fade__animate lg:max-w-3xl max-h-180 border-6 border-neutral-200 dark:border-white/5 rounded-3xl aspect-auto cursor-pointer"
                                     title={mediaObj.altText}
                                     aria-label={mediaObj.altText}
                                     onClick={() => {

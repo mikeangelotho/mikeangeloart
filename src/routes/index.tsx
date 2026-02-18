@@ -1,11 +1,4 @@
-import {
-  For,
-  lazy,
-  onCleanup,
-  onMount,
-  Show,
-  Suspense,
-} from "solid-js";
+import { For, lazy, onCleanup, onMount, Show, Suspense } from "solid-js";
 import { PortfolioCollection } from "~/types";
 import Collection from "~/components/Collection";
 import { H1, H2 } from "~/layout/Headings";
@@ -20,6 +13,7 @@ const landingHighlightLength = 3;
 export default function Home() {
   let introPanel!: HTMLDivElement;
   let introDesc!: HTMLDivElement;
+  let bgComponents!: HTMLDivElement;
 
   const LottieAnim = lazy(() => import("../components/LottieAnim"));
   const BgGradient = lazy(() => import("../components/BgGradient"));
@@ -31,13 +25,6 @@ export default function Home() {
   });
 
   onMount(() => {
-
-    const observerOptions = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.75,
-    };
-
     let ticking = false;
     const onScroll = () => {
       if (!ticking) {
@@ -51,24 +38,43 @@ export default function Home() {
       }
     };
 
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.75,
+    };
 
     const opacityObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
         const target = entry.target as HTMLElement;
-        target.classList.toggle("scrolled", !entry.isIntersecting);
-        target.classList.toggle("translate-y-9", !entry.isIntersecting);
-        //if(entry.isIntersecting) observer.disconnect();
+        target.classList.add("translate-y-9");
+        if (entry.isIntersecting) {
+          target.classList.remove("scrolled");
+          target.classList.remove("translate-y-9");
+          observer.unobserve(target);
+        } else {
+          target.classList.add("scrolled");
+          target.classList.add("translate-y-9");
+        }
+      });
+    }, observerOptions);
+
+    const blurObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) bgComponents.classList.add("blur-lg");
+        else bgComponents.classList.remove("blur-lg");
       });
     }, observerOptions);
 
     opacityObserver.observe(introDesc);
+    blurObserver.observe(introPanel);
 
     window.addEventListener("scroll", onScroll);
 
-
     onCleanup(() => {
       opacityObserver.disconnect();
-      window.removeEventListener("scroll", onScroll)
+      blurObserver.disconnect();
+      window.removeEventListener("scroll", onScroll);
     });
   });
 
@@ -103,10 +109,15 @@ export default function Home() {
         }}
       />
       <main class="w-full relative flex flex-col justify-center items-center">
-        <Suspense>
-          <BgGradient />
-          <LottieAnim url="https://cdn.mikeangelo.art/anim.json" />
-        </Suspense>
+        <section
+          class="w-full h-screen fixed top-0 left-0 fade__animate -z-10"
+          ref={bgComponents}
+        >
+          <Suspense>
+            <BgGradient />
+            <LottieAnim url="https://cdn.mikeangelo.art/anim.json" />
+          </Suspense>
+        </section>
         <section class="mx-auto max-w-7xl overflow-hidden perspective-normal mix-blend-difference h-screen  w-full flex justify-center items-center">
           <article
             ref={introPanel}
@@ -128,20 +139,27 @@ export default function Home() {
             </div>
           </article>
         </section>
-        <div class="dark:bg-black/50 w-full flex flex-col items-center border-t border-black/10 dark:border-white/10 backdrop-blur-3xl dark:backdrop-saturate-200 backdrop-brightness-125">
-          <section class="relative flex flex-col justify-center items-center text-black py-36 lg:py-96 dark:text-white px-6 sm:px-8 md:px-12 lg:px-16 max-w-7xl">
+        <section class="bg-white/50 dark:bg-black/90 w-full flex flex-col items-center border-t border-black/10 dark:border-white/10 dark:backdrop-brightness-125 backdrop-saturate-150">
+          <div class="relative flex flex-col justify-center items-center text-black py-36 lg:py-96 dark:text-white px-6 sm:px-8 md:px-12 lg:px-16 max-w-7xl">
             <div class="flex flex-col justify-center items-center">
-              <div class="max-w-2xl flex flex-col gap-18 rounded-2xl md:rounded-3xl">
+              <div class="max-w-3xl flex flex-col gap-9 lg:gap-18">
                 <Suspense>
                   <Panel3d model="https://cdn.mikeangelo.art/MA_Logo_3D.glb" />
                 </Suspense>
                 <span class="dark:text-shadow-lg text-shadow-black/10 text-center">
                   <H2>
-                    I like to make things look good, function well, and deliver
-                    results.
+                    I bridge design and technology to turn
+                    <br />
+                    <em class="text-cyan-500 dark:text-blue-300">
+                      'what if'
+                    </em>{" "}
+                    into high-performing experiences.
                   </H2>
                 </span>
-                <div ref={introDesc} class="fade__animate flex justify-center items-center p-6 rounded-xl bg-white dark:bg-black mx-auto border border-black/10 dark:border-white/10 dark:border-t dark:border-t-white shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)]">
+                <div
+                  ref={introDesc}
+                  class="fade__animate flex justify-center items-center p-6 rounded-xl bg-neutral-100 dark:bg-neutral-950 mx-auto border border-neutral-300 dark:border-neutral-900 dark:border-t dark:border-t-white shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)]"
+                >
                   {/*<div class="border-r border-black/10 dark:border-white/10 pr-6">dsadsad</div>*/}
                   <p class="pl-6">
                     I've worked with businesses and agencies to produce
@@ -152,31 +170,35 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </section>
-          <div class="flex flex-col w-full bg-white dark:bg-black/90">
-            <div class="bg-neutral-100 dark:bg-white/5 w-full"><h3 class="border-t border-b border-black/10 dark:border-white/10 py-6 flex justify-center items-center uppercase text-black/10 dark:text-white/10">Project Highlights</h3></div>
-            <Show when={portfolioCollection()}>
-              <For each={portfolioCollection()}>
-                {(collection, idx) =>
-                  idx() < landingHighlightLength && (
-                    <PreviewProject data={collection} />
-                  )
-                }
-              </For>
-            </Show>
           </div>
-          <div class="bg-white dark:bg-black/90 overflow-x-auto w-full pl-6">
-          <Show when={portfolioCollection()}>
-            <Collection
-              data={portfolioCollection() as PortfolioCollection[]}
-            />
-          </Show>
-          </div>
+        </section>
+        <div class="bg-neutral-100 dark:bg-neutral-950 w-full">
+          <h3 class="border-t border-b border-neutral-300 dark:border-neutral-900 py-6 flex justify-center items-center uppercase text-black/10 dark:text-white/10">
+            Project Highlights
+          </h3>
         </div>
-        <div class="py-36 border-b border-t border-black/10 dark:border-white/10 w-full backdrop-blur-3xl backdrop-saturate-200">
-          <section class="flex flex-col lg:flex-row gap-12 md:gap-16 lg:gap-18 xl:gap-24 items-center px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mx-auto lg:max-w-7xl w-full">
+        <section class="w-full bg-white dark:bg-black">
+          <Show when={portfolioCollection()}>
+            <For each={portfolioCollection()}>
+              {(collection, idx) =>
+                idx() < landingHighlightLength && (
+                  <PreviewProject data={collection} />
+                )
+              }
+            </For>
+          </Show>
+        </section>
+        <section class="bg-white dark:bg-black/90 overflow-x-auto w-full pl-6">
+          <Show when={portfolioCollection()}>
+            <Collection data={portfolioCollection() as PortfolioCollection[]} />
+          </Show>
+        </section>
+        <section class="py-36 border-b border-t border-black/10 dark:border-white/10 w-full dark:backdrop-brightness-125 backdrop-saturate-150">
+          <div class="flex flex-col lg:flex-row gap-12 md:gap-16 lg:gap-18 xl:gap-24 items-center px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mx-auto lg:max-w-7xl w-full">
             <div class="flex flex-col gap-4 md:gap-6 lg:max-w-md xl:max-w-lg px-4 sm:px-6">
-              <H2>Drop a line.</H2>
+              <span class="dark:text-shadow-lg text-shadow-black/10">
+                <H2>Drop a line.</H2>
+              </span>
               <p class="text-black dark:text-white">
                 I'm always looking for new opportunities and collaborations.
                 Whether you're interested in working together or just want to
@@ -184,8 +206,8 @@ export default function Home() {
               </p>
             </div>
             <Web3Form />
-          </section>
-        </div>
+          </div>
+        </section>
       </main>
     </>
   );
