@@ -45,6 +45,7 @@ export default function Home() {
     let ticking = false;
     const scrollYLimit = 200;
     const scrollSpeed = 0.05;
+    let holdTimer: NodeJS.Timeout;
 
     // --- Drag state ---
     // isDragging: pointer is currently held down
@@ -83,14 +84,18 @@ export default function Home() {
 
     // --- Pointer handlers (unified mouse + touch via pointer events) ---
     function onPointerDown(e: PointerEvent) {
-      isDragging = true;
-      dragStartX = e.clientX;
-      dragStartOffset = offset;
-      velocity = 0;
-      lastDragX = e.clientX;
-      lastDragTime = performance.now();
-      tagScroller.setPointerCapture(e.pointerId);
-      tagScroller.style.cursor = "grabbing";
+
+      holdTimer = setTimeout(() => {
+        if (holdTimer) tagScroller.setPointerCapture(e.pointerId);
+        isDragging = true;
+        dragStartX = e.clientX;
+        dragStartOffset = offset;
+        velocity = 0;
+        lastDragX = e.clientX;
+        lastDragTime = performance.now();
+        tagScroller.style.cursor = "grabbing";
+      }, 1000);
+
     }
 
     function onPointerMove(e: PointerEvent) {
@@ -111,9 +116,12 @@ export default function Home() {
     }
 
     function onPointerUp(e: PointerEvent) {
+      if (!holdTimer) tagScroller.releasePointerCapture(e.pointerId);
+      clearTimeout(holdTimer);
+
+
       if (!isDragging) return;
       isDragging = false;
-      tagScroller.releasePointerCapture(e.pointerId);
       tagScroller.style.cursor = "grab";
       // velocity is now handed off to the rAF loop for momentum decay
     }
@@ -206,7 +214,6 @@ export default function Home() {
         const { target } = entry;
         if (entry.isIntersecting) {
           target.classList.add("lg:gap-3");
-          console.log("s");
           observer.unobserve(target);
         }
       });
