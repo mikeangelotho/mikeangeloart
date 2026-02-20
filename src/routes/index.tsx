@@ -291,7 +291,7 @@ export default function Home() {
             </div>
           </article>
         </section>
-        <section class="bg-white/50 dark:bg-black/90 w-full flex flex-col items-center border-t border-black/10 dark:border-white/10 dark:backdrop-brightness-125 backdrop-saturate-150">
+        <section class="bg-white/80 dark:bg-black/90 w-full flex flex-col items-center border-t border-black/10 dark:border-white/10 backdrop-brightness-125 backdrop-saturate-150">
           <div class="relative flex flex-col justify-center items-center text-black py-36 lg:py-48 dark:text-white px-6 sm:px-8 md:px-12 lg:px-16 w-full max-w-7xl">
             <div class="w-full flex flex-col justify-center items-center">
               <div class="w-full flex flex-col gap-9">
@@ -326,11 +326,11 @@ export default function Home() {
                 <Show when={portfolioCollection()}>
                   <div
                     ref={introDesc}
-                    class="fade__animate flex flex-row justify-center lg:items-start gap-0 w-full"
+                    class="fade__animate flex flex-row justify-center lg:items-start gap-1 w-full"
                   >
                     <A href={`/projects/${portfolioCollection()![1].slug}`}>
                       <MediaCluster
-                        class="hover:-translate-y-3 fade__animate w-full lg:aspect-square object-cover lg:max-w-54 h-96 lg:max-h-54 rounded-3xl border-6 border-neutral-200 dark:border-white/5 lg:mt-6"
+                        class="hover:-translate-y-3 fade__animate w-full lg:aspect-square object-cover lg:max-w-54 h-96 lg:max-h-54 rounded-3xl border-6 border-neutral-200 dark:border-white/5 mt-6"
                         src={
                           portfolioCollection()![1].projectKeypoints[1].media[0]
                             .url
@@ -348,7 +348,7 @@ export default function Home() {
                     </A>
                     <A href={`/projects/${portfolioCollection()![2].slug}`}>
                       <MediaCluster
-                        class="hover:-translate-y-3 fade__animate w-full lg:aspect-square object-cover lg:max-w-54 h-96 lg:max-h-54 rounded-3xl border-6 border-neutral-200 dark:border-white/5 lg:mt-6"
+                        class="hover:-translate-y-3 fade__animate w-full lg:aspect-square object-cover lg:max-w-54 h-96 lg:max-h-54 rounded-3xl border-6 border-neutral-200 dark:border-white/5 mt-6"
                         src={
                           portfolioCollection()![2].projectKeypoints[1].media[4]
                             .url

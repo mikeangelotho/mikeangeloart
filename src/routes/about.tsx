@@ -299,11 +299,10 @@ export default function About() {
                           <strong class="text-2xl">What I Do</strong>
                         </p>
                         <p>
-                          I help breathe fresh air into brands and products.
-                          Whether I'm developing an advertising campaign,
-                          implementing code, or designing a landing page, my
-                          passion lies in translating ideas into powerful
-                          digital experiences.
+                          I dissect strategy with precision and help breathe fresh air into brand creative and products.
+                          Whether I'm developing an advertising campaign, editing social media content, or implementing a landing page, <strong>my
+                          passion is translating great ideas into powerful
+                          digital experiences.</strong>
                         </p>
                       </div>
                     </div>
@@ -312,9 +311,8 @@ export default function About() {
                         <strong class="text-2xl">Why I Do It</strong>
                       </p>
                       <p>
-                        Creativity and storytelling. My mission in life is to
-                        use my love for technology and my design skills to make
-                        an impact in the people, both emotionally and tangibly.
+                        I belive creativity and storytelling are our most vital mediums. My mission in life is to
+                        use my love for art and technology to inspire people with lasting emotional impressions and empower them with tangible improvements to their life.
                       </p>
                       <p>
                         Aside from my daily screen activities, I like to hike

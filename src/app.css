@@ -23,6 +23,10 @@
   h3 {
     font-size: 1.5rem;
   }
+
+  p {
+    letter-spacing: 2%;
+  }
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
