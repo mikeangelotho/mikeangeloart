@@ -143,7 +143,7 @@ export default function About() {
     return (
       <div
         ref={container}
-        class={`w-fit max-w-7xl h-fit relative mx-auto flex flex-col justify-center md:items-start items-center def__animate md:hover:scale-101 md:absolute md:cursor-grab md:select-none
+        class={`w-full lg:w-fit lg:max-w-2xl h-fit relative mx-auto flex flex-col justify-center md:items-start items-center def__animate md:hover:scale-101 md:absolute md:cursor-grab md:select-none
           ${noMobile ? ` hidden md:block` : ``}`}
         onMouseDown={(e) => clickHandler(e)}
         onTouchStart={(e) => touchHandler(e)}
@@ -284,54 +284,37 @@ export default function About() {
           <Moveable label="Profile Summary" options={{ x: 6.5, y: 8, z: 0 }}>
             <Box>
               <div class="flex flex-col gap-8 max-w-3xl">
-                <div class="flex flex-col gap-6 border-t border-b border-black/10 dark:border-white/10 pt-6 max-h-[40vh] lg:max-h-[60vh] overflow-y-auto pr-6">
-                  <div class="py-6 gap-6 w-full flex flex-col lg:flex-row justify-start items-center">
-                    <div class="flex flex-col gap-3">
-                      <p>
-                        <strong class="text-2xl">How It Started</strong>
-                      </p>
-                      <p>
-                        New Jersey, 1998: My dad buys our family a Windows PC
-                        from Radioshack. I learn how computers work, and I
-                        discover online gaming. Fast forward some years, and
-                        some broken computers, and I'm designing forum banners
-                        in Photoshop and building gaming communities.
-                      </p>
+                <div class="flex flex-col gap-6 border-t border-b border-black/10 dark:border-white/10 max-h-[40vh] lg:max-h-[60vh] overflow-y-auto pr-6">
+                  <div class="pb-6 gap-6 w-full flex flex-col justify-start items-center">
+                    <div class="py-6 gap-6 w-full flex flex-col-reverse sm:flex-row items-center">
+                      <img
+                        class="w-full max-w-72 ring-2 ring-black/10 dark:ring-white/10 md:max-w-1/3 rounded-lg"
+                        src="https://cdn.mikeangelo.art/MA_Headshot_FINAL_BLUR.png"
+                        alt="Me doin my thing: standing in front of a brick wall"
+                        width="200"
+                        height="100"
+                      />
+                      <div class="flex flex-col gap-3">
+                        <p>
+                          <strong class="text-2xl">What I Do</strong>
+                        </p>
+                        <p>
+                          I help breathe fresh air into brands and products.
+                          Whether I'm developing an advertising campaign,
+                          implementing code, or designing a landing page, my
+                          passion lies in translating ideas into powerful
+                          digital experiences.
+                        </p>
+                      </div>
                     </div>
-                    <img
-                      class="ring-2 ring-black/10 dark:ring-white/10 md:max-w-1/3 rounded-lg"
-                      src="https://cdn.mikeangelo.art/me-guitar-pc.jpg"
-                      alt="Me doin my thing: playing guitar at the computer"
-                      width="400"
-                      height="300"
-                    />
-                  </div>
-
-                  <div class="py-6 gap-6 w-full flex flex-col-reverse lg:flex-row items-center">
-                    <img
-                      class="ring-2 ring-black/10 dark:ring-white/10 md:max-w-1/3 rounded-lg"
-                      src="https://cdn.mikeangelo.art/MA_Headshot_FINAL_BLUR.png"
-                      alt="Me doin my thing: standing in front of a brick wall"
-                      width="400"
-                      height="300"
-                    />
                     <div class="flex flex-col gap-3">
                       <p>
-                        <strong class="text-2xl">How It’s Going</strong>
+                        <strong class="text-2xl">Why I Do It</strong>
                       </p>
                       <p>
-                        My passion for designing and building is stronger than
-                        ever. Whether it's brand assets, marketing campaigns,
-                        landing pages, or app interfaces, I love bringing fresh
-                        ideas to life and building systems around them.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div class="py-6 gap-6 w-full flex flex-col lg:flex-row justify-start items-start lg:items-center">
-                    <div class="flex flex-col gap-3">
-                      <p>
-                        <strong class="text-2xl">Etc.</strong>
+                        Creativity and storytelling. My mission in life is to
+                        use my love for technology and my design skills to make
+                        an impact in the people, both emotionally and tangibly.
                       </p>
                       <p>
                         Aside from my daily screen activities, I like to hike

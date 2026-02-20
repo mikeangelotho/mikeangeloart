@@ -19,10 +19,10 @@ export default function Panel3d(props: { model: string }) {
               isLoading = true;
               const mod = await import("~/three/SceneManager");
               sceneManager = new mod.default(8);
-              
+
               resizeHandler = () => sceneManager.handleResize(wrapper);
               window.addEventListener("resize", resizeHandler);
-              
+
               sceneManager.init(wrapper, props.model);
               isLoading = false;
             }
@@ -34,7 +34,7 @@ export default function Panel3d(props: { model: string }) {
           }
         }
       },
-      { threshold: 0.25 }
+      { threshold: 0.25 },
     );
 
     observer.observe(wrapper);

@@ -1,16 +1,23 @@
-import { A } from "@solidjs/router";
-import { createEffect, createSignal, For, onMount, Show } from "solid-js";
+import { A, useLocation, useParams, useSearchParams } from "@solidjs/router";
+import {
+  createEffect,
+  createSignal,
+  For,
+  onCleanup,
+  onMount,
+  Show,
+} from "solid-js";
 import Icon from "~/components/Icon";
 import ThemeToggle from "~/components/ThemeToggle";
 
 let links = [
   {
     label: "Portfolio",
-    url: "/projects",
+    slug: "/projects",
   },
   {
     label: "About",
-    url: "/about",
+    slug: "/about",
   },
 ];
 
@@ -43,7 +50,8 @@ export default function Navbar() {
       "bg-white/50",
       "dark:bg-black/80",
     ];
-    window.addEventListener("scroll", () => {
+
+    function scrollHandler() {
       const { scrollY } = window;
       if (scrollY > 0) {
         nav.classList.add(...classNamesOnScroll);
@@ -56,6 +64,12 @@ export default function Navbar() {
         }, 1000);
         logoEl.classList.remove("not-dark:invert");
       }
+    }
+
+    window.addEventListener("scroll", () => scrollHandler());
+
+    onCleanup(() => {
+      window.removeEventListener("scroll", () => scrollHandler());
     });
   });
   return (
@@ -85,12 +99,20 @@ export default function Navbar() {
             </span>
           </A>
           <div ref={desktopMenu} class="hidden lg:flex gap-6 items-center">
-            <ul class="flex gap-6 items-center">
+            <ul class="flex gap-6 items-center text-white">
               <For each={links}>
                 {(link) => {
+                  let listItem!: HTMLLIElement;
+
                   return (
-                    <li class="hover:brightness-50 text-white text-sm def__animate">
-                      <A href={link.url}>{link.label}</A>
+                    <li ref={listItem}>
+                      <A
+                        inactiveClass="text-sm hover:underline"
+                        activeClass="text-sm cursor-default text-neutral-500"
+                        href={link.slug}
+                      >
+                        {link.label}
+                      </A>
                     </li>
                   );
                 }}
@@ -129,7 +151,7 @@ export default function Navbar() {
                   return (
                     <li class="hover:brightness-50 text-3xl sm:text-4xl text-black dark:text-white def__animate py-2">
                       <A
-                        href={link.url}
+                        href={link.slug}
                         onClick={() => {
                           if (showMobileMenu()) {
                             setShowMobileMenu(false);

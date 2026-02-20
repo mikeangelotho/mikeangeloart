@@ -13,6 +13,7 @@
   h2,
   button {
     font-family: var(--custom-font-1);
+    letter-spacing: 2%;
   }
 
   p, h3, h4, span, a {

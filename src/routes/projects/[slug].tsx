@@ -18,6 +18,7 @@ import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { Picture } from "~/components/Picture";
 import { Media, PortfolioCollection } from "~/types";
 import VideoPlayer from "~/components/VideoPlayer";
+import TagPills from "~/components/TagPills";
 
 export default function ProjectPage() {
   const params = useParams();
@@ -164,13 +165,7 @@ export default function ProjectPage() {
                 class="hidden md:flex gap-1 w-full max-w-lg overflow-auto scroll-smooth"
                 style="scrollbar-width: none;"
               >
-                <For each={project()?.tags}>
-                  {(tag) => (
-                    <Tag href={`/projects?tags=${tag.replace(" ", "+")}`}>
-                      {tag}
-                    </Tag>
-                  )}
-                </For>
+                <TagPills tags={project()?.tags} />
               </div>
             </div>
             <div class="w-full flex flex-col gap-18 items-center justify-center max-w-7xl mx-auto">
@@ -230,7 +225,7 @@ export default function ProjectPage() {
                       <div class="w-full flex items-start justify-center lg:justify-start">
                         <div
                           ref={boxRef}
-                          class="fade__animate max-w-3xl lg:max-w-xl shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-950 border border-neutral-300 dark:border-neutral-900 dark:border-t dark:border-t-white"
+                          class="fade__animate max-w-3xl lg:max-w-xl shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 my-18 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-950 border border-neutral-300 dark:border-neutral-900 dark:border-t dark:border-t-white"
                         >
                           <H2>{keypoint.title}</H2>
                           <p class="dark:text-white">{keypoint.description}</p>
@@ -293,12 +288,9 @@ export default function ProjectPage() {
                                   loading="lazy"
                                   alt={mediaObj.altText}
                                   class="border-6 border-neutral-200 dark:border-white/5 w-full h-auto aspect-auto rounded-3xl lg:max-w-3xl max-h-180 hover:brightness-105 hover:-translate-y-3 fade__animate cursor-pointer"
-                                  onClick={(event, displayedUrl) => {
+                                  onClick={(_, displayedUrl) => {
                                     setLightboxImg(displayedUrl);
                                     setLightboxAlt(mediaObj.altText);
-                                  }}
-                                  onDisplayUrlChange={(displayedUrl) => {
-                                    // Keep track of the displayed URL for consistency
                                   }}
                                   ref={keypointMedia as HTMLPictureElement}
                                 />

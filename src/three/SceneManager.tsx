@@ -47,21 +47,30 @@ export default class SceneManager {
     if (this.initialized) return;
     this.initialized = true;
 
-    const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isMobile =
+      window.innerWidth < 768 ||
+      /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const width = element.offsetWidth;
     const height = element.offsetHeight;
 
     this.scene = new three.Scene();
-    this.camera = new three.PerspectiveCamera(25, width / height, 0.1, 10);
+    this.camera = new three.PerspectiveCamera(
+      isMobile ? 40 : 25,
+      width / height,
+      0.1,
+      10,
+    );
     this.camera.position.z = 6;
 
     this.#renderer = new three.WebGLRenderer({
       antialias: !isMobile,
       alpha: true,
-      powerPreference: "low-power",
+      powerPreference: isMobile ? "low-power" : "default",
     });
 
-    this.#renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 0.75 : 1));
+    this.#renderer.setPixelRatio(
+      Math.min(window.devicePixelRatio, isMobile ? 0.75 : 1),
+    );
     this.#renderer.setSize(width, height);
     element.appendChild(this.#renderer.domElement);
 
@@ -73,7 +82,8 @@ export default class SceneManager {
 
       // Simple material setup
       const canvas = document.createElement("canvas");
-      canvas.width = 2; canvas.height = 2;
+      canvas.width = 2;
+      canvas.height = 2;
       const ctx = canvas.getContext("2d")!;
       const grad = ctx.createLinearGradient(0, 0, 0, 2);
       grad.addColorStop(0, "#3366ff");
@@ -81,15 +91,15 @@ export default class SceneManager {
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, 2, 2);
 
-      const mat = new three.MeshStandardMaterial({ 
+      const mat = new three.MeshStandardMaterial({
         map: new three.CanvasTexture(canvas),
-        roughness: 0.4 
+        roughness: 0.4,
       });
 
       this.model.traverse((child) => {
         if (child instanceof three.Mesh) child.material = mat;
       });
-      
+
       this.render();
     });
 
@@ -112,6 +122,7 @@ export default class SceneManager {
     const width = element.offsetWidth;
     const height = element.offsetHeight;
     this.camera.aspect = width / height;
+    this.camera.fov = window.innerWidth < 768 ? 40 : 25;
     this.camera.updateProjectionMatrix();
     this.#renderer.setSize(width, height);
     this.render();
@@ -119,14 +130,18 @@ export default class SceneManager {
 
   dispose() {
     this.stopAnimation();
-    if (this.scrollHandler) window.removeEventListener("scroll", this.scrollHandler);
+    if (this.scrollHandler)
+      window.removeEventListener("scroll", this.scrollHandler);
     if (this.#renderer) {
       this.#renderer.dispose();
       this.#renderer.domElement.remove();
     }
     this.scene?.traverse((obj: any) => {
       if (obj.geometry) obj.geometry.dispose();
-      if (obj.material) Array.isArray(obj.material) ? obj.material.forEach((m: any) => m.dispose()) : obj.material.dispose();
+      if (obj.material)
+        Array.isArray(obj.material)
+          ? obj.material.forEach((m: any) => m.dispose())
+          : obj.material.dispose();
     });
   }
 }

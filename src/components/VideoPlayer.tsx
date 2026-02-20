@@ -15,20 +15,10 @@ export default function VideoPlayer(props: { video: Media }) {
             <VideoJSPlayer video={props.video} />
         )
     } else {
-        if (props.video.url.includes("mp4")) {
             return (
                 <video src={props.video.url} autoplay muted loop playsinline class="min-h-24 min-w-24 w-full object-cover"
                     title={props.video.altText}
                     aria-label={props.video.altText} />
             )
-        } else {
-            return (
-                <img
-                    src={props.video.url}
-                    class="object-cover w-full"
-                    alt={props.video.altText}
-                />
-            )
-        }
     }
 }

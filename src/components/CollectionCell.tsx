@@ -2,6 +2,7 @@ import { A } from "@solidjs/router";
 import { PortfolioCollection } from "~/types";
 import { createSignal, For, onMount, Show, createMemo, createEffect, onCleanup } from "solid-js";
 import { Tag } from "~/layout/Cards";
+import TagPills from "./TagPills";
 
 function SlideshowCover(props: { data: PortfolioCollection; isPaused: boolean }) {
   const keypointMedia = createMemo(() =>
@@ -186,11 +187,7 @@ export function CollectionCell(props: {
           class="-mt-9 group-hover/tag:mt-0 flex gap-1 justify-start items-center group-hover/tag:opacity-100 opacity-0 w-full overflow-x-auto scroll-smooth def__animate"
           style={{ "scrollbar-width": "none" }}
         >
-          <For each={props.data.tags}>
-            {(tag) => (
-              <Tag href={`/projects?tags=${tag.replace(" ", "+")}`}>{tag}</Tag>
-            )}
-          </For>
+          <TagPills tags={props.data.tags} />
         </div>
       </div>
     </article>
