@@ -143,12 +143,12 @@ export default function About() {
     return (
       <div
         ref={container}
-        class={`w-full lg:w-fit lg:max-w-2xl h-fit relative mx-auto flex flex-col justify-center md:items-start items-center def__animate md:hover:scale-101 md:absolute md:cursor-grab md:select-none
+        class={`w-full lg:w-fit lg:max-w-2xl h-fit relative mx-auto flex flex-col justify-center md:items-start items-center md:hover:scale-101 md:absolute md:cursor-grab md:select-none
           ${noMobile ? ` hidden md:block` : ``}`}
         onMouseDown={(e) => clickHandler(e)}
         onTouchStart={(e) => touchHandler(e)}
       >
-        <div class="opacity-10 def__animate hover:opacity-80">
+        <div class="opacity-10 hover:opacity-80">
           <div
             class="p-12 -translate-y-12.5 translate-x-24 absolute top-0 right-0 w-fit cursor-pointer def__animate text-black dark:text-white"
             onClick={() => {

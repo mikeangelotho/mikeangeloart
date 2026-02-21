@@ -5,6 +5,7 @@ import { MetaProvider } from "@solidjs/meta";
 import "./app.css";
 import Navbar from "./layout/Navbar";
 import Footer from "./layout/Footer";
+import LenisProvider from "./components/LenisProvider";
 
 export default function App() {
   return (
@@ -15,11 +16,14 @@ export default function App() {
 
           return (
             <>
-              <Navbar />
-              <Suspense>{props.children}</Suspense>
-              <Show when={location.pathname !== "/about"}>
-                <Footer />
-              </Show>
+              <LenisProvider>
+                <Navbar />
+                <Suspense>{props.children}</Suspense>
+                <Show when={location.pathname !== "/about"}>
+                  <Footer />
+                </Show>
+              </LenisProvider>
+
             </>
           );
         }}
