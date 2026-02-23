@@ -170,7 +170,7 @@ export default function Home() {
       if (tagInner) tagInner.style.transform = `translateX(${-offset}px)`;
     }
 
-    const unregisterLenis = lenis.registerCallback(animate);
+    const unregisterLenis = lenis!.registerCallback(animate);
 
     // Seed initial scroll state in case user has already scrolled on load
     if (window.scrollY > scrollYLimit) {
@@ -225,7 +225,7 @@ export default function Home() {
     opacityObserver.observe(introDesc);
     expandObserver.observe(introDesc);
 
-    lenis.lenis?.on('scroll', lenisScrollHandler);
+    lenis?.lenis?.on('scroll', lenisScrollHandler);
 
     onCleanup(() => {
       unregisterLenis();
@@ -239,7 +239,7 @@ export default function Home() {
       scrollerObserver.disconnect();
       opacityObserver.disconnect();
       expandObserver.disconnect();
-      lenis.lenis?.off('scroll', lenisScrollHandler);
+      lenis?.lenis?.off('scroll', lenisScrollHandler);
     });
   });
 
