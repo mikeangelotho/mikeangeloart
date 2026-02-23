@@ -9,6 +9,7 @@ import {
 } from "solid-js";
 import Icon from "~/components/Icon";
 import ThemeToggle from "~/components/ThemeToggle";
+import { useLenis } from "~/components/LenisProvider";
 
 let links = [
   {
@@ -39,7 +40,7 @@ export default function Navbar() {
     document.body.classList.toggle("overflow-hidden", showMobileMenu());
   });
 
-  let scrollHandler: () => void;
+  let scrollHandler: ({ scroll }: { scroll: number }) => void;
 
   onMount(() => {
     const classNamesOnScroll = [
@@ -55,32 +56,36 @@ export default function Navbar() {
       "dark:bg-black/80",
     ];
 
-    scrollHandler = () => {
-      const { scrollY } = window;
-      if (scrollY > 0) {
-        nav.classList.add(...classNamesOnScroll);
+    scrollHandler = ({ scroll }: { scroll: number }) => {
+      if (scroll > 0) {
         nav.classList.remove("mix-blend-difference");
+        nav.classList.add(...classNamesOnScroll);
         logoEl.classList.add("not-dark:invert");
       } else {
         nav.classList.remove(...classNamesOnScroll);
-        setTimeout(() => {
-          nav.classList.add("mix-blend-difference");
-        }, 1000);
         logoEl.classList.remove("not-dark:invert");
+        requestAnimationFrame(() => {
+          nav.classList.add("mix-blend-difference");
+        });
       }
     };
 
-    window.addEventListener("scroll", scrollHandler);
-
-    onCleanup(() => {
-      window.removeEventListener("scroll", scrollHandler);
+    const lenis = useLenis();
+    createEffect(() => {
+      const instance = lenis?.lenis();
+      if (instance) {
+        instance.on('scroll', scrollHandler);
+        onCleanup(() => {
+          instance.off('scroll', scrollHandler);
+        });
+      }
     });
   });
   return (
     <>
       <nav
         ref={nav}
-        class="mix-blend-difference border border-transparent lg:rounded-3xl z-100 top-0 max-w-7xl inset-x-0 lg:mx-6 xl:mx-auto fixed nav__animate"
+        class="mix-blend-difference border border-transparent lg:rounded-3xl z-100 top-0 max-w-7xl inset-x-0 lg:mx-6 xl:mx-auto fixed transition-all duration-1500 ease-in-out"
       >
         <div
           ref={logoEl}

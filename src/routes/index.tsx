@@ -79,7 +79,7 @@ export default function Home() {
 
     function onPointerDown(e: PointerEvent) {
       if (!tagScroller) return;
-      
+
       isDragging = true;
       hasMoved = false;
       dragStartX = e.clientX;
@@ -114,17 +114,17 @@ export default function Home() {
 
     function onPointerUp(e: PointerEvent) {
       if (!tagScroller) return;
-      
+
       tagScroller.releasePointerCapture(e.pointerId);
       tagScroller.style.cursor = "grab";
-      
+
       if (!hasMoved) {
         const link = (e.target as HTMLElement).closest('a');
         if (link) {
           link.click();
         }
       }
-      
+
       isDragging = false;
     }
 
@@ -225,7 +225,7 @@ export default function Home() {
     opacityObserver.observe(introDesc);
     expandObserver.observe(introDesc);
 
-    lenis?.lenis?.on('scroll', lenisScrollHandler);
+    lenis?.lenis()?.on('scroll', lenisScrollHandler);
 
     onCleanup(() => {
       unregisterLenis();
@@ -239,7 +239,7 @@ export default function Home() {
       scrollerObserver.disconnect();
       opacityObserver.disconnect();
       expandObserver.disconnect();
-      lenis?.lenis?.off('scroll', lenisScrollHandler);
+      lenis?.lenis()?.off('scroll', lenisScrollHandler);
     });
   });
 
@@ -397,12 +397,12 @@ export default function Home() {
         </section>
         <section class="bg-neutral-100 dark:bg-neutral-950 w-full">
           <div class="bg-neutral-100 dark:bg-neutral-950 w-full">
-          <h3 class="border-t border-b border-neutral-300 dark:border-neutral-900 py-6 flex justify-center items-center uppercase text-black/10 dark:text-white/10">
-            More Projects
-          </h3>
-        </div>
+            <h3 class="border-t border-b border-neutral-300 dark:border-neutral-900 py-6 flex justify-center items-center uppercase text-black/10 dark:text-white/10">
+              More Projects
+            </h3>
+          </div>
         </section>
-                <section class="w-full bg-white dark:bg-black">
+        <section class="w-full bg-white dark:bg-black">
           <Show when={portfolioCollection()}>
             <TeaserCollection data={portfolioCollection() as PortfolioCollection[]} limit={4} />
           </Show>

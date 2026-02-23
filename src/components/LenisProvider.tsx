@@ -1,10 +1,10 @@
-import { onMount, onCleanup, createContext, useContext } from "solid-js";
+import { onMount, onCleanup, createContext, useContext, createSignal } from "solid-js";
 import Lenis from "lenis";
 
 type RafCallback = (time: number, delta: number) => void;
 
 interface LenisContextValue {
-    lenis: Lenis | null;
+    lenis: () => Lenis | null;
     registerCallback: (cb: RafCallback) => () => void;
 }
 
@@ -15,13 +15,13 @@ export function useLenis() {
 }
 
 export default function LenisProvider(props: { children: any }) {
-    let lenis: Lenis | undefined;
+    const [lenisInstance, setLenisInstance] = createSignal<Lenis | null>(null);
     let rafId: number;
     const callbacks: Set<RafCallback> = new Set();
     let lastTime = 0;
 
     onMount(() => {
-        lenis = new Lenis({
+        const lenis = new Lenis({
             duration: 1.25,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             orientation: "vertical",
@@ -35,19 +35,21 @@ export default function LenisProvider(props: { children: any }) {
             }
         });
 
+        setLenisInstance(lenis);
+
         function raf(time: number) {
             const delta = lastTime ? time - lastTime : 16;
             lastTime = time;
-            
-            lenis?.raf(time);
-            
+
+            lenis.raf(time);
+
             callbacks.forEach(cb => cb(time, delta));
-            
+
             rafId = requestAnimationFrame(raf);
         }
 
         rafId = requestAnimationFrame(raf);
-        
+
         lenis.on('scroll', ({ scroll, limit }: { scroll: number; limit: number }) => {
             document.documentElement.style.setProperty('--scroll-progress', String(scroll / limit));
         });
@@ -60,11 +62,11 @@ export default function LenisProvider(props: { children: any }) {
 
     onCleanup(() => {
         if (rafId) cancelAnimationFrame(rafId);
-        lenis?.destroy();
+        lenisInstance()?.destroy();
     });
 
     const contextValue: LenisContextValue = {
-        get lenis() { return lenis ?? null; },
+        lenis: lenisInstance,
         registerCallback
     };
 

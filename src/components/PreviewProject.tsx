@@ -97,17 +97,17 @@ export function PreviewProject(props: {
             {props.data.projectObjective}
           </p>
 
-            <div class="mb-6">
-              <span class="text-xs font-bold uppercase tracking-widest text-black/30 dark:text-white/30">
-                Results
-              </span>
-              <p class="text-sm font-medium text-black dark:text-white mt-1">
-                {props.data.mainKeypointMetricOne}
-              </p>
-              <p class="text-sm font-medium text-black dark:text-white mt-1">
-                {props.data.mainKeypointMetricTwo}
-              </p>
-            </div>
+          <div class="mb-6">
+            <span class="text-xs font-bold uppercase tracking-widest text-black/30 dark:text-white/30">
+              Results
+            </span>
+            <p class="text-sm font-medium text-black dark:text-white mt-1">
+              {props.data.mainKeypointMetricOne}
+            </p>
+            <p class="text-sm font-medium text-black dark:text-white mt-1">
+              {props.data.mainKeypointMetricTwo}
+            </p>
+          </div>
 
           <div class="flex flex-wrap gap-2 mb-6">
             <For each={props.data.tags.slice(0, 4)}>
