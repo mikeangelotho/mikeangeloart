@@ -1,15 +1,15 @@
-import { ContainerLabel, LinkButton, Tag } from "~/layout/Cards";
+import { Tag } from "~/layout/Cards";
 import { PortfolioCollection } from "~/types";
-import { For,  onCleanup, onMount } from "solid-js";
+import { For, onCleanup, onMount } from "solid-js";
 import { A } from "@solidjs/router";
 import { H2 } from "~/layout/Headings";
-import { MediaSpread } from "./MediaSpread";
+import MediaCluster from "./MediaCluster";
 
 export function PreviewProject(props: {
   data: PortfolioCollection;
   reverse?: boolean;
 }) {
-  let objectiveContainer!: HTMLDivElement;
+  let containerRef!: HTMLDivElement;
 
   onMount(() => {
     const fadeObserver = new IntersectionObserver(
@@ -21,98 +21,125 @@ export function PreviewProject(props: {
           if (entry.isIntersecting) observer.unobserve(target);
         });
       },
-      { threshold: 0.1 },
+      { threshold: 0.15 },
     );
 
-    fadeObserver.observe(objectiveContainer);
+    fadeObserver.observe(containerRef);
 
     onCleanup(() => {
       fadeObserver.disconnect();
     });
   });
 
+  const additionalMedia = () => {
+    const urls: string[] = [];
+    const keypoints = props.data.projectKeypoints;
+    const featured = props.data.mainKeypointFeatured;
+
+    for (let i = 1; i < Math.min(5, featured.length); i++) {
+      const [s1, s2] = featured[i];
+      if (keypoints[s1]?.media[s2]) {
+        urls.push(keypoints[s1].media[s2].url);
+      }
+    }
+    return urls;
+  };
+
   return (
-    <section class="px-6 z-1 border-b-36 border-neutral-100 dark:border-neutral-950 w-full mx-auto py-36">
-      <header class="w-full z-1 text-black dark:text-white max-w-7xl mx-auto">
-        <div class="flex flex-col lg:flex-row pb-36 gap-12 justify-center items-center w-full">
-          <div class="flex flex-col items-center lg:flex-row gap-3">
-            <div class="lg:border-r lg:pr-3 border-black/10 dark:border-white/10">
+    <section class="w-full mx-auto py-18 px-6 border-neutral-200 dark:border-neutral-900">
+      <div
+        ref={containerRef}
+        class={`fade__animate max-w-6xl mx-auto flex flex-col lg:flex-row items-stretch gap-6 ${props.reverse ? "lg:flex-row-reverse" : ""
+          }`}
+      >
+        <div class="flex-1 lg:flex-[1.5]">
+          <A
+            href={`/projects/${props.data.slug}`}
+            class="block group relative overflow-hidden rounded-2xl lg:rounded-3xl"
+          >
+            <div class="aspect-[4/3] lg:aspect-[16/10] overflow-hidden">
               <img
-                src={props.data.clientLogo}
-                class="mx-auto brightness-0 dark:brightness-200 saturate-0 contrast-0 opacity-50 max-h-8 max-w-18"
+                src={props.data.cover}
+                alt={props.data.title}
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
-                alt={props.data.clientLogoAlt}
               />
             </div>
-            <A
-              href={`/projects/${props.data.slug}`}
-              class="w-full hover:underline def__animate lg:text-left text-center"
-            >
-              <H2>{props.data.title}</H2>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </A>
+        </div>
+
+        <div class="flex-1 flex flex-col justify-center">
+          <div class="flex items-center gap-3 mb-4">
+            <A href={`/projects?client=${props.data.clientName}`} class="flex items-center gap-3">
+              <img
+                src={props.data.clientLogo}
+                alt={props.data.clientLogoAlt}
+                class="w-10 h-10 object-contain brightness-0 dark:brightness-200 saturate-0 contrast-0 rounded-lg"
+                loading="lazy"
+              />
+              <span class="text-sm font-medium text-neutral-300 dark:text-neutral-700 hover:underline">
+                {props.data.clientName}
+              </span>
             </A>
           </div>
-          <article
-            ref={objectiveContainer}
-            class="fade__animate group max-w-3xl text-black dark:text-white shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 items-center flex gap-6 flex-col-reverse lg:flex-row bg-neutral-100 dark:bg-neutral-950 border border-neutral-300 dark:border-neutral-900 dark:border-t dark:border-t-white"
+
+          <A
+            href={`/projects/${props.data.slug}`}
+            class="group inline-block"
           >
-            <div class="max-w-3xl flex items-center justify-center">
-              {/*<div class="border-r border-black/10 dark:border-white/10 pr-6">dsasdsad</div>*/}
-              <div class="pl-6 flex flex-col gap-3 justify-center">
-                <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1 ">
-                  <ContainerLabel>Objective</ContainerLabel>
-                </div>
-                <p class="text-left text-black dark:text-white">
-                  {props.data.projectObjective}
-                </p>
-                <div
-                  class="w-full max-w-72 sm:max-w-md lg:max-w-xl opacity-50 group-hover:opacity-100 flex gap-1 justify-start items-center overflow-x-auto scroll-smooth def__animate"
-                  style="scrollbar-width: none;"
-                >
-                  <For each={props.data.tags}>
-                    {(tag) => {
-                      return (
-                        <Tag href={`/projects?tags=${tag.replace(" ", "+")}`}>
-                          {tag}
-                        </Tag>
-                      );
-                    }}
-                  </For>
-                </div>
-              </div>
+            <H2 class="group-hover:underline decoration-2 underline-offset-4 mb-4">
+              {props.data.title}
+            </H2>
+          </A>
+
+          <p class="text-black/70 dark:text-white/70 mb-4 text-sm leading-relaxed">
+            {props.data.projectObjective}
+          </p>
+
+            <div class="mb-6">
+              <span class="text-xs font-bold uppercase tracking-widest text-black/30 dark:text-white/30">
+                Results
+              </span>
+              <p class="text-sm font-medium text-black dark:text-white mt-1">
+                {props.data.mainKeypointMetricOne}
+              </p>
+              <p class="text-sm font-medium text-black dark:text-white mt-1">
+                {props.data.mainKeypointMetricTwo}
+              </p>
             </div>
-          </article>
-        </div>
-      </header>
-      <div class="z-1 w-full flex flex-col gap-36 justify-center items-center max-w-7xl mx-auto">
-        <MediaSpread data={props.data}>
-          <article class="text-black max-w-3xl dark:text-white shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 items-center flex gap-6 flex-col-reverse lg:flex-row bg-neutral-100 dark:bg-neutral-950 border border-black/10 dark:border-white/5 dark:border-t dark:border-t-white">
-            {/*
-                    <div class="flex flex-col w-full lg:w-fit min-w-72 justify-center gap-3 border border-neutral-200 bg-neutral-50 dark:bg-neutral-800 dark:border-neutral-700 p-3 rounded-xl dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)]">
-                        <Metric icon="/MA_Icons25_Lightbulb.svg">
-                            {props.data.mainKeypointMetricOne}
-                        </Metric>
-                        <Metric icon="/MA_Icons25_Lightbulb.svg">
-                            {props.data.mainKeypointMetricTwo}
-                        </Metric>
-                    </div>
-                    */}
-            <div class="max-w-3xl flex items-center justify-center">
-              {/*<div class="border-r border-black/10 dark:border-white/10 pr-6">dsasdsad</div>*/}
-              <div class="pl-6 flex flex-col gap-3 justify-center">
-                <div class="text-black/20 w-fit dark:text-white/20 h-fit border-b border-b-black/10 dark:border-b-white/10 pb-1 ">
-                  <ContainerLabel>Strategy</ContainerLabel>
-                </div>
-                <p class="text-left text-black dark:text-white">
-                  {props.data.mainKeypointDescription}
-                </p>
-              </div>
+
+          <div class="flex flex-wrap gap-2 mb-6">
+            <For each={props.data.tags.slice(0, 4)}>
+              {(tag) => <Tag href={`/projects?tags=${tag}`}>{tag}</Tag>}
+            </For>
+          </div>
+
+          {additionalMedia().length > 0 && (
+            <div class="flex gap-2 mb-6">
+              <For each={additionalMedia()}>
+                {(src) => (
+                  <A
+                    href={`/projects/${props.data.slug}`}
+                    class="block w-20 h-14 lg:w-24 lg:h-16 overflow-hidden rounded-lg hover:ring-2 hover:ring-black/20 dark:hover:ring-white/20 transition-all"
+                  >
+                    <MediaCluster
+                      class="w-full h-full object-cover"
+                      src={src}
+                    />
+                  </A>
+                )}
+              </For>
             </div>
-          </article>
-        </MediaSpread>
-        <div class="fade__animate">
-          <LinkButton href={`/projects/${props.data.slug}`}>
-            See Full Project
-          </LinkButton>
+          )}
+
+          <A
+            href={`/projects/${props.data.slug}`}
+            class="inline-flex w-full lg:w-fit items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-lg bg-black dark:bg-white text-white dark:text-black hover:gap-3 transition-all duration-200 group/link"
+          >
+            View Project
+            <span class="group-hover/link:translate-x-1 transition-transform">→</span>
+          </A>
         </div>
       </div>
     </section>

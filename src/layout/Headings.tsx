@@ -8,9 +8,9 @@ export const H1 = (props: { children: JSX.Element }) => {
   );
 };
 
-export const H2 = (props: { children: JSX.Element }) => {
+export const H2 = (props: { class?: string, children: JSX.Element }) => {
   return (
-    <h2 class="font-semibold text-3xl text-black dark:text-white">
+    <h2 class={`font-semibold text-3xl text-black dark:text-white ${props.class}`}>
       {props.children}
     </h2>
   );

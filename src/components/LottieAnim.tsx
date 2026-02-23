@@ -48,7 +48,7 @@ export const LottieAnim = (props: { url: string }) => {
   return (
     <div
       ref={container}
-      class="scale-300 md:scale-200 lg:scale-150 xl:scale-100 fade__animate fixed top-0 left-0 w-full h-full not-dark:invert"
+      class="scale-350 md:scale-200 lg:scale-150 xl:scale-100 fade__animate fixed top-0 left-0 w-full h-full not-dark:invert"
       style="pointer-events: none;"
     />
   );

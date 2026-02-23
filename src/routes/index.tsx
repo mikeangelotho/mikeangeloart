@@ -8,15 +8,22 @@ import {
   Suspense,
 } from "solid-js";
 import { PortfolioCollection } from "~/types";
-import Collection from "~/components/Collection";
+import TeaserCollection from "~/components/TeaserCollection";
 import { H1, H2 } from "~/layout/Headings";
 import { ContainerLabel } from "~/layout/Cards";
 import SEO from "~/components/SEO";
 import { Web3Form } from "~/components/Web3Form";
-import { A, createAsync } from "@solidjs/router";
+import { A, createAsync, query } from "@solidjs/router";
 import PreviewProject from "~/components/PreviewProject";
 import MediaCluster from "~/components/MediaCluster";
 import TagPills from "~/components/TagPills";
+import { useLenis } from "~/components/LenisProvider";
+
+const fetchPortfolio = query(async (): Promise<PortfolioCollection[]> => {
+  "use server";
+  const res = await fetch("https://cdn.mikeangelo.art/db.json");
+  return await res.json() as PortfolioCollection[];
+}, "portfolio-home");
 
 const landingHighlightLength = 3;
 
@@ -33,35 +40,24 @@ export default function Home() {
   const BgGradient = lazy(() => import("../components/BgGradient"));
   const Panel3d = lazy(() => import("../components/Panel3d"));
 
-  const portfolioCollection = createAsync(async () => {
-    const res = await fetch("https://cdn.mikeangelo.art/db.json");
-    return (await res.json()) as PortfolioCollection[];
-  });
+  const portfolioCollection = createAsync(() => fetchPortfolio());
 
   onMount(() => {
-    let frameId: number;
-    let lastTime: number = 0;
+    const lenis = useLenis();
     let offset = 0;
     let ticking = false;
     const scrollYLimit = 200;
-    const scrollSpeed = 0.05;
-    let holdTimer: NodeJS.Timeout;
+    const scrollSpeed = 0.08;
+    const dragThreshold = 5;
 
-    // --- Drag state ---
-    // isDragging: pointer is currently held down
-    // dragStartX: clientX at pointer down
-    // dragStartOffset: value of offset at pointer down
-    // velocity: pixels/ms carried from the last drag move, for momentum
-    // lastDragX / lastDragTime: used to compute velocity on pointer up
     let isDragging = false;
+    let hasMoved = false;
     let dragStartX = 0;
     let dragStartOffset = 0;
     let velocity = 0;
     let lastDragX = 0;
     let lastDragTime = 0;
 
-    // Duplicate children for seamless infinite loop.
-    // translateX on tagInner avoids browser scroll-engine interference on mobile.
     if (tagInner) {
       const original = Array.from(tagInner.children) as HTMLElement[];
       original.forEach((child) => {
@@ -78,110 +74,117 @@ export default function Home() {
     function wrapOffset(val: number) {
       const half = getHalf();
       if (!half) return val;
-      // Keep offset in [0, half) so the seam is always invisible
       return ((val % half) + half) % half;
     }
 
-    // --- Pointer handlers (unified mouse + touch via pointer events) ---
     function onPointerDown(e: PointerEvent) {
-
-      holdTimer = setTimeout(() => {
-        if (holdTimer) tagScroller.setPointerCapture(e.pointerId);
-        isDragging = true;
-        dragStartX = e.clientX;
-        dragStartOffset = offset;
-        velocity = 0;
-        lastDragX = e.clientX;
-        lastDragTime = performance.now();
-        tagScroller.style.cursor = "grabbing";
-      }, 1000);
-
+      if (!tagScroller) return;
+      
+      isDragging = true;
+      hasMoved = false;
+      dragStartX = e.clientX;
+      dragStartOffset = offset;
+      velocity = 0;
+      lastDragX = e.clientX;
+      lastDragTime = performance.now();
+      tagScroller.setPointerCapture(e.pointerId);
+      tagScroller.style.cursor = "grabbing";
     }
 
     function onPointerMove(e: PointerEvent) {
-      if (!isDragging) return;
+      if (!isDragging || !tagScroller) return;
+
+      const dx = Math.abs(e.clientX - dragStartX);
+      if (dx > dragThreshold) {
+        hasMoved = true;
+      }
 
       const now = performance.now();
       const dt = now - lastDragTime;
       if (dt > 0) {
-        // Instantaneous velocity in px/ms (positive = dragging left = scrolling forward)
         velocity = -(e.clientX - lastDragX) / dt;
       }
       lastDragX = e.clientX;
       lastDragTime = now;
 
-      const dx = e.clientX - dragStartX;
-      offset = wrapOffset(dragStartOffset - dx);
+      const scrollDelta = e.clientX - dragStartX;
+      offset = wrapOffset(dragStartOffset - scrollDelta);
       if (tagInner) tagInner.style.transform = `translateX(${-offset}px)`;
     }
 
     function onPointerUp(e: PointerEvent) {
-      if (!holdTimer) tagScroller.releasePointerCapture(e.pointerId);
-      clearTimeout(holdTimer);
-
-
-      if (!isDragging) return;
-      isDragging = false;
+      if (!tagScroller) return;
+      
+      tagScroller.releasePointerCapture(e.pointerId);
       tagScroller.style.cursor = "grab";
-      // velocity is now handed off to the rAF loop for momentum decay
+      
+      if (!hasMoved) {
+        const link = (e.target as HTMLElement).closest('a');
+        if (link) {
+          link.click();
+        }
+      }
+      
+      isDragging = false;
     }
 
-    tagScroller.addEventListener("pointerdown", onPointerDown);
-    tagScroller.addEventListener("pointermove", onPointerMove);
-    tagScroller.addEventListener("pointerup", onPointerUp);
-    tagScroller.addEventListener("pointercancel", onPointerUp);
+    let isVisible = true;
 
-    // Single persistent rAF loop.
-    // While dragging: momentum is applied and decayed; auto-scroll is suspended.
-    // While not dragging: auto-scroll resumes (unless paused by hover on desktop).
-    // lastTime is kept in sync even when paused so delta doesn't spike on resume.
-    function animate(currentTime: number) {
-      frameId = requestAnimationFrame(animate);
+    const visibilityHandler = () => {
+      isVisible = !document.hidden;
+    };
+    document.addEventListener("visibilitychange", visibilityHandler);
 
-      if (!lastTime) lastTime = currentTime;
-      const delta = currentTime - lastTime;
-      lastTime = currentTime;
+    const scrollerObserver = new IntersectionObserver(
+      (entries) => {
+        isVisible = entries[0]?.isIntersecting ?? true;
+      },
+      { threshold: 0.1 }
+    );
+    scrollerObserver.observe(tagScroller);
 
+    if (tagScroller) {
+      tagScroller.addEventListener("pointerdown", onPointerDown);
+      tagScroller.addEventListener("pointermove", onPointerMove);
+      tagScroller.addEventListener("pointerup", onPointerUp);
+      tagScroller.addEventListener("pointercancel", onPointerUp);
+    }
+
+    // Tag animation - runs on Lenis RAF to avoid competing loops
+    function animate(_currentTime: number, delta: number) {
       if (isDragging) {
-        // Pointer is down — rAF just keeps lastTime current; onPointerMove drives offset.
         return;
       }
 
-      if (Math.abs(velocity) > 0.01) {
-        // Momentum phase: carry drag velocity and decay it exponentially
+      if (Math.abs(velocity) > 0.005) {
         offset = wrapOffset(offset + velocity * delta);
-        velocity *= 0.92; // friction — tune this (lower = stops faster)
+        velocity *= 0.95;
         if (tagInner) tagInner.style.transform = `translateX(${-offset}px)`;
         return;
       }
 
       // Auto-scroll phase
-      if (isPaused()) return;
+      if (isPaused() || !isVisible) return;
 
       offset = wrapOffset(offset + scrollSpeed * delta);
       if (tagInner) tagInner.style.transform = `translateX(${-offset}px)`;
     }
 
-    frameId = requestAnimationFrame(animate);
+    const unregisterLenis = lenis.registerCallback(animate);
 
     // Seed initial scroll state in case user has already scrolled on load
     if (window.scrollY > scrollYLimit) {
-      window.requestAnimationFrame(() => {
-        introPanel.classList.toggle("blur-xl", window.scrollY > scrollYLimit);
-        introPanel.classList.toggle("opacity-0", window.scrollY > scrollYLimit);
-        introPanel.style.setProperty("--scroll-y", `${window.scrollY}px`);
-        ticking = false;
-      });
+      introPanel.classList.toggle("blur-xl", window.scrollY > scrollYLimit);
+      introPanel.classList.toggle("opacity-0", window.scrollY > scrollYLimit);
+      introPanel.style.setProperty("--scroll-y", `${window.scrollY}px`);
     }
 
-    const onScroll = () => {
-      const { scrollY } = window;
-
+    const lenisScrollHandler = ({ scroll }: { scroll: number }) => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          introPanel.classList.toggle("blur-xl", scrollY > scrollYLimit);
-          introPanel.classList.toggle("opacity-0", scrollY > scrollYLimit);
-          introPanel.style.setProperty("--scroll-y", `${window.scrollY}px`);
+          introPanel.classList.toggle("blur-xl", scroll > scrollYLimit);
+          introPanel.classList.toggle("opacity-0", scroll > scrollYLimit);
+          introPanel.style.setProperty("--scroll-y", `${scroll}px`);
           ticking = false;
         });
         ticking = true;
@@ -222,17 +225,21 @@ export default function Home() {
     opacityObserver.observe(introDesc);
     expandObserver.observe(introDesc);
 
-    window.addEventListener("scroll", onScroll);
+    lenis.lenis?.on('scroll', lenisScrollHandler);
 
     onCleanup(() => {
-      cancelAnimationFrame(frameId);
-      tagScroller.removeEventListener("pointerdown", onPointerDown);
-      tagScroller.removeEventListener("pointermove", onPointerMove);
-      tagScroller.removeEventListener("pointerup", onPointerUp);
-      tagScroller.removeEventListener("pointercancel", onPointerUp);
+      unregisterLenis();
+      if (tagScroller) {
+        tagScroller.removeEventListener("pointerdown", onPointerDown);
+        tagScroller.removeEventListener("pointermove", onPointerMove);
+        tagScroller.removeEventListener("pointerup", onPointerUp);
+        tagScroller.removeEventListener("pointercancel", onPointerUp);
+      }
+      document.removeEventListener("visibilitychange", visibilityHandler);
+      scrollerObserver.disconnect();
       opacityObserver.disconnect();
       expandObserver.disconnect();
-      window.removeEventListener("scroll", onScroll);
+      lenis.lenis?.off('scroll', lenisScrollHandler);
     });
   });
 
@@ -318,7 +325,7 @@ export default function Home() {
                       onMouseEnter={() => setIsPaused(true)}
                       onMouseLeave={() => setIsPaused(false)}
                       class="w-full mx-auto overflow-hidden fade__animate select-none"
-                      style="touch-action: none; cursor: grab;"
+                      style="touch-action: pan-y; cursor: grab;"
                     >
                       {/* Inner wrapper is what translateX moves */}
                       <div
@@ -329,64 +336,75 @@ export default function Home() {
                       </div>
                     </div>
                   </Show>
+                  <Show when={portfolioCollection()}>
+                    <div
+                      ref={introDesc}
+                      class="fade__animate flex flex-row justify-center lg:items-start gap-1 w-full"
+                    >
+                      <A href={`/projects/${portfolioCollection()![1].slug}`}>
+                        <MediaCluster
+                          class="hover:-translate-y-3 fade__animate w-full lg:aspect-square object-cover lg:max-w-54 h-96 lg:max-h-54 rounded-3xl border-6 border-neutral-200 dark:border-white/5 mt-6"
+                          src={
+                            portfolioCollection()![1].projectKeypoints[1].media[0]
+                              .url
+                          }
+                        />
+                      </A>
+                      <A href={`/projects/${portfolioCollection()![0].slug}`}>
+                        <MediaCluster
+                          class="hover:-translate-y-3 fade__animate w-full lg:aspect-video object-cover h-96 lg:max-h-54 rounded-3xl border-6 border-neutral-200 dark:border-white/5"
+                          src={
+                            portfolioCollection()![0].projectKeypoints[1].media[3]
+                              .url
+                          }
+                        />
+                      </A>
+                      <A href={`/projects/${portfolioCollection()![2].slug}`}>
+                        <MediaCluster
+                          class="hover:-translate-y-3 fade__animate w-full lg:aspect-square object-cover lg:max-w-54 h-96 lg:max-h-54 rounded-3xl border-6 border-neutral-200 dark:border-white/5 mt-6"
+                          src={
+                            portfolioCollection()![2].projectKeypoints[1].media[4]
+                              .url
+                          }
+                        />
+                      </A>
+                    </div>
+                  </Show>
                 </div>
-                <Show when={portfolioCollection()}>
-                  <div
-                    ref={introDesc}
-                    class="fade__animate flex flex-row justify-center lg:items-start gap-1 w-full"
-                  >
-                    <A href={`/projects/${portfolioCollection()![1].slug}`}>
-                      <MediaCluster
-                        class="hover:-translate-y-3 fade__animate w-full lg:aspect-square object-cover lg:max-w-54 h-96 lg:max-h-54 rounded-3xl border-6 border-neutral-200 dark:border-white/5 mt-6"
-                        src={
-                          portfolioCollection()![1].projectKeypoints[1].media[0]
-                            .url
-                        }
-                      />
-                    </A>
-                    <A href={`/projects/${portfolioCollection()![0].slug}`}>
-                      <MediaCluster
-                        class="hover:-translate-y-3 fade__animate w-full lg:aspect-video object-cover h-96 lg:max-h-54 rounded-3xl border-6 border-neutral-200 dark:border-white/5"
-                        src={
-                          portfolioCollection()![0].projectKeypoints[1].media[3]
-                            .url
-                        }
-                      />
-                    </A>
-                    <A href={`/projects/${portfolioCollection()![2].slug}`}>
-                      <MediaCluster
-                        class="hover:-translate-y-3 fade__animate w-full lg:aspect-square object-cover lg:max-w-54 h-96 lg:max-h-54 rounded-3xl border-6 border-neutral-200 dark:border-white/5 mt-6"
-                        src={
-                          portfolioCollection()![2].projectKeypoints[1].media[4]
-                            .url
-                        }
-                      />
-                    </A>
-                  </div>
-                </Show>
               </div>
             </div>
+
           </div>
         </section>
-        <div class="bg-neutral-100 dark:bg-neutral-950 w-full">
+        <section class="bg-neutral-100 dark:bg-neutral-950 w-full">
           <h3 class="border-t border-b border-neutral-300 dark:border-neutral-900 py-6 flex justify-center items-center uppercase text-black/10 dark:text-white/10">
             Project Highlights
           </h3>
-        </div>
-        <section class="w-full bg-white dark:bg-black">
+        </section>
+        <section class="w-full bg-white dark:bg-black py-18">
           <Show when={portfolioCollection()}>
             <For each={portfolioCollection()}>
               {(collection, idx) =>
                 idx() < landingHighlightLength && (
-                  <PreviewProject data={collection} />
+                  <PreviewProject
+                    data={collection}
+                    reverse={idx() % 2 === 1}
+                  />
                 )
               }
             </For>
           </Show>
         </section>
-        <section class="bg-white dark:bg-black/90 overflow-x-auto w-full pl-6">
+        <section class="bg-neutral-100 dark:bg-neutral-950 w-full">
+          <div class="bg-neutral-100 dark:bg-neutral-950 w-full">
+          <h3 class="border-t border-b border-neutral-300 dark:border-neutral-900 py-6 flex justify-center items-center uppercase text-black/10 dark:text-white/10">
+            More Projects
+          </h3>
+        </div>
+        </section>
+                <section class="w-full bg-white dark:bg-black">
           <Show when={portfolioCollection()}>
-            <Collection data={portfolioCollection() as PortfolioCollection[]} />
+            <TeaserCollection data={portfolioCollection() as PortfolioCollection[]} limit={4} />
           </Show>
         </section>
         <section class="py-36 border-b border-t border-black/10 dark:border-white/10 w-full dark:backdrop-brightness-125 backdrop-saturate-150">

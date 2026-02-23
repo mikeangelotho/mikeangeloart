@@ -20,6 +20,16 @@ export default function Icon(props: { name: string, height: number, width: numbe
                     <path d="M15 2L20 25" stroke="currentColor" stroke-width="5" stroke-linecap="square" />
                 </svg>
             </Match>
+            <Match when={props.name === "close"}>
+                <svg width={props.width} height={props.height} viewBox={`0 0 ${props.width} ${props.height}`} fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </Match>
+            <Match when={props.name === "external"}>
+                <svg width={props.width} height={props.height} viewBox={`0 0 ${props.width} ${props.height}`} fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </Match>
         </Switch>
     )
 }

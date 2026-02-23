@@ -1,4 +1,4 @@
-import { A, useLocation, useParams, useSearchParams } from "@solidjs/router";
+import { A, useLocation } from "@solidjs/router";
 import {
   createEffect,
   createSignal,
@@ -26,6 +26,8 @@ export default function Navbar() {
   let logoEl!: HTMLDivElement;
   let desktopMenu!: HTMLDivElement;
   let mobileMenuIcon!: HTMLButtonElement;
+  const location = useLocation();
+  console.log(location.pathname);
 
   const [showMobileMenu, setShowMobileMenu] = createSignal(false);
 
@@ -36,6 +38,8 @@ export default function Navbar() {
   createEffect(() => {
     document.body.classList.toggle("overflow-hidden", showMobileMenu());
   });
+
+  let scrollHandler: () => void;
 
   onMount(() => {
     const classNamesOnScroll = [
@@ -51,7 +55,7 @@ export default function Navbar() {
       "dark:bg-black/80",
     ];
 
-    function scrollHandler() {
+    scrollHandler = () => {
       const { scrollY } = window;
       if (scrollY > 0) {
         nav.classList.add(...classNamesOnScroll);
@@ -64,12 +68,12 @@ export default function Navbar() {
         }, 1000);
         logoEl.classList.remove("not-dark:invert");
       }
-    }
+    };
 
-    window.addEventListener("scroll", () => scrollHandler());
+    window.addEventListener("scroll", scrollHandler);
 
     onCleanup(() => {
-      window.removeEventListener("scroll", () => scrollHandler());
+      window.removeEventListener("scroll", scrollHandler);
     });
   });
   return (
@@ -107,8 +111,7 @@ export default function Navbar() {
                   return (
                     <li ref={listItem}>
                       <A
-                        inactiveClass="text-sm hover:underline"
-                        activeClass="text-sm cursor-default text-neutral-500"
+                        class={`text-sm${location.pathname === link.slug ? " text-neutral-500 cursor-default" : " hover:underline"} `}
                         href={link.slug}
                       >
                         {link.label}

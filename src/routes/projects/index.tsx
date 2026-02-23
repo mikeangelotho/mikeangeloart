@@ -1,14 +1,17 @@
 import { PortfolioCollection } from "~/types";
-import { createAsync, useSearchParams } from "@solidjs/router";
+import { createAsync, useSearchParams, cache } from "@solidjs/router";
 import { createMemo, Show } from "solid-js";
 import SEO from "~/components/SEO";
 import CollectionGrid from "~/components/Collection";
 
+const fetchPortfolio = cache(async (): Promise<PortfolioCollection[]> => {
+  "use server";
+  const res = await fetch("https://cdn.mikeangelo.art/db.json");
+  return res.json() as PortfolioCollection[];
+}, "portfolio-projects");
+
 export default function ProjectPage() {
-  const portfolioCollection = createAsync(async () => {
-    const res = await fetch("https://cdn.mikeangelo.art/db.json");
-    return (await res.json()) as PortfolioCollection[];
-  });
+  const portfolioCollection = createAsync(() => fetchPortfolio());
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Make tags a memo that directly reads from searchParams.tags

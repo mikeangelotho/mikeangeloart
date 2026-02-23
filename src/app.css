@@ -50,20 +50,20 @@
 }
 
 .def__animate {
-  transition: all 500ms ease-out;
+  transition: opacity 500ms ease-out, transform 500ms ease-out, filter 500ms ease-out;
 }
 
 .fade__animate {
-  transition: all 1000ms ease-out;
+  transition: opacity 1000ms ease-out, transform 1000ms ease-out, filter 1000ms ease-out;
 }
 
 .nav__animate {
-  transition: all 1s ease-out;
+  transition: opacity 1s ease-out, transform 1s ease-out, filter 1s ease-out;
 }
 
 figure,
 picture {
-  transition: all 500ms ease-out;
+  transition: opacity 500ms ease-out, transform 500ms ease-out;
 }
 
 .scrolled {
@@ -159,4 +159,59 @@ select:focus-visible {
 .dark select:focus-visible {
   outline: 2px solid #fff;
   outline-offset: 2px;
+}
+
+/* Playground Styles */
+.playground-card {
+  opacity: 0;
+  animation: cardEnter 0.6s ease-out forwards;
+}
+
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.filter-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.filter-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.filter-btn:hover::before {
+  opacity: 1;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoom-in-95 {
+  from { 
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-in {
+  animation: fade-in 0.2s ease-out, zoom-in-95 0.3s ease-out;
 }

@@ -1,10 +1,11 @@
-import { onMount } from "solid-js";
+import { onMount, onCleanup } from "solid-js";
 import videojs from "video.js";
 import 'video.js/dist/video-js.css';
 import { Media } from "~/types";
 
 export default function VideoJSPlayer(props: { video: Media }) {
     let playerRef!: HTMLDivElement;
+    let player: ReturnType<typeof videojs> | null = null;
 
     onMount(() => {
         const videoEle = document.createElement("video-js");
@@ -28,11 +29,18 @@ export default function VideoJSPlayer(props: { video: Media }) {
             }).join("/") + "/thumbnail-1-0.png";
             props.video.thumbnail = thumbUrl
         }
-        const player = videojs(videoEle, videoJsOptions);
+        player = videojs(videoEle, videoJsOptions);
         player.poster(props.video.thumbnail);
+
+        onCleanup(() => {
+            if (player) {
+                player.dispose();
+                player = null;
+            }
+        });
     });
     return (
-        <div class="w-full rounded-3xl overflow-hidden" data-vjs-player ref={playerRef}>
+        <div class="w-full overflow-hidden" data-vjs-player ref={playerRef}>
         </div>
     );
 }

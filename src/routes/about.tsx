@@ -183,12 +183,10 @@ export default function About() {
       const { width, height } = element.getBoundingClientRect();
       const { clientX, clientY } = e;
       requestAnimationFrame(() => {
-        element.style.left = `clamp(12px, ${clientX - width / 2}px, ${
-          innerWidth - width - 12
-        }px)`;
-        element.style.top = `clamp(96px, ${clientY - height / 2}px, ${
-          innerHeight - height - 144
-        }px)`;
+        element.style.left = `clamp(12px, ${clientX - width / 2}px, ${innerWidth - width - 12
+          }px)`;
+        element.style.top = `clamp(96px, ${clientY - height / 2}px, ${innerHeight - height - 144
+          }px)`;
       });
     }
   }
@@ -199,12 +197,10 @@ export default function About() {
       const { width, height } = element.getBoundingClientRect();
       const { clientX, clientY } = e.touches[0];
       requestAnimationFrame(() => {
-        element.style.left = `clamp(12px, ${clientX - width / 2}px, ${
-          innerWidth - width - 12
-        }px)`;
-        element.style.top = `clamp(96px, ${clientY - height / 2}px, ${
-          innerHeight - height - 144
-        }px)`;
+        element.style.left = `clamp(12px, ${clientX - width / 2}px, ${innerWidth - width - 12
+          }px)`;
+        element.style.top = `clamp(96px, ${clientY - height / 2}px, ${innerHeight - height - 144
+          }px)`;
       });
     }
   }
@@ -299,10 +295,10 @@ export default function About() {
                           <strong class="text-2xl">What I Do</strong>
                         </p>
                         <p>
-                          I dissect strategy with precision and help breathe fresh air into brand creative and products.
+                          I dissect strategy and produce engaging creative assets and web experiences.
                           Whether I'm developing an advertising campaign, editing social media content, or implementing a landing page, <strong>my
-                          passion is translating great ideas into powerful
-                          digital experiences.</strong>
+                            passion is translating great ideas into powerful
+                            digital experiences.</strong>
                         </p>
                       </div>
                     </div>

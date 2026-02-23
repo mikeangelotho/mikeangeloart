@@ -1,0 +1,192 @@
+{
+  "playgroundItems": [
+    {
+      "id": "brand-identity-spec",
+      "title": "Brand Identity Spec",
+      "contentType": "image",
+      "category": "spec-work",
+      "techStack": ["Figma", "Illustrator", "Photoshop"],
+      "description": "Logo and brand identity exploration for a tech startup.",
+      "details": "Comprehensive brand identity package including primary logo, secondary marks, color palette, typography system, and application examples. Created for a fintech client exploring their visual direction.",
+      "gridSize": "2x2",
+      "imageUrl": "https://cdn.mikeangelo.art/playground/spec/brand-identity.jpg",
+      "imageAlt": "Brand identity mockup showing logo variations"
+    },
+    {
+      "id": "social-campaign",
+      "title": "Social Campaign Assets",
+      "contentType": "image",
+      "category": "spec-work",
+      "techStack": ["Figma", "After Effects"],
+      "description": "Multi-platform social media campaign assets for fashion brand.",
+      "details": "Complete social media campaign including Instagram posts, stories, Facebook covers, and LinkedIn banners. Optimized for each platform's specifications while maintaining brand consistency.",
+      "gridSize": "2x1",
+      "imageUrl": "https://cdn.mikeangelo.art/playground/spec/social-campaign.jpg",
+      "imageAlt": "Social media campaign collage"
+    },
+    {
+      "id": "liquid-morphism",
+      "title": "Liquid Morphism",
+      "contentType": "codepen",
+      "category": "code",
+      "techStack": ["CSS", "SVG Filters", "Keyframes"],
+      "description": "Blobby organic shapes that morph and merge using SVG filters.",
+      "details": "Uses SVG feTurbulence and feDisplacementMap filters to create organic distortion. The morphing is achieved through layered animations with different timing functions.",
+      "gridSize": "2x2",
+      "codepenUrl": "https://codepen.io/mikeangelo/embed/preview/ExQjOQB",
+      "codepenId": "ExQjOQB"
+    },
+    {
+      "id": "product-motion",
+      "title": "Product Motion Loop",
+      "contentType": "video",
+      "category": "motion",
+      "techStack": ["After Effects", "Cinema 4D"],
+      "description": "After Effects loop showcasing product animation techniques.",
+      "details": "Created in After Effects using shape layers, trim paths, and expression-based animations. Features seamless looping with easing and motion blur for a premium feel.",
+      "gridSize": "1x1",
+      "videoUrl": "https://cdn.mikeangelo.art/playground/motion/product-loop.mp4",
+      "videoThumbnail": "https://cdn.mikeangelo.art/playground/motion/product-loop-thumb.jpg"
+    },
+    {
+      "id": "gradient-orbs",
+      "title": "Gradient Orbs",
+      "contentType": "codepen",
+      "category": "code",
+      "techStack": ["CSS", "Radial Gradients", "Blend Modes"],
+      "description": "Floating gradient orbs with blend modes creating dynamic color interactions.",
+      "details": "Multiple radial gradients positioned absolutely with varying blend modes. CSS custom properties control orb size and position.",
+      "gridSize": "1x1",
+      "codepenUrl": "https://codepen.io/mikeangelo/embed/preview/GRBZjOM",
+      "codepenId": "GRBZjOM"
+    },
+    {
+      "id": "event-poster",
+      "title": "Event Poster Series",
+      "contentType": "image",
+      "category": "spec-work",
+      "techStack": ["Illustrator", "Photoshop"],
+      "description": "Poster design series for music and arts festival.",
+      "details": "A series of event posters exploring different visual styles for a multi-genre music festival. Each poster uses distinct typography and color theory to represent different artist vibes.",
+      "gridSize": "1x2",
+      "imageUrl": "https://cdn.mikeangelo.art/playground/spec/event-poster.jpg",
+      "imageAlt": "Event poster design mockup"
+    },
+    {
+      "id": "logo-reel",
+      "title": "Logo Motion Reel",
+      "contentType": "video",
+      "category": "motion",
+      "techStack": ["After Effects", "Character Animator"],
+      "description": "Animated logo showreel featuring various brand reveals.",
+      "details": "Compilation of logo animations created for client projects. Features kinetic typography, morphing transitions, and 3D elements. Rendered at 60fps for smooth playback.",
+      "gridSize": "2x1",
+      "videoUrl": "https://cdn.mikeangelo.art/playground/motion/logo-reel.mp4",
+      "videoThumbnail": "https://cdn.mikeangelo.art/playground/motion/logo-reel-thumb.jpg"
+    },
+    {
+      "id": "noise-texture",
+      "title": "Noise Texture Generator",
+      "contentType": "codepen",
+      "category": "code",
+      "techStack": ["Canvas API", "TypeScript", "Web Workers"],
+      "description": "Interactive noise texture generator with real-time parameter controls.",
+      "details": "Canvas API renders Perlin/Simplex noise. Web Workers handle computation to keep UI responsive.",
+      "gridSize": "2x2",
+      "codepenUrl": "https://codepen.io/mikeangelo/embed/preview/wvBMBzZ",
+      "codepenId": "wvBMBzZ"
+    },
+    {
+      "id": "portrait-series",
+      "title": "Portrait Photography",
+      "contentType": "image",
+      "category": "photography",
+      "techStack": ["Capture One", "Photoshop"],
+      "description": "Studio portrait series exploring lighting and composition.",
+      "details": "Shot with artificial lighting setup including key light, fill, and rim light. Post-processing in Capture One and Photoshop for color grading and retouching.",
+      "gridSize": "2x2",
+      "imageUrl": "https://cdn.mikeangelo.art/playground/photo/portrait.jpg",
+      "imageAlt": "Studio portrait photograph"
+    },
+    {
+      "id": "card-hover",
+      "title": "3D Card Hover",
+      "contentType": "codepen",
+      "category": "code",
+      "techStack": ["CSS", "Transform", "Perspective"],
+      "description": "Interactive 3D card that tilts based on mouse position.",
+      "details": "Mouse position is tracked and converted to rotation angles. CSS transform-style: preserve-3d creates depth.",
+      "gridSize": "2x1",
+      "codepenUrl": "https://codepen.io/mikeangelo/embed/preview/ExQgwYg",
+      "codepenId": "ExQgwYg"
+    },
+    {
+      "id": "urban-exploration",
+      "title": "Urban Exploration",
+      "contentType": "image",
+      "category": "photography",
+      "techStack": ["Lightroom", "Photoshop"],
+      "description": "Documentary-style urban photography series.",
+      "details": "Street photography capturing architectural elements and urban life. Shot on location in various cities with emphasis on geometric compositions and natural light.",
+      "gridSize": "1x1",
+      "imageUrl": "https://cdn.mikeangelo.art/playground/photo/urban.jpg",
+      "imageAlt": "Urban architecture photograph"
+    },
+    {
+      "id": "kinetic-typography",
+      "title": "Kinetic Type",
+      "contentType": "video",
+      "category": "motion",
+      "techStack": ["After Effects", "Expression"],
+      "description": "After Effects kinetic typography experiment.",
+      "details": "Exploration of animated typography with rhythmic motion. Uses expression-based timing and custom easing curves for organic movement.",
+      "gridSize": "1x1",
+      "videoUrl": "https://cdn.mikeangelo.art/playground/motion/kinetic-type.mp4",
+      "videoThumbnail": "https://cdn.mikeangelo.art/playground/motion/kinetic-type-thumb.jpg"
+    },
+    {
+      "id": "typing-text",
+      "title": "Typewriter Effect",
+      "contentType": "codepen",
+      "category": "code",
+      "techStack": ["JavaScript", "CSS Variables", "RequestAnimationFrame"],
+      "description": "Customizable typewriter effect with cursor animation.",
+      "details": "Uses requestAnimationFrame for smooth character rendering. CSS custom properties control typing speed and cursor blink rate.",
+      "gridSize": "1x1",
+      "codepenUrl": "https://codepen.io/mikeangelo/embed/preview/dyGjQzm",
+      "codepenId": "dyGjQzm"
+    },
+    {
+      "id": "portfolio-site",
+      "title": "This Portfolio",
+      "contentType": "github",
+      "category": "github",
+      "techStack": ["SolidJS", "SolidStart", "Tailwind CSS", "Three.js"],
+      "description": "My personal portfolio website built with modern web technologies.",
+      "details": "Features a creative design with 3D elements, smooth animations, and a distinctive visual style. Built using SolidJS for reactivity, Three.js for 3D graphics, and deployed on Cloudflare Pages.",
+      "gridSize": "2x2",
+      "githubOwner": "mikeangelotho",
+      "githubRepo": "mikeangeloart"
+    },
+    {
+      "id": "react-component-lib",
+      "title": "React Component Library",
+      "contentType": "github",
+      "category": "github",
+      "techStack": ["React", "TypeScript", "Storybook", "CSS-in-JS"],
+      "description": "A collection of reusable React components with documentation.",
+      "details": "Modular component library with comprehensive Storybook documentation, TypeScript support, and accessibility built-in. Publishable to npm with proper versioning.",
+      "gridSize": "1x2",
+      "githubOwner": "mikeangelotho",
+      "githubRepo": "component-library"
+    }
+  ],
+  "categories": [
+    { "id": "all", "label": "All Work" },
+    { "id": "spec-work", "label": "Spec Work" },
+    { "id": "motion", "label": "Motion" },
+    { "id": "code", "label": "Code" },
+    { "id": "github", "label": "GitHub" },
+    { "id": "photography", "label": "Photography" }
+  ]
+}
