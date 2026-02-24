@@ -45,7 +45,6 @@ export default function Home() {
   onMount(() => {
     const lenis = useLenis();
     let offset = 0;
-    let ticking = false;
     const scrollYLimit = 200;
     const scrollSpeed = 0.08;
     const dragThreshold = 5;
@@ -170,26 +169,16 @@ export default function Home() {
       if (tagInner) tagInner.style.transform = `translateX(${-offset}px)`;
     }
 
-    const unregisterLenis = lenis!.registerCallback(animate);
-
-    // Seed initial scroll state in case user has already scrolled on load
-    if (window.scrollY > scrollYLimit) {
-      introPanel.classList.toggle("blur-xl", window.scrollY > scrollYLimit);
-      introPanel.classList.toggle("opacity-0", window.scrollY > scrollYLimit);
-      introPanel.style.setProperty("--scroll-y", `${window.scrollY}px`);
-    }
-
-    const lenisScrollHandler = ({ scroll }: { scroll: number }) => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          introPanel.classList.toggle("blur-xl", scroll > scrollYLimit);
-          introPanel.classList.toggle("opacity-0", scroll > scrollYLimit);
-          introPanel.style.setProperty("--scroll-y", `${scroll}px`);
-          ticking = false;
-        });
-        ticking = true;
+    const unregisterLenis = lenis!.registerCallback((time, delta) => {
+      animate(time, delta);
+      
+      if (lenis?.lenis()) {
+        const scroll = lenis.lenis()?.scroll || 0;
+        introPanel.classList.toggle("blur-xl", scroll > scrollYLimit);
+        introPanel.classList.toggle("opacity-0", scroll > scrollYLimit);
+        introPanel.style.setProperty("--scroll-y", `${scroll}px`);
       }
-    };
+    });
 
     const observerOptions = {
       root: null,
@@ -225,8 +214,6 @@ export default function Home() {
     opacityObserver.observe(introDesc);
     expandObserver.observe(introDesc);
 
-    lenis?.lenis()?.on('scroll', lenisScrollHandler);
-
     onCleanup(() => {
       unregisterLenis();
       if (tagScroller) {
@@ -239,7 +226,6 @@ export default function Home() {
       scrollerObserver.disconnect();
       opacityObserver.disconnect();
       expandObserver.disconnect();
-      lenis?.lenis()?.off('scroll', lenisScrollHandler);
     });
   });
 
@@ -256,13 +242,13 @@ export default function Home() {
           "@context": "https://schema.org",
           "@type": "Person",
           name: "Mike Angelo",
-          jobTitle: "Art Director & Web Designer",
+          jobTitle: "Creative Technologist",
           description:
-            "Art director and web designer serving New Jersey and the greater New York area",
+            "Creative Technologist serving New Jersey and the greater New York area",
           url: "https://mikeangeloart.com",
           address: {
             "@type": "PostalAddress",
-            addressRegion: "NY",
+            addressRegion: "NJ",
             addressCountry: "US",
           },
           knowsAbout: [
@@ -270,6 +256,7 @@ export default function Home() {
             "Web Design",
             "Advertising Campaigns",
             "Content Creation",
+            "Web Development"
           ],
         }}
       />

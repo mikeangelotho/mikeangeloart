@@ -11,12 +11,14 @@ export default function VideoJSPlayer(props: { video: Media }) {
         const videoEle = document.createElement("video-js");
         videoEle.classList.add('vjs-big-play-centered');
         videoEle.setAttribute('playsinline', '');
+        videoEle.setAttribute('webkit-playsinline', '');
         playerRef.appendChild(videoEle);
         const videoJsOptions = {
             autoplay: false,
             controls: true,
             responsive: true,
             fluid: true,
+            playsinline: true,
             sources: [{
                 src: props.video.url,
             }]

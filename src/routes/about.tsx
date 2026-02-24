@@ -372,9 +372,9 @@ export default function About() {
           "@context": "https://schema.org",
           "@type": "Person",
           name: "Mike Angelo",
-          jobTitle: "Art Director & Web Designer",
+          jobTitle: "Creative Technologist",
           description:
-            "Art director and web designer with a passion for turning ideas into tangible, functional, and beautiful digital experiences.",
+            "Creative Technologist with a passion for turning ideas into tangible, functional, and beautiful digital experiences.",
           url: "https://mikeangeloart.com/about",
           knowsAbout: [
             "Art Direction",

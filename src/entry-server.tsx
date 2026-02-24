@@ -26,11 +26,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="https://cdn.mikeangelo.art/favicon.svg" />
           {assets}
-          <title>
-            Art Director & Web Developer in New Jersey and the greater New York
-            area - Mike Angelo | Graphic Design, Advertising Campaigns, Web
-            Design & Development.
-          </title>
         </head>
         <body>
           {/* Google Tag Manager (noscript) */}

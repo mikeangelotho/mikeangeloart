@@ -8,7 +8,9 @@ export const MediaCluster = (props: { class?: string; src: string }) => {
           autoplay
           muted
           loop
-          playsinline
+          playsInline
+          webkit-playsinline="true"
+          preload="metadata"
           src={props.src}
         ></video>
       );

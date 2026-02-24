@@ -16,9 +16,18 @@ export default function VideoPlayer(props: { video: Media }) {
         )
     } else {
         return (
-            <video src={props.video.url} autoplay muted loop playsinline class="min-h-24 min-w-24 w-full object-cover"
+            <video 
+                src={props.video.url} 
+                autoplay 
+                muted 
+                loop 
+                playsinline 
+                webkit-playsinline="true"
+                preload="metadata"
+                class="min-h-24 min-w-24 w-full object-cover"
                 title={props.video.altText}
-                aria-label={props.video.altText} />
+                aria-label={props.video.altText} 
+            />
         )
     }
 }
