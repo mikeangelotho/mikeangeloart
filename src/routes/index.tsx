@@ -323,7 +323,7 @@ export default function Home() {
         </section>
         <section ref={blurbContainer} class="fade__animate bg-white/80 dark:bg-black/90 h-screen w-full flex flex-col justify-center items-center border-t border-black/10 dark:border-white/10 backdrop-brightness-125 backdrop-saturate-150">
           <div class="relative flex flex-col justify-center items-center text-black dark:text-white px-6 sm:px-8 md:px-12 lg:px-16 w-full max-w-7xl">
-            <div class="w-full flex flex-col justify-center items-center translate-y-9 lg:translate-y-0">
+            <div class="w-full flex h-screen flex-col justify-center items-center">
               <div class="w-full flex flex-col gap-9">
                 <Suspense>
                   <Panel3d model="https://cdn.mikeangelo.art/MA_Logo_3D.glb" />
