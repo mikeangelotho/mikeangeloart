@@ -9,7 +9,7 @@ import {
 } from "solid-js";
 import { PortfolioCollection } from "~/types";
 import TeaserCollection from "~/components/TeaserCollection";
-import { H1, H2 } from "~/layout/Headings";
+import { H1, H2, SectionHeading } from "~/layout/Headings";
 import { ContainerLabel } from "~/layout/Cards";
 import SEO from "~/components/SEO";
 import { Web3Form } from "~/components/Web3Form";
@@ -212,14 +212,19 @@ export default function Home() {
       });
     }, observerOptions);
 
+    let hasTrackedBlurb = false;
     const blurbObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if(entry.isIntersecting) {
+        if (entry.isIntersecting && !hasTrackedBlurb) {
+          hasTrackedBlurb = true;
+          blurbObserver.unobserve(entry.target);
+          
           const target = entry.target as HTMLDivElement;
-          document.addEventListener("scroll", () => {
-            const {offsetHeight} = target;
-            const {scrollY} = window;
-            if(scrollY >= offsetHeight - 96) {
+          const handleScroll = () => {
+            const { offsetHeight } = target;
+            const { scrollY } = window;
+            
+            if (scrollY >= offsetHeight - 96) {
               target.style.position = "sticky";
               target.style.top = "0px";
               target.style.left = "0px";
@@ -231,12 +236,18 @@ export default function Home() {
               target.style.zIndex = "";
             }
 
-              target.classList.toggle("opacity-0", scrollY >= offsetHeight * 1.25)
-              target.classList.toggle("invisible", scrollY >= offsetHeight * 2)
-          })
+            target.classList.toggle("opacity-0", scrollY >= offsetHeight * 1.25);
+            target.classList.toggle("invisible", scrollY >= offsetHeight * 2);
+          };
+          
+          document.addEventListener("scroll", handleScroll, { passive: true });
+          
+          onCleanup(() => {
+            document.removeEventListener("scroll", handleScroll);
+          });
         }
-      })
-    }, observerOptions);
+      });
+    }, { threshold: 0.1 });
 
     opacityObserver.observe(blurbDesc);
     expandObserver.observe(blurbDesc);
@@ -392,9 +403,7 @@ export default function Home() {
           </div>
         </section>
         <section class="bg-neutral-100 dark:bg-neutral-950 w-full">
-          <h3 class="border-t border-b border-neutral-300 dark:border-neutral-900 py-6 flex justify-center items-center uppercase text-black/10 dark:text-white/10">
-            Project Highlights
-          </h3>
+          <SectionHeading>Project Highlights</SectionHeading>
         </section>
         <section class="w-full bg-white dark:bg-black py-18">
           <Show when={portfolioCollection()}>
@@ -411,11 +420,7 @@ export default function Home() {
           </Show>
         </section>
         <section class="bg-neutral-100 dark:bg-neutral-950 w-full">
-          <div class="bg-neutral-100 dark:bg-neutral-950 w-full">
-            <h3 class="border-t border-b border-neutral-300 dark:border-neutral-900 py-6 flex justify-center items-center uppercase text-black/10 dark:text-white/10">
-              More Projects
-            </h3>
-          </div>
+          <SectionHeading>More Projects</SectionHeading>
         </section>
         <section class="w-full bg-white dark:bg-black">
           <Show when={portfolioCollection()}>

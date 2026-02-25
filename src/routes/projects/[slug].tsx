@@ -8,7 +8,7 @@ import {
   onMount,
   Show,
 } from "solid-js";
-import { H1, H2 } from "~/layout/Headings";
+import { H1, H2, SectionHeading } from "~/layout/Headings";
 import VideoLib from "~/components/VideoLib";
 import { Lightbox } from "~/components/Lightbox";
 import SEO from "~/components/SEO";
@@ -143,7 +143,7 @@ export default function ProjectPage() {
               </div>
             </article>
           </section>
-          <section class="bg-white dark:bg-black border-t border-b border-black/10 dark:border-white/10 px-6">
+          <section class="bg-white dark:bg-black border-t border-b border-black/10 dark:border-white/10">
             <div class="flex flex-col lg:flex-row gap-3 justify-between items-center px-6 py-9 max-w-7xl mx-auto">
               <div class="w-fit">
                 <Breadcrumbs
@@ -166,7 +166,7 @@ export default function ProjectPage() {
                 <TagPills tags={project()?.tags} />
               </div>
             </div>
-            <div class="w-full flex flex-col gap-18 items-center justify-center max-w-7xl mx-auto">
+            <div class="w-full flex flex-col gap-18 items-center justify-center max-w-7xl mx-auto px-6">
               <div class="w-full max-w-4xl mx-auto">
                 <div class="flex border-b border-black/10 dark:border-white/10 mb-6">
                   <button
@@ -217,21 +217,33 @@ export default function ProjectPage() {
                 </div>
               </div>
             </div>
-            <KeypointSection
-              projectKeypoints={project()?.projectKeypoints}
-              setLightboxImg={setLightboxImg}
-              setLightboxAlt={setLightboxAlt}
-            />
+            <section class="bg-neutral-100 dark:bg-neutral-950 w-full mt-16">
+              <SectionHeading>Project Key Points</SectionHeading>
+            </section>
+            <section class="px-6">
+              <KeypointSection
+                projectKeypoints={project()?.projectKeypoints}
+                setLightboxImg={setLightboxImg}
+                setLightboxAlt={setLightboxAlt}
+              />
+            </section>
             <Show when={project()?.projectVideos && project()!.projectVideos.length > 0}>
-              <VideoLib videos={project()!.projectVideos} />
+              <section class="bg-neutral-100 dark:bg-neutral-950 w-full">
+                <SectionHeading>Video Gallery</SectionHeading>
+              </section>
+              <section class="px-6">
+                <VideoLib videos={project()!.projectVideos} />
+              </section>
             </Show>
-          </section>
-
+            <section class="bg-neutral-100 dark:bg-neutral-950 w-full">
+              <SectionHeading>Related Projects</SectionHeading>
+            </section>
           <RelatedProjects
             currentProject={project()!}
             allProjects={portfolioCollection() || []}
             maxItems={3}
           />
+          </section>
         </Show>
       </main>
     </>
@@ -259,11 +271,12 @@ function KeypointSection(props: {
     };
 
     const observer = new IntersectionObserver(
-      (entries) => {
+      (entries, observer) => {
         entries.forEach((entry) => {
           const target = entry.target as HTMLElement;
           if (entry.isIntersecting) {
             target.classList.remove("scrolled", "translate-y-9");
+            observer.unobserve(target);
           } else {
             target.classList.add("scrolled", "translate-y-9");
           }
@@ -284,7 +297,7 @@ function KeypointSection(props: {
   return (
     <section
       ref={containerRef}
-      class="flex flex-col gap-6 lg:gap-18 border-t border-black/10 dark:border-white/10 mt-12 py-18"
+      class="flex flex-col gap-6 lg:gap-18 pt-3 pb-18"
     >
       <For each={props.projectKeypoints}>
         {(keypoint, idx) => (
@@ -312,7 +325,7 @@ function KeypointSection(props: {
                         playsinline
                         webkit-playsinline="true"
                         preload="metadata"
-                        class="keypoint-media fade__animate lg:max-w-xl xl:max-w-3xl max-h-180 border-6 border-neutral-200 dark:border-white/5 rounded-3xl aspect-auto cursor-pointer"
+                        class="keypoint-media lg:max-w-xl xl:max-w-3xl max-h-180 border-6 border-neutral-200 dark:border-white/5 rounded-3xl aspect-auto cursor-pointer hover:-translate-y-3 transition-all duration-500 ease-in-out"
                         title={mediaObj.altText}
                         aria-label={mediaObj.altText}
                         onClick={() => {
@@ -327,7 +340,7 @@ function KeypointSection(props: {
                         src={mediaObj.url}
                         loading="lazy"
                         alt={mediaObj.altText}
-                        class="keypoint-media border-6 border-neutral-200 dark:border-white/5 w-full h-auto aspect-auto rounded-3xl lg:max-w-3xl max-h-180 hover:brightness-105 hover:-translate-y-3 fade__animate cursor-pointer"
+                        class="keypoint-media border-6 border-neutral-200 dark:border-white/5 w-full h-auto aspect-auto rounded-3xl lg:max-w-3xl max-h-180 hover:brightness-105 hover:-translate-y-3 cursor-pointer transition-all duration-500 ease-in-out"
                         onClick={(_, displayedUrl) => {
                           props.setLightboxImg(displayedUrl);
                           props.setLightboxAlt(mediaObj.altText);

@@ -156,7 +156,7 @@ export default function Navbar() {
               <For each={links}>
                 {(link) => {
                   return (
-                    <li class="hover:brightness-50 text-3xl sm:text-4xl text-black dark:text-white def__animate py-2">
+                    <li class="hover:brightness-50 text-3xl sm:text-4xl text-black dark:text-white def__animate min-h-12 flex items-center">
                       <A
                         href={link.slug}
                         onClick={() => {
@@ -171,10 +171,10 @@ export default function Navbar() {
                   );
                 }}
               </For>
-              <li class="not-dark:invert">
+              <li class="not-dark:invert min-h-12 flex items-center">
                 <Icon name="github" width={24} height={24} />
               </li>
-              <li class="dark:invert max-w-24">
+              <li class="dark:invert max-w-24 min-h-12 flex items-center">
                 <ThemeToggle
                   onClick={() => {
                     setShowMobileMenu(false);

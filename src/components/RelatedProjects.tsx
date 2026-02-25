@@ -2,6 +2,7 @@ import { For, onMount, Show } from "solid-js";
 import { PortfolioCollection } from "~/types";
 import { Tag } from "~/layout/Cards";
 import { H2, H3 } from "~/layout/Headings";
+import { A } from "@solidjs/router";
 
 interface RelatedProjectsProps {
   currentProject: PortfolioCollection;
@@ -44,10 +45,6 @@ export function RelatedProjects(props: RelatedProjectsProps) {
     <section class="w-full bg-white dark:bg-black border-black/10 dark:border-white/10">
       <div class="max-w-7xl mx-auto px-6 py-18">
         <div class="flex flex-col gap-12">
-          <div class="text-center lg:text-left">
-            <H2>Related Projects</H2>
-          </div>
-
           <Show when={relatedProjects().length > 0}>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <For each={relatedProjects()}>

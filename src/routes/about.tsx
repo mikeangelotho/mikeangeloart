@@ -56,9 +56,6 @@ const taskbarIcons = [
 ];
 
 export default function About() {
-  let videoPanel!: HTMLVideoElement;
-  let wrapper3D!: HTMLDivElement;
-  let desktop!: HTMLDivElement;
 
   const [windows, setWindows] = createSignal<
     { label?: string; window: JSXElement }[]
@@ -143,7 +140,7 @@ export default function About() {
     return (
       <div
         ref={container}
-        class={`w-full lg:w-fit lg:max-w-2xl h-fit relative mx-auto flex flex-col justify-center md:items-start items-center md:hover:scale-101 md:absolute md:cursor-grab md:select-none
+        class={`w-full lg:w-fit h-fit mx-auto flex flex-col justify-center md:items-start items-center md:hover:scale-101 lg:absolute md:cursor-grab md:select-none
           ${noMobile ? ` hidden md:block` : ``}`}
         onMouseDown={(e) => clickHandler(e)}
         onTouchStart={(e) => touchHandler(e)}
@@ -395,7 +392,6 @@ export default function About() {
         <div class="h-screen w-full fixed">
           <div class="h-[89vh] pt-22 xl:px-72">
             <div
-              ref={desktop}
               class="border-t border-b h-full overflow-x-hidden flex flex-col gap-6 border-black/10 dark:border-white/10 p-6"
             >
               <For each={windows()}>{(item) => item.window}</For>
@@ -410,7 +406,7 @@ export default function About() {
                 {(icon) => {
                   return (
                     <div
-                      class={`cursor-pointer def__animate px-0.5 hover:px-1.5 shrink-0 hover:scale-110 hover:-translate-y-1`}
+                      class={`cursor-pointer transition-all duration-300 ease-in-out px-0.5 hover:px-1.5 shrink-0 hover:scale-110 hover:-translate-y-1`}
                       onClick={async () => {
                         if (windowMap().includes(icon.name)) return;
                         const newWin = await newWindow(icon.name);

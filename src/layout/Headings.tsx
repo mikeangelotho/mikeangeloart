@@ -1,5 +1,13 @@
 import { JSX } from "solid-js";
 
+export const SectionHeading = (props: { children: string }) => {
+  return (
+    <h3 class="border-t border-b border-neutral-300 dark:border-neutral-900 py-6 flex justify-center items-center uppercase text-black/10 dark:text-white/10">
+      {props.children}
+    </h3>
+  );
+};
+
 export const H1 = (props: { children: JSX.Element }) => {
   return (
     <h1 class="leading-tight text-4xl md:text-6xl text-black dark:text-white font-semibold">
