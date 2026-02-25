@@ -28,7 +28,6 @@ export default function Navbar() {
   let desktopMenu!: HTMLDivElement;
   let mobileMenuIcon!: HTMLButtonElement;
   const location = useLocation();
-  console.log(location.pathname);
 
   const [showMobileMenu, setShowMobileMenu] = createSignal(false);
 
@@ -152,8 +151,8 @@ export default function Navbar() {
       </nav>
       <Show when={showMobileMenu()}>
         <div class="overflow-none z-20 pt-[20vh] sm:pt-[30vh] fixed w-screen h-screen bg-white/98 dark:bg-black/97">
-          <div class="flex flex-col gap-4 sm:gap-6 items-center sm:items-end px-6 sm:px-12 md:px-24">
-            <ul class="flex flex-col gap-6 items-center sm:items-end">
+          <div class="flex flex-col gap-4 sm:gap-6 items-end px-6 sm:px-12 md:px-24">
+            <ul class="flex flex-col gap-6 items-end">
               <For each={links}>
                 {(link) => {
                   return (
@@ -175,7 +174,7 @@ export default function Navbar() {
               <li class="not-dark:invert">
                 <Icon name="github" width={24} height={24} />
               </li>
-              <li class="dark:invert">
+              <li class="dark:invert max-w-24">
                 <ThemeToggle
                   onClick={() => {
                     setShowMobileMenu(false);

@@ -24,7 +24,7 @@ export default function ThemeToggle(props: { onClick: () => void }) {
 
 return (
         <button
-            class="cursor-pointer select-none invert bg-transparent border-none mt-1"
+            class="cursor-pointer select-none invert bg-transparent border-none mt-1 text-right"
             onClick={clickHandler}
             aria-label={`Switch to ${darkMode() ? 'light' : 'dark'} mode`}
         >

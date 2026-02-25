@@ -195,7 +195,7 @@ export default function ProjectPage() {
                   </button>
                 </div>
 
-                <div class="min-h-[120px]">
+                <div class="min-h-30">
                   <Show when={activeTab() === 'objective'}>
                     <div class="animate-in">
                       <div class="bg-neutral-50 dark:bg-neutral-900/50 rounded-2xl p-6 border border-black/5 dark:border-white/5">

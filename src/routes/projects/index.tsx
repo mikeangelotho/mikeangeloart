@@ -7,7 +7,7 @@ import CollectionGrid from "~/components/Collection";
 const fetchPortfolio = cache(async (): Promise<PortfolioCollection[]> => {
   "use server";
   const res = await fetch("https://cdn.mikeangelo.art/db.json");
-  return res.json() as PortfolioCollection[];
+  return await res.json() as PortfolioCollection[];
 }, "portfolio-projects");
 
 export default function ProjectPage() {

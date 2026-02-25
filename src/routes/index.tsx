@@ -29,8 +29,9 @@ const landingHighlightLength = 3;
 
 export default function Home() {
   let introPanel!: HTMLDivElement;
-  let introDesc!: HTMLDivElement;
-  let bgComponents!: HTMLDivElement;
+  let blurbDesc!: HTMLDivElement;
+  let blurbContainer!: HTMLDivElement;
+  let bgAnims!: HTMLDivElement;
   let tagScroller!: HTMLDivElement;
   let tagInner!: HTMLDivElement;
 
@@ -211,8 +212,35 @@ export default function Home() {
       });
     }, observerOptions);
 
-    opacityObserver.observe(introDesc);
-    expandObserver.observe(introDesc);
+    const blurbObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if(entry.isIntersecting) {
+          const target = entry.target as HTMLDivElement;
+          document.addEventListener("scroll", () => {
+            const {offsetHeight} = target;
+            const {scrollY} = window;
+            if(scrollY >= offsetHeight - 96) {
+              target.style.position = "sticky";
+              target.style.top = "0px";
+              target.style.left = "0px";
+              target.style.zIndex = "-2";
+            } else {
+              target.style.position = "";
+              target.style.top = "";
+              target.style.left = "";
+              target.style.zIndex = "";
+            }
+
+              target.classList.toggle("opacity-0", scrollY >= offsetHeight * 1.25)
+              target.classList.toggle("invisible", scrollY >= offsetHeight * 2)
+          })
+        }
+      })
+    }, observerOptions);
+
+    opacityObserver.observe(blurbDesc);
+    expandObserver.observe(blurbDesc);
+    blurbObserver.observe(blurbContainer);
 
     onCleanup(() => {
       unregisterLenis();
@@ -226,6 +254,7 @@ export default function Home() {
       scrollerObserver.disconnect();
       opacityObserver.disconnect();
       expandObserver.disconnect();
+      blurbObserver.disconnect();
     });
   });
 
@@ -263,7 +292,7 @@ export default function Home() {
       <main class="w-full relative flex flex-col justify-center items-center">
         <section
           class="w-full h-screen fixed top-0 left-0 fade__animate -z-10"
-          ref={bgComponents}
+          ref={bgAnims}
         >
           <Suspense>
             <BgGradient />
@@ -271,18 +300,18 @@ export default function Home() {
           </Suspense>
         </section>
         <section class="w-full h-screen -z-10"></section>
-        <section class="-z-10 fixed top-0 left-0 overflow-hidden perspective-normal mix-blend-difference h-screen w-full flex justify-center items-center">
+        <section class="px-6 -z-10 fixed top-0 left-0 overflow-hidden perspective-normal mix-blend-difference h-screen w-full flex justify-center items-center">
           <article
             ref={introPanel}
             style={{
               transform: "translateZ(calc(var(--scroll-y, 0px) * -0.5))",
             }}
-            class="def__animate px-4 sm:px-6 md:px-8 w-fit flex flex-col justify-center items-center md:flex-row gap-4 md:gap-6 lg:gap-8"
+            class="def__animate w-full flex flex-col justify-center lg:items-center md:flex-row gap-4 md:gap-6 lg:gap-8"
           >
-            <div class="text-white/20 h-fit not-md:border-b md:border-r md:pr-2 lg:pr-4 pb-1 text-sm md:text-base">
+            <div class="text-white/20 h-fit w-fit not-md:border-b md:border-r md:pr-2 lg:pr-4 pb-1 text-sm md:text-base">
               <ContainerLabel>Welcome</ContainerLabel>
             </div>
-            <div class="md:whitespace-nowrap not-dark:invert flex flex-col justify-center text-center md:text-left w-full max-w-3xl lg:max-w-4xl xl:max-w-5xl">
+            <div class="md:whitespace-nowrap not-dark:invert flex flex-col justify-center text-left w-full max-w-3xl lg:max-w-4xl xl:max-w-5xl">
               <H1>My name's Mike.</H1>
               <H2>
                 <span class="font-normal italic transition-opacity duration-100 ease-out">
@@ -292,15 +321,15 @@ export default function Home() {
             </div>
           </article>
         </section>
-        <section class="bg-white/80 dark:bg-black/90 w-full flex flex-col items-center border-t border-black/10 dark:border-white/10 backdrop-brightness-125 backdrop-saturate-150">
-          <div class="relative flex flex-col justify-center items-center text-black py-36 lg:py-48 dark:text-white px-6 sm:px-8 md:px-12 lg:px-16 w-full max-w-7xl">
-            <div class="w-full flex flex-col justify-center items-center">
+        <section ref={blurbContainer} class="fade__animate bg-white/80 dark:bg-black/90 h-screen w-full flex flex-col justify-center items-center border-t border-black/10 dark:border-white/10 backdrop-brightness-125 backdrop-saturate-150">
+          <div class="relative flex flex-col justify-center items-center text-black dark:text-white px-6 sm:px-8 md:px-12 lg:px-16 w-full max-w-7xl">
+            <div class="w-full flex flex-col justify-center items-center translate-y-9 lg:translate-y-0">
               <div class="w-full flex flex-col gap-9">
                 <Suspense>
                   <Panel3d model="https://cdn.mikeangelo.art/MA_Logo_3D.glb" />
                 </Suspense>
                 <div class="w-full max-w-4xl mx-auto flex flex-col gap-9">
-                  <span class="dark:text-shadow-lg text-shadow-black/10 text-center">
+                  <span class="dark:text-shadow-lg text-shadow-black/10 lg:text-center leading-loose">
                     <H2>
                       I bridge design and technology to turn 'what if' into
                       high-performing digital experiences.
@@ -325,7 +354,7 @@ export default function Home() {
                   </Show>
                   <Show when={portfolioCollection()}>
                     <div
-                      ref={introDesc}
+                      ref={blurbDesc}
                       class="fade__animate flex flex-row justify-center lg:items-start gap-1 w-full"
                     >
                       <A href={`/projects/${portfolioCollection()![1].slug}`}>
@@ -360,7 +389,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-
           </div>
         </section>
         <section class="bg-neutral-100 dark:bg-neutral-950 w-full">
