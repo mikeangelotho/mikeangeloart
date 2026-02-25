@@ -106,7 +106,7 @@ export default function ProjectPage() {
         )}
       </Show>
       <main class="w-full">
-        <Show when={project()} fallback={<div class="min-h-screen flex items-center justify-center">Loading...</div>}>
+        <Show when={project()} fallback={<div class="h-screen flex items-center justify-center">Loading...</div>}>
           <div class="-z-1 fixed top-0 left-0 w-full">
             <Show when={lightboxImg()}>
               <Lightbox
@@ -119,7 +119,7 @@ export default function ProjectPage() {
                 <Picture
                   src={coverSrc()}
                   alt={`${project()?.title} cover image`}
-                  class="w-full object-cover scale-120 h-full blur-xl"
+                  class="w-full object-cover scale-120 h-screen blur-xl"
                   loading="eager"
                 />
               )}
