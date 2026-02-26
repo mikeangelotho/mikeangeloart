@@ -160,7 +160,7 @@ export default function ProjectPage() {
                 />
               </div>
               <div
-                class="hidden md:flex gap-1 w-full max-w-lg overflow-auto scroll-smooth"
+                class="hidden md:flex gap-1 w-full max-w-lg overflow-auto scroll-smooth" data-lenis-prevent
                 style="scrollbar-width: none;"
               >
                 <TagPills tags={project()?.tags} />
@@ -198,20 +198,16 @@ export default function ProjectPage() {
                 <div class="min-h-30">
                   <Show when={activeTab() === 'objective'}>
                     <div class="animate-in">
-                      <div class="bg-neutral-50 dark:bg-neutral-900/50 rounded-2xl p-6 border border-black/5 dark:border-white/5">
-                        <p class="text-black dark:text-white leading-relaxed">
-                          {project()?.projectObjective}
-                        </p>
-                      </div>
+                      <p class="text-black dark:text-white">
+                        {project()?.projectObjective}
+                      </p>
                     </div>
                   </Show>
                   <Show when={activeTab() === 'strategy'}>
                     <div class="animate-in">
-                      <div class="bg-neutral-50 dark:bg-neutral-900/50 rounded-2xl p-6 border border-black/5 dark:border-white/5">
-                        <p class="text-black dark:text-white leading-relaxed">
-                          {project()?.mainKeypointDescription}
-                        </p>
-                      </div>
+                      <p class="text-black dark:text-white">
+                        {project()?.mainKeypointDescription}
+                      </p>
                     </div>
                   </Show>
                 </div>
@@ -238,11 +234,11 @@ export default function ProjectPage() {
             <section class="bg-neutral-100 dark:bg-neutral-950 w-full">
               <SectionHeading>Related Projects</SectionHeading>
             </section>
-          <RelatedProjects
-            currentProject={project()!}
-            allProjects={portfolioCollection() || []}
-            maxItems={3}
-          />
+            <RelatedProjects
+              currentProject={project()!}
+              allProjects={portfolioCollection() || []}
+              maxItems={3}
+            />
           </section>
         </Show>
       </main>
@@ -297,7 +293,7 @@ function KeypointSection(props: {
   return (
     <section
       ref={containerRef}
-      class="flex flex-col gap-6 lg:gap-18 pt-3 pb-18"
+      class="flex flex-col gap-6 lg:gap-18 py-18"
     >
       <For each={props.projectKeypoints}>
         {(keypoint, idx) => (

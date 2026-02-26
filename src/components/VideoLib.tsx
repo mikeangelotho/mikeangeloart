@@ -158,22 +158,24 @@ export default function VideoLib(props: VideoLibProps) {
         <Show when={isGridView()}>
           <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             <For each={videoArray()}>
-              {(listVideo) => {
-                const isSelected = () => video()?.url === listVideo.url;
+              {(listVideo, idx) => {
+                const videos = videoArray();
+                const currentVideo = videos?.[idx()];
+                const isSelected = () => video()?.url === currentVideo?.url;
                 return (
                   <button
                     class={`group relative rounded-xl overflow-hidden text-left transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white ${isSelected()
                       ? "ring-2 ring-black dark:ring-white ring-offset-2 dark:ring-offset-black"
                       : "hover:ring-2 hover:ring-black/30 dark:hover:ring-white/30 hover:ring-offset-2 dark:hover:ring-offset-black"
                       }`}
-                    onClick={() => setVideo(listVideo)}
-                    onKeyDown={(e) => handleKeyDown(e, listVideo)}
+                    onClick={() => currentVideo && setVideo(currentVideo)}
+                    onKeyDown={(e) => currentVideo && handleKeyDown(e, currentVideo)}
                   >
                     <div class="aspect-video relative overflow-hidden">
                       <img
                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        src={`${listVideo.thumbnail}`}
-                        alt={listVideo.title || "Video thumbnail"}
+                        src={currentVideo?.thumbnail}
+                        alt={currentVideo?.title || "Video thumbnail"}
                         loading="lazy"
                       />
                       <div class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
@@ -194,10 +196,10 @@ export default function VideoLib(props: VideoLibProps) {
                     </div>
                     <div class="absolute bottom-0 left-0 right-0 p-3">
                       <h6 class="text-sm font-medium text-white truncate drop-shadow-lg">
-                        {listVideo.title}
+                        {currentVideo?.title}
                       </h6>
                       <p class="text-xs text-white/80 truncate drop-shadow-md">
-                        {listVideo.client}
+                        {currentVideo?.client}
                       </p>
                     </div>
                   </button>
@@ -208,24 +210,26 @@ export default function VideoLib(props: VideoLibProps) {
         </Show>
 
         <Show when={!isGridView()}>
-          <div class="flex flex-col gap-3">
+          <div class="flex flex-col gap-y-1 max-h-96 overflow-y-auto" data-lenis-prevent>
             <For each={videoArray()}>
-              {(listVideo) => {
-                const isSelected = () => video()?.url === listVideo.url;
+              {(listVideo, idx) => {
+                const videos = videoArray();
+                const currentVideo = videos?.[idx()];
+                const isSelected = () => video()?.url === currentVideo?.url;
                 return (
                   <button
-                    class={`group flex items-center gap-4 p-3 rounded-xl transition-all duration-200 w-full text-left focus:outline-none ${isSelected()
+                    class={`group flex items-center gap-3 p-3 rounded-xl transition-all duration-200 w-full text-left focus:outline-none ${isSelected()
                       ? "bg-black/5 dark:bg-white/5 border-l-4 border-black dark:border-white"
                       : "hover:bg-black/3 dark:hover:bg-white/3 border-l-4 border-transparent"
                       }`}
-                    onClick={() => setVideo(listVideo)}
-                    onKeyDown={(e) => handleKeyDown(e, listVideo)}
+                    onClick={() => currentVideo && setVideo(currentVideo)}
+                    onKeyDown={(e) => currentVideo && handleKeyDown(e, currentVideo)}
                   >
                     <div class="relative shrink-0 w-32 md:w-40 aspect-video rounded-lg overflow-hidden">
                       <img
                         class="w-full h-full object-cover"
-                        src={`${listVideo.thumbnail}`}
-                        alt={listVideo.title || "Video thumbnail"}
+                        src={currentVideo?.thumbnail}
+                        alt={currentVideo?.title || "Video thumbnail"}
                         loading="lazy"
                       />
                       <Show when={isSelected()}>
@@ -245,14 +249,14 @@ export default function VideoLib(props: VideoLibProps) {
                     </div>
                     <div class="flex flex-col gap-1 min-w-0 flex-1">
                       <h6 class={`text-sm font-medium truncate ${isSelected() ? "text-black dark:text-white" : "text-black/80 dark:text-white/80"}`}>
-                        {listVideo.title}
+                        {currentVideo?.title}
                       </h6>
                       <p class="text-xs text-black/50 dark:text-white/50 truncate">
-                        {listVideo.client}
+                        {currentVideo?.client}
                       </p>
-                      <Show when={listVideo.description}>
+                      <Show when={currentVideo?.description}>
                         <p class="text-xs text-black/40 dark:text-white/40 truncate mt-1">
-                          {listVideo.description}
+                          {currentVideo?.description}
                         </p>
                       </Show>
                     </div>

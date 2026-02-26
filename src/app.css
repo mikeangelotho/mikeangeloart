@@ -8,10 +8,8 @@
 
 @layer base {
 
-  .def__button,
   h1,
-  h2,
-  button {
+  h2 {
     font-family: var(--custom-font-1);
     letter-spacing: 2%;
   }
@@ -89,18 +87,6 @@ picture {
   .touch-resize {
     resize: vertical;
     min-height: 120px;
-  }
-}
-
-/* Better tap targets for mobile */
-@media (max-width: 767px) {
-
-  button,
-  input,
-  textarea,
-  select {
-    min-height: 44px;
-    min-width: 44px;
   }
 }
 

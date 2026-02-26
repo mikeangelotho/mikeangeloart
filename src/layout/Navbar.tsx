@@ -138,9 +138,9 @@ export default function Navbar() {
           </div>
           <button
             ref={mobileMenuIcon}
-            class="cursor-pointer bg-white rounded-lg hover:scale-105 active:scale-95 min-h-8 min-w-8 md:p-3 def__animate lg:hidden flex items-center justify-center"
+            class="cursor-pointer bg-white rounded-lg hover:scale-105 active:scale-95 min-h-12 min-w-12 md:p-3 def__animate lg:hidden flex items-center justify-center"
             onClick={() => {
-              toggleMobileMenu();
+              toggleMobileMenu(); 1
             }}
             aria-label="Toggle navigation menu"
             aria-expanded={showMobileMenu()}

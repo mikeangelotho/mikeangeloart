@@ -34,6 +34,8 @@ export default function Home() {
   let bgAnims!: HTMLDivElement;
   let tagScroller!: HTMLDivElement;
   let tagInner!: HTMLDivElement;
+  let moreContainer!: HTMLDivElement;
+  let contactContainer!: HTMLDivElement;
 
   const [isPaused, setIsPaused] = createSignal(false);
 
@@ -48,15 +50,6 @@ export default function Home() {
     let offset = 0;
     const scrollYLimit = 200;
     const scrollSpeed = 0.08;
-    const dragThreshold = 5;
-
-    let isDragging = false;
-    let hasMoved = false;
-    let dragStartX = 0;
-    let dragStartOffset = 0;
-    let velocity = 0;
-    let lastDragX = 0;
-    let lastDragTime = 0;
 
     if (tagInner) {
       const original = Array.from(tagInner.children) as HTMLElement[];
@@ -77,57 +70,6 @@ export default function Home() {
       return ((val % half) + half) % half;
     }
 
-    function onPointerDown(e: PointerEvent) {
-      if (!tagScroller) return;
-
-      isDragging = true;
-      hasMoved = false;
-      dragStartX = e.clientX;
-      dragStartOffset = offset;
-      velocity = 0;
-      lastDragX = e.clientX;
-      lastDragTime = performance.now();
-      tagScroller.setPointerCapture(e.pointerId);
-      tagScroller.style.cursor = "grabbing";
-    }
-
-    function onPointerMove(e: PointerEvent) {
-      if (!isDragging || !tagScroller) return;
-
-      const dx = Math.abs(e.clientX - dragStartX);
-      if (dx > dragThreshold) {
-        hasMoved = true;
-      }
-
-      const now = performance.now();
-      const dt = now - lastDragTime;
-      if (dt > 0) {
-        velocity = -(e.clientX - lastDragX) / dt;
-      }
-      lastDragX = e.clientX;
-      lastDragTime = now;
-
-      const scrollDelta = e.clientX - dragStartX;
-      offset = wrapOffset(dragStartOffset - scrollDelta);
-      if (tagInner) tagInner.style.transform = `translateX(${-offset}px)`;
-    }
-
-    function onPointerUp(e: PointerEvent) {
-      if (!tagScroller) return;
-
-      tagScroller.releasePointerCapture(e.pointerId);
-      tagScroller.style.cursor = "grab";
-
-      if (!hasMoved) {
-        const link = (e.target as HTMLElement).closest('a');
-        if (link) {
-          link.click();
-        }
-      }
-
-      isDragging = false;
-    }
-
     let isVisible = true;
 
     const visibilityHandler = () => {
@@ -143,27 +85,7 @@ export default function Home() {
     );
     scrollerObserver.observe(tagScroller);
 
-    if (tagScroller) {
-      tagScroller.addEventListener("pointerdown", onPointerDown);
-      tagScroller.addEventListener("pointermove", onPointerMove);
-      tagScroller.addEventListener("pointerup", onPointerUp);
-      tagScroller.addEventListener("pointercancel", onPointerUp);
-    }
-
-    // Tag animation - runs on Lenis RAF to avoid competing loops
     function animate(_currentTime: number, delta: number) {
-      if (isDragging) {
-        return;
-      }
-
-      if (Math.abs(velocity) > 0.005) {
-        offset = wrapOffset(offset + velocity * delta);
-        velocity *= 0.95;
-        if (tagInner) tagInner.style.transform = `translateX(${-offset}px)`;
-        return;
-      }
-
-      // Auto-scroll phase
       if (isPaused() || !isVisible) return;
 
       offset = wrapOffset(offset + scrollSpeed * delta);
@@ -172,7 +94,7 @@ export default function Home() {
 
     const unregisterLenis = lenis!.registerCallback((time, delta) => {
       animate(time, delta);
-      
+
       if (lenis?.lenis()) {
         const scroll = lenis.lenis()?.scroll || 0;
         introPanel.classList.toggle("blur-xl", scroll > scrollYLimit);
@@ -218,17 +140,17 @@ export default function Home() {
         if (entry.isIntersecting && !hasTrackedBlurb) {
           hasTrackedBlurb = true;
           blurbObserver.unobserve(entry.target);
-          
+
           const target = entry.target as HTMLDivElement;
           const handleScroll = () => {
             const { offsetHeight } = target;
             const { scrollY } = window;
-            
+
             if (scrollY >= offsetHeight - 96) {
               target.style.position = "sticky";
               target.style.top = "0px";
               target.style.left = "0px";
-              target.style.zIndex = "-2";
+              //target.style.zIndex = "-2";
             } else {
               target.style.position = "";
               target.style.top = "";
@@ -239,9 +161,9 @@ export default function Home() {
             target.classList.toggle("opacity-0", scrollY >= offsetHeight * 1.25);
             target.classList.toggle("invisible", scrollY >= offsetHeight * 2);
           };
-          
+
           document.addEventListener("scroll", handleScroll, { passive: true });
-          
+
           onCleanup(() => {
             document.removeEventListener("scroll", handleScroll);
           });
@@ -250,17 +172,13 @@ export default function Home() {
     }, { threshold: 0.1 });
 
     opacityObserver.observe(blurbDesc);
+    opacityObserver.observe(moreContainer);
+    opacityObserver.observe(contactContainer);
     expandObserver.observe(blurbDesc);
     blurbObserver.observe(blurbContainer);
 
     onCleanup(() => {
       unregisterLenis();
-      if (tagScroller) {
-        tagScroller.removeEventListener("pointerdown", onPointerDown);
-        tagScroller.removeEventListener("pointermove", onPointerMove);
-        tagScroller.removeEventListener("pointerup", onPointerUp);
-        tagScroller.removeEventListener("pointercancel", onPointerUp);
-      }
       document.removeEventListener("visibilitychange", visibilityHandler);
       scrollerObserver.disconnect();
       opacityObserver.disconnect();
@@ -335,11 +253,11 @@ export default function Home() {
         <section ref={blurbContainer} class="fade__animate bg-white/80 dark:bg-black/90 h-screen w-full flex flex-col justify-center items-center border-t border-black/10 dark:border-white/10 backdrop-brightness-125 backdrop-saturate-150">
           <div class="relative flex flex-col justify-center items-center text-black dark:text-white px-6 sm:px-8 md:px-12 lg:px-16 w-full max-w-7xl">
             <div class="w-full flex h-screen flex-col justify-center items-center">
-              <div class="w-full flex flex-col gap-9">
+              <div class="fade__animate w-full flex flex-col gap-9">
                 <Suspense>
                   <Panel3d model="https://cdn.mikeangelo.art/MA_Logo_3D.glb" />
                 </Suspense>
-                <div class="w-full max-w-4xl mx-auto flex flex-col gap-9">
+                <div class="w-full max-w-4xl mx-auto flex flex-col gap-9 translate-y-18 lg:translate-y-0">
                   <span class="dark:text-shadow-lg text-shadow-black/10 lg:text-center leading-loose">
                     <H2>
                       I bridge design and technology to turn 'what if' into
@@ -352,7 +270,7 @@ export default function Home() {
                       onMouseEnter={() => setIsPaused(true)}
                       onMouseLeave={() => setIsPaused(false)}
                       class="w-full mx-auto overflow-hidden fade__animate select-none"
-                      style="touch-action: pan-y; cursor: grab;"
+                      style="touch-action: pan-y;"
                     >
                       {/* Inner wrapper is what translateX moves */}
                       <div
@@ -402,45 +320,55 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section class="bg-neutral-100 dark:bg-neutral-950 w-full">
-          <SectionHeading>Project Highlights</SectionHeading>
-        </section>
-        <section class="w-full bg-white dark:bg-black py-18">
-          <Show when={portfolioCollection()}>
-            <For each={portfolioCollection()}>
-              {(collection, idx) =>
-                idx() < landingHighlightLength && (
-                  <PreviewProject
-                    data={collection}
-                    reverse={idx() % 2 === 1}
-                  />
-                )
-              }
-            </For>
-          </Show>
-        </section>
-        <section class="bg-neutral-100 dark:bg-neutral-950 w-full">
-          <SectionHeading>More Projects</SectionHeading>
-        </section>
-        <section class="w-full bg-white dark:bg-black">
-          <Show when={portfolioCollection()}>
-            <TeaserCollection data={portfolioCollection() as PortfolioCollection[]} limit={4} />
-          </Show>
-        </section>
-        <section class="py-36 border-b border-t border-black/10 dark:border-white/10 w-full dark:backdrop-brightness-125 backdrop-saturate-150">
-          <div class="flex flex-col lg:flex-row gap-12 md:gap-16 lg:gap-18 xl:gap-24 items-center px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mx-auto lg:max-w-7xl w-full">
-            <div class="flex flex-col gap-4 md:gap-6 lg:max-w-md xl:max-w-lg px-4 sm:px-6">
-              <span class="dark:text-shadow-lg text-shadow-black/10">
-                <H2>Drop me a line.</H2>
-              </span>
-              <p class="text-black dark:text-white">
-                I'm always looking for new opportunities and collaborations.
-                Let's build something great.
-              </p>
+        <div class="z-2 w-full">
+          <section class="bg-neutral-100 dark:bg-neutral-950 w-full">
+            <SectionHeading>Project Highlights</SectionHeading>
+          </section>
+          <section class="w-full bg-white dark:bg-black py-18">
+            <Show when={portfolioCollection()}>
+              <For each={portfolioCollection()}>
+                {(collection, idx) =>
+                  idx() < landingHighlightLength && (
+                    <PreviewProject
+                      data={collection}
+                      reverse={idx() % 2 === 1}
+                    />
+                  )
+                }
+              </For>
+            </Show>
+          </section>
+          <section class="w-full flex flex-col bg-white dark:bg-black">
+            <div class="bg-neutral-100 dark:bg-neutral-950 w-full">
+              <SectionHeading>More Projects</SectionHeading>
             </div>
-            <Web3Form />
-          </div>
-        </section>
+            <div ref={moreContainer} class="fade__animate w-full flex flex-col gap-9 justify-center max-w-7xl mx-auto py-18 px-6">
+              <Show when={portfolioCollection()}>
+                <TeaserCollection data={portfolioCollection() as PortfolioCollection[]} limit={4} />
+              </Show>
+              <A
+                href="/projects"
+                class="text-center lg:mx-auto lg:text-left lg:flex w-full lg:w-fit items-center gap-2 text-xl font-bold px-9 py-6 rounded-xl bg-black dark:bg-white text-white dark:text-black hover:gap-3 transition-all duration-200 group/link"
+              >
+                View All Projects
+              </A>
+            </div>
+          </section>
+          <section class="py-36 border-t border-black/10 dark:border-white/10 w-full bg-white dark:bg-black">
+            <div ref={contactContainer} class="fade__animate flex flex-col lg:flex-row gap-12 md:gap-16 lg:gap-18 xl:gap-24 items-center px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mx-auto lg:max-w-7xl w-full">
+              <div class="flex flex-col gap-4 md:gap-6 lg:max-w-md xl:max-w-lg px-4 sm:px-6">
+                <span class="dark:text-shadow-lg text-shadow-black/10">
+                  <H2>Drop me a line.</H2>
+                </span>
+                <p class="text-black dark:text-white">
+                  I'm always looking for new opportunities and collaborations.
+                  Let's build something great.
+                </p>
+              </div>
+              <Web3Form />
+            </div>
+          </section>
+        </div>
       </main>
     </>
   );
