@@ -107,13 +107,13 @@ export default function ProjectPage() {
       </Show>
       <main class="w-full">
         <Show when={project()} fallback={<div class="h-screen flex items-center justify-center">Loading...</div>}>
-          <div class="-z-1 fixed top-0 left-0 w-full">
             <Show when={lightboxImg()}>
               <Lightbox
                 src={{ get: lightboxImg, set: setLightboxImg }}
                 altText={lightboxAlt}
               />
             </Show>
+          <div class="-z-1 fixed top-0 left-0 w-full">
             <Show when={project()?.cover}>
               {(coverSrc) => (
                 <Picture

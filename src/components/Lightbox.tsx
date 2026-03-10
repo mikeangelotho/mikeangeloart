@@ -45,7 +45,7 @@ const MediaLB = () => {
     }
 
     return (
-        <div class="z-10 fixed w-screen h-screen flex justify-center items-center bg-white/98 dark:bg-black/98">
+        <div class="z-100 fixed w-screen h-screen flex justify-center items-center bg-white/98 dark:bg-black/98">
             <div class="w-full pt-[10vh] flex flex-col items-center gap-3">
                 <MediaLB />
                 <Button
