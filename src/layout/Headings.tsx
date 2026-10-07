@@ -2,9 +2,9 @@ import { JSX } from "solid-js";
 
 export const SectionHeading = (props: { children: string }) => {
   return (
-    <h3 class="border-t border-b border-neutral-300 dark:border-neutral-900 py-6 flex justify-center items-center uppercase text-black/10 dark:text-white/10">
+    <h2 class="border-t border-b border-neutral-300 dark:border-neutral-900 py-6 flex justify-center items-center uppercase text-neutral-600 dark:text-neutral-400">
       {props.children}
-    </h3>
+    </h2>
   );
 };
 

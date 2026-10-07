@@ -1,55 +1,44 @@
-import { writeFile } from "fs/promises";
-import { join } from "path";
+import { writeFile } from "node:fs/promises";
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
+import { loadPortfolio } from "../src/utils/portfolio-data.ts";
 
 const baseUrl = "https://mikeangelo.art";
+const staticPages = ["/", "/about", "/projects", "/personal"];
 
-const staticPages = [
-  { url: "/", lastmod: new Date() },
-  { url: "/about", lastmod: new Date() },
-  { url: "/projects", lastmod: new Date() }
-];
+function escapeXml(value) {
+  return value.replace(/[<>&"']/g, (character) => ({
+    "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;", "'": "&apos;",
+  })[character]);
+}
 
-const formatDate = (date) => new Date(date).toISOString().split("T")[0];
+export function buildSitemap(projects) {
+  const pages = [
+    ...staticPages.map((path) => ({ url: `${baseUrl}${path}` })),
+    ...projects.map((project) => ({
+      url: `${baseUrl}/projects/${encodeURIComponent(project.slug)}`,
+      modified: project.lastModified,
+    })),
+  ];
+  const entries = pages.map(({ url, modified }) => {
+    const date = modified ? new Date(modified) : undefined;
+    const lastmod = date && Number.isFinite(date.getTime())
+      ? `\n    <lastmod>${date.toISOString().split("T")[0]}</lastmod>`
+      : "";
+    return `  <url>\n    <loc>${escapeXml(url)}</loc>${lastmod}\n  </url>`;
+  });
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.join("\n")}\n</urlset>\n`;
+}
 
-const run = async () => {
+// Importing the builder in tests does not fetch content or write a file.
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   try {
-    // 1. Await the data fetch
-    const response = await fetch("https://cdn.mikeangelo.art/db.json");
-    const data = await response.json();
-
-    let sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n`;
-    sitemap += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
-
-    // 2. Add static pages
-    staticPages.forEach(page => {
-      sitemap += `  <url>
-    <loc>${baseUrl}${page.url}</loc>
-    <lastmod>${formatDate(page.lastmod)}</lastmod>
-  </url>\n`;
-    });
-
-    // 3. Add dynamic project pages (Check if data is an array first)
-    const projects = Array.isArray(data) ? data : data.projects || [];
-    
-    projects.forEach(project => {
-      if (!project.slug) return;
-
-      const lastMod = project.lastModified || new Date();
-      sitemap += `  <url>
-    <loc>${baseUrl}/projects/${project.slug}</loc>
-    <lastmod>${formatDate(lastMod)}</lastmod>
-  </url>\n`;
-    });
-
-    sitemap += `</urlset>`;
-
-    // 4. Write the file
-    await writeFile(join(process.cwd(), "public", "sitemap.xml"), sitemap);
-    console.log("✅ Sitemap generated successfully for mikeangelo.art");
-    
+    const projects = await loadPortfolio();
+    await writeFile(resolve("public", "sitemap.xml"), buildSitemap(projects));
+    console.log(`Sitemap generated with ${staticPages.length + projects.length} pages.`);
   } catch (error) {
-    console.error("❌ Error generating sitemap:", error);
+    console.error("Sitemap generation failed:", error);
+    // Stop the build instead of silently shipping a stale sitemap.
+    process.exitCode = 1;
   }
-};
-
-run();
+}

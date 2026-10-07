@@ -11,11 +11,14 @@ export default function Icon(props: {
         <a
           href="https://github.com/mikeangelotho/mikeangeloart"
           target="_blank"
+          rel="noopener noreferrer"
+          aria-label="View Mike Angelo's GitHub repository (opens in a new tab)"
+          class="inline-flex min-h-11 min-w-11 items-center justify-center"
         >
           <svg
             aria-hidden="true"
             class="octicon octicon-mark-github"
-            viewBox={`0 0 ${props.width} ${props.height}`}
+            viewBox="0 0 24 24"
             width={props.width}
             height={props.height}
             fill="white"

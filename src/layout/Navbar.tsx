@@ -9,181 +9,197 @@ import {
 } from "solid-js";
 import Icon from "~/components/Icon";
 import ThemeToggle from "~/components/ThemeToggle";
-import { useLenis } from "~/components/LenisProvider";
 
-let links = [
-  {
-    label: "Portfolio",
-    slug: "/projects",
-  },
-  {
-    label: "About",
-    slug: "/about",
-  },
+const links = [
+  { label: "Portfolio", slug: "/projects" },
+  { label: "Projects", slug: "/personal" },
+  { label: "About", slug: "/about" },
 ];
 
 export default function Navbar() {
-  let nav!: HTMLDivElement;
+  let nav!: HTMLElement;
   let logoEl!: HTMLDivElement;
-  let desktopMenu!: HTMLDivElement;
-  let mobileMenuIcon!: HTMLButtonElement;
+  let menuButton!: HTMLButtonElement;
+  let menuDialog: HTMLDialogElement | undefined;
+  let wordmark!: HTMLSpanElement;
   const location = useLocation();
-
   const [showMobileMenu, setShowMobileMenu] = createSignal(false);
 
-  function toggleMobileMenu() {
-    setShowMobileMenu(!showMobileMenu());
-  }
-
-  createEffect(() => {
-    document.body.classList.toggle("overflow-hidden", showMobileMenu());
-  });
-
-  let scrollHandler: ({ scroll }: { scroll: number }) => void;
-
   onMount(() => {
-    const classNamesOnScroll = [
+    const scrollClasses = [
       "backdrop-blur-xl",
       "backdrop-brightness-120",
       "backdrop-saturate-200",
       "lg:mt-3",
-      "lg:px-6",
       "lg:hover:translate-y-2",
       "dark:lg:border-white/10",
       "lg:border-black/5",
       "bg-white/50",
       "dark:bg-black/80",
+      "lg:max-w-xl",
     ];
-
-    scrollHandler = ({ scroll }: { scroll: number }) => {
-      if (scroll > 0) {
-        nav.classList.remove("mix-blend-difference");
-        nav.classList.add(...classNamesOnScroll);
-        logoEl.classList.add("not-dark:invert");
-      } else {
-        nav.classList.remove(...classNamesOnScroll);
-        logoEl.classList.remove("not-dark:invert");
-        requestAnimationFrame(() => {
-          nav.classList.add("mix-blend-difference");
-        });
-      }
+    let scrollFrame = 0;
+    const updateNav = () => {
+      scrollFrame = 0;
+      const scrolled = window.scrollY > 200;
+      nav.classList.toggle("mix-blend-difference", !scrolled);
+      logoEl.classList.toggle("not-dark:invert", scrolled);
+      wordmark.classList.toggle("opacity-0", scrolled);
+      scrollClasses.forEach((name) => nav.classList.toggle(name, scrolled));
     };
+    const handleScroll = () => {
+      if (!scrollFrame) scrollFrame = requestAnimationFrame(updateNav);
+    };
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const handleResize = () => {
+      if (desktop.matches) setShowMobileMenu(false);
+    };
+    updateNav();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    desktop.addEventListener("change", handleResize);
 
-    const lenis = useLenis();
     createEffect(() => {
-      const instance = lenis?.lenis();
-      if (instance) {
-        instance.on('scroll', scrollHandler);
-        onCleanup(() => {
-          instance.off('scroll', scrollHandler);
-        });
-      }
+      location.pathname;
+      setShowMobileMenu(false);
+    });
+
+    createEffect(() => {
+      if (!showMobileMenu()) return;
+      const previousOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      queueMicrotask(() => {
+        if (!showMobileMenu() || !menuDialog?.isConnected) return;
+        menuDialog.showModal();
+        menuDialog.querySelector<HTMLAnchorElement>("ul a")?.focus();
+      });
+      onCleanup(() => {
+        menuDialog?.close();
+        document.body.style.overflow = previousOverflow;
+        if (menuButton?.isConnected && !desktop.matches) menuButton.focus();
+      });
+    });
+
+    onCleanup(() => {
+      cancelAnimationFrame(scrollFrame);
+      window.removeEventListener("scroll", handleScroll);
+      desktop.removeEventListener("change", handleResize);
     });
   });
+
   return (
     <>
       <nav
         ref={nav}
-        class="mix-blend-difference border border-transparent lg:rounded-3xl z-100 top-0 max-w-7xl inset-x-0 lg:mx-6 xl:mx-auto fixed transition-all duration-1500 ease-in-out"
+        aria-label="Main navigation"
+        class="mix-blend-difference border border-transparent lg:rounded-3xl z-100 top-0 max-w-7xl inset-x-0 mx-auto fixed transition-all duration-1500 ease-in-out"
       >
         <div
           ref={logoEl}
-          class="flex justify-between items-center px-4 sm:px-6 lg:px-0 py-4 sm:py-6 w-full"
+          class="flex justify-between items-center py-4 px-4 w-full"
         >
           <A
             href="/"
-            class="group font-sans flex items-center gap-3"
+            aria-label="Mike Angelo home"
+            class="group font-sans flex items-center min-h-11 gap-3"
           >
             <img
               src="https://cdn.mikeangelo.art/MA_Logo_SharpMA_White.svg"
               loading="eager"
-              width="32"
-              height="auto"
+              width="36"
+              height="36"
               class="w-9 h-9"
-              alt="Mike Angelo Logo"
+              alt=""
             />
-            <span class="font-sans text-xs tracking-[2px] opacity-0 group-hover:opacity-100 def__animate text-white uppercase">
+            <span
+              ref={wordmark}
+              aria-hidden="true"
+              class="font-sans text-xs tracking-[2px] group-hover:opacity-100 group-focus-visible:opacity-100 def__animate text-white uppercase"
+            >
               Mike Angelo
             </span>
           </A>
-          <div ref={desktopMenu} class="hidden lg:flex gap-6 items-center">
-            <ul class="flex gap-6 items-center text-white">
+          <div class="hidden lg:flex gap-6 items-center">
+            <ul class="flex gap-3 items-center text-white">
               <For each={links}>
-                {(link) => {
-                  let listItem!: HTMLLIElement;
-
-                  return (
-                    <li ref={listItem}>
-                      <A
-                        class={`text-sm${location.pathname === link.slug ? " text-neutral-500 cursor-default" : " hover:underline"} `}
-                        href={link.slug}
-                      >
-                        {link.label}
-                      </A>
-                    </li>
-                  );
-                }}
+                {(link) => (
+                  <li>
+                    <A
+                      class="inline-flex min-h-11 items-center text-sm hover:underline"
+                      aria-current={
+                        location.pathname === link.slug ? "page" : undefined
+                      }
+                      href={link.slug}
+                    >
+                      {link.label}
+                    </A>
+                  </li>
+                )}
               </For>
               <li>
                 <Icon name="github" width={20} height={20} />
               </li>
-              <li class="dark:invert">
-                <ThemeToggle
-                  onClick={() => {
-                    setShowMobileMenu(false);
-                  }}
-                />
-              </li>
             </ul>
           </div>
           <button
-            ref={mobileMenuIcon}
-            class={`cursor-pointer ${!showMobileMenu() ? "border" : "border-t rotate-45"} border-white text-sm font-bold text-white hover:scale-105 active:scale-95 min-h-7 min-w-7 def__animate lg:hidden flex items-center justify-center`}
-            onClick={() => {
-              toggleMobileMenu(); 1
-            }}
+            ref={menuButton}
+            type="button"
+            class="cursor-pointer border border-white text-sm font-bold text-white min-h-11 min-w-11 def__animate lg:hidden flex items-center justify-center"
+            onClick={() => setShowMobileMenu((open) => !open)}
             aria-label="Toggle navigation menu"
             aria-expanded={showMobileMenu()}
+            aria-controls="mobile-navigation"
           >
-            ⩱
+            <span aria-hidden="true">⩱</span>
           </button>
         </div>
       </nav>
       <Show when={showMobileMenu()}>
-        <div class="overflow-none z-20 pt-[20vh] sm:pt-[30vh] fixed w-screen h-screen bg-white/98 dark:bg-black/97">
-          <div class="flex flex-col gap-4 sm:gap-6 items-end px-6 sm:px-12 md:px-24">
+        <dialog
+          ref={menuDialog}
+          id="mobile-navigation"
+          aria-label="Navigation menu"
+          onCancel={(event) => {
+            event.preventDefault();
+            setShowMobileMenu(false);
+          }}
+          class="fixed inset-0 m-0 w-screen h-dvh max-w-none max-h-none border-0 p-0 bg-white dark:bg-black text-black dark:text-white overflow-y-auto"
+          data-lenis-prevent
+        >
+          <button
+            type="button"
+            class="absolute right-4 sm:right-6 top-4 sm:top-6 min-h-11 min-w-11 border border-current text-xl flex items-center justify-center cursor-pointer"
+            aria-label="Close navigation menu"
+            onClick={() => setShowMobileMenu(false)}
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+          <div class="pt-[20vh] sm:pt-[30vh] pb-12 flex flex-col gap-4 sm:gap-6 items-end px-6 sm:px-12 md:px-24">
             <ul class="flex flex-col gap-6 items-end">
               <For each={links}>
-                {(link) => {
-                  return (
-                    <li class="hover:brightness-50 text-3xl sm:text-4xl text-black dark:text-white def__animate min-h-12 flex items-center">
-                      <A
-                        href={link.slug}
-                        onClick={() => {
-                          if (showMobileMenu()) {
-                            setShowMobileMenu(false);
-                          }
-                        }}
-                      >
-                        {link.label}
-                      </A>
-                    </li>
-                  );
-                }}
+                {(link) => (
+                  <li class="text-3xl sm:text-4xl text-right">
+                    <A
+                      class="inline-flex min-h-12 items-center hover:underline"
+                      href={link.slug}
+                      aria-current={
+                        location.pathname === link.slug ? "page" : undefined
+                      }
+                      onClick={() => setShowMobileMenu(false)}
+                    >
+                      {link.label}
+                    </A>
+                  </li>
+                )}
               </For>
-              <li class="not-dark:invert min-h-12 flex items-center">
+              <li class="not-dark:invert">
                 <Icon name="github" width={24} height={24} />
               </li>
-              <li class="dark:invert max-w-24 min-h-12 flex items-center">
-                <ThemeToggle
-                  onClick={() => {
-                    setShowMobileMenu(false);
-                  }}
-                />
+              <li class="dark:invert">
+                <ThemeToggle onClick={() => setShowMobileMenu(false)} />
               </li>
             </ul>
           </div>
-        </div>
+        </dialog>
       </Show>
     </>
   );

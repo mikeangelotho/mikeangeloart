@@ -1,6 +1,7 @@
+import type { ProjectResult } from "./content/content-model";
+
 interface Collection {
-  uuid: string;
-  id: number;
+  id: string;
   author: string;
   slug: string;
   title: string;
@@ -15,26 +16,48 @@ interface PortfolioCollection extends Collection {
   clientLogo: string;
   clientLogoAlt: string;
   coverAlt: string;
+  coverWidth?: number;
+  coverHeight?: number;
   projectObjective: string;
-  mainKeypointMedia: Media;
-  mainKeypointFeatured: number[][];
-  mainKeypointMetricOne: string;
-  mainKeypointMetricTwo: string;
+  mainKeypointMedia?: Media;
+  featuredMedia: PortfolioKeypoint["media"];
+  results: ProjectResult[];
   mainKeypointDescription: string;
+  introParagraphs: string[];
   projectKeypoints: PortfolioKeypoint[];
   projectVideos: Media[];
+  caseStudy?: CaseStudyProfile;
+}
+
+interface CaseStudyProfile {
+  role: string;
+  summary: string;
+  responsibilities: string[];
+  collaborators: string[];
+  duration?: string;
+  deliverables: string[];
+  tools?: string[];
 }
 
 interface PortfolioKeypoint {
+  id: string;
   title: string;
   description: string;
+  paragraphs: string[];
   media: {
+    id: string;
     url: string;
     altText: string;
+    type: "image" | "video";
+    width?: number;
+    height?: number;
+    caption?: string;
+    poster?: string;
   }[];
 }
 
 interface Media {
+  type?: "image" | "video";
   title: string;
   client: string;
   url: string;
@@ -43,4 +66,10 @@ interface Media {
   description: string;
 }
 
-export type { Collection, PortfolioCollection, PortfolioKeypoint, Media };
+export type {
+  Collection,
+  PortfolioCollection,
+  PortfolioKeypoint,
+  CaseStudyProfile,
+  Media,
+};

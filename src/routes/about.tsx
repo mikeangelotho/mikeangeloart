@@ -1,445 +1,248 @@
-import {
-  createSignal,
-  For,
-  JSXElement,
-  onCleanup,
-  onMount,
-  Show,
-} from "solid-js";
-import { Button, ContainerLabel, Tag } from "~/layout/Cards";
+import { createEffect, createSignal, For, onCleanup, Show } from "solid-js";
+import { A, createAsync } from "@solidjs/router";
 import { H2 } from "~/layout/Headings";
-import { fetchGithubInfo, GitHubUser } from "~/hooks";
 import SEO from "~/components/SEO";
-import BgGradient from "~/components/BgGradient";
+import AboutWindow, { aboutWindowId } from "~/components/AboutWindow";
+import { useLenis } from "~/components/LenisProvider";
+import { fetchSiteContent } from "~/utils/content-database";
+import type { ContentDatabase } from "~/content/content-model";
 
-const taskbarIcons = [
+const creativeTools = [
   {
     name: "Photoshop",
     icon: "https://cdn.mikeangelo.art/MA_WebIcons_Ps.svg",
-    color: "#002341ff",
   },
   {
     name: "Illustrator",
     icon: "https://cdn.mikeangelo.art/MA_WebIcons_Ai.svg",
-    color: "#532100ff",
   },
   {
     name: "InDesign",
     icon: "https://cdn.mikeangelo.art/MA_WebIcons_Id.svg",
-    color: "#7c0029ff",
   },
   {
     name: "Premiere Pro",
     icon: "https://cdn.mikeangelo.art/MA_WebIcons_Pr.svg",
-    color: "#000e55ff",
   },
   {
     name: "After Effects",
     icon: "https://cdn.mikeangelo.art/MA_WebIcons_Ae.svg",
-    color: "#000e55ff",
   },
   {
     name: "Figma",
     icon: "https://cdn.mikeangelo.art/MA_WebIcons_Figma.svg",
-    color: "#1d0319",
   },
   {
     name: "VS Code",
     icon: "https://cdn.mikeangelo.art/MA_WebIcons_VSCode.svg",
-    color: "#0065A9",
   },
   {
     name: "Blender",
     icon: "https://cdn.mikeangelo.art/MA_WebIcons_Blender.svg",
-    color: "#ca6500ff",
   },
 ];
 
-export default function About() {
+const toolDescriptions: Record<string, string> = {
+  Photoshop: "Image editing, compositing, and promotional layouts.",
+  Illustrator: "Vector artwork, identity applications, and campaign graphics.",
+  InDesign: "Print layouts, mailers, and editorial materials.",
+  "Premiere Pro": "Video editing for commercials, events, and social campaigns.",
+  "After Effects": "Motion graphics and animated campaign assets.",
+  Figma: "Interface layouts and landing page design.",
+  Blender: "3D visual exploration.",
+};
 
-  const [windows, setWindows] = createSignal<
-    { label?: string; window: JSXElement }[]
-  >([]);
-  //
-  // track via Accessor instead
-  //
-  const [windowMap, setWindowMap] = createSignal<string[]>([]);
-  const Moveable = ({
-    children,
-    label,
-    options = {
-      x: 0,
-      y: 0,
-      z: 0,
-    },
-    noMobile = false,
-  }: {
-    children: JSXElement;
-    label?: string;
-    options?: {
-      x: number;
-      y: number;
-      z: number;
-    };
-    noMobile?: boolean;
-  }) => {
-    let container!: HTMLDivElement;
-
-    onMount(() => {
-      function handleResize() {
-        const { innerWidth, innerHeight } = window;
-        if (container) {
-          container.style.zIndex = `${options?.z || 0}`;
-          if (options && innerWidth > 768) {
-            requestAnimationFrame(() => {
-              container.style.left = `${innerWidth / options.x || 0}px`;
-              container.style.top = `${innerHeight / options.y || 0}px`;
-            });
-          } else {
-            if (!noMobile) {
-              container.style.left = ``;
-              container.style.top = ``;
-            }
-          }
-        }
-      }
-      handleResize();
-      window.addEventListener("resize", handleResize);
-      onCleanup(() => {
-        window.removeEventListener("resize", handleResize);
-      });
-    });
-
-    const clickHandler = (e: MouseEvent) => {
-      container.classList.add("z-1");
-      const onMove = (e: MouseEvent) => moveRect(e, container);
-
-      window.addEventListener("mousemove", onMove);
-      const stop = () => {
-        container.classList.remove("z-1");
-        window.removeEventListener("mousemove", onMove);
-        window.removeEventListener("mouseup", stop);
-      };
-
-      window.addEventListener("mouseup", stop);
-    };
-
-    const touchHandler = (e: TouchEvent) => {
-      container.classList.add("z-1");
-      const onMove = (e: TouchEvent) => moveRectTouch(e, container);
-      window.addEventListener("touchmove", onMove);
-      const stop = () => {
-        container.classList.remove("z-1");
-        window.removeEventListener("touchmove", onMove);
-        window.removeEventListener("touchend", stop);
-      };
-
-      window.addEventListener("touchend", stop);
-    };
-
-    return (
-      <div
-        ref={container}
-        class={`w-full lg:w-fit h-fit mx-auto flex flex-col justify-center md:items-start items-center md:hover:scale-101 lg:absolute md:cursor-grab md:select-none
-          ${noMobile ? ` hidden md:block` : ``}`}
-        onMouseDown={(e) => clickHandler(e)}
-        onTouchStart={(e) => touchHandler(e)}
-      >
-        <div class="opacity-10 hover:opacity-80">
-          <div
-            class="p-12 -translate-y-12.5 translate-x-24 absolute top-0 right-0 w-fit cursor-pointer def__animate text-black dark:text-white"
-            onClick={() => {
-              container.remove();
-              setWindowMap((prev) => prev.filter((item) => item !== label));
-              setWindows((prev) => prev.filter((item) => item.label !== label));
-            }}
-          >
-            <div
-              class="px-2 py-1 border text-xs rounded-md"
-              aria-label="Close window"
-            >
-              Χ
-            </div>
-          </div>{" "}
-          <Show when={label}>
-            <div class="mb-3 pb-1 w-fit text-black/ dark:text-white border-b dark:border-b-white/10">
-              <ContainerLabel>
-                {label !== "VS Code" ? label || "" : "Github"}
-              </ContainerLabel>
-            </div>
-          </Show>
+function ProfileSummary(props: { site: ContentDatabase["site"] }) {
+  return (
+    <div
+      class="flex min-w-0 w-full flex-col gap-6 cursor-auto select-text"
+      role="region"
+      aria-label={`About ${props.site.name}`}
+    >
+      <div class="pb-6 gap-6 w-full flex flex-col justify-start items-center">
+        <div class="py-6 gap-6 w-full flex flex-col-reverse sm:flex-row items-center">
+          <img
+            class="w-full max-w-72 ring-2 ring-black/10 dark:ring-white/10 md:max-w-1/3 rounded-lg"
+            src="https://cdn.mikeangelo.art/MA_Headshot_FINAL_BLUR.png"
+            alt={`${props.site.name} standing in front of a brick wall`}
+            width="200"
+            height="100"
+          />
+          <div class="flex flex-col gap-3 min-w-0 w-full">
+            <h1 class="text-lg sm:text-2xl font-bold wrap-anywhere">
+              {props.site.role}
+            </h1>
+            <p>{props.site.aboutPage.intro}</p>
+          </div>
         </div>
-        {children}
+        <For each={props.site.aboutPage.sections}>
+          {(section) => (
+            <section aria-labelledby={`about-${section.id}`} class="flex flex-col gap-3 min-w-0 w-full">
+              <h2 id={`about-${section.id}`} class="text-2xl font-bold">{section.title}</h2>
+              <For each={section.paragraphs}>{(paragraph) => <p>{paragraph}</p>}</For>
+            </section>
+          )}
+        </For>
       </div>
-    );
-  };
+    </div>
+  );
+}
 
-  function moveRect(e: MouseEvent, element: HTMLDivElement) {
-    if (window.innerWidth > 768) {
-      const { innerWidth, innerHeight } = window;
-      const { width, height } = element.getBoundingClientRect();
-      const { clientX, clientY } = e;
-      requestAnimationFrame(() => {
-        element.style.left = `clamp(12px, ${clientX - width / 2}px, ${innerWidth - width - 12
-          }px)`;
-        element.style.top = `clamp(96px, ${clientY - height / 2}px, ${innerHeight - height - 144
-          }px)`;
-      });
+export default function About() {
+  const site = createAsync(() => fetchSiteContent(), { deferStream: true });
+  const lenis = useLenis();
+  const [windows, setWindows] = createSignal(["Profile Summary", "Resume"]);
+  const [active, setActive] = createSignal("Profile Summary");
+  const [toolsOpen, setToolsOpen] = createSignal(false);
+  let panel!: HTMLElement;
+  let toolsButton!: HTMLButtonElement;
+  let profileButton!: HTMLButtonElement;
+  let resumeButton!: HTMLButtonElement;
+
+  const focusWindow = (label: string) => queueMicrotask(() => {
+    const target = document.getElementById(aboutWindowId(label));
+    target?.querySelector<HTMLButtonElement>("[data-window-title]")?.focus({ preventScroll: true });
+    if (target && window.innerWidth < 1024) {
+      const scrolling = lenis?.lenis();
+      if (scrolling) {
+        scrolling.resize();
+        scrolling.scrollTo(target, { offset: -112, immediate: true });
+      }
+      else target.scrollIntoView({ block: "start" });
     }
-  }
-
-  function moveRectTouch(e: TouchEvent, element: HTMLDivElement) {
-    if (window.innerWidth > 768) {
-      const { innerWidth, innerHeight } = window;
-      const { width, height } = element.getBoundingClientRect();
-      const { clientX, clientY } = e.touches[0];
-      requestAnimationFrame(() => {
-        element.style.left = `clamp(12px, ${clientX - width / 2}px, ${innerWidth - width - 12
-          }px)`;
-        element.style.top = `clamp(96px, ${clientY - height / 2}px, ${innerHeight - height - 144
-          }px)`;
-      });
-    }
-  }
-
-  const Box = ({ children }: { children: JSXElement }) => {
-    return (
-      <div class="p-6 rounded-xl gap-6 w-full border border-black/10 bg-white/95 dark:border-white/10 dark:border-t dark:bg-black/95 dark:border-t-white text-black dark:text-white">
-        {children}
-      </div>
-    );
-  };
-
-  const newWindow = async (label: string) => {
-    let data: GitHubUser | any;
-    let newWindow: JSXElement;
-    async function getGithubLanguages(data: GitHubUser) {
-      let languages: string[] = [];
-      const res: any[] = await fetch(data.repos_url).then((res) => res.json());
-      res.forEach((repo) => {
-        if (!languages.includes(repo.language) && repo.language != null) {
-          languages.push(repo.language);
-        }
-      });
-      return languages;
-    }
-    switch (label) {
-      case "VS Code":
-        data = await fetchGithubInfo();
-        const languages = await getGithubLanguages(data);
-        newWindow = (
-          <Moveable options={{ x: 3, y: 3, z: 5 }} label={"VS Code"}>
-            <Box>
-              <div class="flex flex-col gap-6 w-fit">
-                <H2>{data.name}</H2>
-                <div class="flex flex-col gap-3">
-                  <div class="flex flex-col gap-1">
-                    <span class="text-xs opacity-30">Bio</span>
-                    <p class="text-sm">{data.bio}</p>
-                  </div>
-                  <div class="flex flex-col gap-2">
-                    <span class="text-xs opacity-30">Languages</span>
-                    <div class="flex gap-1">
-                      <For each={languages}>{(lang) => <Tag>{lang}</Tag>}</For>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Box>
-          </Moveable>
-        );
-        break;
-      default:
-        newWindow = (
-          <Moveable options={{ x: 3, y: 3, z: 0 }} label={label}>
-            <Box>
-              <div class="flex flex-col gap-6 w-fit">
-                <H2>Down for Maintenance</H2>
-                <p class="text-sm">
-                  <strong>Updating {label}</strong>... please check back
-                  later...{" "}
-                </p>
-              </div>
-            </Box>
-          </Moveable>
-        );
-        break;
-    }
-    return newWindow;
-  };
-
-  onMount(() => {
-    setWindows((prev) => [
-      ...prev,
-      {
-        label: "Profile Summary",
-        window: (
-          <Moveable label="Profile Summary" options={{ x: 6.5, y: 8, z: 0 }}>
-            <Box>
-<div
-  class="flex flex-col gap-6 border-t border-b border-black/10 dark:border-white/10 max-h-[40vh] lg:max-h-[60vh] overflow-y-auto pr-6 cursor-auto select-text w-full max-w-3xl"
-  onMouseDown={(e) => e.stopPropagation()}
-  onTouchStart={(e) => e.stopPropagation()}
-  onWheel={(e) => e.stopPropagation()}
->                <div class="flex flex-col gap-6 border-t border-b border-black/10 dark:border-white/10 max-h-[40vh] lg:max-h-[60vh] overflow-y-auto pr-6">
-                  <div class="pb-6 gap-6 w-full flex flex-col justify-start items-center">
-                    <div class="py-6 gap-6 w-full flex flex-col-reverse sm:flex-row items-center">
-                      <img
-                        class="w-full max-w-72 ring-2 ring-black/10 dark:ring-white/10 md:max-w-1/3 rounded-lg"
-                        src="https://cdn.mikeangelo.art/MA_Headshot_FINAL_BLUR.png"
-                        alt="Me doin my thing: standing in front of a brick wall"
-                        width="200"
-                        height="100"
-                      />
-                      <div class="flex flex-col gap-3">
-                        <p>
-                          <strong class="text-2xl">What I Do</strong>
-                        </p>
-                        <p>
-                          I dissect strategy and produce engaging creative assets and web experiences.
-                          Whether I'm developing an advertising campaign, editing social media content, or implementing a landing page, <strong>my
-                            passion is translating great ideas into powerful
-                            digital experiences.</strong>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="flex flex-col gap-3">
-                      <p>
-                        <strong class="text-2xl">Why I Do It</strong>
-                      </p>
-                      <p>
-                        I belive creativity and storytelling are our most vital mediums. My mission in life is to
-                        use my love for art and technology to inspire people with lasting emotional impressions and empower them with tangible improvements to their life.
-                      </p>
-                      <p>
-                        Aside from my daily screen activities, I like to hike
-                        and get lost in nature, write electric guitar songs that
-                        I immediately forget, attempt to skateboard, and stay
-                        endlessly curious about engineering, philosophy, and the
-                        universe.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Box>
-          </Moveable>
-        ),
-      },
-    ]);
-
-    setWindows((prev) => [
-      ...prev,
-      {
-        label: "Alert",
-        window: (
-          <Moveable label="Alert" options={{ x: 1.45, y: 4, z: 0 }}>
-            <Box>
-              <div class="flex flex-col items-center gap-6">
-                <p class="text-sm">A resume has been detected.</p>
-                <Button
-                  type="button"
-                  onClick={() => {
-                    window.open(
-                      "https://drive.google.com/file/d/19YC8e7dQdSdLOgxJTxqWJAuy_Z8jGFNK/view?usp=drive_link",
-                      "_blank",
-                    ); // Placeholder URL, please update!
-                  }}
-                >
-                  View Resume
-                </Button>{" "}
-              </div>
-            </Box>
-          </Moveable>
-        ),
-      },
-    ]);
   });
-
+  const open = (label: string) => {
+    setWindows((previous) => previous.includes(label) ? previous : [...previous, label]);
+    setActive(label);
+    setToolsOpen(false);
+    focusWindow(label);
+  };
+  const close = (label: string) => {
+    const remaining = windows().filter((item) => item !== label);
+    setWindows(remaining);
+    if (active() === label) setActive(remaining.at(-1) || "");
+    queueMicrotask(() => {
+      const launcher = label === "Profile Summary" ? profileButton : label === "Resume" ? resumeButton : toolsButton;
+      launcher?.focus({ preventScroll: true });
+    });
+  };
+  createEffect(() => {
+    if (!toolsOpen()) return;
+    const dismiss = (event: Event) => {
+      if (!panel.contains(event.target as Node)) setToolsOpen(false);
+    };
+    const escape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      setToolsOpen(false);
+      toolsButton.focus();
+    };
+    document.addEventListener("pointerdown", dismiss);
+    document.addEventListener("focusin", dismiss);
+    document.addEventListener("keydown", escape);
+    onCleanup(() => {
+      document.removeEventListener("pointerdown", dismiss);
+      document.removeEventListener("focusin", dismiss);
+      document.removeEventListener("keydown", escape);
+    });
+  });
   return (
     <>
-      <SEO
-        title="About Mike Angelo | Creative Technologist in New Jersey and New York | Graphic and Motion Design, Web Development, and Advertising Campaigns"
-        description="Learn more about Mike Angelo, a Creative Technologist in New Jersey specializing in creative design, comprehensive marketing campaigns, and web design and development."
-        canonical="https://mikeangelo.art/about"
-        ogImage="https://cdn.mikeangelo.art/og-default.png"
+      <Show when={site()} keyed>
+        {(content) => <SEO
+        title={`About ${content.name} | ${content.role}`}
+        description={content.aboutPage.description}
+        canonical={`${content.url.replace(/\/$/, "")}/about`}
+        ogImage={content.ogImage}
         breadcrumbs={[
-          { name: "Home", url: "https://mikeangelo.art" },
-          { name: "About", url: "https://mikeangelo.art/about" },
+          { name: "Home", url: content.url },
+          { name: "About", url: `${content.url.replace(/\/$/, "")}/about` },
         ]}
         localBusiness={true}
         organization={true}
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "Person",
-          name: "Mike Angelo",
-          jobTitle: "Creative Technologist",
-          description:
-            "Creative Technologist with a passion for turning ideas into tangible, functional, and beautiful digital experiences.",
-          url: "https://mikeangelo.art/about",
+          name: content.name,
+          jobTitle: content.role,
+          description: content.aboutPage.description,
+          url: `${content.url.replace(/\/$/, "")}/about`,
           knowsAbout: [
             "Art Direction",
+            "Brand Identity",
+            "Campaign Design",
+            "Motion Design",
+            "Video Editing",
             "Web Design",
             "Digital Experiences",
             "Adobe Creative Suite",
             "Figma",
             "Web Development",
           ],
-          worksFor: {
-            "@type": "Organization",
-            name: "Freelance",
-          },
         }}
-      />
-      <main class="w-full relative">
-        <BgGradient />
-        <div class="h-screen w-full fixed">
-          <div class="h-[89vh] pt-22 xl:px-72">
-            <div
-              class="border-t border-b h-full overflow-x-hidden flex flex-col gap-6 border-black/10 dark:border-white/10 p-6"
-            >
-              <For each={windows()}>{(item) => item.window}</For>
-            </div>
-          </div>
-          <div class="h-[10vh] pt-3 flex items-center px-4">
-            <div
-              class="p-3 max-w-7xl mx-auto w-fit h-fit border border-black/20 dark:border-white/10 rounded-3xl bg-white/80 dark:bg-black/80 flex flex-row justify-center items-center overflow-x-auto"
-              style="scrollbar-width: none;"
-            >
-              <For each={taskbarIcons}>
-                {(icon) => {
-                  return (
-                    <div
-                      class={`cursor-pointer transition-all duration-300 ease-in-out px-0.5 hover:px-1.5 shrink-0 hover:scale-110 hover:-translate-y-1`}
-                      onClick={async () => {
-                        if (windowMap().includes(icon.name)) return;
-                        const newWin = await newWindow(icon.name);
-                        setWindows((prev) => [
-                          ...prev,
-                          { label: icon.name, window: newWin },
-                        ]);
-                        setWindowMap((prev) => [...prev, icon.name]);
-                      }}
-                    >
-                      <div
-                        class="border border-white/10 rounded-xl"
-                        style={`background-color: ${icon.color}`}
-                      >
-                        <img
-                          src={icon.icon}
-                          alt={icon.name}
-                          class={`p-1 h-9 w-9 md:h-12 md:w-12 mix-blend-soft-light`}
-                          width="48"
-                          height="48"
-                        />
-                      </div>
-                    </div>
-                  );
-                }}
-              </For>
-            </div>
-          </div>
+      />}
+      </Show>
+      <main class="about-workspace w-full relative min-h-dvh pt-28 pb-32 px-4 sm:px-6">
+        <div class="relative mx-auto max-w-7xl min-h-[65dvh] lg:min-h-0 lg:h-[calc(100dvh-15rem)] flex flex-col gap-5">
+          <For each={windows()}>
+            {(label) => (
+              <AboutWindow label={label} active={active() === label} raise={() => setActive(label)} close={() => close(label)} position={label === "Profile Summary" ? { x: 0.02, y: 0.02 } : { x: 0.7, y: 0.2 }}>
+                <Show when={label === "Profile Summary"} fallback={
+                  <div class="max-w-md flex flex-col gap-5">
+                    <H2>{label === "VS Code" ? "Projects" : label}</H2>
+                    <Show when={label === "Resume"} fallback={
+                      <Show when={label === "VS Code"} fallback={<p>{toolDescriptions[label]}</p>}>
+                        <p>Explore my app, game, and creative experiments.</p>
+                        <A href="/personal" class="font-semibold underline underline-offset-4 py-2">Explore projects →</A>
+                        <a href="https://github.com/mikeangelotho/mikeangeloart" target="_blank" rel="noopener noreferrer" class="font-semibold underline underline-offset-4 py-2">View the source on GitHub ↗</a>
+                      </Show>
+                    }>
+                      <p>View my experience and background.</p>
+                      <a href="https://drive.google.com/file/d/19YC8e7dQdSdLOgxJTxqWJAuy_Z8jGFNK/view" target="_blank" rel="noopener noreferrer" class="rounded-lg px-6 py-3 text-center font-semibold bg-black text-white dark:bg-white dark:text-black">View resume ↗</a>
+                    </Show>
+                  </div>
+                }>
+                  <Show when={site()} keyed>{(content) => <ProfileSummary site={content} />}</Show>
+                </Show>
+              </AboutWindow>
+            )}
+          </For>
+          <Show when={windows().length === 0}>
+            <p class="my-auto text-center text-sm text-neutral-500 dark:text-neutral-400">Open Profile, Resume, or a tool below.</p>
+          </Show>
         </div>
+        <nav ref={panel} aria-label="About windows" class="about-panel fixed inset-x-4 z-30 mx-auto w-auto max-w-3xl sm:inset-x-6">
+          <Show when={toolsOpen()}>
+            <div id="about-tools" role="region" aria-label="Creative tools" class="about-tool-launcher absolute bottom-full right-0 mb-3 w-full max-w-sm overflow-y-auto rounded-xl p-3" data-lenis-prevent>
+              <div class="mb-2 flex items-center justify-between px-2">
+                <span class="font-mono text-xs text-neutral-500 dark:text-neutral-400">Creative tools</span>
+                <button type="button" aria-label="Close creative tools" class="about-window-close min-h-11 min-w-11 rounded-md" onClick={() => { setToolsOpen(false); toolsButton.focus(); }}>×</button>
+              </div>
+              <div class="grid min-w-0 grid-cols-2 gap-1">
+                <For each={creativeTools}>
+                  {(tool) => <button type="button" onClick={() => open(tool.name)} aria-label={`Open ${tool.name} window`} class="about-tool-button flex min-h-12 min-w-0 items-center gap-2 rounded-md px-2 py-2 text-left text-sm" classList={{ "is-open": windows().includes(tool.name) }}>
+                    <img src={tool.icon} alt="" loading="lazy" class="h-5 w-5 shrink-0 object-contain" width="20" height="20" />
+                    <span class="min-w-0 leading-tight">{tool.name}</span>
+                    <Show when={windows().includes(tool.name)}><span aria-label="Window open" class="ml-auto h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-700 dark:bg-cyan-300" /></Show>
+                  </button>}
+                </For>
+              </div>
+            </div>
+          </Show>
+          <div class="about-panel-bar flex min-w-0 items-center gap-1 rounded-xl p-1.5 sm:gap-2">
+            <button ref={profileButton} type="button" onClick={() => open("Profile Summary")} aria-pressed={active() === "Profile Summary"} class="about-workspace-tab flex min-h-11 min-w-0 items-center gap-2 rounded-md px-3 text-sm" classList={{ "is-active": active() === "Profile Summary", "is-open": windows().includes("Profile Summary") }}>
+              <span aria-hidden="true" class="font-mono text-[10px] opacity-60">01</span>Profile
+            </button>
+            <button ref={resumeButton} type="button" onClick={() => open("Resume")} aria-pressed={active() === "Resume"} class="about-workspace-tab flex min-h-11 min-w-0 items-center gap-2 rounded-md px-3 text-sm" classList={{ "is-active": active() === "Resume", "is-open": windows().includes("Resume") }}>
+              <span aria-hidden="true" class="font-mono text-[10px] opacity-60">02</span>Resume
+            </button>
+            <span class="hidden min-w-0 flex-1 truncate px-3 font-mono text-xs text-neutral-500 dark:text-neutral-400 sm:block">{active() || "No window open"}</span>
+            <button ref={toolsButton} type="button" aria-expanded={toolsOpen()} aria-controls="about-tools" onClick={() => setToolsOpen((value) => !value)} class="about-workspace-tab ml-auto flex min-h-11 shrink-0 items-center gap-2 rounded-md px-3 text-sm" classList={{ "is-active": toolsOpen() }}>
+              <svg aria-hidden="true" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1 1h3v3H1zm5.5 0h3v3h-3zM12 1h3v3h-3zM1 6.5h3v3H1zm5.5 0h3v3h-3zm5.5 0h3v3h-3zM1 12h3v3H1zm5.5 0h3v3h-3zm5.5 0h3v3h-3z" /></svg>
+              Tools
+            </button>
+          </div>
+        </nav>
       </main>
     </>
   );

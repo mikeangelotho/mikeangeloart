@@ -1,4 +1,4 @@
-import { createAsync, useNavigate, useParams, query } from "@solidjs/router";
+import { createAsync, useParams } from "@solidjs/router";
 import {
   createEffect,
   createMemo,
@@ -10,56 +10,35 @@ import {
 } from "solid-js";
 import { H1, H2, SectionHeading } from "~/layout/Headings";
 import VideoLib from "~/components/VideoLib";
+import VideoPlayer from "~/components/VideoPlayer";
 import { Lightbox } from "~/components/Lightbox";
 import SEO from "~/components/SEO";
 import { RelatedProjects } from "~/components/RelatedProjects";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { Picture } from "~/components/Picture";
-import { PortfolioCollection } from "~/types";
 import TagPills from "~/components/TagPills";
-
-const fetchPortfolio = query(async (): Promise<PortfolioCollection[]> => {
-  "use server";
-  const res = await fetch("https://cdn.mikeangelo.art/db.json");
-  return (await res.json()) as PortfolioCollection[];
-}, "portfolio");
+import ProjectResponsibilities from "~/components/ProjectResponsibilities";
+import { fetchProject } from "~/utils/portfolio";
+import { getProjectVideos } from "~/utils/media";
+import PageNotFound from "~/components/PageNotFound";
+import type { PortfolioKeypoint } from "~/types";
 
 export default function ProjectPage() {
   const params = useParams();
-  const navigate = useNavigate();
 
-  const portfolioCollection = createAsync(() => fetchPortfolio());
-
-  const project = createMemo(() => {
-    const collection = portfolioCollection();
-    if (collection) {
-      for (const p of collection) {
-        if (p.slug === params.slug) {
-          return p;
-        }
-      }
-    }
-    return undefined;
-  });
+  const projectContent = createAsync(() => fetchProject(params.slug ?? ""), { deferStream: true });
+  const project = () => projectContent()?.project;
 
   const [lightboxImg, setLightboxImg] = createSignal<string>();
   const [lightboxAlt, setLightboxAlt] = createSignal<string>();
-  const [activeTab, setActiveTab] = createSignal<"objective" | "strategy">(
-    "objective",
-  );
+  const [lightboxType, setLightboxType] = createSignal<"image" | "video">();
 
+  const videos = createMemo(() => project() ? getProjectVideos(project()!) : []);
   createEffect(() => {
-    const collection = portfolioCollection();
-    if (collection && !project()) {
-      navigate("/projects", { replace: true });
-    }
-  });
-
-  createEffect(() => {
-    document.body.classList.toggle(
-      "overflow-hidden",
-      lightboxImg() ? true : false,
-    );
+    params.slug;
+    setLightboxImg(undefined);
+    setLightboxAlt(undefined);
+    setLightboxType(undefined);
   });
 
   return (
@@ -67,8 +46,8 @@ export default function ProjectPage() {
       <Show when={project()} keyed>
         {(p) => (
           <SEO
-            title={`${p.title} | Creative Technologist Portfolio Project by Mike Angelo | Creative Design, Advertising Campaigns, and Web Design and Development`}
-            description={`${p.projectObjective?.substring(0, 160)}... Explore this ${p.tags?.join(", ")} project by Mike Angelo, a Creative Technologist in New Jersey and New York.`}
+            title={`${p.title} | Mike Angelo — Art Director & Multidisciplinary Designer`}
+            description={`${p.caseStudy?.summary || p.projectObjective} Explore the project, Mike Angelo's contribution and the reported results.`}
             canonical={`https://mikeangelo.art/projects/${p.slug}`}
             ogImage={p.cover}
             ogType="article"
@@ -91,43 +70,45 @@ export default function ProjectPage() {
               creator: {
                 "@type": "Person",
                 name: "Mike Angelo",
-                jobTitle: "Creative Technologist",
+                jobTitle: "Art Director & Multidisciplinary Designer",
               },
-              client: {
+              about: {
                 "@type": "Organization",
                 name: p.clientName,
               },
               keywords: p.tags?.join(", "),
-              about: p.tags,
-              dateCreated: p.dateAdded,
+              datePublished: p.dateAdded,
               dateModified: p.lastModified,
               genre: "Portfolio",
-              learningResourceType: "Portfolio Project",
             }}
           />
         )}
       </Show>
-      <main class="w-full">
+      <div class="w-full">
         <Show
           when={project()}
           fallback={
-            <div class="h-screen flex items-center justify-center">
-              Loading...
-            </div>
+            <Show when={projectContent()} fallback={<div class="h-screen flex items-center justify-center" role="status">Loading…</div>}>
+              <PageNotFound />
+            </Show>
           }
         >
+          <main class="w-full">
           <Show when={lightboxImg()}>
             <Lightbox
               src={{ get: lightboxImg, set: setLightboxImg }}
               altText={lightboxAlt}
+              mediaType={lightboxType}
             />
           </Show>
-          <div class="-z-1 fixed top-0 left-0 w-full">
-            <Show when={project()?.cover}>
+          <div aria-hidden="true" class="-z-1 fixed top-0 left-0 w-full">
+                <Show when={project()?.cover}>
               {(coverSrc) => (
                 <Picture
                   src={coverSrc()}
                   alt={`${project()?.title} cover image`}
+                  width={project()?.coverWidth}
+                  height={project()?.coverHeight}
                   class="w-full object-cover scale-120 h-screen blur-xl"
                   loading="eager"
                 />
@@ -159,7 +140,7 @@ export default function ProjectPage() {
                   items={[
                     {
                       name: project()?.clientName as string,
-                      url: `/projects?client=${project()?.clientName}`,
+                      url: `/projects?client=${encodeURIComponent(project()?.clientName || "")}`,
                     },
                     {
                       name: project()?.title || "",
@@ -169,117 +150,105 @@ export default function ProjectPage() {
                 />
               </div>
               <div
-                class="hidden md:flex gap-1 w-full max-w-lg overflow-auto scroll-smooth"
-                data-lenis-prevent
-                style="scrollbar-width: none;"
+                class="flex flex-wrap gap-2 w-full max-w-lg"
               >
                 <TagPills tags={project()?.tags} />
               </div>
             </div>
-            <div class="w-full flex flex-col gap-18 items-center justify-center max-w-7xl mx-auto px-6">
-              <div class="w-full max-w-4xl mx-auto">
-                <div class="flex border-b border-black/10 dark:border-white/10 mb-6">
-                  <button
-                    class={`flex items-center gap-3 px-6 py-4 text-sm font-medium transition-all relative ${
-                      activeTab() === "objective"
-                        ? "text-black dark:text-white"
-                        : "text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60"
-                    }`}
-                    onClick={() => setActiveTab("objective")}
-                  >
-                    Objective
-                    {activeTab() === "objective" && (
-                      <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-black dark:bg-white" />
-                    )}
-                  </button>
-                  <button
-                    class={`flex items-center gap-3 px-6 py-4 text-sm font-medium transition-all relative ${
-                      activeTab() === "strategy"
-                        ? "text-black dark:text-white"
-                        : "text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60"
-                    }`}
-                    onClick={() => setActiveTab("strategy")}
-                  >
-                    Strategy
-                    {activeTab() === "strategy" && (
-                      <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-black dark:bg-white" />
-                    )}
-                  </button>
-                </div>
-
-                <div class="min-h-30">
-                  <Show when={activeTab() === "objective"}>
-                    <div class="animate-in">
-                      <p class="text-black dark:text-white">
-                        {project()?.projectObjective}
-                      </p>
-                    </div>
-                  </Show>
-                  <Show when={activeTab() === "strategy"}>
-                    <div class="animate-in">
-                      <p class="text-black dark:text-white">
-                        {project()?.mainKeypointDescription}
-                      </p>
-                    </div>
-                  </Show>
-                </div>
+            <div class="w-full max-w-5xl mx-auto px-6 py-12 flex flex-col gap-12">
+              <Show when={project()?.caseStudy} keyed>
+                {(profile) => <ProjectResponsibilities profile={profile} />}
+              </Show>
+              <Show
+                when={project()?.results.length}
+              >
+                <section aria-labelledby="results-heading" class="rounded-3xl border border-black/10 dark:border-white/10 bg-neutral-100 dark:bg-neutral-950 p-6 md:p-8">
+                  <h2 id="results-heading" class="text-xs font-semibold uppercase tracking-widest text-black/60 dark:text-white/60">
+                    Reported project results
+                  </h2>
+                  <ul class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <For each={project()?.results}>
+                      {(result) => (
+                        <li class="text-xl md:text-2xl font-semibold text-black dark:text-white">
+                          {result.value}
+                          <Show when={result.label}><span class="block mt-2 text-sm font-medium">{result.label}</span></Show>
+                          <Show when={result.context}><p class="mt-2 text-sm font-normal leading-relaxed text-black/70 dark:text-white/70">{result.context}</p></Show>
+                          <Show when={result.source}><p class="mt-2 text-xs font-normal text-black/60 dark:text-white/60">Source: {result.source}</p></Show>
+                        </li>
+                      )}
+                    </For>
+                  </ul>
+                </section>
+              </Show>
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+                <section aria-labelledby="challenge-heading">
+                  <h2 id="challenge-heading" class="text-2xl font-semibold text-black dark:text-white">
+                    The challenge
+                  </h2>
+                  <p class="mt-4 leading-relaxed text-black/80 dark:text-white/80">
+                    {project()?.projectObjective}
+                  </p>
+                </section>
+                <section aria-labelledby="approach-heading">
+                  <h2 id="approach-heading" class="text-2xl font-semibold text-black dark:text-white">
+                    My approach
+                  </h2>
+                  <For each={project()?.introParagraphs}>
+                    {(paragraph) => <p class="mt-4 leading-relaxed text-black/80 dark:text-white/80">{paragraph}</p>}
+                  </For>
+                </section>
               </div>
             </div>
-            <section class="bg-neutral-100 dark:bg-neutral-950 w-full mt-16">
-              <SectionHeading>Project Key Points</SectionHeading>
+            <Show when={videos().length > 0}>
+              <section class="bg-neutral-100 dark:bg-neutral-950 w-full">
+                <SectionHeading>Featured Films</SectionHeading>
+              </section>
+              <section class="px-6">
+                <VideoLib videos={videos()} />
+              </section>
+            </Show>
+            <section class="bg-neutral-100 dark:bg-neutral-950 w-full">
+              <SectionHeading>Design & Delivery</SectionHeading>
             </section>
             <section class="px-6">
               <KeypointSection
                 projectKeypoints={project()?.projectKeypoints}
                 setLightboxImg={setLightboxImg}
                 setLightboxAlt={setLightboxAlt}
+                setLightboxType={setLightboxType}
               />
             </section>
-            <Show
-              when={
-                project()?.projectVideos && project()!.projectVideos.length > 0
-              }
-            >
-              <section class="bg-neutral-100 dark:bg-neutral-950 w-full">
-                <SectionHeading>Video Gallery</SectionHeading>
-              </section>
-              <section class="px-6">
-                <VideoLib videos={project()!.projectVideos} />
-              </section>
-            </Show>
             <section class="bg-neutral-100 dark:bg-neutral-950 w-full">
               <SectionHeading>Related Projects</SectionHeading>
             </section>
             <RelatedProjects
               currentProject={project()!}
-              allProjects={portfolioCollection() || []}
+              allProjects={projectContent()?.related || []}
               maxItems={3}
             />
           </section>
+          </main>
         </Show>
-      </main>
+      </div>
     </>
   );
 }
 
 function KeypointSection(props: {
-  projectKeypoints?: Array<{
-    title: string;
-    description: string;
-    media: Array<{ url: string; altText: string }>;
-  }>;
+  projectKeypoints?: PortfolioKeypoint[];
   setLightboxImg: (url: string) => void;
   setLightboxAlt: (alt: string) => void;
+  setLightboxType: (type: "image" | "video") => void;
 }) {
   let containerRef: HTMLDivElement | undefined;
 
   onMount(() => {
-    if (!containerRef) return;
+    if (!containerRef || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const observerOptions = {
       root: null,
       rootMargin: "0px",
-      threshold: 0.5,
+      threshold: 0.1,
     };
 
     const observer = new IntersectionObserver((entries, observer) => {
@@ -306,52 +275,39 @@ function KeypointSection(props: {
   return (
     <section ref={containerRef} class="flex flex-col gap-6 lg:gap-18 py-18">
       <For each={props.projectKeypoints}>
-        {(keypoint, idx) => (
+        {(keypoint) => (
           <div class="w-full flex flex-col lg:flex-row gap-6 justify-between max-w-360 mx-auto">
             <div class="w-full flex items-start justify-center lg:justify-start h-fit lg:sticky lg:top-18">
               <div class="keypoint-box fade__animate max-w-3xl lg:max-w-xl shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] rounded-3xl p-6 my-18 flex flex-col gap-4 bg-neutral-100 dark:bg-neutral-950 border border-neutral-300 dark:border-neutral-900 dark:border-t dark:border-t-white">
                 <H2>{keypoint.title}</H2>
-                <p class="dark:text-white">{keypoint.description}</p>
+                <For each={keypoint.paragraphs}>{(paragraph) => <p class="dark:text-white">{paragraph}</p>}</For>
               </div>
             </div>
             <div class="w-full flex flex-col gap-6 lg:gap-18 items-center xl:items-end">
               <For each={keypoint.media}>
                 {(mediaObj) => {
-                  const isVideo = mediaObj.url.includes("mp4");
+                  const isVideo = mediaObj.type === "video";
 
-                  if (isVideo) {
-                    return (
-                      <video
-                        src={mediaObj.url}
-                        autoplay
-                        muted
-                        loop
-                        playsinline
-                        webkit-playsinline="true"
-                        preload="metadata"
-                        class="keypoint-media lg:max-w-xl xl:max-w-3xl max-h-180 border-6 border-neutral-200 dark:border-white/5 rounded-3xl aspect-auto cursor-pointer hover:-translate-y-3 transition-all duration-500 ease-in-out"
-                        title={mediaObj.altText}
-                        aria-label={mediaObj.altText}
-                        onClick={() => {
-                          props.setLightboxImg(mediaObj.url);
-                          props.setLightboxAlt(mediaObj.altText);
-                        }}
-                      />
-                    );
-                  } else {
-                    return (
-                      <Picture
-                        src={mediaObj.url}
-                        loading="lazy"
-                        alt={mediaObj.altText}
-                        class="keypoint-media border-6 border-neutral-200 dark:border-white/5 w-full h-auto aspect-auto rounded-3xl lg:max-w-3xl max-h-180 hover:brightness-105 hover:-translate-y-3 cursor-pointer transition-all duration-500 ease-in-out"
-                        onClick={(_, displayedUrl) => {
-                          props.setLightboxImg(displayedUrl);
-                          props.setLightboxAlt(mediaObj.altText);
-                        }}
-                      />
-                    );
-                  }
+                  const open = (url = mediaObj.url) => {
+                    props.setLightboxImg(url);
+                    props.setLightboxAlt(mediaObj.altText);
+                    props.setLightboxType(mediaObj.type);
+                  };
+                  return (
+                    <figure class="keypoint-media w-full lg:max-w-xl xl:max-w-3xl">
+                      <Show when={isVideo} fallback={
+                        <button type="button" class="block w-full rounded-3xl cursor-zoom-in" aria-label={`Enlarge: ${mediaObj.altText}`} onClick={() => open()}>
+                          <Picture src={mediaObj.url} loading="lazy" alt={mediaObj.altText} width={mediaObj.width} height={mediaObj.height} class="border-6 border-neutral-200 dark:border-white/5 w-full h-auto object-contain rounded-3xl max-h-180" />
+                        </button>
+                      }>
+                        <VideoPlayer video={{url:mediaObj.url, type:mediaObj.type, title:mediaObj.caption ?? mediaObj.altText, altText:mediaObj.altText, thumbnail:mediaObj.poster ?? "", client:"", description:mediaObj.caption ?? ""}} class="w-full max-h-180 border-6 border-neutral-200 dark:border-white/5 rounded-3xl" />
+                      </Show>
+                      <figcaption class="mt-3 px-2 text-sm text-black/70 dark:text-white/70">{mediaObj.caption ?? mediaObj.altText}</figcaption>
+                      <Show when={isVideo}>
+                        <button type="button" class="mt-2 px-3 py-2 text-sm font-semibold underline underline-offset-4 text-black dark:text-white" onClick={() => open()}>Open video in full view</button>
+                      </Show>
+                    </figure>
+                  );
                 }}
               </For>
             </div>

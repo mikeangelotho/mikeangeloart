@@ -6,6 +6,14 @@ export default createHandler(() => (
     document={({ assets, children, scripts }) => (
       <html lang="en" class="dark">
         <head>
+          <meta charset="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <script>{`(function () {
+  var saved;
+  try { saved = localStorage.getItem('portfolio-theme'); } catch (_) {}
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.classList.toggle('dark', dark);
+})();`}</script>
           {/* Google tag (gtag.js) */}
           <script async src="https://www.googletagmanager.com/gtag/js?id=G-WH1W29P097"></script>
           <script>{`
@@ -22,8 +30,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-NXLD3RCS');`}</script>
           {/* End Google Tag Manager */}
-          <meta charset="utf-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="https://cdn.mikeangelo.art/favicon.svg" />
           {assets}
         </head>

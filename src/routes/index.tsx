@@ -1,207 +1,99 @@
-import {
-  createSignal,
-  For,
-  lazy,
-  onCleanup,
-  onMount,
-  Show,
-  Suspense,
-} from "solid-js";
+import { For, lazy, onCleanup, onMount, Show, Suspense } from "solid-js";
 import { PortfolioCollection } from "~/types";
 import TeaserCollection from "~/components/TeaserCollection";
-import { H1, H2, SectionHeading } from "~/layout/Headings";
+import { H2, SectionHeading } from "~/layout/Headings";
 import SEO from "~/components/SEO";
 import { Web3Form } from "~/components/Web3Form";
-import { A, createAsync, query } from "@solidjs/router";
+import { A, createAsync } from "@solidjs/router";
 import PreviewProject from "~/components/PreviewProject";
+import { Picture } from "~/components/Picture";
 import { useLenis } from "~/components/LenisProvider";
-
-const fetchPortfolio = query(async (): Promise<PortfolioCollection[]> => {
-  "use server";
-  const res = await fetch("https://cdn.mikeangelo.art/db.json");
-  return (await res.json()) as PortfolioCollection[];
-}, "portfolio-home");
+import { fetchPortfolio } from "~/utils/portfolio";
+import { fetchPersonalProjectTeasers, fetchSiteContent } from "~/utils/content-database";
 
 const landingHighlightLength = 3;
 
 export default function Home() {
   let introPanel!: HTMLDivElement;
-  let bgAnims!: HTMLDivElement;
-  let tagInner!: HTMLDivElement;
   let moreContainer!: HTMLDivElement;
   let contactContainer!: HTMLDivElement;
-
-  const [isPaused, setIsPaused] = createSignal(false);
 
   const LottieAnim = lazy(() => import("../components/LottieAnim"));
   const BgGradient = lazy(() => import("../components/BgGradient"));
   const Panel3d = lazy(() => import("../components/Panel3d"));
 
-  const portfolioCollection = createAsync(() => fetchPortfolio());
+  const portfolioCollection = createAsync(() => fetchPortfolio(), {
+    deferStream: true,
+  });
+  const site = createAsync(() => fetchSiteContent(), { deferStream: true });
+  const personalProjectTeasers = createAsync(() => fetchPersonalProjectTeasers(), { deferStream: true });
+  const roleParts = () => site()?.role.split(" & ") ?? [];
+  const lenis = useLenis();
 
   onMount(() => {
-    const lenis = useLenis();
-    let offset = 0;
-    const scrollYLimit = 200;
-    const scrollSpeed = 0.08;
-
-    if (tagInner) {
-      const original = Array.from(tagInner.children) as HTMLElement[];
-      original.forEach((child) => {
-        const clone = child.cloneNode(true) as HTMLElement;
-        clone.setAttribute("aria-hidden", "true");
-        tagInner.appendChild(clone);
-      });
-    }
-
-    function getHalf() {
-      return tagInner ? tagInner.scrollWidth / 2 : 0;
-    }
-
-    function wrapOffset(val: number) {
-      const half = getHalf();
-      if (!half) return val;
-      return ((val % half) + half) % half;
-    }
-
-    let isVisible = true;
-
-    const visibilityHandler = () => {
-      isVisible = !document.hidden;
-    };
-    document.addEventListener("visibilitychange", visibilityHandler);
-
-    const scrollerObserver = new IntersectionObserver(
-      (entries) => {
-        isVisible = entries[0]?.isIntersecting ?? true;
-      },
-      { threshold: 0.1 },
+    const motionPreference = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
     );
-
-    function animate(_currentTime: number, delta: number) {
-      if (isPaused() || !isVisible) return;
-
-      offset = wrapOffset(offset + scrollSpeed * delta);
-      if (tagInner) tagInner.style.transform = `translateX(${-offset}px)`;
-    }
-
-    const unregisterLenis = lenis!.registerCallback((time, delta) => {
-      animate(time, delta);
-
-      if (lenis?.lenis()) {
-        const scroll = lenis.lenis()?.scroll || 0;
-        introPanel.classList.toggle("blur-xl", scroll > scrollYLimit);
-        introPanel.classList.toggle("opacity-0", scroll > scrollYLimit);
-        introPanel.style.setProperty("--scroll-y", `${scroll}px`);
-      }
-    });
-
-    const observerOptions = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.25,
+    const updateIntro = () => {
+      const scroll = window.scrollY;
+      introPanel.classList.toggle(
+        "blur-xl",
+        !motionPreference.matches && scroll > 200,
+      );
+      introPanel.classList.toggle("opacity-0", scroll > 200);
+      introPanel.style.setProperty(
+        "--scroll-y",
+        motionPreference.matches ? "0px" : `${scroll}px`,
+      );
     };
+    const unregister = lenis?.registerCallback(updateIntro);
+    window.addEventListener("scroll", updateIntro, { passive: true });
+    motionPreference.addEventListener("change", updateIntro);
+    updateIntro();
 
-    const opacityObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        const target = entry.target as HTMLElement;
-        target.classList.add("translate-y-9");
-        if (entry.isIntersecting) {
-          target.classList.remove("scrolled");
-          target.classList.remove("translate-y-9");
-          observer.unobserve(target);
-        } else {
-          target.classList.add("scrolled");
-          target.classList.add("translate-y-9");
-        }
-      });
-    }, observerOptions);
-
-    const expandObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        const { target } = entry;
-        if (entry.isIntersecting) {
-          target.classList.add("lg:gap-3");
-          observer.unobserve(target);
-        }
-      });
-    }, observerOptions);
-
-    let hasTrackedBlurb = false;
-    const blurbObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasTrackedBlurb) {
-            hasTrackedBlurb = true;
-            blurbObserver.unobserve(entry.target);
-
-            const target = entry.target as HTMLDivElement;
-            const handleScroll = () => {
-              const { offsetHeight } = target;
-              const { scrollY } = window;
-
-              if (scrollY >= offsetHeight - 96) {
-                target.style.position = "sticky";
-                target.style.top = "0px";
-                target.style.left = "0px";
-                //target.style.zIndex = "-2";
-              } else {
-                target.style.position = "";
-                target.style.top = "";
-                target.style.left = "";
-                target.style.zIndex = "";
-              }
-
-              target.classList.toggle(
-                "opacity-0",
-                scrollY >= offsetHeight * 1.25,
-              );
-              target.classList.toggle("invisible", scrollY >= offsetHeight * 2);
-            };
-
-            document.addEventListener("scroll", handleScroll, {
-              passive: true,
-            });
-
-            onCleanup(() => {
-              document.removeEventListener("scroll", handleScroll);
-            });
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        for (const entry of entries) {
+          const element = entry.target as HTMLElement;
+          if (entry.isIntersecting || motionPreference.matches) {
+            element.classList.remove("scrolled", "translate-y-9");
+            observer.unobserve(element);
+          } else {
+            element.classList.add("scrolled", "translate-y-9");
           }
-        });
+        }
       },
       { threshold: 0.1 },
     );
-
-    opacityObserver.observe(moreContainer);
-    opacityObserver.observe(contactContainer);
-
+    if (!motionPreference.matches) {
+      revealObserver.observe(moreContainer);
+      revealObserver.observe(contactContainer);
+    }
     onCleanup(() => {
-      unregisterLenis();
-      document.removeEventListener("visibilitychange", visibilityHandler);
-      scrollerObserver.disconnect();
-      opacityObserver.disconnect();
-      expandObserver.disconnect();
-      blurbObserver.disconnect();
+      unregister?.();
+      window.removeEventListener("scroll", updateIntro);
+      motionPreference.removeEventListener("change", updateIntro);
+      revealObserver.disconnect();
     });
   });
 
   return (
     <>
-      <SEO
-        title="Creative Technologist in New Jersey and New York - Mike Angelo | Graphic and Motion Design, Web Development, and Advertising Campaigns"
-        description="Mike Angelo is a Creative Technologist serving New Jersey and the greater New York area, specializing in advertising campaigns, web design and development, and comprehensive advertising campaigns."
-        canonical="https://mikeangelo.art"
-        ogImage="https://cdn.mikeangelo.art/og-default.png"
+      <Show when={site()} keyed>
+        {(content) => <SEO
+        title={`${content.name} | ${content.role}`}
+        description={content.description}
+        canonical={content.url}
+        ogImage={content.ogImage}
         localBusiness={true}
         organization={true}
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "Person",
-          name: "Mike Angelo",
-          jobTitle: "Creative Technologist",
-          description:
-            "Creative Technologist serving New Jersey and the greater New York area",
-          url: "https://mikeangelo.art",
+          name: content.name,
+          jobTitle: content.role,
+          description: content.description,
+          url: content.url,
           address: {
             "@type": "PostalAddress",
             addressRegion: "NJ",
@@ -215,11 +107,12 @@ export default function Home() {
             "Web Development",
           ],
         }}
-      />
+      />}
+      </Show>
       <main class="w-full relative flex flex-col justify-center items-center">
         <section
+          aria-hidden="true"
           class="w-full h-screen fixed top-0 left-0 fade__animate -z-10"
-          ref={bgAnims}
         >
           <Suspense>
             <div class="fade__animate h-screen w-full flex justify-center items-center">
@@ -230,19 +123,23 @@ export default function Home() {
           </Suspense>
         </section>
         <section class="w-full h-screen -z-10"></section>
-        <section class="px-6 -z-10 fixed top-0 left-0 overflow-hidden perspective-normal mix-blend-difference h-screen w-full flex justify-center items-center">
+        <section class="px-4 lg:px-20 -z-10 fixed top-0 left-0 overflow-hidden perspective-normal mix-blend-difference h-screen w-full flex justify-center items-center">
           <article
             ref={introPanel}
             style={{
               transform: "translateZ(calc(var(--scroll-y, 0px) * -0.5))",
             }}
-            class="def__animate w-full flex flex-col justify-start md:ml-36 lg:ml-72 lg:items-center md:flex-row gap-4 md:gap-6 lg:gap-8"
+            class="def__animate w-full flex flex-col justify-start md:ml-36 lg:items-center md:flex-row gap-4 md:gap-6 lg:gap-8"
           >
-            <div class="not-dark:invert flex flex-col justify-center text-left w-full max-w-md">
-              <H1>Hi. I'm Mike.</H1>
-              <p class="dark:invert transition-opacity duration-100 ease-out">
-                I design high-quality creative assets for digital marketing,
-                social media content, and web development.
+            <div class="not-dark:invert flex flex-col gap-5 justify-center text-left w-full max-w-xl">
+              <h1 class="leading-tight text-[clamp(1.5rem,5vw,3rem)] text-black dark:text-white font-semibold">
+                {roleParts()[0]}
+                <Show when={roleParts().length > 1}>
+                  {" &"}<br />{roleParts().slice(1).join(" & ")}
+                </Show>
+              </h1>
+              <p class="dark:invert transition-opacity duration-100 ease-out max-w-lg">
+                {site()?.homePage.intro}
               </p>
             </div>
           </article>
@@ -250,7 +147,7 @@ export default function Home() {
 
         <div class="z-2 w-full">
           <section class="bg-neutral-100 dark:bg-neutral-950 w-full">
-            <SectionHeading>Project Highlights</SectionHeading>
+            <SectionHeading>Selected Work</SectionHeading>
           </section>
           <section class="w-full bg-white dark:bg-black py-18">
             <Show when={portfolioCollection()}>
@@ -268,7 +165,7 @@ export default function Home() {
           </section>
           <section class="w-full flex flex-col bg-white dark:bg-black">
             <div class="bg-neutral-100 dark:bg-neutral-950 w-full">
-              <SectionHeading>More Projects</SectionHeading>
+              <SectionHeading>More Portfolio Work</SectionHeading>
             </div>
             <div
               ref={moreContainer}
@@ -284,8 +181,49 @@ export default function Home() {
                 href="/projects"
                 class="text-center lg:mx-auto lg:text-left lg:flex w-full lg:w-fit items-center gap-2 text-xl font-bold px-9 py-6 rounded-xl bg-black dark:bg-white text-white dark:text-black hover:gap-3 transition-all duration-200 group/link"
               >
-                View All Projects
+                View All Work
               </A>
+            </div>
+          </section>
+          <section class="w-full bg-neutral-100 dark:bg-neutral-950 border-t border-black/10 dark:border-white/10">
+            <div class="w-full grid items-center gap-9 max-w-7xl px-6 py-18 mx-auto lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-12">
+              <div class="flex min-w-0 flex-col items-start gap-6">
+                <p class="text-black dark:text-white max-w-xl">
+                  {site()?.homePage.projectsIntro}
+                </p>
+                <A
+                  href="/personal"
+                  class="shrink-0 text-center font-bold px-6 py-4 rounded-xl bg-black dark:bg-white text-white dark:text-black hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-4"
+                >
+                  Explore Projects →
+                </A>
+              </div>
+              <Show when={personalProjectTeasers()?.length}>
+                <div class="grid min-w-0 grid-cols-3 gap-3 sm:gap-4" aria-label="Personal project previews">
+                  <For each={personalProjectTeasers()}>
+                    {(project) => (
+                      <A
+                        href={`/personal#${project.id}`}
+                        aria-label={`Explore ${project.title}`}
+                        class="group min-w-0 rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4"
+                      >
+                        <div class="relative aspect-16/10 overflow-hidden rounded-xl border border-black/10 bg-white transition-colors group-hover:border-black/30 dark:border-white/10 dark:bg-black dark:group-hover:border-white/40 [&>picture]:absolute [&>picture]:inset-0 [&>picture]:block [&>picture]:h-full [&>picture]:w-full">
+                          <Picture
+                            src={project.screenshot.src || ""}
+                            alt={project.screenshot.alt}
+                            width={project.screenshot.width}
+                            height={project.screenshot.height}
+                            class="block h-full w-full object-contain"
+                          />
+                        </div>
+                        <span class="mt-2 flex items-center justify-between gap-1 text-xs font-semibold text-black dark:text-white sm:text-sm">
+                          {project.title}<span aria-hidden="true">↗</span>
+                        </span>
+                      </A>
+                    )}
+                  </For>
+                </div>
+              </Show>
             </div>
           </section>
           <section class="py-36 border-t border-black/10 dark:border-white/10 w-full bg-white dark:bg-black">
@@ -298,8 +236,7 @@ export default function Home() {
                   <H2>Drop me a line.</H2>
                 </span>
                 <p class="text-black dark:text-white">
-                  I'm always looking for new opportunities and collaborations.
-                  Let's build something great.
+                  {site()?.homePage.contactIntro}
                 </p>
               </div>
               <Web3Form />

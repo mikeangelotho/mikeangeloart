@@ -1,141 +1,94 @@
-import { createSignal, Show } from 'solid-js';
-import { createImageSources, getWebPUrl, isWebPUrl } from '~/utils/image';
+import { createSignal, Show } from "solid-js";
+import { createImageSources } from "~/utils/image";
 
 interface PictureProps {
   src: string;
+  webpSrc?: string;
   alt: string;
   class?: string;
-  loading?: 'lazy' | 'eager';
+  loading?: "lazy" | "eager";
   width?: number | string;
   height?: number | string;
-  onClick?: (event: MouseEvent, displayedUrl: string) => void;
+  onClick?: (event: MouseEvent | KeyboardEvent, displayedUrl: string) => void;
   onError?: (event: Event) => void;
   onLoad?: (event: Event) => void;
-  // For lightbox integration
   onDisplayUrlChange?: (displayedUrl: string) => void;
-  ref?: HTMLElement;
+  ref?: HTMLPictureElement | ((element: HTMLPictureElement) => void);
 }
 
 export function Picture(props: PictureProps) {
-  const [hasError, setHasError] = createSignal(false);
-  const [isLoading, setIsLoading] = createSignal(true);
+  return <ResponsivePicture {...props} />;
+}
 
+interface ResponsivePictureProps extends PictureProps {
+  sizes?: string;
+  srcset?: { [descriptor: string]: string };
+  webpSrcset?: { [descriptor: string]: string };
+}
+
+export function ResponsivePicture(props: ResponsivePictureProps) {
+  const [failedSource, setFailedSource] = createSignal<string>();
   const imageSources = () => createImageSources(props.src);
-
-  // Determine which URL will be displayed (WebP if available and supported)
-  const getDisplayedUrl = (): string => {
-    if (hasError()) return props.src;
-    const sources = imageSources();
-    return sources.webp?.srcset || sources.fallback.srcset;
+  const originalSrcset = () => props.srcset
+    ? Object.entries(props.srcset).map(([descriptor, url]) => `${url} ${descriptor}`).join(", ")
+    : undefined;
+  const webpSrcset = () => {
+    if (failedSource() === props.src) return undefined;
+    if (props.webpSrcset) {
+      return Object.entries(props.webpSrcset).map(([descriptor, url]) => `${url} ${descriptor}`).join(", ") || undefined;
+    }
+    // Responsive candidates are supplied explicitly, rather than guessed.
+    if (props.srcset && !props.webpSrc) return undefined;
+    const candidate = props.webpSrc || imageSources().webp?.srcset;
+    return candidate !== props.src ? candidate : undefined;
   };
-
-  const handleClick = (event: MouseEvent) => {
-    const displayedUrl = getDisplayedUrl();
-    props.onClick?.(event, displayedUrl);
+  const displayedUrl = (event: Event) => {
+    const image = event.currentTarget as HTMLImageElement;
+    // currentSrc reflects format support, responsive selection and fallback.
+    return image.currentSrc || image.src || props.src;
   };
-
+  const handleClick = (event: MouseEvent | KeyboardEvent) => {
+    props.onClick?.(event, displayedUrl(event));
+  };
   const handleError = (event: Event) => {
-    setHasError(true);
-    setIsLoading(false);
+    if (webpSrcset()) {
+      setFailedSource(props.src);
+      return;
+    }
     props.onError?.(event);
   };
-
   const handleLoad = (event: Event) => {
-    setIsLoading(false);
-    props.onDisplayUrlChange?.(getDisplayedUrl());
+    props.onDisplayUrlChange?.(displayedUrl(event));
     props.onLoad?.(event);
   };
 
   return (
     <picture ref={props.ref}>
-      <Show when={imageSources().webp && !hasError()}>
-        <source
-          srcset={imageSources().webp!.srcset}
-          type="image/webp"
-        />
+      <Show when={webpSrcset()}>
+        <source srcset={webpSrcset()} type="image/webp" sizes={props.sizes} />
       </Show>
       <img
         src={imageSources().fallback.srcset}
+        srcset={originalSrcset()}
         alt={props.alt}
         class={props.class}
-        loading={props.loading || 'lazy'}
-        width={props.width}
-        height={props.height}
-        onClick={handleClick}
-        onError={handleError}
-        onLoad={handleLoad}
-      />
-    </picture>
-  );
-}
-
-interface ResponsivePictureProps extends Omit<PictureProps, 'src'> {
-  src: string;
-  sizes?: string;
-  width?: number | string;
-  height?: number | string;
-  srcset?: {
-    [breakpoint: string]: string; // e.g., { '640w': 'small.jpg', '1280w': 'large.jpg' }
-  };
-}
-
-export function ResponsivePicture(props: ResponsivePictureProps) {
-  const [hasError, setHasError] = createSignal(false);
-  const [isLoading, setIsLoading] = createSignal(true);
-
-  const imageSources = () => createImageSources(props.src);
-
-  const getDisplayedUrl = (): string => {
-    if (hasError()) return props.src;
-    const sources = imageSources();
-    return sources.webp?.srcset || sources.fallback.srcset;
-  };
-
-  const handleClick = (event: MouseEvent) => {
-    const displayedUrl = getDisplayedUrl();
-    props.onClick?.(event, displayedUrl);
-  };
-
-  const handleError = (event: Event) => {
-    setHasError(true);
-    setIsLoading(false);
-    props.onError?.(event);
-  };
-
-  const handleLoad = (event: Event) => {
-    setIsLoading(false);
-    props.onDisplayUrlChange?.(getDisplayedUrl());
-    props.onLoad?.(event);
-  };
-
-  return (
-    <picture>
-      <Show when={imageSources().webp && !hasError()}>
-        <source
-          srcset={imageSources().webp!.srcset}
-          type="image/webp"
-          sizes={props.sizes}
-        />
-      </Show>
-      <img
-        src={imageSources().fallback.srcset}
-        alt={props.alt}
-        class={props.class}
-        loading={props.loading || 'lazy'}
+        loading={props.loading || "lazy"}
+        decoding="async"
         sizes={props.sizes}
         width={props.width}
         height={props.height}
         onClick={handleClick}
+        role={props.onClick ? "button" : undefined}
+        tabIndex={props.onClick ? 0 : undefined}
+        onKeyDown={(event) => {
+          if (props.onClick && (event.key === "Enter" || event.key === " ")) {
+            event.preventDefault();
+            handleClick(event);
+          }
+        }}
         onError={handleError}
         onLoad={handleLoad}
       />
     </picture>
   );
-}
-
-/**
- * Hook to get the currently displayed URL for an image (considering WebP fallback)
- */
-export function useDisplayedUrl(src: string): string {
-  return isWebPUrl(src) ? src : getWebPUrl(src) || src;
 }

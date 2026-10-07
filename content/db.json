@@ -1,0 +1,1664 @@
+{
+  "$schema": "./db.schema.json",
+  "schemaVersion": 2,
+  "site": {
+    "name": "Mike Angelo",
+    "role": "Art Director & Multidisciplinary Designer",
+    "url": "https://mikeangelo.art",
+    "description": "Art direction, brand identities, integrated campaigns, and digital experiences by Mike Angelo. Based in New Jersey and working across the New York area.",
+    "ogImage": "https://cdn.mikeangelo.art/og-default.png",
+    "homePage": {
+      "intro": "I design brand identities, campaigns, motion, and websites. I carry a visual idea across the places people encounter a brand.",
+      "projectsIntro": "Alongside client work, I’m building apps, a game, and tools for my own creative workflow.",
+      "contactIntro": "Looking for a hands-on art director or multidisciplinary designer? Let’s talk about your team, brand, or next campaign."
+    },
+    "aboutPage": {
+      "description": "Brand identity, campaign design, video editing, motion, and web design by Mike Angelo, an art director and multidisciplinary designer based in New Jersey.",
+      "intro": "I’m Mike Angelo, an art director and multidisciplinary designer based in New Jersey. I work across brand identity, advertising, motion, and web design.",
+      "sections": [
+        {
+          "id": "how-i-work",
+          "title": "How I Work",
+          "paragraphs": [
+            "My work spans automotive, food, fitness, and wellness. I develop visual design for brands and campaigns, edit commercial and social video, create motion graphics, and design and build landing pages.",
+            "I like projects where the same idea has to work in several forms. I move between layout, motion, and code, collaborating with creative, production, and development teams to keep the result consistent."
+          ]
+        },
+        {
+          "id": "why-i-do-it",
+          "title": "Why I Do It",
+          "paragraphs": [
+            "I’m interested in how images, movement, and interaction change the way something feels. Personal apps, games, and visual experiments let me explore those connections outside a client brief.",
+            "Away from the screen, I like to hike and get lost in nature, write electric guitar songs that I immediately forget, attempt to skateboard, and stay endlessly curious about engineering, philosophy, and the universe."
+          ]
+        }
+      ]
+    },
+    "personalPage": {
+      "title": "Projects",
+      "description": "Cruio, RAID, and Indigo: apps and a game in development by Mike Angelo, followed by Solobook, R2D2, and visual experiments.",
+      "intro": "Apps, a game, and tools shaped by how I like to work. Ongoing projects, smaller builds, and visual experiments.",
+      "projectsHeading": "Passion projects",
+      "supportingHeading": "Smaller builds",
+      "supportingDescription": "Focused tools for reading, editing, and keeping a creative workflow moving.",
+      "mosaicHeading": "Odds & ends",
+      "mosaicDescription": "Blender renders, sketches, GIFs, and whatever else I’m experimenting with.",
+      "emptyMosaic": "More things are on the way."
+    }
+  },
+  "caseStudies": [
+    {
+      "id": "loopwell-the-space-for-well-being",
+      "slug": "loopwell-the-space-for-well-being",
+      "title": "Loopwell: The Space for Well-being",
+      "tags": [
+        "Art Direction",
+        "Brand Design",
+        "Web Design",
+        "Motion Design",
+        "Video Editing",
+        "Campaign Design",
+        "Event Content"
+      ],
+      "publishedAt": "2025-12-02",
+      "updatedAt": "2026-10-05",
+      "visibility": "public",
+      "client": {
+        "name": "Loopwell",
+        "logo": {
+          "id": "loopwell-the-space-for-well-being-client-logo",
+          "type": "image",
+          "src": "https://cdn.mikeangelo.art/loopwell-the-space-for-well-being/keypoint-media/loopwell-logo.png",
+          "alt": "Loopwell logo with circular pattern",
+          "width": 350,
+          "height": 355
+        }
+      },
+      "cover": {
+        "id": "loopwell-the-space-for-well-being-cover",
+        "type": "image",
+        "src": "https://cdn.mikeangelo.art/loopwell-the-space-for-well-being/cover.webp",
+        "alt": "Loopwell meditation room interior showing serene design and calming atmosphere",
+        "width": 1500,
+        "height": 1000
+      },
+      "objective": "Loopwell was turning an empty building in Montclair, New Jersey into a wellness and event space. The brand and website needed to introduce the space and support events, memberships, reservations, and payments.",
+      "intro": [
+        "I helped develop Loopwell's visual identity and created its promotional materials, video edits and motion assets. I designed and implemented landing pages and helped design and develop the event and membership website, adding custom integrations and scripts around its operational needs. Event teams, instructors and wellness partners contributed to the productions and experiences this work supported."
+      ],
+      "contribution": {
+        "role": "Art Director & Designer",
+        "summary": "I helped develop Loopwell's logo and visual identity, designed promotional materials and landing pages, edited video, and created motion and paid social ads.",
+        "responsibilities": [
+          "Logo and visual identity development",
+          "Promotional visual design",
+          "Landing page design and implementation",
+          "Video editing and motion design",
+          "Paid social ad creative",
+          "Website design, custom integrations and scripts"
+        ],
+        "collaborators": [
+          "Loopwell founders and creative team",
+          "Event and production teams",
+          "Wellness instructors and partner organizations"
+        ],
+        "deliverables": [
+          "Brand and promotional materials",
+          "Event, membership and e-commerce website",
+          "Landing pages",
+          "Event films, motion and social ads"
+        ]
+      },
+      "results": [
+        {
+        "value": "10+ events per week",
+        "label": "Reported venue programming"
+        },
+        {
+        "value": "Brand, website, and event content",
+        "label": "Connected launch materials"
+        }
+      ],
+      "hero": {
+        "id": "loopwell-the-space-for-well-being-loopwell-brand-video",
+        "type": "video",
+        "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/693622dc7d19d07028497caa/main.mp4",
+        "alt": "Loopwell brand video teaser showcasing wellness spaces and community events",
+        "title": "Loopwell Brand Video",
+        "caption": "Brand video introducing Loopwell's well-being space and community, created for the brand's soft launch.",
+        "client": "Loopwell"
+      },
+      "featuredMediaIds": [
+        "loopwell-the-space-for-well-being-loopwell-logos",
+        "loopwell-the-space-for-well-being-loopwell-6",
+        "loopwell-the-space-for-well-being-loopwell-wall",
+        "loopwell-the-space-for-well-being-corp-gif"
+      ],
+      "sections": [
+        {
+          "id": "breaking-ground-on-the-brand",
+          "title": "An identity for a new wellness space",
+          "paragraphs": [
+            "I helped develop Loopwell's logo and visual identity while the space was taking shape. The final direction drew on nature and human connection, using organic forms to express the brand's focus on well-being. I carried that direction into promotional materials and digital experiences."
+          ],
+          "media": [
+            {
+              "id": "loopwell-the-space-for-well-being-loopwell-logos",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/loopwell-the-space-for-well-being/keypoint-media/loopwell-logos.png",
+              "alt": "Various naturalistic and organic Loopwell logo concepts",
+              "width": 1440,
+              "height": 810
+            },
+            {
+              "id": "loopwell-the-space-for-well-being-loopwell-wall",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/loopwell-the-space-for-well-being/keypoint-media/loopwell-wall.png",
+              "alt": "Quote wall for Loopwell that says 'All are welcome here. At loop, we work and live responsibly, mindfully and with purpose. To better our companies, communities, families, and ourselves. To be good humans and a force for good in the world.'",
+              "width": 1123,
+              "height": 1453
+            },
+            {
+              "id": "loopwell-the-space-for-well-being-loopwell-2",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/loopwell-the-space-for-well-being/keypoint-media/loopwell-2.jpg",
+              "alt": "Loopwell branding on the large screen in the main space surrounded by plants and large windows",
+              "width": 1500,
+              "height": 999
+            },
+            {
+              "id": "loopwell-the-space-for-well-being-loopwell-5",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/loopwell-the-space-for-well-being/keypoint-media/loopwell-5.jpg",
+              "alt": "Apothecary area at Loopwell with various plant decor and holistic products",
+              "width": 2293,
+              "height": 1667
+            },
+            {
+              "id": "loopwell-the-space-for-well-being-loopwell-1",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/loopwell-the-space-for-well-being/keypoint-media/loopwell-1.jpg",
+              "alt": "Loopwell slogan 'loop with us' on an organic fern backdrop",
+              "width": 2500,
+              "height": 1406
+            }
+          ]
+        },
+        {
+          "id": "building-a-powerful-site",
+          "title": "Designing the event and membership website",
+          "paragraphs": [
+            "Loopwell needed to manage weekly events, attendees, memberships, space reservations and payments. I helped design and develop the website, implementing custom design integrations and scripts around those needs. I also designed and implemented landing pages that connected the brand's promotional work to its offerings."
+          ],
+          "media": [
+            {
+              "id": "loopwell-the-space-for-well-being-loopwell-6",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/loopwell-the-space-for-well-being/keypoint-media/loopwell-6.mp4",
+              "alt": "Video demonstration of Loopwell website event calendar"
+            },
+            {
+              "id": "loopwell-the-space-for-well-being-loopwell-7",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/loopwell-the-space-for-well-being/keypoint-media/loopwell-7.png",
+              "alt": "Example of an event registration modal on the Loopwell website",
+              "width": 1188,
+              "height": 891
+            },
+            {
+              "id": "loopwell-the-space-for-well-being-loopwell-mobile-1",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/loopwell-the-space-for-well-being/keypoint-media/loopwell-mobile-1.mp4",
+              "alt": "Video demonstration of the Loopwell website in a mobile window"
+            },
+            {
+              "id": "loopwell-the-space-for-well-being-loopwell-wheel",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/loopwell-the-space-for-well-being/keypoint-media/loopwell-wheel.mp4",
+              "alt": "Loopwell wellness wheel custom script"
+            },
+            {
+              "id": "loopwell-the-space-for-well-being-loopwell-9",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/loopwell-the-space-for-well-being/keypoint-media/loopwell-9.mp4",
+              "alt": "Video demonstration of Loopwell website capabilities"
+            }
+          ]
+        },
+        {
+          "id": "a-v-production-and-event-ecosystem",
+          "title": "Turning events into film and social content",
+          "paragraphs": [
+            "I worked with production teams on event filming, live streaming and live production setups, then edited the footage and created motion graphics. I designed promotional materials and paid social ads for Loopwell and its event partners, extending each event into content that could support the wider wellness community."
+          ],
+          "media": [
+            {
+              "id": "loopwell-the-space-for-well-being-corp-gif",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/loopwell-the-space-for-well-being/keypoint-media/corp%20gif.mp4",
+              "alt": "Corporate wellness event production highlights with professional lighting and setup"
+            },
+            {
+              "id": "loopwell-the-space-for-well-being-sofistafunk-gif",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/loopwell-the-space-for-well-being/keypoint-media/sofistafunk%20gif.mp4",
+              "alt": "Sofistafunk music event live stream recording with multi-camera production"
+            },
+            {
+              "id": "loopwell-the-space-for-well-being-loopwell-yoga",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/loopwell-the-space-for-well-being/keypoint-media/loopwell-yoga.png",
+              "alt": "Yoga class hosted at Loopwell",
+              "width": 931,
+              "height": 698
+            },
+            {
+              "id": "loopwell-the-space-for-well-being-volvo-gif",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/loopwell-the-space-for-well-being/keypoint-media/volvo-gif.mp4",
+              "alt": "Volvo partnership event showing luxury vehicle display and wellness integration"
+            },
+            {
+              "id": "loopwell-the-space-for-well-being-loopwell-food",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/loopwell-the-space-for-well-being/keypoint-media/loopwell-food.png",
+              "alt": "Cooking class hosted at Loopwell",
+              "width": 1504,
+              "height": 1004
+            }
+          ]
+        }
+      ],
+      "videos": [
+        {
+          "id": "loopwell-the-space-for-well-being-loopwell-montclair-film-festival",
+          "type": "video",
+          "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/69595ec2d73a53e69e7d3b8d/download.mp4",
+          "alt": "Montclair Film Festival collaboration video at Loopwell venue",
+          "title": "Loopwell: Montclair Film Festival",
+          "caption": "We hosted the annual Montclair Film Festival for cocktail hours, networking events, and screenings.",
+          "client": "Loopwell"
+        },
+        {
+          "id": "loopwell-the-space-for-well-being-loopwell-hermd",
+          "type": "video",
+          "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/695963e5d73a53e69e7daa85/download.mp4",
+          "alt": "HerMD women's health workshop event at Loopwell wellness center",
+          "title": "Loopwell: HerMD",
+          "caption": "Women's health and wellness workshop production video",
+          "client": "Loopwell"
+        },
+        {
+          "id": "loopwell-the-space-for-well-being-loopwell-ypo",
+          "type": "video",
+          "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/69595ec3f3928b38fc4f78af/download.mp4",
+          "alt": "Young Presidents Organization corporate wellness event video",
+          "title": "Loopwell: YPO",
+          "caption": "Executive wellness retreat and networking event production",
+          "client": "Loopwell"
+        },
+        {
+          "id": "loopwell-the-space-for-well-being-loopwell-wim-hof",
+          "type": "video",
+          "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/69596fc8f3928b38fc509c20/download.mp4",
+          "alt": "Wim Hof method workshop and breathing exercises demonstration video",
+          "title": "Loopwell: Wim Hof",
+          "caption": "Cold therapy and breathing workshop event recording",
+          "client": "Loopwell"
+        },
+        {
+          "id": "loopwell-the-space-for-well-being-loopwell-water-org",
+          "type": "video",
+          "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/69595ec2f3928b38fc4f78a2/download.mp4",
+          "alt": "Water.org charity wellness event and fundraising video",
+          "title": "Loopwell: Water.org",
+          "caption": "Nonprofit partnership event for clean water initiative",
+          "client": "Loopwell"
+        },
+        {
+          "id": "loopwell-the-space-for-well-being-loopwell-hope-for-the-flowers-trina-paulus",
+          "type": "video",
+          "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/69595ec2d73a53e69e7d3b87/download.mp4",
+          "alt": "Hope for the Flowers author event with Trina Paulus at Loopwell",
+          "title": "Loopwell: Hope for the Flowers - Trina Paulus",
+          "caption": "Literary event and book signing with author Trina Paulus",
+          "client": "Loopwell"
+        },
+        {
+          "id": "loopwell-the-space-for-well-being-loopwell-brand-video",
+          "type": "video",
+          "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/693622dc7d19d07028497caa/main.mp4",
+          "alt": "Loopwell brand video teaser showcasing wellness spaces and community events",
+          "title": "Loopwell Brand Video",
+          "caption": "Brand video introducing Loopwell's well-being space and community, created for the brand's soft launch.",
+          "client": "Loopwell"
+        }
+      ]
+    },
+    {
+      "id": "bahlsen-drone-drop-pop-up",
+      "slug": "bahlsen-drone-drop-pop-up",
+      "title": "Drone Drop Pop-up",
+      "tags": [
+        "Art Direction",
+        "Campaign Design",
+        "Motion Design",
+        "Video Editing",
+        "Web Design",
+        "Event Content"
+      ],
+      "publishedAt": "2025-12-02",
+      "updatedAt": "2026-10-05",
+      "visibility": "public",
+      "client": {
+        "name": "Bahlsen",
+        "logo": {
+          "id": "bahlsen-drone-drop-pop-up-client-logo",
+          "type": "image",
+          "src": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/Bahlsen%2BBlu.webp",
+          "alt": "Bahlsen logo",
+          "width": 750,
+          "height": 215
+        }
+      },
+      "cover": {
+        "id": "bahlsen-drone-drop-pop-up-cover",
+        "type": "image",
+        "src": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/cover.jpg",
+        "alt": "Drone delivering Bahlsen leibniz package to a surprised person on city street during marketing event",
+        "width": 1024,
+        "height": 768
+      },
+      "objective": "Bahlsen wanted to introduce its refreshed brand and biscuit range through a local activation, then carry that event into a wider digital campaign.",
+      "intro": [
+        "The campaign brought Bahlsen products to shoppers through drone deliveries in Montclair. I contributed to pre-production, edited the footage, designed promotional materials and paid social ads, and created motion assets. I also designed and implemented the landing pages. Teasers and follow-up content connected the live event to a coordinated digital campaign that continued after the drones landed."
+      ],
+      "contribution": {
+        "role": "Art Director & Designer",
+        "summary": "I designed promotional materials and landing pages, edited the event footage, and created motion and paid social ads for Bahlsen's drone-delivery pop-up.",
+        "responsibilities": [
+          "Promotional visual design",
+          "Video editing and motion design",
+          "Paid social ad creative",
+          "Landing page design and implementation",
+          "Collaborative event pre-production"
+        ],
+        "collaborators": [
+          "Agency creative team",
+          "Drone operators and camera crew",
+          "Bahlsen client team"
+        ],
+        "deliverables": [
+          "Event and behind-the-scenes video edits",
+          "Animated and interactive digital banners",
+          "Paid and organic social creative",
+          "Promotional print materials and landing pages"
+        ]
+      },
+      "results": [
+        {
+          "value": "28% increase in sales"
+        },
+        {
+          "value": "223% increase in followers"
+        }
+      ],
+      "hero": {
+        "id": "bahlsen-drone-drop-pop-up-drone-drop-pop-up",
+        "type": "video",
+        "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/69361d707d19d07028493efa/main.m3u8",
+        "alt": "Bahlsen drone drop marketing campaign video showing drone deliveries and surprised reactions",
+        "title": "Drone Drop Pop-up",
+        "caption": "Innovative drone delivery marketing campaign featuring surprise cookie drops to pedestrians in Montclair",
+        "client": "Bahlsen"
+      },
+      "featuredMediaIds": [
+        "bahlsen-drone-drop-pop-up-ba-retargeting",
+        "bahlsen-drone-drop-pop-up-ma-bahlsen-dronehtmlmockup-shop",
+        "bahlsen-drone-drop-pop-up-ba-landing",
+        "bahlsen-drone-drop-pop-up-ma-bahlsen-drones-social-mock"
+      ],
+      "sections": [
+        {
+          "id": "an-event-to-remember",
+          "title": "Planning and editing the live event",
+          "paragraphs": [
+            "I contributed to the event's pre-production alongside the creative and production teams, including rough storyboards, shot planning and coordination with the camera crew and drone operators. The live activation gave us real reactions and footage to build the campaign around; I edited those moments into promotional content."
+          ],
+          "media": [
+            {
+              "id": "bahlsen-drone-drop-pop-up-drone-5",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/keypoint-media/drone-5.jpg",
+              "alt": "Event coordinators working on attaching boxes of Bahlsen leibniz to a drone",
+              "width": 2016,
+              "height": 1512
+            },
+            {
+              "id": "bahlsen-drone-drop-pop-up-drone-1",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/keypoint-media/drone-1.png",
+              "alt": "Drone hovering over a Montclair, NJ street preparing to drop a box of Bahlsen leibniz",
+              "width": 1676,
+              "height": 939
+            },
+            {
+              "id": "bahlsen-drone-drop-pop-up-drone-4",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/keypoint-media/drone-4.jpg",
+              "alt": "Camera crew filming drone event",
+              "width": 2016,
+              "height": 1512
+            },
+            {
+              "id": "bahlsen-drone-drop-pop-up-drone-2",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/keypoint-media/drone-2.png",
+              "alt": "Man grabbing a box of Bahlsen leibniz from a drone",
+              "width": 1668,
+              "height": 939
+            },
+            {
+              "id": "bahlsen-drone-drop-pop-up-drone-3",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/keypoint-media/drone-3.png",
+              "alt": "Man happily grabbing a box of Bahlsen leibniz from a drone",
+              "width": 1671,
+              "height": 933
+            }
+          ]
+        },
+        {
+          "id": "digital-and-promotional-design",
+          "title": "Digital and promotional design",
+          "paragraphs": [
+            "I designed promotional print materials, animated and interactive banners, paid social ads and landing pages. I created motion assets and implemented the landing pages, connecting the event's visual language across the materials used to reach and retarget shoppers."
+          ],
+          "media": [
+            {
+              "id": "bahlsen-drone-drop-pop-up-ma-bahlsen-dronehtmlmockup-shop",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/keypoint-media/MA_Bahlsen_DroneHTMLMockup_Shop.mp4",
+              "alt": "Interactive HTML banner ad showing Bahlsen shop with drone delivery theme"
+            },
+            {
+              "id": "bahlsen-drone-drop-pop-up-ba-landing",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/keypoint-media/ba-landing.mp4",
+              "alt": "Landing page for a coupon to purchase Bahlsen leibniz"
+            },
+            {
+              "id": "bahlsen-drone-drop-pop-up-ma-bahlsen-dronehtmlmockup-intro",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/keypoint-media/MA_Bahlsen_DroneHTMLMockup_Intro.mp4",
+              "alt": "Animated intro banner showcasing Bahlsen drone delivery marketing concept"
+            },
+            {
+              "id": "bahlsen-drone-drop-pop-up-ba-retargeting",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/keypoint-media/ba-retargeting.png",
+              "alt": "Retargeting ad for the Bahlsen drone campaign",
+              "width": 1080,
+              "height": 1080
+            },
+            {
+              "id": "bahlsen-drone-drop-pop-up-ba-coupon",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/keypoint-media/ba-coupon.png",
+              "alt": "Coupon",
+              "width": 1350,
+              "height": 1777
+            }
+          ]
+        },
+        {
+          "id": "social-media-content",
+          "title": "Editing event footage for social",
+          "paragraphs": [
+            "I edited event footage, preparation footage and behind-the-scenes moments into a series of social videos, adding motion and designing paid social creative. These assets supported paid and organic distribution, giving the campaign material to keep the conversation going after the pop-up."
+          ],
+          "media": [
+            {
+              "id": "bahlsen-drone-drop-pop-up-ma-bahlsen-drones-social-mock",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/keypoint-media/MA_Bahlsen_Drones-Social-Mock.mp4",
+              "alt": "Social media video content showing Bahlsen drone campaign behind the scenes and reactions"
+            },
+            {
+              "id": "bahlsen-drone-drop-pop-up-drone-descending-1",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/keypoint-media/drone%20descending_1.mp4",
+              "alt": "Drones descending on the streets of Montclair, NJ"
+            },
+            {
+              "id": "bahlsen-drone-drop-pop-up-ba-choco",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/keypoint-media/ba-choco.mp4",
+              "alt": "Bahlsen new branding teaser"
+            },
+            {
+              "id": "bahlsen-drone-drop-pop-up-ba-boxes",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/keypoint-media/ba-boxes.png",
+              "alt": "Van full of Bahlsen leibniz boxes",
+              "width": 1080,
+              "height": 1080
+            },
+            {
+              "id": "bahlsen-drone-drop-pop-up-ba-transition",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/bahlsen-drone-drop-pop-up/keypoint-media/ba-transition.mp4",
+              "alt": "Bahlsen branding transition teaser"
+            }
+          ]
+        }
+      ],
+      "videos": [
+        {
+          "id": "bahlsen-drone-drop-pop-up-drone-drop-pop-up",
+          "type": "video",
+          "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/69361d707d19d07028493efa/main.m3u8",
+          "alt": "Bahlsen drone drop marketing campaign video showing drone deliveries and surprised reactions",
+          "title": "Drone Drop Pop-up",
+          "caption": "Innovative drone delivery marketing campaign featuring surprise cookie drops to pedestrians in Montclair",
+          "client": "Bahlsen"
+        }
+      ]
+    },
+    {
+      "id": "benzel-busch-mercedes-benz-marketing",
+      "slug": "benzel-busch-mercedes-benz-marketing",
+      "title": "Mercedes-Benz & Genesis Marketing",
+      "tags": [
+        "Art Direction",
+        "Campaign Design",
+        "Web Design",
+        "Motion Design",
+        "Video Editing"
+      ],
+      "publishedAt": "2025-12-02",
+      "updatedAt": "2026-10-05",
+      "visibility": "public",
+      "client": {
+        "name": "Benzel-Busch",
+        "logo": {
+          "id": "benzel-busch-mercedes-benz-marketing-client-logo",
+          "type": "image",
+          "src": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/BB_CloverLogo_Color.png",
+          "alt": "Benzel-Busch Mercedes-Benz dealership logo",
+          "width": 158,
+          "height": 157
+        }
+      },
+      "cover": {
+        "id": "benzel-busch-mercedes-benz-marketing-cover",
+        "type": "image",
+        "src": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/cover.jpg",
+        "alt": "Mercedes-Benz AMG driving on a scenic tropical road",
+        "width": 800,
+        "height": 800
+      },
+      "objective": "Benzel-Busch needed ongoing advertising for its Mercedes-Benz and Genesis dealerships. The work had to stay consistent across print, digital, social, commercials, and landing pages while giving the dealership a presence beyond standard manufacturer assets.",
+      "intro": [
+        "I designed promotional materials and paid social ads, edited commercials, created motion graphics, and designed and implemented landing pages. The work gave Benzel-Busch's Mercedes-Benz and Genesis campaigns a consistent presence across channels. For the broader website rebuild, I collaborated with a development partner on the WordPress platform."
+      ],
+      "contribution": {
+        "role": "Art Director & Designer",
+        "summary": "I designed campaign materials and landing pages, edited commercials, and created motion and paid social ads for Benzel-Busch's Mercedes-Benz and Genesis campaigns.",
+        "responsibilities": [
+          "Campaign and promotional visual design",
+          "Video editing and motion design",
+          "Paid social ad creative",
+          "Landing page design and implementation",
+          "Campaign design and execution"
+        ],
+        "collaborators": [
+          "Agency creative team",
+          "Commercial production team",
+          "Website development partner",
+          "Benzel-Busch client team"
+        ],
+        "deliverables": [
+          "Campaign print and digital creative",
+          "Commercial video edits and motion",
+          "Paid and organic social creative",
+          "Landing pages and website design contributions"
+        ],
+        "tools": [
+          "WordPress"
+        ]
+      },
+      "results": [
+        {
+          "value": "178% increase in engagement"
+        },
+        {
+          "value": "59% video completion rate"
+        }
+      ],
+      "hero": {
+        "id": "benzel-busch-mercedes-benz-marketing-parts",
+        "type": "video",
+        "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/693cb2927ada4a2333072e24/main.m3u8",
+        "alt": "Mercedes-Benz parts and service commercial highlighting genuine components and expert technicians",
+        "title": "Parts",
+        "caption": "Automotive service promotional video showcasing authentic Mercedes-Benz parts and professional maintenance",
+        "client": "Benzel-Busch"
+      },
+      "featuredMediaIds": [
+        "benzel-busch-mercedes-benz-marketing-garage-doors",
+        "benzel-busch-mercedes-benz-marketing-bb-goe-brand",
+        "benzel-busch-mercedes-benz-marketing-bb-email",
+        "benzel-busch-mercedes-benz-marketing-bb-sani-still"
+      ],
+      "sections": [
+        {
+          "id": "distinct-ad-campaigns",
+          "title": "Campaign design across print and digital",
+          "paragraphs": [
+            "The campaigns drew on Benzel-Busch's service incentives and distinct tone. I carried those ideas into print, digital banners, paid social ads and landing pages, designing the promotional materials and motion assets. This connected the dealership's customer experience to a recognizable visual presence across channels."
+          ],
+          "media": [
+            {
+              "id": "benzel-busch-mercedes-benz-marketing-garage-doors",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/garage-doors.jpg",
+              "alt": "Mercedes-Benz print ad that shows a chrome Mercedes-Benz prototype and reads 'Why Garage Doors Have Windows.'",
+              "width": 1080,
+              "height": 855
+            },
+            {
+              "id": "benzel-busch-mercedes-benz-marketing-bb-mother-nature",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-mother-nature.png",
+              "alt": "Mercedes-Benz G-Wagon facing forward in a mountain landscape and reads 'One Serious Mother for Mother Nature.'",
+              "width": 1512,
+              "height": 1120
+            },
+            {
+              "id": "benzel-busch-mercedes-benz-marketing-bb-goe-brand",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-goe-brand.png",
+              "alt": "Genesis billboard ad that shows the grill of a Genesis vehicle and reads 'Genesis is the Start of Something New.'",
+              "width": 1440,
+              "height": 792
+            },
+            {
+              "id": "benzel-busch-mercedes-benz-marketing-bb-email",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-email.png",
+              "alt": "Benzel-Busch newsletter displayed on mobile",
+              "width": 908,
+              "height": 840
+            },
+            {
+              "id": "benzel-busch-mercedes-benz-marketing-bb-banners",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-banners.jpg",
+              "alt": "Mercedes-Benz digital advertising banners showcasing electric vehicle specials",
+              "width": 1920,
+              "height": 1080
+            }
+          ]
+        },
+        {
+          "id": "commercial-editing-and-motion",
+          "title": "Commercial editing and motion",
+          "paragraphs": [
+            "The agency and production team developed commercial spots for the campaigns. I edited the footage and created motion graphics, turning the productions into brand-specific advertising and social content that gave Benzel-Busch a presence beyond standard manufacturer assets."
+          ],
+          "media": [
+            {
+              "id": "benzel-busch-mercedes-benz-marketing-bb-rr-gif",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-rr-gif.mp4",
+              "alt": "Annual Benzel-Busch Road Rally days-long event featuring test drives, high-performance models, and other attractions"
+            },
+            {
+              "id": "benzel-busch-mercedes-benz-marketing-bb-sani-still",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-sani-still.png",
+              "alt": "Still from the 'Valet' spot by Benzel-Busch showing an unusual man receiving the keys back to his car",
+              "width": 3320,
+              "height": 1861
+            },
+            {
+              "id": "benzel-busch-mercedes-benz-marketing-bb-nyc-gif",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-nyc-gif.mp4",
+              "alt": "Special NYC-area brand gif promoting concierge services for customers"
+            },
+            {
+              "id": "benzel-busch-mercedes-benz-marketing-bb-sprinter",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-sprinter.jpg",
+              "alt": "A Benzel-Busch customer sitting in the back of their custom Mercedes-Benz Sprinter featured for van life",
+              "width": 4480,
+              "height": 5246
+            },
+            {
+              "id": "benzel-busch-mercedes-benz-marketing-bb-f1-gif",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-f1-gif.mp4",
+              "alt": "Formula 1 Monaco Grand Prix watch party event footage at Benzel-Busch Mercedes dealership"
+            }
+          ]
+        },
+        {
+          "id": "website-management-and-maintenance",
+          "title": "Website design and campaign landing pages",
+          "paragraphs": [
+            "As online vehicle buying grew in 2020, the team worked with a development partner to rebuild Benzel-Busch's site on WordPress. I helped design the broader website and designed and implemented campaign landing pages, connecting the creative to useful vehicle and dealership information. The development partner handled the platform build in collaboration with our team."
+          ],
+          "media": [
+            {
+              "id": "benzel-busch-mercedes-benz-marketing-bb-site-gif",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-site-gif.mp4",
+              "alt": "Benzel-Busch responsive website demo showing inventory search and vehicle details"
+            },
+            {
+              "id": "benzel-busch-mercedes-benz-marketing-bb-sig-event",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-sig-event.png",
+              "alt": "Hero image for the Genesis Signature Event",
+              "width": 600,
+              "height": 400
+            },
+            {
+              "id": "benzel-busch-mercedes-benz-marketing-bb-site-2",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-site-2.mp4",
+              "alt": "Mobile website demonstration featuring financing calculator and appointment scheduling"
+            },
+            {
+              "id": "benzel-busch-mercedes-benz-marketing-bb-ev",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-ev.png",
+              "alt": "Promo image for Mercedes-Benz' EV lineup",
+              "width": 600,
+              "height": 400
+            },
+            {
+              "id": "benzel-busch-mercedes-benz-marketing-bb-blog",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-mercedes-benz-marketing/keypoint-media/bb-blog.png",
+              "alt": "Mobile view of a Benzel-Busch blog post highlighting a marketing incentive",
+              "width": 1080,
+              "height": 1080
+            }
+          ]
+        }
+      ],
+      "videos": [
+        {
+          "id": "benzel-busch-mercedes-benz-marketing-f1-monaco-watch-party",
+          "type": "video",
+          "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/69598c25d73a53e69e7ff654/main.m3u8",
+          "alt": "Formula 1 Monaco Grand Prix watch party event at Benzel-Busch Mercedes dealership",
+          "title": "F1 Monaco Watch Party",
+          "caption": "Formula 1 Monaco Grand Prix watch party event at Benzel-Busch Mercedes dealership",
+          "client": "Benzel-Busch"
+        },
+        {
+          "id": "benzel-busch-mercedes-benz-marketing-sales",
+          "type": "video",
+          "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/693cb2927ada4a2333072e2a/main.m3u8",
+          "alt": "Benzel-Busch \"Sales\" commercial",
+          "title": "Sales",
+          "caption": "An improvised sketch on car sales.",
+          "client": "Benzel-Busch"
+        },
+        {
+          "id": "benzel-busch-mercedes-benz-marketing-road-rally",
+          "type": "video",
+          "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/69793d1ec2fb61ce193992f2/main.m3u8",
+          "alt": "Annual Benzel-Busch Road Rally days-long event featuring test drives, high-performance models, and other attractions",
+          "title": "Road Rally",
+          "caption": "Annual Benzel-Busch Road Rally days-long event featuring test drives, high-performance models, and other attractions",
+          "client": "Benzel-Busch"
+        },
+        {
+          "id": "benzel-busch-mercedes-benz-marketing-valet",
+          "type": "video",
+          "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/693cb2923cf0cd39b966164f/main.m3u8",
+          "alt": "Benzel-Busch \"Valet\" commercial",
+          "title": "Valet",
+          "caption": "Comedic spot highlighting Benzel-Busch's valet service.",
+          "client": "Benzel-Busch"
+        },
+        {
+          "id": "benzel-busch-mercedes-benz-marketing-service",
+          "type": "video",
+          "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/693cb2923cf0cd39b9661649/main.m3u8",
+          "alt": "Benzel-Busch \"Service\" commercial",
+          "title": "Service",
+          "caption": "An exaggerated take on life working in the service department.",
+          "client": "Benzel-Busch"
+        },
+        {
+          "id": "benzel-busch-mercedes-benz-marketing-parts",
+          "type": "video",
+          "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/693cb2927ada4a2333072e24/main.m3u8",
+          "alt": "Benzel-Busch commercial 'Parts'",
+          "title": "Parts",
+          "caption": "Our commercial spot \"Parts\" filmed in the dealership parts office.",
+          "client": "Benzel-Busch"
+        }
+      ]
+    },
+    {
+      "id": "blauner-fitness-fuel-your-fitness-fire",
+      "slug": "blauner-fitness-fuel-your-fitness-fire",
+      "title": "Fuel Your Fitness Fire",
+      "tags": [
+        "Brand Design",
+        "Web Design",
+        "Campaign Design",
+        "Print Design"
+      ],
+      "publishedAt": "2025-12-02",
+      "updatedAt": "2026-10-05",
+      "visibility": "public",
+      "client": {
+        "name": "Blauner Fitness",
+        "logo": {
+          "id": "blauner-fitness-fuel-your-fitness-fire-client-logo",
+          "type": "image",
+          "src": "https://cdn.mikeangelo.art/blauner-fitness-fuel-your-fitness-fire/pfmblogo.png",
+          "alt": "Blauner Fitness logo",
+          "width": 1890,
+          "height": 961
+        }
+      },
+      "cover": {
+        "id": "blauner-fitness-fuel-your-fitness-fire-cover",
+        "type": "image",
+        "src": "https://cdn.mikeangelo.art/blauner-fitness-fuel-your-fitness-fire/cover.webp",
+        "alt": "Blauner Fitness promotional campaign featuring at-home personal training services",
+        "width": 1441,
+        "height": 1080
+      },
+      "objective": "Blauner Fitness was introducing new at-home training services and needed an updated website and campaign materials to explain the offer and encourage consultation inquiries.",
+      "intro": [
+        "I worked with the founder to develop strategies for new services, then used updated photography and brand assets to redesign the website and supporting materials. Dedicated service pages, an FAQ and a consultation form gave prospective clients a clearer path to inquiry. Social campaigns and direct mail supported the launch over six months."
+      ],
+      "contribution": {
+        "role": "Designer",
+        "summary": "I worked directly with the founder on campaign strategy, refreshed brand materials and website design to introduce Blauner Fitness's new at-home services.",
+        "responsibilities": [
+          "Collaborative campaign strategy",
+          "Brand and promotional design",
+          "Website and landing page design",
+          "Social and direct-mail campaign materials"
+        ],
+        "collaborators": [
+          "Blauner Fitness founder"
+        ],
+        "duration": "6-month social campaign",
+        "deliverables": [
+          "Refreshed website and service pages",
+          "FAQ and consultation form",
+          "Paid and organic social creative",
+          "Direct-to-consumer mailers"
+        ]
+      },
+      "results": [
+        {
+          "value": "+150% Website Impressions"
+        },
+        {
+          "value": "+15% Social Media Engagement"
+        }
+      ],
+      "hero": {
+        "id": "blauner-fitness-fuel-your-fitness-fire-pfmb-main",
+        "type": "video",
+        "src": "https://cdn.mikeangelo.art/blauner-fitness-fuel-your-fitness-fire/pfmb-main.mp4",
+        "alt": "Blauner Fitness campaign video highlighting at-home personal training services",
+        "title": "Main",
+        "caption": "Primary campaign video introducing Blauner Fitness’ new at-home and GLP-1 focused training services",
+        "client": "Blauner Fitness"
+      },
+      "featuredMediaIds": [
+        "blauner-fitness-fuel-your-fitness-fire-pfmb-kickstarter-wide",
+        "blauner-fitness-fuel-your-fitness-fire-pfmb-social",
+        "blauner-fitness-fuel-your-fitness-fire-pfmb-print-ad",
+        "blauner-fitness-fuel-your-fitness-fire-pfmb-mailer"
+      ],
+      "sections": [
+        {
+          "id": "campaign-visual-design",
+          "title": "Introducing at-home training services",
+          "paragraphs": [
+            "I worked directly with the owner to shape marketing strategies for in-home personal training and a new GLP-1 fitness program. That collaboration gave the website and promotional design a clear focus on the services he wanted to introduce."
+          ],
+          "media": [
+            {
+              "id": "blauner-fitness-fuel-your-fitness-fire-pfmb-kickstarter-wide",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/blauner-fitness-fuel-your-fitness-fire/keypoint-media/pfmb-kickstarter-wide.png",
+              "alt": "Blauner Fitness horizontal promotion for a four-session in-home training offer",
+              "caption": "In-home training introductory offer.",
+              "width": 1352,
+              "height": 708
+            },
+            {
+              "id": "blauner-fitness-fuel-your-fitness-fire-pfmb-print-ad",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/blauner-fitness-fuel-your-fitness-fire/keypoint-media/pfmb-print-ad.png",
+              "alt": "Blauner Fitness portrait print advertisement promoting personalized in-home training",
+              "caption": "Print campaign focused on New Year fitness goals.",
+              "width": 1500,
+              "height": 1950
+            }
+          ]
+        },
+        {
+          "id": "website-and-landing-designs",
+          "title": "Website and service-page design",
+          "paragraphs": [
+            "I used new photography and brand assets to refresh Blauner Fitness's website, designing breakout service pages, an FAQ section and a consultation form. The updated structure helped explain the offer and gave visitors a way to contact the business."
+          ],
+          "media": []
+        },
+        {
+          "id": "social-and-print-design",
+          "title": "Connecting social and direct mail",
+          "paragraphs": [
+            "I designed promotional materials for a six-month social campaign supported by direct-to-consumer mailers. The materials connected the refreshed brand and website to the new services being promoted."
+          ],
+          "media": [
+            {
+              "id": "blauner-fitness-fuel-your-fitness-fire-pfmb-social",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/blauner-fitness-fuel-your-fitness-fire/keypoint-media/pfmb-social.png",
+              "alt": "Blauner Fitness paid social ad layouts for in-home fitness services",
+              "width": 1920,
+              "height": 1080
+            },
+            {
+              "id": "blauner-fitness-fuel-your-fitness-fire-pfmb-mailer",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/blauner-fitness-fuel-your-fitness-fire/keypoint-media/pfmb-mailer.png",
+              "alt": "Blauner Fitness direct mail design with in-home training photography, QR code, and contact details",
+              "caption": "Direct mail design with a consultation call to action.",
+              "width": 2692,
+              "height": 1938
+            },
+            {
+              "id": "blauner-fitness-fuel-your-fitness-fire-pfmb-influencers-flier",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/blauner-fitness-fuel-your-fitness-fire/keypoint-media/pfmb-influencers-flier.png",
+              "alt": "Blauner Fitness flyer promoting personal training for film, fashion, and entertainment professionals",
+              "caption": "Promotional flyer combining services, credentials, and press coverage.",
+              "width": 1224,
+              "height": 1317
+            }
+          ]
+        }
+      ],
+      "videos": []
+    },
+    {
+      "id": "benzel-busch-seasonal-road-trip-series",
+      "slug": "benzel-busch-seasonal-road-trip-series",
+      "title": "Seasonal Road Trip Series",
+      "tags": [
+        "Campaign Design",
+        "Print Design"
+      ],
+      "publishedAt": "2025-12-02",
+      "updatedAt": "2026-10-05",
+      "visibility": "public",
+      "client": {
+        "name": "Benzel-Busch",
+        "logo": {
+          "id": "benzel-busch-seasonal-road-trip-series-client-logo",
+          "type": "image",
+          "src": "https://cdn.mikeangelo.art/benzel-busch-seasonal-road-trip-series/BB_CloverLogo_Color.png",
+          "alt": "Benzel-Busch logo",
+          "width": 158,
+          "height": 157
+        }
+      },
+      "cover": {
+        "id": "benzel-busch-seasonal-road-trip-series-cover",
+        "type": "image",
+        "src": "https://cdn.mikeangelo.art/benzel-busch-seasonal-road-trip-series/cover.webp",
+        "alt": "Seasonal Mercedes-Benz road trip campaign featuring travel destinations and vehicles",
+        "width": 1440,
+        "height": 1080
+      },
+      "objective": "Benzel-Busch wanted to connect Mercedes-Benz features with how customers would use their vehicles. Seasonal road-trip guides paired travel destinations with relevant models and features.",
+      "intro": [
+        "I designed materials for a seasonal road-trip campaign that paired travel inspiration with the practical features of Mercedes-Benz models. Downloadable guides gave customers useful destination ideas, while banners and social creative connected the travel stories to the dealership's offer."
+      ],
+      "contribution": {
+        "role": "Designer",
+        "summary": "I designed downloadable guides, digital banners and social creative for a seasonal campaign that connected Mercedes-Benz models with road-trip destinations.",
+        "responsibilities": [
+          "Campaign design and execution",
+          "Downloadable guide and digital campaign design",
+          "Paid and organic social creative"
+        ],
+        "collaborators": [
+          "Agency creative team",
+          "Benzel-Busch client team"
+        ],
+        "deliverables": [
+          "Seasonal road-trip PDF guides",
+          "Digital banner creative",
+          "Paid and organic social campaign materials"
+        ]
+      },
+      "results": [
+        {
+          "value": "200k Downloads"
+        },
+        {
+          "value": "+15% Social Media Engagement"
+        }
+      ],
+      "hero": {
+        "id": "benzel-busch-seasonal-road-trip-series-seasonal-road-trips",
+        "type": "video",
+        "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/696fd95b10171a0e16aba83d/main.m3u8",
+        "alt": "Mercedes-Benz seasonal road trip campaign overview video",
+        "title": "Seasonal Road Trips",
+        "caption": "Campaign video highlighting seasonal travel destinations paired with Mercedes-Benz vehicles",
+        "client": "Benzel-Busch"
+      },
+      "featuredMediaIds": [
+        "benzel-busch-seasonal-road-trip-series-bb-rehoboth-beach",
+        "benzel-busch-seasonal-road-trip-series-bb-finger-lakes"
+      ],
+      "sections": [
+        {
+          "id": "planning-the-road-trips",
+          "title": "Designing the seasonal guides",
+          "paragraphs": [
+            "The team researched seasonal destinations, attractions, accommodations and local recommendations for downloadable road-trip guides. I designed the guides, connecting that travel content to Benzel-Busch's advertising."
+          ],
+          "media": [
+            {
+              "id": "benzel-busch-seasonal-road-trip-series-bb-rehoboth-beach",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-seasonal-road-trip-series/keypoint-media/bb-rehoboth-beach.png",
+              "alt": "Seasonal road trip planning and destination guide visuals",
+              "width": 842,
+              "height": 1089
+            },
+            {
+              "id": "benzel-busch-seasonal-road-trip-series-bb-finger-lakes",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-seasonal-road-trip-series/keypoint-media/bb-finger-lakes.png",
+              "alt": "Seasonal road trip planning and destination guide visuals",
+              "width": 842,
+              "height": 1089
+            }
+          ]
+        },
+        {
+          "id": "integrated-sales-campaign",
+          "title": "Connecting destinations with vehicle features",
+          "paragraphs": [
+            "I designed campaign creative that paired destinations with Mercedes-Benz models and relevant features, including all-wheel drive and three-row seating. This gave the sales message a practical context in the trips customers might take."
+          ],
+          "media": [
+            {
+              "id": "benzel-busch-seasonal-road-trip-series-bb-roadtrip-1",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-seasonal-road-trip-series/keypoint-media/bb-roadtrip-1.png",
+              "alt": "Mercedes-Benz vehicle feature highlights for road trips",
+              "width": 625,
+              "height": 746
+            },
+            {
+              "id": "benzel-busch-seasonal-road-trip-series-bb-roadtrip-2",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-seasonal-road-trip-series/keypoint-media/bb-roadtrip-2.png",
+              "alt": "Mercedes-Benz vehicle feature highlights for road trips",
+              "width": 625,
+              "height": 474
+            }
+          ]
+        },
+        {
+          "id": "supplementary-social-media-content",
+          "title": "Taking the guides to social",
+          "paragraphs": [
+            "I adapted the seasonal guides into paid and organic social layouts, pairing vehicle imagery with destinations such as the Finger Lakes, Salem, Newport, and Cape Cod. The posts carried the guides' visual style into a format people could browse in their feeds."
+          ],
+          "media": [
+            {
+              "id": "benzel-busch-seasonal-road-trip-series-bb-social-1",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-seasonal-road-trip-series/keypoint-media/bb-social-1.png",
+              "alt": "Benzel-Busch fall road trip social post designs featuring the Finger Lakes, Oktoberfest, and Salem",
+              "caption": "Fall campaign social layouts.",
+              "width": 1440,
+              "height": 810
+            },
+            {
+              "id": "benzel-busch-seasonal-road-trip-series-bb-social-2",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/benzel-busch-seasonal-road-trip-series/keypoint-media/bb-social-2.png",
+              "alt": "Benzel-Busch summer road trip social post designs featuring Newport, Rehoboth Beach, and Cape Cod",
+              "caption": "Summer campaign social layouts.",
+              "width": 1440,
+              "height": 810
+            }
+          ]
+        }
+      ],
+      "videos": []
+    },
+    {
+      "id": "gym-source-your-home-your-gym",
+      "slug": "gym-source-your-home-your-gym",
+      "title": "Your Home, Your Gym",
+      "tags": [
+        "Art Direction",
+        "Campaign Design",
+        "Web Design",
+        "Video Editing",
+        "Print Design"
+      ],
+      "publishedAt": "2025-12-02",
+      "updatedAt": "2026-10-05",
+      "visibility": "public",
+      "client": {
+        "name": "Gym Source",
+        "logo": {
+          "id": "gym-source-your-home-your-gym-client-logo",
+          "type": "image",
+          "src": "https://cdn.mikeangelo.art/gym-source-your-home-your-gym/keypoint-media/gs-logo.png",
+          "alt": "Gym Source fitness equipment company logo",
+          "width": 1080,
+          "height": 1080
+        }
+      },
+      "cover": {
+        "id": "gym-source-your-home-your-gym-cover",
+        "type": "image",
+        "src": "https://cdn.mikeangelo.art/gym-source-your-home-your-gym/cover.webp",
+        "alt": "Modern home gym setup with premium fitness equipment including treadmill and weight machines",
+        "width": 1675,
+        "height": 939
+      },
+      "objective": "Gym Source was shifting its focus from individual equipment sales to custom home and commercial gyms. The website and advertising needed to explain that broader service.",
+      "intro": [
+        "I designed campaign materials as Gym Source's brand and messaging shifted toward custom gym projects. I also helped design the website, connecting the renewed digital experience with rich media, print and social advertising. Production and development partners supported the commercial shoots and custom WordPress build."
+      ],
+      "contribution": {
+        "role": "Art Director & Designer",
+        "summary": "I designed campaign materials and helped design the website for Gym Source's shift from individual equipment sales toward custom gyms, collaborating with creative, production and development teams.",
+        "responsibilities": [
+          "Brand and campaign design",
+          "Website design collaboration",
+          "Rich media and video creative",
+          "Print and social campaign creative"
+        ],
+        "collaborators": [
+          "Agency creative team",
+          "Commercial production team",
+          "Website development partner",
+          "Gym Source client and partnership teams"
+        ],
+        "deliverables": [
+          "Website design",
+          "Commercial and rich media campaign assets",
+          "Print, digital banner and social creative"
+        ],
+        "tools": [
+          "WordPress"
+        ]
+      },
+      "results": [
+        {
+          "value": "+40% Page Visits"
+        },
+        {
+          "value": "+30% Online Sales"
+        }
+      ],
+      "hero": {
+        "id": "gym-source-your-home-your-gym-not-a-gym",
+        "type": "video",
+        "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/6959b626d73a53e69e826665/download.mp4",
+        "alt": "Gym Source commercial showcasing custom home gym installations and premium fitness equipment",
+        "title": "Not A Gym",
+        "caption": "Brand video featuring personalized home gym solutions and high-end fitness equipment",
+        "client": "Gym Source"
+      },
+      "featuredMediaIds": [
+        "gym-source-your-home-your-gym-gs-vitamin",
+        "gym-source-your-home-your-gym-gs-website-1",
+        "gym-source-your-home-your-gym-gs-website-2"
+      ],
+      "sections": [
+        {
+          "id": "renewed-website-and-brand",
+          "title": "Website design for custom gyms",
+          "paragraphs": [
+            "I helped design the website as part of the brand's shift toward custom gym projects. Our team worked with a development partner on a custom WordPress site that supported commercial gym consultations and wholesale equipment information. The site made the new offer visible alongside the broader campaign."
+          ],
+          "media": [
+            {
+              "id": "gym-source-your-home-your-gym-gs-vitamin",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/gym-source-your-home-your-gym/keypoint-media/gs-vitamin.png",
+              "alt": "Gym Source branding concept showing vitamin-inspired design and wellness focus",
+              "width": 1080,
+              "height": 1272
+            },
+            {
+              "id": "gym-source-your-home-your-gym-gs-website-1",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/gym-source-your-home-your-gym/keypoint-media/gs-website-1.mp4",
+              "alt": "Gym Source website homepage demonstrating commercial gym consultation features"
+            },
+            {
+              "id": "gym-source-your-home-your-gym-gs-website-2",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/gym-source-your-home-your-gym/keypoint-media/gs-website-2.mp4",
+              "alt": "Website showcase of wholesale fitness equipment catalog and B2B services"
+            }
+          ]
+        },
+        {
+          "id": "hard-hitting-ad-campaigns",
+          "title": "Campaign creative across formats",
+          "paragraphs": [
+            "I designed visual and digital campaign assets, connecting the commercials to rich media, print, banners and social materials. The team worked with a production partner on the commercial spots, bringing the custom gym offer to consumers through a coordinated campaign."
+          ],
+          "media": [
+            {
+              "id": "gym-source-your-home-your-gym-gs-banners",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/gym-source-your-home-your-gym/keypoint-media/gs-banners.jpg",
+              "alt": "Gym Source digital advertising banners promoting home gym equipment and fitness solutions",
+              "width": 1920,
+              "height": 1080
+            }
+          ]
+        },
+        {
+          "id": "influencer-and-television-partnerships",
+          "title": "Partnerships that extended the campaign",
+          "paragraphs": [
+            "The wider campaign included a partnership with NFL player George Kittle and a custom gym featured on NBC's George to the Rescue. These team and client partnerships extended the brand story beyond the design and campaign materials I created."
+          ],
+          "media": [
+            {
+              "id": "gym-source-your-home-your-gym-g-kittle",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/gym-source-your-home-your-gym/keypoint-media/g-kittle.jpg",
+              "alt": "NFL player George Kittle promoting custom home gym built by Gym Source",
+              "width": 938,
+              "height": 431
+            },
+            {
+              "id": "gym-source-your-home-your-gym-yhygc-winner",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/gym-source-your-home-your-gym/keypoint-media/YHYGC%20Winner.mp4",
+              "alt": "Your Home Your Gym Contest winner reveal on NBC George to the Rescue show"
+            }
+          ]
+        }
+      ],
+      "videos": [
+        {
+          "id": "gym-source-your-home-your-gym-your-home-your-gym",
+          "type": "video",
+          "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/6959b7a715b21a591c6a4ff4/main.m3u8",
+          "alt": "Gym Source commercial promoting custom home gym design and fitness equipment installation",
+          "title": "Your Home, Your Gym",
+          "caption": "Fitness equipment commercial featuring personalized home gym solutions",
+          "client": "Gym Source"
+        },
+        {
+          "id": "gym-source-your-home-your-gym-dumbbell-ecstasy",
+          "type": "video",
+          "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/6959b62615b21a591c6a36d4/main.m3u8",
+          "alt": "Gym Source \"Dumbbell Ecstasy\" commercial",
+          "title": "Dumbbell Ecstasy",
+          "caption": "An emotional response to finding dumbbells in a draught.",
+          "client": "Gym Source"
+        },
+        {
+          "id": "gym-source-your-home-your-gym-jacked-santa",
+          "type": "video",
+          "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/6959b626f3928b38fc54a2cd/main.m3u8",
+          "alt": "Holiday fitness commercial featuring Santa Claus workout with Gym Source equipment",
+          "title": "Jacked Santa",
+          "caption": "Santa's getting stacked this year.",
+          "client": "Gym Source"
+        }
+      ]
+    },
+    {
+      "id": "bahlsen-secret-stash",
+      "slug": "bahlsen-secret-stash",
+      "title": "Secret Stash",
+      "tags": [
+        "Campaign Design",
+        "Video Editing"
+      ],
+      "publishedAt": "2025-12-02",
+      "updatedAt": "2026-10-05",
+      "visibility": "public",
+      "client": {
+        "name": "Bahlsen",
+        "logo": {
+          "id": "bahlsen-secret-stash-client-logo",
+          "type": "image",
+          "src": "https://cdn.mikeangelo.art/bahlsen-secret-stash/Bahlsen%20Blu.webp",
+          "alt": "Bahlsen logo",
+          "width": 750,
+          "height": 215
+        }
+      },
+      "cover": {
+        "id": "bahlsen-secret-stash-cover",
+        "type": "image",
+        "src": "https://cdn.mikeangelo.art/bahlsen-secret-stash/cover.webp",
+        "alt": "Bahlsen snack advertising campaign themed around at-home lockdown humor",
+        "width": 1249,
+        "height": 937
+      },
+      "objective": "Bahlsen wanted to introduce more U.S. shoppers to its biscuits through a playful digital campaign. The work later had to adapt to changes in everyday life during COVID lockdowns.",
+      "intro": [
+        "I edited a 30-second commercial and designed supporting digital assets around the playful idea of hiding favorite snacks. When COVID changed the context after filming, the campaign was reframed around sharing snacks during lockdown. I adapted the video and digital creative to support that shift alongside a student film competition and customer content."
+      ],
+      "contribution": {
+        "role": "Designer",
+        "summary": "I edited video and designed digital and social creative for a campaign about hiding favorite snacks, adapting the assets as the campaign shifted to a lockdown audience.",
+        "responsibilities": [
+          "Commercial and digital campaign creative",
+          "Video editing",
+          "Digital banner and social campaign creative"
+        ],
+        "collaborators": [
+          "Agency creative team",
+          "Bahlsen client team"
+        ],
+        "deliverables": [
+          "30-second commercial and campaign video assets",
+          "Digital banners",
+          "Paid and organic social creative"
+        ]
+      },
+      "results": [
+        {
+          "value": "+80% Website Views"
+        },
+        {
+          "value": "+20% Sales Increase"
+        }
+      ],
+      "hero": {
+        "id": "bahlsen-secret-stash-secret-stash",
+        "type": "video",
+        "src": "https://video.gumlet.io/693618f203bcee22ddeecad9/697142b0bcef432370039392/main.m3u8",
+        "alt": "Bahlsen commercial spot showing a couple at home struggling to keep their Bahlsen snacks hidden from each other",
+        "title": "Secret Stash",
+        "caption": "Playful campaign highlighting the struggle of sharing snacks during lockdown",
+        "client": "Bahlsen"
+      },
+      "featuredMediaIds": [
+        "bahlsen-secret-stash-ba-logo-gif",
+        "bahlsen-secret-stash-ba-stash-bts-counter",
+        "bahlsen-secret-stash-ba-screen"
+      ],
+      "sections": [
+        {
+          "id": "commercial-shoot-and-campaign-pivot",
+          "title": "Editing the commercial for a changed audience",
+          "paragraphs": [
+            "I edited the 30-second commercial and designed supporting digital assets. After filming, the onset of COVID prompted a shift toward the experience of sharing snacks at home during lockdown, and I adapted the creative to the updated direction."
+          ],
+          "media": [
+            {
+              "id": "bahlsen-secret-stash-ba-logo-gif",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/bahlsen-secret-stash/keypoint-media/ba-logo-gif.mp4",
+              "alt": "Bahlsen end card animation"
+            },
+            {
+              "id": "bahlsen-secret-stash-ba-stash-bts-counter",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/bahlsen-secret-stash/keypoint-media/ba-stash-bts-counter.png",
+              "alt": "Bahlsen Secret Stash behind the scenes",
+              "width": 1244,
+              "height": 829
+            },
+            {
+              "id": "bahlsen-secret-stash-ba-screen",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/bahlsen-secret-stash/keypoint-media/ba-screen.mp4",
+              "alt": "Bahlsen Secret Stash behind the scenes"
+            }
+          ]
+        },
+        {
+          "id": "student-short-film-competition",
+          "title": "A student film competition around sharing",
+          "paragraphs": [
+            "The agency and client created a student short-film competition around sharing snacks, with cash and product prizes. Students retained creative control over their submissions, and the client and agency judged the entries. The competition complemented the commercial edits and digital assets I created."
+          ],
+          "media": [
+            {
+              "id": "bahlsen-secret-stash-ba-stash-finalists",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/bahlsen-secret-stash/keypoint-media/ba-stash-finalists.png",
+              "alt": "Short Film Competition finalists",
+              "width": 3840,
+              "height": 1992
+            },
+            {
+              "id": "bahlsen-secret-stash-ba-sister",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/bahlsen-secret-stash/keypoint-media/ba-sister.mp4",
+              "alt": "\"The Sister\" submission for the Short Film Competition",
+              "caption": "Student film submission, created by the entrant."
+            }
+          ]
+        },
+        {
+          "id": "organic-social-media-content",
+          "title": "Social design and customer content",
+          "paragraphs": [
+            "I designed digital and social creative to support the paid campaign. The wider social program featured customer content showing the places people hid their favorite snacks, connecting the campaign's premise to the audience's own stories."
+          ],
+          "media": [
+            {
+              "id": "bahlsen-secret-stash-ba-hiding-social",
+              "type": "image",
+              "src": "https://cdn.mikeangelo.art/bahlsen-secret-stash/keypoint-media/ba-hiding-social.png",
+              "alt": "Various users on social media showing their hiding spots for Bahlsen snacks",
+              "caption": "Customer-submitted content from the wider campaign.",
+              "width": 1440,
+              "height": 810
+            },
+            {
+              "id": "bahlsen-secret-stash-ba-foil",
+              "type": "video",
+              "src": "https://cdn.mikeangelo.art/bahlsen-secret-stash/keypoint-media/ba-foil.mp4",
+              "alt": "User on social media showing a hiding spot for Bahlsen snacks",
+              "caption": "Customer-submitted content from the wider campaign."
+            }
+          ]
+        }
+      ],
+      "videos": []
+    }
+  ],
+  "personalProjects": [
+    {
+      "id": "cruio",
+      "presentation": "featured",
+      "title": "Cruio",
+      "category": "App",
+      "summary": "I’m designing and building Cruio, a visual workspace for creative projects. Files and deliverables live on a spatial canvas, with pinned feedback, revision comparisons, and approvals attached to the work. A shared library and linked tasks keep assets, feedback, and next steps connected.",
+      "status": "In development",
+      "screenshots": [
+        {
+          "id": "cruio-canvas",
+          "title": "Project canvas",
+          "caption": "Group deliverables and see their review status.",
+          "alt": "BB Paid Social July canvas in Cruio with six deliverables in Carousel and APR groups marked In review",
+          "type": "image",
+          "src": "https://cdn.mikeangelo.art/projects-screens/canvas-v1.webp",
+          "width": 1536,
+          "height": 645
+        },
+        {
+          "id": "cruio-review",
+          "title": "Asset review",
+          "caption": "Review a deliverable and approve or request revisions.",
+          "alt": "Cruio asset review showing version v1 of a Benzel-Busch deliverable with Approve and Request revisions controls",
+          "type": "image",
+          "src": "https://cdn.mikeangelo.art/projects-screens/review-v1.webp",
+          "width": 1536,
+          "height": 645
+        },
+        {
+          "id": "cruio-projects",
+          "title": "Project overview",
+          "caption": "Organize campaigns with searchable project cards.",
+          "alt": "Cruio Projects view for Benzel-Busch with three campaign cards, statuses, asset counts, and search, grouping, and sorting controls",
+          "type": "image",
+          "src": "https://cdn.mikeangelo.art/projects-screens/projects-v1.webp",
+          "width": 1536,
+          "height": 645
+        },
+        {
+          "id": "cruio-library",
+          "title": "Asset library",
+          "caption": "Browse project assets across a shared library.",
+          "alt": "Cruio Benzel-Busch Library with 16 asset thumbnails and folders organized by project and group",
+          "type": "image",
+          "src": "https://cdn.mikeangelo.art/projects-screens/library-v1.webp",
+          "width": 1536,
+          "height": 645
+        }
+      ],
+      "visibility": "public"
+    },
+    {
+      "id": "raid",
+      "presentation": "featured",
+      "title": "RAID",
+      "category": "Game",
+      "summary": "RAID is my ongoing action RPG prototype, set in a retrofuturistic world where memories are stored on nanostructured disks. I’m developing its world, interface, and gameplay in Godot, connecting gunplay and enemy behavior with inventory, crafting, and character builds.",
+      "status": "In development",
+      "screenshots": [
+        {
+          "id": "raid-mesh-hiding",
+          "title": "Mesh hiding",
+          "caption": "Hide obstructing meshes to keep the player visible.",
+          "alt": "RAID Terminal District gameplay with a building wall hidden to keep the player visible",
+          "type": "image",
+          "src": "https://cdn.mikeangelo.art/projects-screens/raid1.webp",
+          "width": 3837,
+          "height": 1972
+        },
+        {
+          "id": "raid-enemy-ai",
+          "title": "Enemy AI",
+          "caption": "Enemy awareness states and health indicators during gameplay.",
+          "alt": "RAID gameplay showing a Grunt enemy marked Unaware with a health bar in the Terminal District",
+          "type": "image",
+          "src": "https://cdn.mikeangelo.art/projects-screens/raid3.webp",
+          "width": 3530,
+          "height": 1980
+        },
+        {
+          "id": "raid-open-world",
+          "title": "Open world",
+          "caption": "Explore the Terminal District’s streets and structures.",
+          "alt": "An overhead view of RAID’s Terminal District with the player on a street among buildings and streetlights",
+          "type": "image",
+          "src": "https://cdn.mikeangelo.art/projects-screens/raid2.webp",
+          "width": 3525,
+          "height": 1980
+        }
+      ],
+      "visibility": "public"
+    },
+    {
+      "id": "indigo",
+      "title": "Indigo",
+      "category": "Local AI workspace",
+      "presentation": "featured",
+      "summary": "I’m building Indigo, a local AI workspace for spawning small and medium models across devices on a local network, with basic GPU inference sharing. I’m designing the interface for connecting model workers, configuring conversations, and following streamed responses, with support for basic tool calling.",
+      "status": "Prototype",
+      "visibility": "public",
+      "link": { "label": "View source on GitHub", "href": "https://github.com/mikeangelotho/indigo" },
+      "screenshots": [
+        {
+          "id": "indigo-conversation",
+          "type": "image",
+          "title": "Model conversation",
+          "caption": "A focused conversation view with history and formatted responses.",
+          "src": "https://cdn.mikeangelo.art/projects-screens/598882114-15d653c9-c02e-4c38-ab60-a37bace45c2e.webp",
+          "alt": "Indigo conversation workspace with a chat history sidebar, formatted model response, and message composer",
+          "width": 3839,
+          "height": 2159
+        },
+        {
+          "id": "indigo-compute-grid",
+          "type": "image",
+          "title": "Compute grid",
+          "caption": "Connect model workers and see which nodes are available.",
+          "src": "https://cdn.mikeangelo.art/projects-screens/598881696-70b13cf8-c8e1-4ad5-8030-511690b4b0e0.webp",
+          "alt": "Indigo compute grid with a node initialization panel and an online local model worker",
+          "width": 3839,
+          "height": 2159
+        },
+        {
+          "id": "indigo-agent-setup",
+          "type": "image",
+          "title": "Conversation setup",
+          "caption": "Choose a model and configure its name and instructions.",
+          "src": "https://cdn.mikeangelo.art/projects-screens/598882363-d8b25c6a-d93f-4251-b77d-65a97385dbf1.webp",
+          "alt": "Indigo configuration view with name, model, and system instruction fields beside a configured profile card",
+          "width": 3839,
+          "height": 2159
+        }
+      ]
+    },
+    {
+      "id": "solobook",
+      "title": "Solobook",
+      "category": "Markdown reader",
+      "presentation": "compact",
+      "summary": "A quieter way to read a collection of Markdown. I’m developing Solobook as a navigable reference book, with chapter navigation, a generated contents page, and a workspace for keeping multiple books together.",
+      "status": "Prototype",
+      "visibility": "public",
+      "link": { "label": "View source on GitHub", "href": "https://github.com/mikeangelotho/solobook" },
+      "screenshots": [
+        { "id": "solobook-reader", "type": "image", "title": "Chapter reader", "caption": "Read formatted Markdown with chapter navigation and reading progress.", "alt": "Solobook reader displaying a Hermes Agent reference chapter, chapter navigation, reading statistics, and a progress bar", "src": "https://cdn.mikeangelo.art/projects-screens/reader-v1.webp", "width": 3836, "height": 1840 },
+        { "id": "solobook-workspace", "type": "image", "title": "Chapter organization", "caption": "Add files, reorder chapters, and keep a reference book organized.", "alt": "Solobook chapter sidebar with Add files, a selected chapter's word count, move-up and move-down controls, and a remove control", "src": "https://cdn.mikeangelo.art/projects-screens/chapters-v1.webp", "width": 560, "height": 642 }
+      ]
+    },
+    {
+      "id": "r2d2",
+      "title": "R2D2",
+      "category": "JSON editor",
+      "presentation": "compact",
+      "summary": "A visual JSON editor for files stored in Cloudflare R2 or S3-compatible buckets. I built it to make structured content easier to browse and change, with tree, table, and raw views plus a diff to review edits before saving.",
+      "status": "Working prototype",
+      "visibility": "public",
+      "link": { "label": "View source on GitHub", "href": "https://github.com/mikeangelotho/r2d2" },
+      "screenshots": [
+        { "id": "r2d2-workspace", "type": "image", "title": "Tree editor", "caption": "Browse stored files and edit nested JSON in a typed tree.", "alt": "R2D2 editing the portfolio db.json in tree view with a bucket file browser, nested objects, typed values, and save controls", "src": "https://cdn.mikeangelo.art/projects-screens/tree-v1.webp", "width": 3840, "height": 1844 },
+        { "id": "r2d2-table", "type": "image", "title": "Table editor", "caption": "Edit values inline while keeping keys and data types in view.", "alt": "R2D2 table view of portfolio JSON with key, value, type, and action columns and an Art Direction tag being edited inline", "src": "https://cdn.mikeangelo.art/projects-screens/table-v1.webp", "width": 3838, "height": 1612 }
+      ]
+    }
+  ],
+  "creativePieces": [],
+  "writing": []
+}
