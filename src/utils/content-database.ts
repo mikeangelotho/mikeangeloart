@@ -1,11 +1,6 @@
 import { query } from "@solidjs/router";
 import { loadContentDatabase } from "./content-loader";
 
-export const fetchSiteContent = query(async () => {
-  "use server";
-  return (await loadContentDatabase()).site;
-}, "site-content");
-
 /** Keep the home preview small, and prefer featured projects with real images. */
 export const fetchPersonalProjectTeasers = query(async () => {
   "use server";
@@ -26,12 +21,11 @@ export const fetchPersonalProjectTeasers = query(async () => {
   }).slice(0, 3);
 }, "personal-project-teasers");
 
-/** Send this page only its content, even when writing and case studies grow. */
+/** Send this page only its content, without sending the case-study walkthroughs. */
 export const fetchPersonalContent = query(async () => {
   "use server";
   const db = await loadContentDatabase();
   return {
-    site: db.site,
     personalProjects: db.personalProjects.filter((project) => project.visibility === "public"),
     creativePieces: db.creativePieces.filter((piece) => piece.visibility === "public"),
   };

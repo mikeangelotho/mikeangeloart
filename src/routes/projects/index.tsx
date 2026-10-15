@@ -71,8 +71,8 @@ export default function ProjectPage() {
           },
         }}
       />
-      <main class="w-full pt-36 text-black dark:text-white">
-        <header class="max-w-7xl mx-auto px-6 pb-9"><H1>Work</H1></header>
+      <main class="w-full pt-28 text-black dark:text-white sm:pt-32">
+        <header class="max-w-7xl mx-auto px-6 pb-6"><H1>Work</H1></header>
         <Show when={portfolioCollection()}>
           <CollectionGrid
             onResetFilters={() => setSearchParams({ tags: undefined, client: undefined }, { scroll: false })}

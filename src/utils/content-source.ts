@@ -3,9 +3,7 @@ import localDatabase from "../../content/db.json" with { type: "json" };
 export type ContentSource = { kind: "cdn"; url: string } | { kind: "local"; data: unknown };
 
 export const contentDatabaseUrl = "https://cdn.mikeangelo.art/db.json";
-let source: ContentSource = { kind: "cdn", url: contentDatabaseUrl };
-
-// Remove only this assignment after the version 2 JSON has been published to the CDN.
-source = { kind: "local", data: localDatabase };
-
-export { source as contentSource };
+// One source for every project query and the sitemap; no merging or fallback.
+// After publishing this file to the CDN, replace the next line with:
+// export const contentSource: ContentSource = { kind: "cdn", url: contentDatabaseUrl };
+export const contentSource: ContentSource = { kind: "local", data: localDatabase };

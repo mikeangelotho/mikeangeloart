@@ -71,7 +71,7 @@ function SlideshowCover(props: { data: PortfolioCollection; isPaused: boolean })
         <button
           type="button"
           aria-label={`Previous image for ${props.data.title}`}
-          class="h-18 flex items-center pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/90 dark:bg-black/90 dark:text-white rounded-lg hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="h-18 flex items-center pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/90 dark:bg-black/90 dark:text-white hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2"
           onClick={prev}
         >
           ❮
@@ -79,7 +79,7 @@ function SlideshowCover(props: { data: PortfolioCollection; isPaused: boolean })
         <button
           type="button"
           aria-label={`Next image for ${props.data.title}`}
-          class="h-18 flex items-center pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/90 dark:bg-black/90 dark:text-white rounded-lg hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="h-18 flex items-center pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/90 dark:bg-black/90 dark:text-white hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2"
           onClick={next}
         >
           ❯
@@ -148,7 +148,7 @@ export function CollectionCell(props: {
         const cells = document.querySelectorAll(".cell-container");
         cells.forEach((c) => c.classList.remove("saturate-0", "brightness-103"));
       }}
-      class={`not-dark:border not-dark:border-black/10 group/card cell-container relative overflow-hidden hover:brightness-115 hover:saturate-125 rounded-xl transition-all duration-500 ease-in-out ${!props.enableFull ? `w-72 h-96 xl:h-108 md:w-100 xl:w-xl` : `h-120 w-full`
+      class={`not-dark:border not-dark:border-black/10 group/card cell-container relative overflow-hidden hover:brightness-115 hover:saturate-125 transition-all duration-500 ease-in-out ${!props.enableFull ? `w-72 h-96 xl:h-108 md:w-100 xl:w-xl` : `h-120 w-full`
         }`}
     >
       <Show
@@ -170,7 +170,7 @@ export function CollectionCell(props: {
       <A
         href={`/projects?client=${encodeURIComponent(props.data.clientName)}`}
         aria-label={`View ${props.data.clientName} projects`}
-        class="hover:scale-105 group-hover/card:opacity-100 group-focus-within/card:opacity-100 opacity-0 z-20 p-1 top-0 rounded-xl duration-500 ease-in-out w-12 h-12 flex justify-center items-center m-6 absolute backdrop-blur bg-white/80 dark:bg-black/30 backdrop-brightness-150 dark:backdrop-brightness-25"
+        class="hover:scale-105 group-hover/card:opacity-100 group-focus-within/card:opacity-100 opacity-0 z-20 p-1 top-0 duration-500 ease-in-out w-12 h-12 flex justify-center items-center m-6 absolute backdrop-blur bg-white/80 dark:bg-black/30 backdrop-brightness-150 dark:backdrop-brightness-25"
       >
         <img
           src={props.data.clientLogo}
@@ -179,22 +179,21 @@ export function CollectionCell(props: {
         />
       </A>
 
-      <div class="min-h-18 lg:min-h-12 justify-center lg:rounded-3xl w-full lg:w-auto lg:inset-x-3 flex flex-col gap-2 p-6 absolute bottom-0 lg:bottom-3 bg-white/50 dark:bg-black/30 mx-auto backdrop-blur-xl backdrop-brightness-140 dark:backdrop-brightness-25">
-        <header class="flex flex-col">
+      <div class="justify-center w-full lg:w-auto lg:inset-x-3 p-4 absolute bottom-0 lg:bottom-3 bg-white/70 dark:bg-black/50 mx-auto backdrop-blur-xl backdrop-brightness-140 dark:backdrop-brightness-25">
+        <header class="flex flex-col gap-1">
           <A
             href={`/projects?client=${encodeURIComponent(props.data.clientName)}`}
-            class="w-fit text-xs text-black/50 dark:text-white/50 hover:underline"
+            class="w-fit text-xs text-black/70 dark:text-white/70 hover:underline"
           >
             {props.data.clientName}
           </A>
-          <A
-            href={`/projects/${props.data.slug}`}
-            class="w-fit font-bold text-xl text-black dark:text-white hover:underline"
-          >
-            {props.data.title}
-          </A>
+          <h3 class="type-heading text-black dark:text-white">
+            <A href={`/projects/${props.data.slug}`} class="hover:underline">
+              {props.data.title}
+            </A>
+          </h3>
           <Show when={props.data.caseStudy?.role}>
-            <p class="text-sm font-medium text-black dark:text-white mt-1">
+            <p class="text-sm font-normal text-black/80 dark:text-white/80">
               {props.data.caseStudy?.role}
             </p>
           </Show>

@@ -4,24 +4,9 @@ import { Breadcrumbs } from "~/components/Breadcrumbs";
 import CreativeMosaic from "~/components/CreativeMosaic";
 import { PersonalProjectCard } from "~/components/PersonalProjectCard";
 import SEO from "~/components/SEO";
-import type { PersonalPageCopy } from "~/content/content-model";
+import { siteContent } from "~/content/site-content";
 import { H1 } from "~/layout/Headings";
 import { fetchPersonalContent } from "~/utils/content-database";
-
-const fallbackCopy: PersonalPageCopy = {
-  title: "Projects",
-  description:
-    "Personal projects by Mike Angelo: Cruio, RAID, Indigo, and smaller tools and creative experiments.",
-  intro:
-    "Apps, games, and creative detours. A few ongoing projects, followed by smaller things I make along the way.",
-  projectsHeading: "Passion projects",
-  supportingHeading: "Smaller projects",
-  supportingDescription: "Tools I build around the way I work.",
-  mosaicHeading: "Odds & ends",
-  mosaicDescription:
-    "Blender renders, sketches, GIFs, and whatever else I’m experimenting with.",
-  emptyMosaic: "More things are on the way.",
-};
 
 export default function PersonalProjects() {
   const personalContent = createAsync(() => fetchPersonalContent(), {
@@ -33,7 +18,7 @@ export default function PersonalProjects() {
       when={personalContent()}
       fallback={
         <main
-          class="w-full px-6 pt-36 pb-18 text-black dark:text-white"
+          class="w-full px-5 pt-28 pb-12 text-black dark:text-white sm:px-6 sm:pt-32"
           aria-busy="true"
         >
           <p class="max-w-7xl mx-auto" role="status">Loading projects…</p>
@@ -41,8 +26,8 @@ export default function PersonalProjects() {
       }
     >
       {(content) => {
-        const site = () => content().site;
-        const copy = () => site().personalPage ?? fallbackCopy;
+        const site = () => siteContent;
+        const copy = () => site().personalPage;
         const siteUrl = () => site().url || "https://mikeangelo.art";
         const pageUrl = () => new URL("/personal", siteUrl()).href;
         const featuredProjects = createMemo(() => content().personalProjects
@@ -88,7 +73,7 @@ export default function PersonalProjects() {
               }}
             />
             <main class="w-full text-black dark:text-white">
-              <section class="px-6 pt-36 pb-18 border-b border-black/10 dark:border-white/10">
+              <section class="px-5 pt-28 pb-9 border-b border-black/10 dark:border-white/10 sm:px-6 sm:pt-32 sm:pb-10">
                 <div class="max-w-7xl mx-auto">
                   <Breadcrumbs
                     items={[
@@ -96,21 +81,21 @@ export default function PersonalProjects() {
                       { name: copy().title, url: "/personal" },
                     ]}
                   />
-                  <div class="max-w-3xl mt-9 flex flex-col gap-6">
+                  <div class="max-w-2xl mt-6 flex flex-col gap-4">
                     <H1>{copy().title}</H1>
-                    <p class="text-neutral-600 dark:text-neutral-400">
-                      {copy().intro}
+                    <p class="type-intro text-black/65 dark:text-white/65">
+                      Tools, AI experiments, and hobby projects that I'm working on.
                     </p>
-                    <nav aria-label="Explore projects" class="flex flex-wrap gap-3">
+                    <nav aria-label="Explore projects" class="mt-1 flex flex-wrap gap-3">
                       <A
                         href="#cruio"
-                        class="inline-flex min-h-11 items-center justify-center gap-3 rounded-xl bg-black px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-neutral-700 focus-visible:outline-2 focus-visible:outline-offset-4 dark:bg-white dark:text-black dark:hover:bg-neutral-200"
+                        class="inline-flex min-h-11 items-center justify-center gap-3 bg-black px-5 py-3 text-sm font-normal text-white transition-colors hover:bg-black/10 focus-visible:outline-2 focus-visible:outline-offset-4 dark:bg-white dark:text-black dark:hover:bg-white/10"
                       >
                         Passion projects <span aria-hidden="true">↓</span>
                       </A>
                       <A
                         href="#creative-work"
-                        class="inline-flex min-h-11 items-center justify-center gap-3 rounded-xl border border-black/20 px-5 py-3 text-sm font-semibold transition-colors hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-4 dark:border-white/20 dark:hover:bg-neutral-900"
+                        class="inline-flex min-h-11 items-center justify-center gap-3 border border-black/20 px-5 py-3 text-sm font-normal transition-colors hover:bg-black/3 focus-visible:outline-2 focus-visible:outline-offset-4 dark:border-white/20 dark:hover:bg-white/3"
                       >
                         Visual experiments <span aria-hidden="true">↓</span>
                       </A>
@@ -122,12 +107,12 @@ export default function PersonalProjects() {
               <section
                 id="passion-projects"
                 aria-labelledby="passion-projects-heading"
-                class="scroll-mt-28 px-6 py-18 bg-neutral-100 dark:bg-neutral-950"
+                class="scroll-mt-28 px-5 py-10 bg-black/3 dark:bg-white/3 sm:px-6 sm:py-12"
               >
                 <div class="max-w-7xl mx-auto">
                   <h2
                     id="passion-projects-heading"
-                    class="font-semibold text-3xl mb-9"
+                    class="type-heading mb-5"
                   >
                     {copy().projectsHeading}
                   </h2>
@@ -142,15 +127,15 @@ export default function PersonalProjects() {
               <Show when={supportingProjects().length > 0}>
                 <section
                   aria-labelledby="supporting-projects-heading"
-                  class="px-6 pb-18 bg-neutral-100 dark:bg-neutral-950"
+                  class="px-5 pb-10 bg-black/3 dark:bg-white/3 sm:px-6 sm:pb-12"
                 >
                   <div class="max-w-7xl mx-auto">
-                    <div class="mb-9 flex flex-col gap-4">
-                      <h2 id="supporting-projects-heading" class="font-semibold text-3xl">
-                        {copy().supportingHeading || fallbackCopy.supportingHeading}
+                    <div class="mb-5 flex flex-col gap-2">
+                      <h2 id="supporting-projects-heading" class="type-heading">
+                        {copy().supportingHeading}
                       </h2>
                       <Show when={copy().supportingDescription}>
-                        <p class="max-w-2xl text-neutral-600 dark:text-neutral-400">
+                        <p class="type-body max-w-2xl text-black/65 dark:text-white/65">
                           {copy().supportingDescription}
                         </p>
                       </Show>
@@ -167,24 +152,24 @@ export default function PersonalProjects() {
               <section
                 id="creative-work"
                 aria-labelledby="creative-pieces-heading"
-                class="scroll-mt-28 py-18 border-t border-black/10 dark:border-white/10"
+                class="scroll-mt-28 py-10 border-t border-black/10 dark:border-white/10 sm:py-12"
               >
-                <div class="px-6 mb-9">
-                  <div class="max-w-7xl mx-auto flex flex-col gap-4">
-                    <h2 id="creative-pieces-heading" class="font-semibold text-3xl">
-                      {copy().mosaicHeading}
+                <div class="px-5 mb-5 sm:px-6">
+                  <div class="max-w-7xl mx-auto flex flex-col gap-2">
+                    <h2 id="creative-pieces-heading" class="type-heading">
+                      Visual Experiments
                     </h2>
-                    <p class="max-w-2xl text-neutral-600 dark:text-neutral-400">
-                      {copy().mosaicDescription}
+                    <p class="type-body max-w-2xl text-black/65 dark:text-white/65">
+                      An assortment of random artwork I create.
                     </p>
                   </div>
                 </div>
                 <Show
                   when={content().creativePieces.length > 0}
                   fallback={
-                    <div class="px-6">
-                      <p class="max-w-7xl mx-auto border-t border-black/10 dark:border-white/10 pt-9 text-neutral-600 dark:text-neutral-400">
-                        {copy().emptyMosaic}
+                    <div class="px-5 sm:px-6">
+                      <p class="type-body max-w-7xl mx-auto border-t border-black/10 dark:border-white/10 pt-5 text-black/65 dark:text-white/65">
+                        Currently in progress of updating!
                       </p>
                     </div>
                   }

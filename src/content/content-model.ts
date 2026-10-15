@@ -87,49 +87,10 @@ export interface CreativePiece {
   size?: "small" | "wide" | "tall" | "large";
 }
 
-export interface WritingEntry {
-  id: string;
-  slug: string;
-  title: string;
-  summary: string;
-  visibility: Visibility;
-  publishedAt: string;
-  updatedAt: string;
-  tags: string[];
-  body: ({ type: "paragraph" | "quote"; text: string } | { type: "heading"; text: string; level: 2 | 3 | 4 })[];
-  cover?: ContentMedia;
-}
-
-export interface PersonalPageCopy {
-  title: string;
-  description: string;
-  intro: string;
-  projectsHeading: string;
-  mosaicHeading: string;
-  mosaicDescription: string;
-  emptyMosaic: string;
-  supportingHeading?: string;
-  supportingDescription?: string;
-}
-
-export interface HomePageCopy {
-  intro: string;
-  projectsIntro: string;
-  contactIntro: string;
-}
-
-export interface AboutPageCopy {
-  description: string;
-  intro: string;
-  sections: { id: string; title: string; paragraphs: string[] }[];
-}
-
 export interface ContentDatabase {
   $schema?: string;
-  schemaVersion: 2;
-  site: { name: string; role: string; url: string; description: string; ogImage: string; homePage: HomePageCopy; aboutPage: AboutPageCopy; personalPage?: PersonalPageCopy };
+  schemaVersion: 3;
   caseStudies: CaseStudy[];
   personalProjects: PersonalProject[];
   creativePieces: CreativePiece[];
-  writing: WritingEntry[];
 }

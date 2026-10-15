@@ -8,6 +8,8 @@ export default createHandler(() => (
         <head>
           <meta charset="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link rel="preload" href="/fonts/dm-sans-v17-latin-400-700.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+          <link rel="preload" href="/fonts/space-grotesk-v22-latin-700.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
           <script>{`(function () {
   var saved;
   try { saved = localStorage.getItem('portfolio-theme'); } catch (_) {}

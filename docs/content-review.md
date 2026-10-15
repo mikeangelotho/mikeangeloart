@@ -1,5 +1,9 @@
 # Portfolio content review — October 5, 2026
 
+> Historical review from October 5, 2026. The project-only version 3 database
+> and current local-to-CDN workflow supersede the content/source descriptions
+> below. See [the current database guide](content-database.md).
+
 The professional introduction remains **Art Director & Multidisciplinary
 Designer**. The documented work supports hands-on brand, advertising, motion,
 video, and web design roles. The personal apps and tools add evidence of

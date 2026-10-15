@@ -28,8 +28,8 @@ export default function PageError(props: { reset: () => void }) {
           <H1>This page couldn’t load.</H1>
           <p>Please try again in a moment. You can also return to the homepage.</p>
           <div class="flex flex-wrap gap-4">
-            <button type="button" onClick={retry} class="rounded-lg px-6 py-3 font-semibold bg-black text-white dark:bg-white dark:text-black">Try again</button>
-            <A href="/" onClick={retry} class="rounded-lg px-6 py-3 font-semibold border border-black/20 dark:border-white/20">Go home</A>
+            <button type="button" onClick={retry} class="px-6 py-3 font-semibold bg-black text-white dark:bg-white dark:text-black">Try again</button>
+            <A href="/" onClick={retry} class="px-6 py-3 font-semibold border border-black/20 dark:border-white/20">Go home</A>
           </div>
         </div>
       </main>

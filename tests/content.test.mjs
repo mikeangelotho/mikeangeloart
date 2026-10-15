@@ -27,7 +27,7 @@ test("validates the complete local database without mutating it and freezes cach
 test("rejects legacy databases and unsupported versions with an actionable field path", () => {
   assert.throws(() => parseContentDatabase([]), /db must be an object/);
   assert.throws(() => parseContentDatabase({ projects: [] }), /db\.schemaVersion is required/);
-  invalidEdit((source) => { source.schemaVersion = 1; }, /db\.schemaVersion must be 2; migrate/);
+  invalidEdit((source) => { source.schemaVersion = 1; }, /db\.schemaVersion must be 3; publish/);
 });
 
 test("rejects duplicate project IDs and URL slugs", () => {
@@ -70,7 +70,6 @@ test("rejects unsafe media URLs, whitespace paths and relative canonical URLs", 
     invalidEdit((source) => { source.caseStudies[0].cover.src = src; }, /cover\.src must be an HTTP\(S\) URL or a root-relative path/);
   }
   invalidEdit((source) => { source.caseStudies[0].cover.src = "/image with spaces.png"; }, /cover\.src must encode spaces in URLs/);
-  invalidEdit((source) => { source.site.url = "/"; }, /site\.url/);
   const local = freshDatabase();
   local.caseStudies[0].cover.src = "/personal/example.png";
   assert.equal(parseContentDatabase(local).caseStudies[0].cover.src, "/personal/example.png");
@@ -87,30 +86,6 @@ test("rejects unknown and incorrectly typed fields instead of hiding editor mist
   }];
   const plannedScreenshots = parseContentDatabase(planned).personalProjects[0].screenshots;
   assert.ok(plannedScreenshots.every((screenshot) => screenshot.src === undefined));
-});
-
-function writingEntry() {
-  return {
-    id: "example-essay", slug: "example-essay", title: "Example essay", summary: "An introduction to an essay.",
-    visibility: "hidden", publishedAt: "2026-10-01", updatedAt: "2026-10-05", tags: ["Design"],
-    body: [
-      { type: "paragraph", text: "Opening paragraph." },
-      { type: "heading", level: 2, text: "A section" },
-      { type: "quote", text: "A quoted observation." },
-    ],
-  };
-}
-
-test("supports structured writing and rejects incomplete or executable blocks", () => {
-  const source = freshDatabase();
-  source.writing = [writingEntry()];
-  assert.deepEqual(parseContentDatabase(source).writing[0].body, source.writing[0].body);
-  for (const body of [[], [{ type: "heading", text: "Missing level" }], [{ type: "heading", level: 1, text: "Invalid level" }], [{ type: "paragraph", level: 2, text: "Paragraph with heading level" }], [{ type: "html", text: "<script>example</script>" }]]) {
-    source.writing[0].body = body;
-    assert.throws(() => parseContentDatabase(source), /writing\[0\]\.body/);
-  }
-  source.writing = [writingEntry(), { ...writingEntry(), id: "second-essay" }];
-  assert.throws(() => parseContentDatabase(source), /writing\[1\]\.slug duplicates/);
 });
 
 test("validates project emphasis and mixed mosaic sizes while keeping both optional", () => {
@@ -133,10 +108,14 @@ test("validates project emphasis and mixed mosaic sizes while keeping both optio
   assert.throws(() => parseContentDatabase(source), /size must be small, wide, tall, or large/);
 });
 
-test("validates editable site copy and rejects ambiguous About section IDs", () => {
-  invalidEdit((source) => { source.site.homePage.intro = "  "; }, /homePage\.intro must be a nonblank string/);
-  invalidEdit((source) => { source.site.aboutPage.sections[0].paragraphs = []; }, /paragraphs must contain at least one paragraph/);
-  invalidEdit((source) => { source.site.aboutPage.sections[1].id = source.site.aboutPage.sections[0].id; }, /sections\[1\]\.id duplicates/);
+test("the database contract contains project collections only", async () => {
+  assert.deepEqual(Object.keys(database).sort(), ["$schema", "schemaVersion", "caseStudies", "personalProjects", "creativePieces"].sort());
+  invalidEdit((source) => { source.site = { homePage: { intro: "Page copy" } }; }, /db\.site is not a supported field/);
+  invalidEdit((source) => { source.writing = []; }, /db\.writing is not a supported field/);
+  const schema = JSON.parse(await readFile(new URL("../content/db.schema.json", import.meta.url), "utf8"));
+  assert.equal(schema.properties.schemaVersion.const, database.schemaVersion);
+  assert.deepEqual(schema.required.sort(), ["schemaVersion", "caseStudies", "personalProjects", "creativePieces"].sort());
+  assert.deepEqual(Object.keys(schema.properties).sort(), Object.keys(database).sort());
 });
 
 test("local content never makes a network request and shares the validated result", async () => {
@@ -145,7 +124,7 @@ test("local content never makes a network request and shares the validated resul
   });
   const first = await load();
   assert.equal(await load(), first);
-  assert.equal(first.schemaVersion, 2);
+  assert.equal(first.schemaVersion, 3);
 });
 
 test("CDN content requests JSON with a timeout and shares cached data", async () => {
@@ -161,7 +140,7 @@ test("CDN content requests JSON with a timeout and shares cached data", async ()
   const first = await load();
   assert.equal(await load(), first);
   assert.equal(calls, 1);
-  assert.deepEqual(first, parseContentDatabase(freshDatabase()), "standalone CDN JSON preserves all local copy, project tiers, and media records");
+  assert.deepEqual(first, parseContentDatabase(freshDatabase()), "standalone CDN JSON preserves all project copy, project tiers, and media records");
 });
 
 test("concurrent content loads share one in-flight request", async () => {
@@ -186,7 +165,7 @@ test("CDN content expires at the configured interval and picks up edited content
   const load = createContentLoader(cdnSource, async () => {
     calls++;
     const source = freshDatabase();
-    source.site.description = `Content revision ${calls}`;
+    source.caseStudies[0].title = `Content revision ${calls}`;
     return Response.json(source);
   }, { ttlMs: 60, now: () => time });
   const first = await load();
@@ -195,7 +174,7 @@ test("CDN content expires at the configured interval and picks up edited content
   time = 60;
   const refreshed = await load();
   assert.notEqual(refreshed, first);
-  assert.equal(refreshed.site.description, "Content revision 2");
+  assert.equal(refreshed.caseStudies[0].title, "Content revision 2");
   assert.equal(calls, 2);
 });
 
@@ -213,7 +192,7 @@ test("HTTP, JSON, shape and network failures are reported and are never cached",
       return calls === 1 ? failure() : Response.json(freshDatabase());
     });
     await assert.rejects(load(), expected);
-    assert.equal((await load()).schemaVersion, 2);
+    assert.equal((await load()).schemaVersion, 3);
     assert.equal(calls, 2);
   }
 });
@@ -225,7 +204,7 @@ test("a failed refresh does not reset the cache expiry or prevent a subsequent r
     calls++;
     if (calls === 2) return Response.json({ schemaVersion: 999 });
     const source = freshDatabase();
-    source.site.description = `Content revision ${calls}`;
+    source.caseStudies[0].title = `Content revision ${calls}`;
     return Response.json(source);
   }, { ttlMs: 60, now: () => time });
   const original = await load();
@@ -233,7 +212,7 @@ test("a failed refresh does not reset the cache expiry or prevent a subsequent r
   await assert.rejects(load(), /Invalid content database/);
   const retry = await load();
   assert.equal(calls, 3);
-  assert.equal(original.site.description, "Content revision 1");
-  assert.equal(retry.site.description, "Content revision 3");
+  assert.equal(original.caseStudies[0].title, "Content revision 1");
+  assert.equal(retry.caseStudies[0].title, "Content revision 3");
   assert.equal(await load(), retry);
 });

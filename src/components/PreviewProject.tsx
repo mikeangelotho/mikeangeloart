@@ -55,6 +55,8 @@ export function PreviewProject(props: {
   );
 
   onMount(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     const fadeObserver = new IntersectionObserver(
       (entries, observer) => {
         entries.forEach((entry) => {
@@ -64,7 +66,7 @@ export function PreviewProject(props: {
           if (entry.isIntersecting) observer.unobserve(target);
         });
       },
-      { threshold: 0.15 },
+      { threshold: 0.05 },
     );
 
     fadeObserver.observe(containerRef);
@@ -75,20 +77,20 @@ export function PreviewProject(props: {
   });
 
   return (
-    <section class="w-full mx-auto py-18 px-6">
+    <section class="w-full mx-auto py-8 sm:py-10 px-6">
       <div
         ref={containerRef}
         class={`fade__animate max-w-7xl mx-auto flex flex-col lg:flex-row items-stretch gap-6 ${
           props.reverse ? "lg:flex-row-reverse" : ""
         }`}
       >
-        <div class="flex-1 lg:flex-[1.5]">
+        <div class="min-w-0 flex-1 lg:flex-[1.9]">
           <A
             href={`/projects/${props.data.slug}`}
             aria-label={`View ${props.data.title} case study`}
-            class="block group relative overflow-hidden rounded-2xl lg:rounded-3xl bg-neutral-100 dark:bg-neutral-950"
+            class="block group relative border dark:border-white/15 bg-black/3 dark:bg-white/3"
           >
-            <div class="aspect-4/3 lg:aspect-5/4 overflow-hidden">
+            <div class="aspect-4/3 lg:aspect-16/10 overflow-hidden">
               <MediaCluster
                 class="w-full h-full object-cover"
                 src={selectedImage()}
@@ -113,7 +115,7 @@ export function PreviewProject(props: {
                     aria-label={`Show preview ${index() + 1} for ${props.data.title}`}
                     aria-pressed={selectedImage() === media.url}
                     onClick={() => setSelectedImage(media.url)}
-                    class={`block shrink-0 w-20 h-14 lg:w-24 lg:h-16 overflow-hidden rounded-lg transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                    class={`block shrink-0 w-20 h-14 lg:w-24 lg:h-16 overflow-hidden transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 ${
                       selectedImage() === media.url
                         ? "ring-1 ring-black dark:ring-white"
                         : "hover:ring-1 hover:ring-black/20 dark:hover:ring-white/20 opacity-25 hover:opacity-100"
@@ -128,18 +130,13 @@ export function PreviewProject(props: {
                   </button>
                 )}
               </For>
-              {/*<A
-                href={`/projects/${props.data.slug}`}
-                class="flex shrink-0 flex-col lg:flex-row items-center lg:gap-2 justify-center w-20 h-14 lg:w-24 lg:h-16 overflow-hidden rounded-lg bg-black dark:bg-white text-white dark:text-black text-xs font-bold hover:lg:gap-3 transition-all duration-150 ease-in-out"
-              >
-                View More <span>⋯</span>
-              </A>*/}
             </div>
           </Show>
         </div>
 
-        <div class="flex-1 flex flex-col justify-center border border-neutral-300 dark:border-neutral-900 rounded-3xl p-6 bg-neutral-100 dark:bg-neutral-950">
-          <div class="flex items-center gap-3 mb-4">
+        <div class="min-w-0 flex-1 lg:flex-[0.8] flex gap-3 lg:flex-col justify-center border-t border-black/15 dark:border-white/15 pt-18 lg:pt-0 lg:border-t-0 lg:border-l lg:pl-7">
+          <div>
+          <div class="flex items-center gap-3 mb-3">
             <A
               href={`/projects?client=${encodeURIComponent(props.data.clientName)}`}
               class="flex items-center gap-3"
@@ -147,52 +144,45 @@ export function PreviewProject(props: {
               <img
                 src={props.data.clientLogo}
                 alt={props.data.clientLogoAlt}
-                class="w-10 h-10 object-contain brightness-0 dark:brightness-200 saturate-0 contrast-0 rounded-lg"
+                class="w-10 h-10 object-contain brightness-0 dark:brightness-200 saturate-0 contrast-0 "
                 loading="lazy"
               />
-              <span class="text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:underline">
+              <span class="text-sm font-medium text-black/65 dark:text-white/65 hover:underline">
                 {props.data.clientName}
               </span>
             </A>
           </div>
 
           <A href={`/projects/${props.data.slug}`} class="group inline-block">
-            <H2 class="group-hover:underline decoration-2 underline-offset-4 mb-4">
+            <H2 class="group-hover:underline decoration-2 underline-offset-4 mb-3">
               {props.data.title}
             </H2>
           </A>
-
+          {/*
           <Show when={props.data.caseStudy}>
             {(caseStudy) => (
-              <div class="mb-4">
-                <span class="block text-xs uppercase tracking-widest text-neutral-600 dark:text-neutral-400 mb-1">
-                  My role
-                </span>
-                <p class="text-sm font-semibold text-black dark:text-white">
+              <div class="mb-4 bg-white/5 border border-white/10 w-fit py-1 px-3">
+                <p class="font-normal text-black dark:text-white">
                   {caseStudy().role}
                 </p>
               </div>
             )}
           </Show>
-
-          <p class="text-black dark:text-white mb-4">
+          */}
+          <p class="type-body max-w-[42ch] text-black dark:text-white mb-4">
             {props.data.caseStudy?.summary || props.data.projectObjective}
           </p>
-
+          </div>
+          <div>
           <Show when={props.data.results.length > 0}>
-            <div class="mb-6">
-              <span class="text-xs font-bold uppercase tracking-widest text-neutral-600 dark:text-neutral-400 border-b border-black/10 dark:border-white/10 w-fit pb-1">
-                Reported results
+            <div class="mb-4 gap-1 flex flex-col border bg-white/5 border-white/10 py-3 px-3">
+              <span class="type-label text-black/65 dark:text-white/65">
+                Results
               </span>
               <For each={props.data.results.slice(0, 2)}>
                 {(result) => (
-                  <p class="text-sm tracking-wider text-black dark:text-white mt-3">
+                  <p class="leading-5 text-black dark:text-white">
                     ⌖ {result.value}
-                    <Show when={result.label}>
-                      <span class="block text-xs tracking-normal text-black/60 dark:text-white/60">
-                        {result.label}
-                      </span>
-                    </Show>
                   </p>
                 )}
               </For>
@@ -211,13 +201,14 @@ export function PreviewProject(props: {
 
           <A
             href={`/projects/${props.data.slug}`}
-            class="flex w-full lg:w-fit justify-center items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-lg bg-black dark:bg-white text-white dark:text-black hover:gap-3 transition-all duration-50 group/link mt-6"
+            class="flex min-h-11 w-full lg:w-fit justify-center items-center gap-2 text-sm font-medium px-5 py-2.5 bg-black dark:bg-white text-white dark:text-black hover:gap-3 transition-all duration-50 group/link mt-5"
           >
             Read Case Study
             <span class="font-normal group-hover/link:translate-x-1 transition-transform">
               →
             </span>
           </A>
+          </div>
         </div>
       </div>
     </section>

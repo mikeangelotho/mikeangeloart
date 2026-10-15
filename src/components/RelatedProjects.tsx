@@ -41,31 +41,33 @@ export function RelatedProjects(props: RelatedProjectsProps) {
 
   return (
     <section class="w-full bg-white dark:bg-black border-black/10 dark:border-white/10">
-      <div class="max-w-7xl mx-auto px-6 py-18">
-        <div class="flex flex-col gap-12">
+      <div class="max-w-7xl mx-auto px-6 py-8 md:py-12">
+        <div class="flex flex-col gap-8">
           <Show when={relatedProjects().length > 0}>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <For each={relatedProjects()}>
                 {(project) => {
                   return (
                     <div
-                      class="group relative overflow-hidden rounded-2xl shadow-[0px_9px_18px_0px_rgb(0,0,0,0.1)] dark:shadow-[0px_9px_18px_0px_rgb(0,0,0,0.25)] bg-neutral-100 dark:bg-neutral-950 border border-neutral-300 dark:border-neutral-900"
+                      class="group relative overflow-hidden bg-black/3 dark:bg-white/3 border border-black/15 dark:border-white/15"
                     >
                       <A
                         href={`/projects/${project.slug}`}
                         class="block w-full h-full"
                       >
-                        <div class="aspect-video overflow-hidden bg-neutral-100 dark:bg-neutral-950">
+                        <div class="aspect-[4/3] overflow-hidden bg-black/3 dark:bg-white/3">
                           <img
                             src={project.cover}
-                            alt={project.title}
+                            alt={project.coverAlt || project.title}
+                            width={project.coverWidth}
+                            height={project.coverHeight}
                             class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                             loading="lazy"
                           />
                         </div>
 
-                        <div class="p-6">
-                          <div class="flex items-start justify-between gap-4 mb-3">
+                        <div class="p-4 md:p-5">
+                          <div class="flex items-start justify-between gap-4 mb-2">
                             <img
                               src={project.clientLogo}
                               alt={project.clientName}
@@ -76,7 +78,7 @@ export function RelatedProjects(props: RelatedProjectsProps) {
 
                           <H3>{project.title}</H3>
 
-                          <p class="text-sm text-black/60 dark:text-white/60 mb-4 line-clamp-2">
+                          <p class="text-sm text-black/70 dark:text-white/70 mb-3 line-clamp-2">
                             {project.projectObjective}
                           </p>
 
@@ -85,7 +87,7 @@ export function RelatedProjects(props: RelatedProjectsProps) {
                               {(tag) => <Tag>{tag}</Tag>}
                             </For>
                             {project.sharedTags.length > 3 && (
-                              <span class="text-xs text-neutral-600 dark:text-neutral-400 px-2 py-1">
+                              <span class="text-xs text-black/65 dark:text-white/65 px-2 py-1">
                                 +{project.sharedTags.length - 3} more
                               </span>
                             )}
@@ -105,7 +107,7 @@ export function RelatedProjects(props: RelatedProjectsProps) {
                 No related projects found.
                 <A
                   href="/projects"
-                  class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 underline ml-1"
+                  class="text-black hover:text-black dark:text-white dark:hover:text-white underline ml-1"
                 >
                   View all projects
                 </A>

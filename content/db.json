@@ -1,51 +1,6 @@
 {
   "$schema": "./db.schema.json",
-  "schemaVersion": 2,
-  "site": {
-    "name": "Mike Angelo",
-    "role": "Art Director & Multidisciplinary Designer",
-    "url": "https://mikeangelo.art",
-    "description": "Art direction, brand identities, integrated campaigns, and digital experiences by Mike Angelo. Based in New Jersey and working across the New York area.",
-    "ogImage": "https://cdn.mikeangelo.art/og-default.png",
-    "homePage": {
-      "intro": "I design brand identities, campaigns, motion, and websites. I carry a visual idea across the places people encounter a brand.",
-      "projectsIntro": "Alongside client work, I’m building apps, a game, and tools for my own creative workflow.",
-      "contactIntro": "Looking for a hands-on art director or multidisciplinary designer? Let’s talk about your team, brand, or next campaign."
-    },
-    "aboutPage": {
-      "description": "Brand identity, campaign design, video editing, motion, and web design by Mike Angelo, an art director and multidisciplinary designer based in New Jersey.",
-      "intro": "I’m Mike Angelo, an art director and multidisciplinary designer based in New Jersey. I work across brand identity, advertising, motion, and web design.",
-      "sections": [
-        {
-          "id": "how-i-work",
-          "title": "How I Work",
-          "paragraphs": [
-            "My work spans automotive, food, fitness, and wellness. I develop visual design for brands and campaigns, edit commercial and social video, create motion graphics, and design and build landing pages.",
-            "I like projects where the same idea has to work in several forms. I move between layout, motion, and code, collaborating with creative, production, and development teams to keep the result consistent."
-          ]
-        },
-        {
-          "id": "why-i-do-it",
-          "title": "Why I Do It",
-          "paragraphs": [
-            "I’m interested in how images, movement, and interaction change the way something feels. Personal apps, games, and visual experiments let me explore those connections outside a client brief.",
-            "Away from the screen, I like to hike and get lost in nature, write electric guitar songs that I immediately forget, attempt to skateboard, and stay endlessly curious about engineering, philosophy, and the universe."
-          ]
-        }
-      ]
-    },
-    "personalPage": {
-      "title": "Projects",
-      "description": "Cruio, RAID, and Indigo: apps and a game in development by Mike Angelo, followed by Solobook, R2D2, and visual experiments.",
-      "intro": "Apps, a game, and tools shaped by how I like to work. Ongoing projects, smaller builds, and visual experiments.",
-      "projectsHeading": "Passion projects",
-      "supportingHeading": "Smaller builds",
-      "supportingDescription": "Focused tools for reading, editing, and keeping a creative workflow moving.",
-      "mosaicHeading": "Odds & ends",
-      "mosaicDescription": "Blender renders, sketches, GIFs, and whatever else I’m experimenting with.",
-      "emptyMosaic": "More things are on the way."
-    }
-  },
+  "schemaVersion": 3,
   "caseStudies": [
     {
       "id": "loopwell-the-space-for-well-being",
@@ -111,12 +66,12 @@
       },
       "results": [
         {
-        "value": "10+ events per week",
-        "label": "Reported venue programming"
+          "value": "10+ events per week",
+          "label": "Reported venue programming"
         },
         {
-        "value": "Brand, website, and event content",
-        "label": "Connected launch materials"
+          "value": "Brand, website, and event content",
+          "label": "Connected launch materials"
         }
       ],
       "hero": {
@@ -1552,7 +1507,7 @@
       "presentation": "featured",
       "title": "RAID",
       "category": "Game",
-      "summary": "RAID is my ongoing action RPG prototype, set in a retrofuturistic world where memories are stored on nanostructured disks. I’m developing its world, interface, and gameplay in Godot, connecting gunplay and enemy behavior with inventory, crafting, and character builds.",
+      "summary": "RAID is my ongoing action RPG / stick shooter prototype. I’m developing its world, interface, and gameplay in Godot, connecting gunplay and enemy behavior with inventory, crafting, and character builds.",
       "status": "In development",
       "screenshots": [
         {
@@ -1593,10 +1548,13 @@
       "title": "Indigo",
       "category": "Local AI workspace",
       "presentation": "featured",
-      "summary": "I’m building Indigo, a local AI workspace for spawning small and medium models across devices on a local network, with basic GPU inference sharing. I’m designing the interface for connecting model workers, configuring conversations, and following streamed responses, with support for basic tool calling.",
+      "summary": "Indigo is a prototype for local AI inference. It spawns small and medium models across devices on a local network, with basic GPU inference sharing.",
       "status": "Prototype",
       "visibility": "public",
-      "link": { "label": "View source on GitHub", "href": "https://github.com/mikeangelotho/indigo" },
+      "link": {
+        "label": "View source on GitHub",
+        "href": "https://github.com/mikeangelotho/indigo"
+      },
       "screenshots": [
         {
           "id": "indigo-conversation",
@@ -1635,13 +1593,34 @@
       "title": "Solobook",
       "category": "Markdown reader",
       "presentation": "compact",
-      "summary": "A quieter way to read a collection of Markdown. I’m developing Solobook as a navigable reference book, with chapter navigation, a generated contents page, and a workspace for keeping multiple books together.",
+      "summary": "Using AI comes with using a lot of Markdown, so I made a quick app to compose related markdown files into a navigable book.",
       "status": "Prototype",
       "visibility": "public",
-      "link": { "label": "View source on GitHub", "href": "https://github.com/mikeangelotho/solobook" },
+      "link": {
+        "label": "View source on GitHub",
+        "href": "https://github.com/mikeangelotho/solobook"
+      },
       "screenshots": [
-        { "id": "solobook-reader", "type": "image", "title": "Chapter reader", "caption": "Read formatted Markdown with chapter navigation and reading progress.", "alt": "Solobook reader displaying a Hermes Agent reference chapter, chapter navigation, reading statistics, and a progress bar", "src": "https://cdn.mikeangelo.art/projects-screens/reader-v1.webp", "width": 3836, "height": 1840 },
-        { "id": "solobook-workspace", "type": "image", "title": "Chapter organization", "caption": "Add files, reorder chapters, and keep a reference book organized.", "alt": "Solobook chapter sidebar with Add files, a selected chapter's word count, move-up and move-down controls, and a remove control", "src": "https://cdn.mikeangelo.art/projects-screens/chapters-v1.webp", "width": 560, "height": 642 }
+        {
+          "id": "solobook-reader",
+          "type": "image",
+          "title": "Chapter reader",
+          "caption": "Read formatted Markdown with chapter navigation and reading progress.",
+          "alt": "Solobook reader displaying a Hermes Agent reference chapter, chapter navigation, reading statistics, and a progress bar",
+          "src": "https://cdn.mikeangelo.art/projects-screens/reader-v1.webp",
+          "width": 3836,
+          "height": 1840
+        },
+        {
+          "id": "solobook-workspace",
+          "type": "image",
+          "title": "Chapter organization",
+          "caption": "Add files, reorder chapters, and keep a reference book organized.",
+          "alt": "Solobook chapter sidebar with Add files, a selected chapter's word count, move-up and move-down controls, and a remove control",
+          "src": "https://cdn.mikeangelo.art/projects-screens/chapters-v1.webp",
+          "width": 560,
+          "height": 642
+        }
       ]
     },
     {
@@ -1652,13 +1631,33 @@
       "summary": "A visual JSON editor for files stored in Cloudflare R2 or S3-compatible buckets. I built it to make structured content easier to browse and change, with tree, table, and raw views plus a diff to review edits before saving.",
       "status": "Working prototype",
       "visibility": "public",
-      "link": { "label": "View source on GitHub", "href": "https://github.com/mikeangelotho/r2d2" },
+      "link": {
+        "label": "View source on GitHub",
+        "href": "https://github.com/mikeangelotho/r2d2"
+      },
       "screenshots": [
-        { "id": "r2d2-workspace", "type": "image", "title": "Tree editor", "caption": "Browse stored files and edit nested JSON in a typed tree.", "alt": "R2D2 editing the portfolio db.json in tree view with a bucket file browser, nested objects, typed values, and save controls", "src": "https://cdn.mikeangelo.art/projects-screens/tree-v1.webp", "width": 3840, "height": 1844 },
-        { "id": "r2d2-table", "type": "image", "title": "Table editor", "caption": "Edit values inline while keeping keys and data types in view.", "alt": "R2D2 table view of portfolio JSON with key, value, type, and action columns and an Art Direction tag being edited inline", "src": "https://cdn.mikeangelo.art/projects-screens/table-v1.webp", "width": 3838, "height": 1612 }
+        {
+          "id": "r2d2-workspace",
+          "type": "image",
+          "title": "Tree editor",
+          "caption": "Browse stored files and edit nested JSON in a typed tree.",
+          "alt": "R2D2 editing the portfolio db.json in tree view with a bucket file browser, nested objects, typed values, and save controls",
+          "src": "https://cdn.mikeangelo.art/projects-screens/tree-v1.webp",
+          "width": 3840,
+          "height": 1844
+        },
+        {
+          "id": "r2d2-table",
+          "type": "image",
+          "title": "Table editor",
+          "caption": "Edit values inline while keeping keys and data types in view.",
+          "alt": "R2D2 table view of portfolio JSON with key, value, type, and action columns and an Art Direction tag being edited inline",
+          "src": "https://cdn.mikeangelo.art/projects-screens/table-v1.webp",
+          "width": 3838,
+          "height": 1612
+        }
       ]
     }
   ],
-  "creativePieces": [],
-  "writing": []
+  "creativePieces": []
 }

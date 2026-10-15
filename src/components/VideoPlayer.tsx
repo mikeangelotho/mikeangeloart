@@ -38,7 +38,7 @@ export default function VideoPlayer(props: { video: Media; class?: string }) {
             <Show when={getVideoPoster(props.video)}>
               {(poster) => <img src={poster()} alt="" loading="lazy" class="absolute inset-0 h-full w-full object-cover opacity-60" />}
             </Show>
-            <span class="relative rounded-lg bg-black/70 px-4 py-2">Load video</span>
+            <span class="relative bg-black/70 px-4 py-2">Load video</span>
           </button>
         }
       >

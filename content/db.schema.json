@@ -1,19 +1,17 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://cdn.mikeangelo.art/db.schema.json",
-  "title": "Mike Angelo content database",
-  "description": "Editable website content. Array order controls presentation; stable IDs identify records and featured media.",
+  "title": "Mike Angelo project database",
+  "description": "One project database containing case studies, personal projects, and creative artwork. Site identity and page copy are maintained in the application.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "site", "caseStudies", "personalProjects", "creativePieces", "writing"],
+  "required": ["schemaVersion", "caseStudies", "personalProjects", "creativePieces"],
   "properties": {
     "$schema": { "$ref": "#/$defs/text", "description": "Optional editor association, for example ./db.schema.json." },
-    "schemaVersion": { "const": 2 },
-    "site": { "$ref": "#/$defs/site" },
+    "schemaVersion": { "const": 3 },
     "caseStudies": { "type": "array", "items": { "$ref": "#/$defs/caseStudy" } },
     "personalProjects": { "type": "array", "items": { "$ref": "#/$defs/personalProject" } },
-    "creativePieces": { "type": "array", "items": { "$ref": "#/$defs/creativePiece" } },
-    "writing": { "type": "array", "items": { "$ref": "#/$defs/writingEntry" } }
+    "creativePieces": { "type": "array", "items": { "$ref": "#/$defs/creativePiece" } }
   },
   "$defs": {
     "text": { "type": "string", "minLength": 1, "pattern": "\\S" },
@@ -32,65 +30,6 @@
     "dimension": { "type": "integer", "minimum": 1 },
     "texts": { "type": "array", "items": { "$ref": "#/$defs/text" } },
     "paragraphs": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/text" } },
-    "site": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["name", "role", "url", "description", "ogImage", "homePage", "aboutPage"],
-      "properties": {
-        "name": { "$ref": "#/$defs/text" },
-        "role": { "$ref": "#/$defs/text" },
-        "url": { "type": "string", "format": "uri", "pattern": "^https?://[^/?#\\s@]+(?:[/?#][^\\s]*)?$" },
-        "description": { "$ref": "#/$defs/text" },
-        "ogImage": { "$ref": "#/$defs/url" },
-        "personalPage": { "$ref": "#/$defs/personalPage" },
-        "homePage": { "$ref": "#/$defs/homePage" },
-        "aboutPage": { "$ref": "#/$defs/aboutPage" }
-      }
-    },
-    "homePage": {
-      "type": "object", "additionalProperties": false,
-      "required": ["intro", "projectsIntro", "contactIntro"],
-      "properties": {
-        "intro": { "$ref": "#/$defs/text" },
-        "projectsIntro": { "$ref": "#/$defs/text" },
-        "contactIntro": { "$ref": "#/$defs/text" }
-      }
-    },
-    "aboutPage": {
-      "type": "object", "additionalProperties": false,
-      "required": ["description", "intro", "sections"],
-      "properties": {
-        "description": { "$ref": "#/$defs/text" },
-        "intro": { "$ref": "#/$defs/text" },
-        "sections": {
-          "type": "array", "items": {
-            "type": "object", "additionalProperties": false,
-            "required": ["id", "title", "paragraphs"],
-            "properties": {
-              "id": { "$ref": "#/$defs/id" },
-              "title": { "$ref": "#/$defs/text" },
-              "paragraphs": { "$ref": "#/$defs/paragraphs" }
-            }
-          }
-        }
-      }
-    },
-    "personalPage": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["title", "description", "intro", "projectsHeading", "mosaicHeading", "mosaicDescription", "emptyMosaic"],
-      "properties": {
-        "title": { "$ref": "#/$defs/text" },
-        "description": { "$ref": "#/$defs/text" },
-        "intro": { "$ref": "#/$defs/text" },
-        "projectsHeading": { "$ref": "#/$defs/text" },
-        "mosaicHeading": { "$ref": "#/$defs/text" },
-        "mosaicDescription": { "$ref": "#/$defs/text" },
-        "emptyMosaic": { "$ref": "#/$defs/text" },
-        "supportingHeading": { "$ref": "#/$defs/text" },
-        "supportingDescription": { "$ref": "#/$defs/text" }
-      }
-    },
     "media": {
       "type": "object",
       "additionalProperties": false,
@@ -250,40 +189,6 @@
         "width": { "$ref": "#/$defs/dimension" },
         "height": { "$ref": "#/$defs/dimension" },
         "visibility": { "$ref": "#/$defs/visibility" }
-      }
-    },
-    "writingBlock": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["type", "text"],
-      "properties": {
-        "type": { "enum": ["paragraph", "heading", "quote"] },
-        "text": { "$ref": "#/$defs/text" },
-        "level": { "enum": [2, 3, 4] }
-      },
-      "allOf": [
-        {
-          "if": { "properties": { "type": { "const": "heading" } }, "required": ["type"] },
-          "then": { "required": ["level"] },
-          "else": { "not": { "required": ["level"] } }
-        }
-      ]
-    },
-    "writingEntry": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["id", "slug", "title", "summary", "visibility", "publishedAt", "updatedAt", "tags", "body"],
-      "properties": {
-        "id": { "$ref": "#/$defs/id" },
-        "slug": { "$ref": "#/$defs/id" },
-        "title": { "$ref": "#/$defs/text" },
-        "summary": { "$ref": "#/$defs/text" },
-        "visibility": { "$ref": "#/$defs/visibility" },
-        "publishedAt": { "$ref": "#/$defs/date" },
-        "updatedAt": { "$ref": "#/$defs/date" },
-        "tags": { "$ref": "#/$defs/texts" },
-        "body": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/writingBlock" } },
-        "cover": { "$ref": "#/$defs/imageMedia" }
       }
     }
   }

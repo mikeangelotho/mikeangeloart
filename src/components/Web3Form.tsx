@@ -14,7 +14,9 @@ export const Web3Form = () => {
     request?.abort();
   });
 
-  const onSubmit = async (event: SubmitEvent & { currentTarget: HTMLFormElement }) => {
+  const onSubmit = async (
+    event: SubmitEvent & { currentTarget: HTMLFormElement },
+  ) => {
     event.preventDefault();
     if (isSubmitting()) return;
     const form = event.currentTarget;
@@ -41,7 +43,9 @@ export const Web3Form = () => {
     } catch {
       if (disposed) return;
       setHasError(true);
-      setResult("Your message could not be sent. Please try again, or email m.angelo@177edgar.com.");
+      setResult(
+        "Your message could not be sent. Please try again, or email m.angelo@177edgar.com.",
+      );
     } finally {
       if (!disposed) setIsSubmitting(false);
     }
@@ -52,41 +56,59 @@ export const Web3Form = () => {
       onSubmit={onSubmit}
       aria-label="Contact Mike Angelo"
       aria-busy={isSubmitting()}
-      class="w-full border border-neutral-300 dark:border-neutral-900 p-6 rounded-3xl bg-neutral-100 dark:bg-neutral-950"
+      class="w-full border border-black/15 dark:border-white/15 p-6 bg-black/3 dark:bg-white/3"
     >
       <div class="flex flex-col gap-3 w-full">
         <div class="flex flex-col">
           <Label for={`${fieldId}-name`}>Name</Label>
-          <Input id={`${fieldId}-name`} name="name" type="text" placeholder="Enter your name" autocomplete="name" required />
+          <Input
+            id={`${fieldId}-name`}
+            name="name"
+            type="text"
+            placeholder="Enter your name"
+            autocomplete="name"
+            required
+          />
         </div>
         <div class="flex flex-col">
           <Label for={`${fieldId}-email`}>Email</Label>
-          <Input id={`${fieldId}-email`} name="email" type="email" placeholder="Enter your email" autocomplete="email" required />
+          <Input
+            id={`${fieldId}-email`}
+            name="email"
+            type="email"
+            placeholder="Enter your email"
+            autocomplete="email"
+            required
+          />
         </div>
         <div class="flex flex-col">
           <Label for={`${fieldId}-message`}>Message</Label>
           <textarea
             id={`${fieldId}-message`}
-            class="min-h-24 sm:min-h-32 md:min-h-36 placeholder-neutral-500 dark:placeholder-neutral-400 resize-y bg-white dark:bg-neutral-900 text-black dark:text-white rounded-md px-3 py-3 border border-neutral-400 dark:border-neutral-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-blue-400 text-base"
+            class="min-h-24 sm:min-h-32 md:min-h-36 placeholder-black/55 dark:placeholder-white/65 resize-y bg-white dark:bg-white/3 text-black dark:text-white px-3 py-3 border border-black/15 dark:border-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:focus-visible:outline-white text-base"
             placeholder="Enter your message"
             name="message"
             required
-            data-lenis-prevent
           />
         </div>
         <button
           type="submit"
           disabled={isSubmitting()}
-          class="min-h-11 cursor-pointer disabled:cursor-wait disabled:opacity-70 flex w-full lg:w-fit justify-center items-center gap-2 text-sm font-bold px-5 py-3 rounded-lg bg-black dark:bg-white text-white dark:text-black hover:gap-3 transition-all duration-200 group/link"
+          class="min-h-11 cursor-pointer disabled:cursor-wait disabled:opacity-70 flex w-full lg:w-fit justify-center items-center gap-2 text-sm font-bold px-5 py-3 bg-black dark:bg-white text-white dark:text-black hover:gap-3 transition-all duration-200 group/link"
         >
           {isSubmitting() ? "Sending…" : "Send message"}
-          <span aria-hidden="true" class="font-normal group-hover/link:rotate-90 transition-transform">↵</span>
+          <span
+            aria-hidden="true"
+            class="font-normal group-hover/link:rotate-90 transition-transform"
+          >
+            ↵
+          </span>
         </button>
         <p
           role={hasError() ? "alert" : "status"}
           aria-live={hasError() ? "assertive" : "polite"}
           aria-atomic="true"
-          class="text-sm text-neutral-700 dark:text-neutral-300"
+          class="text-sm text-black/65 dark:text-white/65"
         >
           {result()}
         </p>

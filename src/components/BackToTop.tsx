@@ -8,10 +8,8 @@ export default function BackToTop() {
       type="button"
       aria-label="Back to top"
       onClick={() => scrolling?.scrollToTop()}
-      class="group inline-flex min-h-11 cursor-pointer items-center gap-3 rounded-full border border-neutral-300 px-4 text-xs text-neutral-600 hover:border-cyan-700/50 hover:text-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-700 motion-safe:transition-colors dark:border-neutral-700 dark:text-neutral-400 dark:hover:border-cyan-400/50 dark:hover:text-cyan-200 dark:focus-visible:outline-cyan-300"
+      class="group inline-flex min-h-11 cursor-pointer items-center gap-3 border border-black/15 px-4 text-xs text-black/65 hover:border-black/50 hover:text-black focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black motion-safe:transition-colors dark:border-white/15 dark:text-white/65 dark:hover:border-white/50 dark:hover:text-white dark:focus-visible:outline-white"
     >
-      <span aria-hidden="true" class="font-mono text-[0.7rem] opacity-60">cd ~</span>
-      <span>To top</span>
       <span aria-hidden="true" class="relative h-5 w-4 overflow-hidden">
         <svg
           viewBox="0 0 16 20"

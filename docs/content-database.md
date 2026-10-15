@@ -1,100 +1,65 @@
-# Editing the content database
+# Editing the project database
 
-`content/db.json` is the complete editable database. It includes the revised
-case-study walkthrough copy, headlines, contributions, artwork selections and
-project order that previously lived in local TypeScript overrides. The website
-now consumes this database rather than maintaining a second editorial layer.
-
-The same file is intended to replace
-[`https://cdn.mikeangelo.art/db.json`](https://cdn.mikeangelo.art/db.json) when the
-new structure is ready to publish. This migration does not upload or deploy it.
+`content/db.json` is the single version 3 project database. It preserves the
+revised case-study copy, contributions, media selections, project tiers, and
+ordering. Page copy and site identity live in `src/content/site-content.ts`;
+the homepage intro is JSX in `src/routes/index.tsx`, so it can contain normal
+SolidJS links. The database rejects page copy, site settings, and writing.
 
 ## Collections
 
 | Collection | Content | Current use |
 | --- | --- | --- |
-| `site` | Professional role, metadata, homepage, About and Projects page wording | Page copy and metadata |
-| `caseStudies` | Client projects, walkthroughs, contributions and media | Homepage, work library and individual case studies |
-| `personalProjects` | Apps, games and tools with integrated screenshot grids | Projects page |
+| `caseStudies` | Client projects, walkthroughs, contributions and media | Homepage, portfolio library and case-study pages |
+| `personalProjects` | Apps, games and tools with screenshots | Personal Projects page |
 | `creativePieces` | Renders, sketches, GIFs and motion clips | Projects page mosaic |
-| `writing` | Articles with structured paragraphs, headings and quotes | Reserved for a future writing section; no writing route exists yet |
 
-Array order controls display order. Reorder entries or walkthrough sections in
-your visual JSON editor without changing their IDs. Set `visibility` to
-`"hidden"` to retain an entry in the file while excluding it from public pages.
-This is an editorial setting, not privacy: anything in a published JSON file is
-publicly downloadable, including hidden entries. Keep private notes elsewhere.
+The only other root fields are `schemaVersion: 3` and the optional editor
+association `$schema`. Array order controls display order. Preserve IDs and
+existing slugs when reordering content. Set `visibility` to `"hidden"` to
+exclude a project from public pages; a published JSON file still exposes those
+records to anyone downloading it.
 
-`schemaVersion: 2` identifies this contract. Unknown fields are rejected so a
-misspelled property does not silently disappear. When adding a new content
-collection or changing its structure, update the schema, application types and
-validation together. A breaking structural change should increment the version.
+## One source, then one line to switch
 
-## Local preview and the CDN switch
-
-The default source is `https://cdn.mikeangelo.art/db.json`. During the migration,
-`src/utils/content-source.ts` includes this local override:
+Every project query and the sitemap use the same `contentSource` declaration
+in `src/utils/content-source.ts`. The current declaration is:
 
 ```ts
-source = { kind: "local", data: localDatabase };
+export const contentSource: ContentSource = { kind: "local", data: localDatabase };
 ```
 
-That one assignment makes both the website and sitemap generator use
-`content/db.json`. Removing it restores the CDN source. Editing the JSON during
-development is enough to preview content changes; after removing the override,
-the published database is fetched on the server.
+There is no merging, runtime format migration, or fallback to another database.
+The JSON schema describes the project data, independent of its storage location.
 
-Keep the override until the version 2 database is published. The old CDN
-structure is intentionally rejected by the new validator. Coordinate publishing
-the new website and replacing the CDN file to avoid serving incompatible
-versions. The local import can remain after the assignment is removed; unused
-content is eliminated from the application build.
+1. Edit the local file and run `npm run content:check`, `npm run typecheck`,
+   `npm test`, and `npm run build`.
+2. Push and deploy the site with the local source selected.
+3. Replace the CDN's `db.json` with this exact version 3 file. Optionally upload
+   `db.schema.json` alongside it for editor support. Keep the old database and
+   site build together for rollback.
+4. Run `npm run content:check:cdn` to verify the published file.
+5. Replace the source declaration with this one line, then build and push again:
 
-Publication checklist:
+```ts
+export const contentSource: ContentSource = { kind: "cdn", url: contentDatabaseUrl };
+```
 
-1. Edit `content/db.json`, review the affected pages, and run
-   `npm run content:check`, the normal type checks, tests and production build.
-2. Deploy the migrated website with the local override still active. It then
-   serves the new structure independently of the old CDN file.
-3. Replace the CDN's `db.json` with this exact file. Keep a backup of the old
-   database and previous site build for rollback.
-4. Remove the local override, verify the CDN-backed build, and deploy again.
-   Uploading the new database before migrating the old website can break the
-   old site's content loader. A rollback must restore matching site and data
-   versions.
-
-Publish `content/db.schema.json` alongside the database if you want a remote
-schema association in your editor. Publishing the schema is optional for the
-website; runtime validation lives in the application.
+The inactive local import does not provide a fallback. Publishing the new JSON
+before deploying the local-backed site can break the old production reader.
+No upload or deployment is performed by these source changes.
 
 ## Editing case-study copy
 
-Edit the homepage introduction, Projects callout and contact introduction in
-`site.homePage`. Edit the About opening, metadata description and ordered text
-sections in `site.aboutPage`. `site.role` supplies the shared professional title.
-These strings use the same CDN source as the case studies, without a separate
-TypeScript copy override.
-
-The walkthrough is direct content, with no override fields:
-
 - `objective` states the project context or goal.
-- `intro` contains one or more introductory paragraphs.
-- `contribution` describes your role and deliverables without implying sole
-  strategy or production ownership.
-- Each `sections` entry has an `id`, a visible `title`, a `paragraphs` array and
-  its own `media` array. Change a headline in `title` and its explanation in
-  `paragraphs`.
-- `results` contains any number of reported results. Add `context` for the
-  timeframe, measurement scope or attribution and `source` when you have a
-  supporting reference. Do not invent missing context or individual causation.
+- `intro` holds introductory paragraphs.
+- `contribution` describes your role, responsibilities, collaborators, and deliverables.
+- Each `sections` entry contains `id`, `title`, `paragraphs`, and `media`.
+- `results` holds reported results; use `context` and `source` for attribution.
 
-Text is plain text, not executable HTML. Use multiple paragraph strings instead
-of embedding HTML or adding blank formatting lines. Keep each section specific
-to the problem, your contribution and the artwork it demonstrates.
-
-Preserve existing case-study `slug` values to keep existing links working.
-`publishedAt` and `updatedAt` use `YYYY-MM-DD`; update the latter when making a
-meaningful content revision rather than giving every build an artificial date.
+Project text is plain text. Use paragraph arrays rather than embedded HTML.
+Page links belong in the SolidJS route. Dates use `YYYY-MM-DD`; update
+`updatedAt` when the project content changes.
 
 ## Media and featured artwork
 
@@ -151,27 +116,8 @@ reserve the correct image space. Optional `size` controls the tile span:
 `"small"` (default), `"wide"`, `"tall"`, or `"large"`. The layout reserves
 different widths and heights while displaying complete artwork. Pieces appear
 in array order and open in the
-lightbox. An empty collection displays the editable `site.personalPage.emptyMosaic`
+lightbox. An empty collection displays the application’s `siteContent.personalPage.emptyMosaic`
 message.
-
-## Preparing writing
-
-Writing records have stable IDs and URL slugs, a title, summary, tags, visibility,
-dates and a `body` array. The schema supports these blocks:
-
-```json
-[
-  { "type": "paragraph", "text": "An opening paragraph." },
-  { "type": "heading", "level": 2, "text": "A section heading" },
-  { "type": "quote", "text": "A short quotation with appropriate attribution." }
-]
-```
-
-Heading levels are 2, 3 or 4; the eventual page title supplies level 1. A `cover`
-can use the shared media structure. These records are validated and ready for a
-future renderer; adding a record does not create a public article page today.
-New block types, such as embeds or code, should be introduced deliberately with
-schema and rendering support.
 
 ## Validation and editor support
 
@@ -186,24 +132,17 @@ duplicate IDs, duplicate slugs, dates and missing featured-media references.
 Invalid content should produce a useful field path rather than quietly showing
 a broken or misleading page.
 
-After uploading the new database, run `npm run content:check:cdn` to validate
-the actual published endpoint before removing the local override. To check a
-staging URL, run `npm run content:check -- https://your-host/db.json`. A valid
-local file does not prove that the CDN has been replaced or that its cache has
-refreshed.
-
-R2D2's current template detector checks top-level array shapes and simple field
-types. It is not a full draft 2020-12 validator. Supporting the new root object
-and this formal schema will require an editor update; this portfolio migration
-does not modify R2D2.
+After uploading the database, run `npm run content:check:cdn` before changing
+the source declaration. To validate a staging endpoint, run
+`npm run content:check -- https://your-host/db.json`. A valid local file does
+not prove the CDN has been replaced or its cache refreshed.
 
 ## Delivery and cache settings
 
 The database is fetched on the server and its visible content is rendered into
 HTML. The server shares concurrent requests and caches validated CDN data for
 60 seconds; editing the published JSON can take up to that interval to appear,
-plus any CDN cache lifetime. Projects pages receive only their relevant
-collections, so future articles do not enlarge their content payloads. CDN
+plus any CDN cache lifetime. The personal Projects page receives only its relevant collections. CDN
 delivery and server rendering work together; editing the JSON does not require
 copying descriptions into route files.
 

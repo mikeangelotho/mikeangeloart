@@ -21,7 +21,6 @@ try {
     `${database.caseStudies.length} case studies`,
     `${database.personalProjects.length} personal projects`,
     `${database.creativePieces.length} creative pieces`,
-    `${database.writing.length} writing entries`,
   ];
   console.log(`${remote ? "CDN" : "Local"} content database v${database.schemaVersion} is valid: ${counts.join(", ")}.`);
 } catch (error) {

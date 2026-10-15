@@ -111,10 +111,10 @@ export default function AboutWindow(props: {
           onPointerDown={drag}
           onKeyDown={keyMove}
         >
-          <span aria-hidden="true" class="mr-2 inline-block h-1.5 w-1.5 rounded-sm bg-current opacity-50" />
+          <span aria-hidden="true" class="mr-2 inline-block h-1.5 w-1.5 bg-current opacity-50" />
           {props.label}
         </button>
-        <button type="button" aria-label={`Close ${props.label} window`} class="about-window-close mr-1 flex min-h-11 min-w-11 items-center justify-center rounded-md text-lg" onClick={props.close}>×</button>
+        <button type="button" aria-label={`Close ${props.label} window`} class="about-window-close mr-1 flex min-h-11 min-w-11 items-center justify-center text-lg" onClick={props.close}>×</button>
       </div>
       <div
         class="about-window-body min-h-0 min-w-0 p-4 sm:p-6 lg:overflow-y-auto"

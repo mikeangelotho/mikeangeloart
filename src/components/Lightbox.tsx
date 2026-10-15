@@ -71,7 +71,7 @@ const Lightbox = (props: {
             type="button"
             autofocus
             onClick={close}
-            class="rounded-lg bg-black dark:bg-white text-white dark:text-black px-6 py-3 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-4"
+            class="bg-black dark:bg-white text-white dark:text-black px-6 py-3 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-4"
           >
             Close
           </button>

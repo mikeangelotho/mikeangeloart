@@ -31,7 +31,7 @@ export default function Navbar() {
       "backdrop-brightness-120",
       "backdrop-saturate-200",
       "lg:mt-3",
-      "lg:hover:translate-y-2",
+      "lg:hover:translate-y-1",
       "dark:lg:border-white/10",
       "lg:border-black/5",
       "bg-white/50",
@@ -44,6 +44,8 @@ export default function Navbar() {
       const scrolled = window.scrollY > 200;
       nav.classList.toggle("mix-blend-difference", !scrolled);
       logoEl.classList.toggle("not-dark:invert", scrolled);
+      logoEl.classList.toggle("px-4", scrolled);
+      logoEl.classList.toggle("my-4", !scrolled);
       wordmark.classList.toggle("opacity-0", scrolled);
       scrollClasses.forEach((name) => nav.classList.toggle(name, scrolled));
     };
@@ -91,11 +93,11 @@ export default function Navbar() {
       <nav
         ref={nav}
         aria-label="Main navigation"
-        class="mix-blend-difference border border-transparent lg:rounded-3xl z-100 top-0 max-w-7xl inset-x-0 mx-auto fixed transition-all duration-1500 ease-in-out"
+        class="mix-blend-difference border border-transparent z-100 top-0 max-w-7xl inset-x-0 mx-auto fixed transition-all duration-1500 ease-in-out"
       >
         <div
           ref={logoEl}
-          class="flex justify-between items-center py-4 px-4 w-full"
+          class="flex justify-between items-center py-2 w-full transition-all duration-1500 ease-in-out my-4 not-xl:px-4"
         >
           <A
             href="/"
@@ -124,7 +126,11 @@ export default function Navbar() {
                 {(link) => (
                   <li>
                     <A
-                      class="inline-flex min-h-11 items-center text-sm hover:underline"
+                      class={`block px-2 py-1 text-sm transition-colors hover:bg-white hover:text-black ${
+                        location.pathname === link.slug
+                          ? "border-b border-white/20"
+                          : ""
+                      }`}
                       aria-current={
                         location.pathname === link.slug ? "page" : undefined
                       }
@@ -177,7 +183,7 @@ export default function Navbar() {
             <ul class="flex flex-col gap-6 items-end">
               <For each={links}>
                 {(link) => (
-                  <li class="text-3xl sm:text-4xl text-right">
+                  <li class="type-title text-right">
                     <A
                       class="inline-flex min-h-12 items-center hover:underline"
                       href={link.slug}

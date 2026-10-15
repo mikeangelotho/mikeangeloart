@@ -45,19 +45,19 @@ build generates the sitemap, then produces `.output/server/index.mjs` and
 
 ## Content and structure
 
-- `content/db.json` is the complete version 2 content database: client case
-  studies, walkthrough copy, media selections, personal projects, the artwork
-  mosaic, homepage/About wording, site metadata and a collection reserved for future writing.
-- `content/db.schema.json` describes the nested structures for schema-aware
-  visual editors. Run `npm run content:check` before publishing edits.
-- `src/utils/content-source.ts` defaults to
-  [the CDN database](https://cdn.mikeangelo.art/db.json). One local override
-  assignment currently selects `content/db.json` for review. Remove that
-  assignment after publishing the new database and coordinating the site
-  deployment. The old CDN format is incompatible with the new validator.
-- Case-study and Projects content is fetched and validated on the server; the
-  sitemap uses the same source. Array order controls presentation, and featured
-  artwork uses stable media IDs rather than numbered positions.
+- `content/db.json` is the version 3 project database: client case studies,
+  walkthroughs, media selections, personal projects, and the artwork mosaic.
+- `content/db.schema.json` describes the same project-only structure for
+  editors. Run `npm run content:check` before publishing edits.
+- Site identity and page copy are application code in
+  `src/content/site-content.ts`; the homepage intro is JSX in its route.
+- `src/utils/content-source.ts` selects only `content/db.json` for this push.
+  After deploying the site and uploading that same file to
+  [the CDN](https://cdn.mikeangelo.art/db.json), change the one source declaration
+  to `{ kind: "cdn", url: contentDatabaseUrl }`, build, and push again.
+  No data is merged and there is no fallback to another database.
+- Project content is validated on the server; the sitemap uses the same source.
+  Array order controls presentation and featured artwork uses stable media IDs.
 - `src/routes` contains the homepage, portfolio library, individual case studies,
   About page, personal Projects page, and missing-page handling.
 - Add passion project descriptions and screenshot slots to `personalProjects`;
@@ -75,7 +75,7 @@ build generates the sitemap, then produces `.output/server/index.mjs` and
   posters. HLS films use Video.js; regular MP4 files use native playback.
 
 See [editing the content database](docs/content-database.md) for the schema,
-editor workflow, writing structure and CDN publication steps. Hidden records are
+editor workflow and CDN publication steps. Hidden records are
 excluded from pages, but a public CDN file still exposes their content.
 
 `package-lock.json` supports npm and `bun.lock` supports Bun. Keep both in sync

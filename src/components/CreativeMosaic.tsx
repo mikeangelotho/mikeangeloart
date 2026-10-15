@@ -82,8 +82,8 @@ function MosaicArtwork(props: { item: MosaicItem; onOpen: (item: MosaicItem) => 
           </Show>
         </Show>
       </button>
-      <figcaption class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 px-3 py-2 text-xs leading-relaxed">
-        <span class="min-w-0 break-words font-medium">{props.item.title}</span>
+      <figcaption class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 px-3 py-2 text-xs font-normal leading-relaxed">
+        <span class="min-w-0 break-words">{props.item.title}</span>
         <span class="text-black/55 dark:text-white/55">{props.item.medium}</span>
       </figcaption>
     </figure>

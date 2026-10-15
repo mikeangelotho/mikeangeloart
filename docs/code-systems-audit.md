@@ -1,5 +1,9 @@
 # Portfolio code and systems audit
 
+> Historical review from October 5, 2026. The project-only version 3 database
+> and current local-to-CDN workflow supersede the content/source descriptions
+> below. See [the current database guide](content-database.md).
+
 Reviewed October 5, 2026. This review covers the local site, its content database,
 and the build configuration. It does not represent a new production deployment
 or a visual evaluation of work that has not been inspected.

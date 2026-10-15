@@ -189,25 +189,6 @@ function creativePiece(value: unknown, path: string) {
   if (item.size !== undefined && !["small", "wide", "tall", "large"].includes(item.size as string)) invalid(`${path}.size`, "must be small, wide, tall, or large");
 }
 
-function writing(value: unknown, path: string) {
-  const item = record(value, path, ["id", "slug", "title", "summary", "visibility", "publishedAt", "updatedAt", "tags", "body"], ["cover"]);
-  datedEntry(item, path);
-  strings(item, ["title", "summary"], path);
-  if (item.cover !== undefined) media(item.cover, `${path}.cover`, true);
-  const blocks = array(item.body, `${path}.body`);
-  if (!blocks.length) invalid(`${path}.body`, "must contain at least one block");
-  blocks.forEach((block, index) => {
-    const blockPath = `${path}.body[${index}]`;
-    const entry = record(block, blockPath, ["type", "text"], ["level"]);
-    string(entry.text, `${blockPath}.text`);
-    if (entry.type === "heading") {
-      if (![2, 3, 4].includes(entry.level as number)) invalid(`${blockPath}.level`, "must be 2, 3, or 4");
-    } else if (!["paragraph", "quote"].includes(entry.type as string) || entry.level !== undefined) {
-      invalid(blockPath, "must be a paragraph, quote, or heading block");
-    }
-  });
-}
-
 function freeze<T>(value: T): T {
   if (value && typeof value === "object") {
     Object.values(value).forEach(freeze);
@@ -218,35 +199,13 @@ function freeze<T>(value: T): T {
 
 /** Strict shapes plus references that JSON Schema alone cannot validate. */
 export function parseContentDatabase(value: unknown): ContentDatabase {
-  const root = record(value, "db", ["schemaVersion", "site", "caseStudies", "personalProjects", "creativePieces", "writing"], ["$schema"]);
-  if (root.schemaVersion !== 2) invalid("db.schemaVersion", "must be 2; migrate the published JSON before switching sources");
+  const root = record(value, "db", ["schemaVersion", "caseStudies", "personalProjects", "creativePieces"], ["$schema"]);
+  if (root.schemaVersion !== 3) invalid("db.schemaVersion", "must be 3; publish the project-only JSON before switching to the CDN");
   if (root.$schema !== undefined) string(root.$schema, "db.$schema");
-  const site = record(root.site, "db.site", ["name", "role", "url", "description", "ogImage", "homePage", "aboutPage"], ["personalPage"]);
-  strings(site, ["name", "role", "description"], "db.site");
-  url(site.url, "db.site.url");
-  if (!/^https?:\/\//.test(site.url as string)) invalid("db.site.url", "must be an absolute HTTP(S) URL");
-  url(site.ogImage, "db.site.ogImage");
-  const homeKeys = ["intro", "projectsIntro", "contactIntro"];
-  strings(record(site.homePage, "db.site.homePage", homeKeys), homeKeys, "db.site.homePage");
-  const about = record(site.aboutPage, "db.site.aboutPage", ["description", "intro", "sections"]);
-  strings(about, ["description", "intro"], "db.site.aboutPage");
-  unique(about.sections, "db.site.aboutPage.sections", "id").forEach((section, index) => {
-    const path = `db.site.aboutPage.sections[${index}]`;
-    record(section, path, ["id", "title", "paragraphs"]);
-    identifier(section.id, `${path}.id`);
-    string(section.title, `${path}.title`);
-    textArray(section.paragraphs, `${path}.paragraphs`, true);
-  });
-  if (site.personalPage !== undefined) {
-    const keys = ["title", "description", "intro", "projectsHeading", "mosaicHeading", "mosaicDescription", "emptyMosaic"];
-    const extra = ["supportingHeading", "supportingDescription"];
-    const copy = record(site.personalPage, "db.site.personalPage", keys, extra);
-    strings(copy, [...keys, ...extra], "db.site.personalPage");
-  }
-  const validators = { caseStudies: caseStudy, personalProjects: personalProject, creativePieces: creativePiece, writing };
+  const validators = { caseStudies: caseStudy, personalProjects: personalProject, creativePieces: creativePiece };
   for (const [key, validate] of Object.entries(validators)) {
     const entries = unique(root[key], `db.${key}`, "id");
-    if (key === "caseStudies" || key === "writing") unique(root[key], `db.${key}`, "slug");
+    if (key === "caseStudies") unique(root[key], `db.${key}`, "slug");
     entries.forEach((entry, index) => validate(entry, `db.${key}[${index}]`));
   }
   // Callers cannot accidentally change the cached source for later requests.

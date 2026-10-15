@@ -6,7 +6,7 @@ interface BreadcrumbsProps { items: BreadcrumbItem[]; className?: string; }
 
 export function Breadcrumbs(props: BreadcrumbsProps) {
   return (
-    <nav aria-label="Breadcrumb" class={`text-sm text-neutral-600 dark:text-neutral-400 ${props.className || ""}`}>
+    <nav aria-label="Breadcrumb" class={`text-sm text-black/65 dark:text-white/65 ${props.className || ""}`}>
       <ol class="flex flex-wrap items-center gap-x-2 gap-y-1">
         <For each={props.items}>
           {(item, index) => (

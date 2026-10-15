@@ -14,8 +14,8 @@ export default function PageNotFound() {
           <H1>Page not found.</H1>
           <p>This address may have changed. Explore the project library or return to the homepage.</p>
           <div class="flex flex-wrap gap-4">
-            <A href="/projects" class="rounded-lg px-6 py-3 font-semibold bg-black text-white dark:bg-white dark:text-black">View projects</A>
-            <A href="/" class="rounded-lg px-6 py-3 font-semibold border border-black/20 dark:border-white/20">Go home</A>
+            <A href="/projects" class="px-6 py-3 font-semibold bg-black text-white dark:bg-white dark:text-black">View projects</A>
+            <A href="/" class="px-6 py-3 font-semibold border border-black/20 dark:border-white/20">Go home</A>
           </div>
         </div>
       </main>

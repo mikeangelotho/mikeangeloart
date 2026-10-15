@@ -1,4 +1,5 @@
 import type { ContentDatabase, ContentMedia } from "../content/content-model.ts";
+import { siteContent } from "../content/site-content.ts";
 import type { Media, PortfolioCollection } from "../types.ts";
 import { loadContentDatabase } from "./content-loader.ts";
 
@@ -14,7 +15,7 @@ function film(asset: ContentMedia, client: string): Media {
   };
 }
 
-/** Presentation fields only. All copy, ordering and selections come from db.json. */
+/** Presentation fields only. Project copy, ordering and selections come from db.json. */
 export function toPortfolio(db: ContentDatabase): PortfolioCollection[] {
   return db.caseStudies.filter((project) => project.visibility === "public").map((project) => {
     const keypoints = project.sections.map((section) => ({
@@ -30,7 +31,7 @@ export function toPortfolio(db: ContentDatabase): PortfolioCollection[] {
     const assets = new Map(keypoints.flatMap((section) => section.media.map((asset) => [asset.id, asset] as const)));
     return {
       id: project.id,
-      author: db.site.name,
+      author: siteContent.name,
       slug: project.slug,
       title: project.title,
       cover: project.cover.src,
