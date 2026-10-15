@@ -1,5 +1,5 @@
 import { Title, Meta, Link } from "@solidjs/meta";
-import { For, Show } from "solid-js";
+import { createMemo, For, Show } from "solid-js";
 import { generateBreadcrumbList, generateLocalBusiness, generateOrganization } from "~/utils/schema";
 
 interface SEOProps {
@@ -9,7 +9,7 @@ interface SEOProps {
   ogImage?: string;
   ogType?: string;
   noindex?: boolean;
-  jsonLd?: Record<string, any>;
+  jsonLd?: Record<string, unknown>;
   breadcrumbs?: Array<{ name: string; url: string }>;
   localBusiness?: boolean;
   organization?: boolean;
@@ -17,96 +17,56 @@ interface SEOProps {
   facebookDomainId?: string;
 }
 
+const defaultTitle = "Mike Angelo | Art Director & Multidisciplinary Designer";
+const defaultDescription = "Mike Angelo is an art director and multidisciplinary designer in New Jersey and New York, creating brands, campaigns, and digital experiences from concept through production.";
+
 export default function SEO(props: SEOProps) {
-  const {
-    title = "Creative Technologist in New Jersey and New York - Mike Angelo | Graphic and Motion Design, Web Development, and Advertising Campaigns",
-    description = "Mike Angelo is a Creative Technologist serving New Jersey and the greater New York area, specializing in advertising campaigns, web design and development, and comprehensive advertising campaigns.",
-    canonical,
-    ogImage = "/og-default.jpg",
-    ogType = "website",
-    noindex = false,
-    jsonLd,
-    breadcrumbs,
-    localBusiness = false,
-    organization = false,
-    twitterSite,
-    facebookDomainId
-  } = props;
-
-  const structuredData = [];
-
-  // Add custom JSON-LD if provided
-  if (jsonLd) {
-    structuredData.push(jsonLd);
-  }
-
-  // Add breadcrumb list if provided
-  if (breadcrumbs && breadcrumbs.length > 0) {
-    structuredData.push(generateBreadcrumbList(breadcrumbs));
-  }
-
-  // Add LocalBusiness schema
-  if (localBusiness) {
-    structuredData.push(generateLocalBusiness());
-  }
-
-  // Add Organization schema
-  if (organization) {
-    structuredData.push(generateOrganization());
-  }
+  const title = () => props.title ?? defaultTitle;
+  const description = () => props.description ?? defaultDescription;
+  const image = () => new URL(props.ogImage || "https://cdn.mikeangelo.art/og-default.png", "https://mikeangelo.art").href;
+  const structuredData = createMemo(() => {
+    const data: Record<string, unknown>[] = [];
+    if (props.jsonLd) data.push(props.jsonLd);
+    if (props.breadcrumbs?.length) data.push(generateBreadcrumbList(props.breadcrumbs));
+    if (props.localBusiness) data.push(generateLocalBusiness());
+    if (props.organization) data.push(generateOrganization());
+    return data;
+  });
 
   return (
     <>
-      <Title>{title}</Title>
-      <Meta name="description" content={description} />
-
-      {/* Canonical URL */}
-      <Show when={canonical}>
-        <Link rel="canonical" href={canonical!} />
+      <Title>{title()}</Title>
+      <Meta name="description" content={description()} />
+      <Show when={props.canonical}>
+        <Link rel="canonical" href={props.canonical!} />
       </Show>
-
-      {/* Robots */}
-      <Show when={noindex}>
-        <Meta name="robots" content="noindex, nofollow" />
+      <Show when={props.noindex}>
+        <Meta name="robots" content="noindex, follow" />
       </Show>
-
-      {/* Open Graph */}
-      <Meta property="og:type" content={ogType} />
-      <Meta property="og:title" content={title} />
-      <Meta property="og:description" content={description} />
-      <Meta property="og:image" content={ogImage} />
-      <Show when={canonical}>
-        <Meta property="og:url" content={canonical!} />
+      <Meta property="og:type" content={props.ogType ?? "website"} />
+      <Meta property="og:title" content={title()} />
+      <Meta property="og:description" content={description()} />
+      <Meta property="og:image" content={image()} />
+      <Show when={props.canonical}>
+        <Meta property="og:url" content={props.canonical!} />
       </Show>
-      <Meta property="og:site_name" content="Mike Angelo - Art Director & Web Designer" />
+      <Meta property="og:site_name" content="Mike Angelo - Art Director & Multidisciplinary Designer" />
       <Meta property="og:locale" content="en_US" />
-
-      {/* Twitter Card */}
       <Meta name="twitter:card" content="summary_large_image" />
-      <Meta name="twitter:title" content={title} />
-      <Meta name="twitter:description" content={description} />
-      <Meta name="twitter:image" content={ogImage} />
-      <Show when={twitterSite}>
-        <Meta name="twitter:site" content={twitterSite!} />
-        <Meta name="twitter:creator" content={twitterSite!} />
+      <Meta name="twitter:title" content={title()} />
+      <Meta name="twitter:description" content={description()} />
+      <Meta name="twitter:image" content={image()} />
+      <Show when={props.twitterSite}>
+        <Meta name="twitter:site" content={props.twitterSite!} />
+        <Meta name="twitter:creator" content={props.twitterSite!} />
       </Show>
-
-      {/* Facebook Domain Verification */}
-      <Show when={facebookDomainId}>
-        <Meta name="facebook-domain-verification" content={facebookDomainId!} />
+      <Show when={props.facebookDomainId}>
+        <Meta name="facebook-domain-verification" content={props.facebookDomainId!} />
       </Show>
-
-      {/* Additional Meta */}
       <Meta name="author" content="Mike Angelo" />
-      <Meta name="keywords" content="art director, web designer, new york, advertising campaigns, web design, content creation, portfolio" />
-      <Meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-      {/* Structured Data */}
-      <For each={structuredData}>
+      <For each={structuredData()}>
         {(schema) => (
-          <script type="application/ld+json">
-            {JSON.stringify(schema)}
-          </script>
+          <script type="application/ld+json" innerHTML={JSON.stringify(schema).replace(/</g, "\\u003c").replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029")} />
         )}
       </For>
     </>

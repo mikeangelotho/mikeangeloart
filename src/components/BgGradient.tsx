@@ -1,18 +1,18 @@
-import { onMount, onCleanup, createSignal, createEffect } from "solid-js";
+import { onMount, onCleanup } from "solid-js";
 
 export default function BgGradient() {
   let canvas!: HTMLCanvasElement;
 
-  const [bgReady, setBgReady] = createSignal(false);
-  const [isPaused, setIsPaused] = createSignal(false);
-
   onMount(() => {
-    const ctx = canvas.getContext("2d")!;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     let width = 0;
     let height = 0;
     let time = 0;
     let animationFrameId = 0;
+    let mouseFrameId = 0;
 
     // Mouse tracking
     let mouseX = 0;
@@ -82,6 +82,10 @@ export default function BgGradient() {
     };
 
     const animate = (currentTime: number) => {
+      if (motion.matches || document.hidden || window.scrollY >= 1000) {
+        animationFrameId = 0;
+        return;
+      }
       const elapsed = currentTime - lastFrameTime;
 
       if (elapsed >= FRAME_INTERVAL) {
@@ -106,14 +110,13 @@ export default function BgGradient() {
       }
     };
 
-    // Start/stop loop in response to pause state
-    createEffect(() => {
-      if (isPaused()) {
+    const updatePlayback = () => {
+      if (motion.matches || document.hidden || window.scrollY >= 1000) {
         stopLoop();
       } else {
         startLoop();
       }
-    });
+    };
 
     // Resize
     const resize = () => {
@@ -124,54 +127,42 @@ export default function BgGradient() {
         mouseX = targetMouseX = width / 2;
         mouseY = targetMouseY = height / 2;
       }
-    };
-
-    // Scroll handler — fully stop loop beyond threshold
-    let scrollTimeout = 0;
-    const handleScroll = () => {
-      if (scrollTimeout) return;
-      scrollTimeout = window.setTimeout(() => {
-        setIsPaused(window.scrollY >= 1000);
-        scrollTimeout = 0;
-      }, 100);
+      drawGradient();
     };
 
     // Mouse handler — throttled via rAF
-    let mouseUpdateQueued = false;
     const handleMouseMove = (e: MouseEvent) => {
-      if (mouseUpdateQueued) return;
-      mouseUpdateQueued = true;
-      requestAnimationFrame(() => {
-        targetMouseX = e.clientX;
-        targetMouseY = e.clientY;
-        mouseUpdateQueued = false;
+      if (motion.matches || document.hidden || mouseFrameId) return;
+      const { clientX, clientY } = e;
+      mouseFrameId = requestAnimationFrame(() => {
+        targetMouseX = clientX;
+        targetMouseY = clientY;
+        mouseFrameId = 0;
       });
     };
 
     resize();
     window.addEventListener("resize", resize, { passive: true });
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    document.addEventListener("scroll", handleScroll, { passive: true });
-
-    setBgReady(true);
-
-    createEffect(() => {
-      if (bgReady()) {
-        setTimeout(() => canvas.classList.add("opacity-100"), 150);
-      }
-    });
+    document.addEventListener("scroll", updatePlayback, { passive: true });
+    document.addEventListener("visibilitychange", updatePlayback);
+    motion.addEventListener("change", updatePlayback);
+    canvas.classList.add("opacity-100");
+    updatePlayback();
 
     onCleanup(() => {
       stopLoop();
+      cancelAnimationFrame(mouseFrameId);
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("scroll", handleScroll);
-      if (scrollTimeout) clearTimeout(scrollTimeout);
+      document.removeEventListener("scroll", updatePlayback);
+      document.removeEventListener("visibilitychange", updatePlayback);
+      motion.removeEventListener("change", updatePlayback);
     });
   });
 
   return (
-    <div class="fixed top-0 left-0 inset-0 w-full h-full bg-linear-to-t from-blue-800 not-dark:from-cyan-400 to-transparent">
+    <div aria-hidden="true" class="pointer-events-none fixed top-0 left-0 inset-0 w-full h-full bg-linear-to-t from-blue-800 not-dark:from-cyan-400 to-transparent">
       <canvas
         ref={canvas}
         class="w-full h-full def__animate not-dark:invert not-dark:hue-rotate-145 contrast-125 brightness-125 saturate-200 opacity-0"

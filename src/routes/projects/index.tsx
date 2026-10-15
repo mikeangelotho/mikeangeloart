@@ -1,31 +1,39 @@
 import { PortfolioCollection } from "~/types";
-import { createAsync, useSearchParams, cache } from "@solidjs/router";
+import { createAsync, useSearchParams } from "@solidjs/router";
 import { createMemo, Show } from "solid-js";
 import SEO from "~/components/SEO";
 import CollectionGrid from "~/components/Collection";
-
-const fetchPortfolio = cache(async (): Promise<PortfolioCollection[]> => {
-  "use server";
-  const res = await fetch("https://cdn.mikeangelo.art/db.json");
-  return (await res.json()) as PortfolioCollection[];
-}, "portfolio-projects");
+import { fetchPortfolio } from "~/utils/portfolio";
+import { H1 } from "~/layout/Headings";
 
 export default function ProjectPage() {
-  const portfolioCollection = createAsync(() => fetchPortfolio());
+  const portfolioCollection = createAsync(() => fetchPortfolio(), {
+    deferStream: true,
+  });
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Make tags a memo that directly reads from searchParams.tags
   const tags = createMemo(() => {
     if (searchParams.tags) {
-      return (searchParams.tags as string).split(",");
+      return (
+        Array.isArray(searchParams.tags)
+          ? searchParams.tags.join(",")
+          : searchParams.tags
+      )
+        .split(",")
+        .filter(Boolean);
     }
     return [];
   });
 
-  // Make clients a memo that directly reads from searchParams.client
   const clients = createMemo(() => {
     if (searchParams.client) {
-      return (searchParams.client as string).split(",");
+      return (
+        Array.isArray(searchParams.client)
+          ? searchParams.client.join(",")
+          : searchParams.client
+      )
+        .split(",")
+        .filter(Boolean);
     }
     return [];
   });
@@ -33,8 +41,8 @@ export default function ProjectPage() {
   return (
     <>
       <SEO
-        title="Creative Portfolio of Mike Angelo | Creative Technologist in New Jersey and New York | Brand Design, Video Editing and Motion Design, and Web Design"
-        description="Explore Mike Angelo's portfolio of art direction, web development, and advertising campaigns for clients big and small in New Jersey and New York."
+        title="Selected Work | Mike Angelo, Art Director & Multidisciplinary Designer"
+        description="Explore Mike Angelo's brand identities, integrated campaigns, motion, and digital experiences for Loopwell, Bahlsen, Benzel-Busch, and more."
         canonical="https://mikeangelo.art/projects"
         ogImage="https://cdn.mikeangelo.art/og-default.png"
         breadcrumbs={[
@@ -63,18 +71,24 @@ export default function ProjectPage() {
           },
         }}
       />
-      <main>
+      <main class="w-full pt-28 text-black dark:text-white sm:pt-32">
+        <header class="max-w-7xl mx-auto px-6 pb-6"><H1>Work</H1></header>
         <Show when={portfolioCollection()}>
           <CollectionGrid
+            onResetFilters={() => setSearchParams({ tags: undefined, client: undefined }, { scroll: false })}
             sortByTags={{
               get: tags,
               set: (newTags) =>
-                setSearchParams({ tags: (newTags as string[]).join() }),
+                setSearchParams({
+                  tags: newTags.length ? newTags.join(",") : undefined,
+                }, { scroll: false }),
             }}
             sortByClients={{
               get: clients,
               set: (newClients) =>
-                setSearchParams({ client: (newClients as string[]).join() }),
+                setSearchParams({
+                  client: newClients.length ? newClients.join(",") : undefined,
+                }, { scroll: false }),
             }}
             enableFull={true}
             data={portfolioCollection() as PortfolioCollection[]}

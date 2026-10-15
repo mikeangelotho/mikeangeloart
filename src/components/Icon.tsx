@@ -9,13 +9,16 @@ export default function Icon(props: {
     <Switch>
       <Match when={props.name === "github"}>
         <a
-          href="https://github.com/mikeangelotho/mikeangeloart"
+          href="https://github.com/mikeangelotho"
           target="_blank"
+          rel="noopener noreferrer"
+          aria-label="View Mike Angelo's GitHub repository (opens in a new tab)"
+          class="hover:-translate-y-1 transition-all duration-300 ease-out inline-flex min-h-11 min-w-11 items-center justify-center"
         >
           <svg
             aria-hidden="true"
             class="octicon octicon-mark-github"
-            viewBox={`0 0 ${props.width} ${props.height}`}
+            viewBox="0 0 24 24"
             width={props.width}
             height={props.height}
             fill="white"

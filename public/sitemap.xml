@@ -2,42 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://mikeangelo.art/</loc>
-    <lastmod>2026-02-25</lastmod>
   </url>
   <url>
     <loc>https://mikeangelo.art/about</loc>
-    <lastmod>2026-02-25</lastmod>
   </url>
   <url>
     <loc>https://mikeangelo.art/projects</loc>
-    <lastmod>2026-02-25</lastmod>
+  </url>
+  <url>
+    <loc>https://mikeangelo.art/personal</loc>
   </url>
   <url>
     <loc>https://mikeangelo.art/projects/loopwell-the-space-for-well-being</loc>
-    <lastmod>2025-12-02</lastmod>
+    <lastmod>2026-10-05</lastmod>
   </url>
   <url>
     <loc>https://mikeangelo.art/projects/bahlsen-drone-drop-pop-up</loc>
-    <lastmod>2025-12-02</lastmod>
+    <lastmod>2026-10-05</lastmod>
   </url>
   <url>
     <loc>https://mikeangelo.art/projects/benzel-busch-mercedes-benz-marketing</loc>
-    <lastmod>2025-12-02</lastmod>
-  </url>
-  <url>
-    <loc>https://mikeangelo.art/projects/gym-source-your-home-your-gym</loc>
-    <lastmod>2025-12-02</lastmod>
+    <lastmod>2026-10-05</lastmod>
   </url>
   <url>
     <loc>https://mikeangelo.art/projects/blauner-fitness-fuel-your-fitness-fire</loc>
-    <lastmod>2025-12-02</lastmod>
+    <lastmod>2026-10-05</lastmod>
   </url>
   <url>
     <loc>https://mikeangelo.art/projects/benzel-busch-seasonal-road-trip-series</loc>
-    <lastmod>2025-12-02</lastmod>
+    <lastmod>2026-10-05</lastmod>
+  </url>
+  <url>
+    <loc>https://mikeangelo.art/projects/gym-source-your-home-your-gym</loc>
+    <lastmod>2026-10-05</lastmod>
   </url>
   <url>
     <loc>https://mikeangelo.art/projects/bahlsen-secret-stash</loc>
-    <lastmod>2025-12-02</lastmod>
+    <lastmod>2026-10-05</lastmod>
   </url>
 </urlset>

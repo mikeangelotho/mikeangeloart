@@ -1,6 +1,8 @@
-export const Label = (props: { children: string }) => {
+import type { JSX } from "solid-js";
+
+export const Label = (props: { children: string; for: string }) => {
   return (
-    <label class="text-sm text-black/25 dark:text-white/25">
+    <label for={props.for} class="mb-2 text-sm text-black/65 dark:text-white/65">
       {props.children}
     </label>
   );
@@ -10,16 +12,25 @@ export const Input = ({
   type,
   name,
   placeholder,
+  id,
+  required,
+  autocomplete,
 }: {
-  type: string;
+  type: JSX.InputHTMLAttributes<HTMLInputElement>["type"];
   name: string;
   placeholder: string;
+  id: string;
+  required?: boolean;
+  autocomplete?: string;
 }) => {
   return (
     <input
       type={type}
       name={name}
-      class="placeholder-black/25 dark:placeholder-white/50 bg-white dark:bg-neutral-900 text-black focus:text-black dark:text-white dark:focus:text-white rounded-md px-3 py-2 sm:py-3 outline outline-transparent border border-neutral-300 dark:border-white/10 focus:outline-black/50 dark:focus:outline-white/50 hover:outline-black/25 dark:hover:outline-white/25 def__animate text-base"
+      id={id}
+      required={required}
+      autocomplete={autocomplete}
+      class="placeholder-black/55 dark:placeholder-white/65 bg-white dark:bg-white/3 text-black dark:text-white px-3 py-3 border border-black/15 dark:border-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:focus-visible:outline-white text-base"
       placeholder={placeholder}
     />
   );

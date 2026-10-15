@@ -1,26 +1,22 @@
 import { A } from "@solidjs/router";
 import { PortfolioCollection } from "~/types";
-import { createSignal, For, onMount, Show, createMemo, createEffect, onCleanup } from "solid-js";
-import { Tag } from "~/layout/Cards";
-import TagPills from "./TagPills";
+import { createSignal, onMount, Show, createMemo, createEffect, onCleanup } from "solid-js";
+import { isVideoUrl } from "~/utils/media";
+import { Picture } from "./Picture";
 
 function SlideshowCover(props: { data: PortfolioCollection; isPaused: boolean }) {
-  const keypointMedia = createMemo(() =>
-    props.data.projectKeypoints
-      .flatMap((kp) => kp.media.map((m) => m.url))
-      .filter((url) => !url.endsWith(".mp4")),
-  );
-
-  const images = keypointMedia();
-  if (images.length === 0) return null;
-
-  const startIdx = Math.floor(Math.random() * images.length);
+  const images = createMemo(() => {
+    const candidates = [props.data.cover, ...props.data.featuredMedia
+      .filter((media) => media.type === "image").map((media) => media.url)];
+    return [...new Set(candidates.filter((url) => url && !isVideoUrl(url)))];
+  });
   const [showA, setShowA] = createSignal(true);
-  const [aIdx, setAIdx] = createSignal(startIdx);
-  const [bIdx, setBIdx] = createSignal((startIdx + 1) % images.length);
+  const [aIdx, setAIdx] = createSignal(0);
+  const [bIdx, setBIdx] = createSignal(1);
+  const [isPlaying, setIsPlaying] = createSignal(false);
 
-  const nextIdx = (i: number) => (i + 1) % images.length;
-  const prevIdx = (i: number) => (i - 1 + images.length) % images.length;
+  const nextIdx = (i: number) => (i + 1) % images().length;
+  const prevIdx = (i: number) => (i - 1 + images().length) % images().length;
 
   const goNext = () => {
     if (showA()) {
@@ -41,10 +37,18 @@ function SlideshowCover(props: { data: PortfolioCollection; isPaused: boolean })
   };
 
   const baseDelay = 9000;
-  const offset = ((props.data.slug?.length ?? 0) * 137) % 2000 + Math.random() * 1500;
+  const offset = ((props.data.slug?.length ?? 0) * 137) % 2000;
+
+  onMount(() => {
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updateMotion = () => setIsPlaying(!motionQuery.matches);
+    updateMotion();
+    motionQuery.addEventListener("change", updateMotion);
+    onCleanup(() => motionQuery.removeEventListener("change", updateMotion));
+  });
 
   createEffect(() => {
-    if (!props.isPaused && images.length > 1) {
+    if (!props.isPaused && isPlaying() && images().length > 1) {
       const interval = setInterval(goNext, baseDelay + offset);
       onCleanup(() => clearInterval(interval));
     }
@@ -62,32 +66,38 @@ function SlideshowCover(props: { data: PortfolioCollection; isPaused: boolean })
 
   return (
     <>
-      <div class="group-hover/card:opacity-100 xl:opacity-0 absolute inset-0 flex justify-between items-center px-6 pointer-events-none z-10 def__animate">
-        <div
-          class="h-18 flex items-center pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/90 dark:bg-black/90 dark:text-white rounded-lg hover:scale-105"
+      <Show when={images().length > 1}>
+      <div class="group-hover/card:opacity-100 group-focus-within/card:opacity-100 xl:opacity-0 absolute inset-0 flex justify-between items-center px-6 pointer-events-none z-10 def__animate">
+        <button
+          type="button"
+          aria-label={`Previous image for ${props.data.title}`}
+          class="h-18 flex items-center pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/90 dark:bg-black/90 dark:text-white hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2"
           onClick={prev}
         >
           ❮
-        </div>
-        <div
-          class="h-18 flex items-center pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/90 dark:bg-black/90 dark:text-white rounded-lg hover:scale-105"
+        </button>
+        <button
+          type="button"
+          aria-label={`Next image for ${props.data.title}`}
+          class="h-18 flex items-center pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/90 dark:bg-black/90 dark:text-white hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2"
           onClick={next}
         >
           ❯
-        </div>
+        </button>
       </div>
+      </Show>
 
-      <A href={`/projects/${props.data.slug}`} class="absolute inset-0">
+      <A href={`/projects/${props.data.slug}`} aria-label={`View ${props.data.title} case study`} class="absolute inset-0">
         <div class="relative h-full w-full overflow-hidden">
-          <img
-            src={images[aIdx()]}
+          <Picture
+            src={images()[aIdx()] || images()[0] || props.data.cover}
             class={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 will-change-[opacity]
             ${showA() ? "opacity-100" : "opacity-0"}`}
             loading="lazy"
             alt=""
           />
-          <img
-            src={images[bIdx()]}
+          <Picture
+            src={images()[bIdx()] || images()[0] || props.data.cover}
             class={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 will-change-[opacity]
             ${showA() ? "opacity-0" : "opacity-100"}`}
             loading="lazy"
@@ -124,7 +134,7 @@ export function CollectionCell(props: {
   return (
     <article
       ref={cell}
-      onMouseOver={(event) => {
+      onMouseEnter={(event) => {
         const cells = document.querySelectorAll(".cell-container");
         const target = event.currentTarget;
         cells.forEach((c) => {
@@ -134,22 +144,23 @@ export function CollectionCell(props: {
           c.classList.add("brightness-103");
         });
       }}
-      onMouseOut={(event) => {
-        event.currentTarget.classList.remove("brightness-103");
+      onMouseLeave={() => {
         const cells = document.querySelectorAll(".cell-container");
-        cells.forEach((c) => c.classList.remove("saturate-0"));
+        cells.forEach((c) => c.classList.remove("saturate-0", "brightness-103"));
       }}
-      class={`not-dark:border not-dark:border-black/10 group/card cell-container relative overflow-hidden hover:brightness-115 hover:saturate-125 rounded-xl transition-all duration-500 ease-in-out ${!props.enableFull ? `w-72 h-96 xl:h-108 md:w-100 xl:w-xl` : `h-120 w-full`
+      class={`not-dark:border not-dark:border-black/10 group/card cell-container relative overflow-hidden hover:brightness-115 hover:saturate-125 transition-all duration-500 ease-in-out ${!props.enableFull ? `w-72 h-96 xl:h-108 md:w-100 xl:w-xl` : `h-120 w-full`
         }`}
     >
       <Show
         when={props.galleryCover}
         fallback={
-          <img
+          <Picture
             src={props.data.cover}
             class="h-full w-full object-cover"
             loading="lazy"
             alt={props.data.coverAlt}
+            width={props.data.coverWidth}
+            height={props.data.coverHeight}
           />
         }
       >
@@ -157,8 +168,9 @@ export function CollectionCell(props: {
       </Show>
 
       <A
-        href={`/projects?client=${props.data.clientName}`}
-        class="hover:scale-105 group-hover/card:opacity-100 opacity-0 z-20 p-1 top-0 rounded-xl duration-500 ease-in-out w-12 h-12 flex justify-center items-center m-6 absolute backdrop-blur bg-white/80 dark:bg-black/30 backdrop-brightness-150 dark:backdrop-brightness-25"
+        href={`/projects?client=${encodeURIComponent(props.data.clientName)}`}
+        aria-label={`View ${props.data.clientName} projects`}
+        class="hover:scale-105 group-hover/card:opacity-100 group-focus-within/card:opacity-100 opacity-0 z-20 p-1 top-0 duration-500 ease-in-out w-12 h-12 flex justify-center items-center m-6 absolute backdrop-blur bg-white/80 dark:bg-black/30 backdrop-brightness-150 dark:backdrop-brightness-25"
       >
         <img
           src={props.data.clientLogo}
@@ -167,28 +179,25 @@ export function CollectionCell(props: {
         />
       </A>
 
-      <div class="min-h-18 lg:min-h-12 justify-center lg:rounded-3xl w-full lg:w-auto lg:inset-x-3 flex flex-col gap-2 duration-500 ease-in-out group/tag group-hover/card:opacity-100 p-6 xl:opacity-0 absolute bottom-0 lg:bottom-3 bg-white/50 dark:bg-black/30 mx-auto backdrop-blur-xl backdrop-brightness-140 dark:backdrop-brightness-25">
-        <header class="flex flex-col">
+      <div class="justify-center w-full lg:w-auto lg:inset-x-3 p-4 absolute bottom-0 lg:bottom-3 bg-white/70 dark:bg-black/50 mx-auto backdrop-blur-xl backdrop-brightness-140 dark:backdrop-brightness-25">
+        <header class="flex flex-col gap-1">
           <A
-            href={`/projects?client=${props.data.clientName}`}
-            class="w-fit text-xs text-black/50 dark:text-white/50 hover:underline"
+            href={`/projects?client=${encodeURIComponent(props.data.clientName)}`}
+            class="w-fit text-xs text-black/70 dark:text-white/70 hover:underline"
           >
             {props.data.clientName}
           </A>
-          <A
-            href={`/projects/${props.data.slug}`}
-            class="w-fit font-bold text-xl text-black dark:text-white hover:underline"
-          >
-            {props.data.title}
-          </A>
+          <h3 class="type-heading text-black dark:text-white">
+            <A href={`/projects/${props.data.slug}`} class="hover:underline">
+              {props.data.title}
+            </A>
+          </h3>
+          <Show when={props.data.caseStudy?.role}>
+            <p class="text-sm font-normal text-black/80 dark:text-white/80">
+              {props.data.caseStudy?.role}
+            </p>
+          </Show>
         </header>
-        <div
-          class="-mt-9 group-hover/tag:mt-0 flex gap-1 justify-start items-center group-hover/tag:opacity-100 opacity-0 w-full overflow-x-auto scroll-smooth duration-500 ease-in-out"
-          style={{ "scrollbar-width": "none" }}
-          data-lenis-prevent
-        >
-          <TagPills tags={props.data.tags} />
-        </div>
       </div>
     </article>
   );

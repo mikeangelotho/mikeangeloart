@@ -8,10 +8,12 @@
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "allowJs": true,
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
     "noEmit": true,
     "strict": true,
+    "skipLibCheck": true,
     "types": [
-        "./worker-configuration.d.ts",
         "node",
         "vinxi/types/client"
     ],
@@ -19,5 +21,6 @@
     "paths": {
       "~/*": ["./src/*"]
     }
-  }
+  },
+  "include": ["src", "app.config.ts"]
 }
