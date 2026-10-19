@@ -177,7 +177,7 @@ export default function ProjectPage() {
                 setLightboxType={setLightboxType}
               />
             </section>
-            <div class="w-full max-w-7xl mx-auto px-6 py-8 md:py-10 flex gap-9">
+            <div class="w-full max-w-7xl mx-auto px-6 py-8 md:py-10 grid grid-cols-1 gap-9 lg:grid-cols-3">
               <Show when={project()?.caseStudy} keyed>
                 {(profile) => <ProjectResponsibilities profile={profile} />}
               </Show>

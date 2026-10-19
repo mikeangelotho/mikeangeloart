@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { parseContentDatabase } from "../src/utils/content-data.ts";
 import { summarizePortfolio, toPortfolio } from "../src/utils/portfolio-data.ts";
-import { buildSitemap } from "../scripts/generate-sitemap.js";
+import { buildLlmsTxt, buildSitemap } from "../scripts/generate-sitemap.js";
 import { portfolioMosaicMedia } from "../src/utils/portfolio-mosaic.ts";
 
 const database = JSON.parse(await readFile(new URL("../content/db.json", import.meta.url), "utf8"));
@@ -146,4 +146,37 @@ test("sitemap uses actual content dates and includes the Projects page", () => {
   }
   const withoutDate = buildSitemap([{ slug: "undated-example", lastModified: undefined }]);
   assert.doesNotMatch(withoutDate, /<lastmod>/);
+});
+
+test("llms.txt links only public projects at their canonical site pages and anchors", () => {
+  const source = freshDatabase();
+  source.caseStudies = source.caseStudies.slice(0, 2);
+  source.personalProjects = source.personalProjects.slice(0, 2);
+  source.caseStudies[0].visibility = "hidden";
+  source.personalProjects[0].visibility = "hidden";
+  source.personalProjects[1].link = { label: "External project", href: "https://example.com/private-link" };
+  const manifest = buildLlmsTxt(parseContentDatabase(source));
+  assert.ok(manifest.includes(`(${"https://mikeangelo.art/projects/"}${source.caseStudies[1].slug}): ${source.caseStudies[1].contribution.summary}`));
+  assert.ok(manifest.includes(`(https://mikeangelo.art/personal#${source.personalProjects[1].id}): ${source.personalProjects[1].summary}`));
+  assert.ok(!manifest.includes(`/projects/${source.caseStudies[0].slug})`));
+  assert.ok(!manifest.includes(`/personal#${source.personalProjects[0].id})`));
+  assert.doesNotMatch(manifest, /example\.com|cdn\.mikeangelo\.art/);
+  const links = [...manifest.matchAll(/\]\(([^)]+)\): /g)].map((match) => match[1]);
+  assert.equal(links.length, 6, "four pages, one public case study, and one public personal project");
+  assert.ok(links.every((link) => new URL(link).origin === "https://mikeangelo.art"));
+});
+
+test("llms.txt keeps Markdown structure when authored summaries contain line breaks or special characters", () => {
+  const source = freshDatabase();
+  source.caseStudies = source.caseStudies.slice(0, 1);
+  source.caseStudies[0].title = "Design [study]";
+  source.caseStudies[0].contribution.summary = "Interface work.\n\n## Extra heading\nA *visual* prototype.";
+  source.personalProjects = [];
+  const manifest = buildLlmsTxt(parseContentDatabase(source));
+  assert.match(manifest, /^# Mike Angelo\n\n> [^\n]+\n\n## Pages\n\n- \[Home\]/);
+  assert.ok(manifest.includes("- [Design \\[study\\]](https://mikeangelo.art/projects/"));
+  assert.ok(manifest.includes(": Interface work. ## Extra heading A \\*visual\\* prototype.\n"));
+  assert.equal((manifest.match(/^## /gm) ?? []).length, 2);
+  assert.doesNotMatch(manifest, /^## Personal projects$/m);
+  assert.ok(manifest.endsWith("\n"));
 });

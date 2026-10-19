@@ -25,6 +25,11 @@ export default function Navbar() {
   let wordmark!: HTMLSpanElement;
   const location = useLocation();
   const [showMobileMenu, setShowMobileMenu] = createSignal(false);
+  const [menuButtonBounds, setMenuButtonBounds] = createSignal({ top: 0, left: 0, width: 44, height: 44 });
+  const measureMenuButton = () => {
+    const { top, left, width, height } = menuButton.getBoundingClientRect();
+    setMenuButtonBounds({ top, left, width, height });
+  };
 
   onMount(() => {
     const scrollClasses = [
@@ -56,10 +61,12 @@ export default function Navbar() {
     const desktop = window.matchMedia("(min-width: 1024px)");
     const handleResize = () => {
       if (desktop.matches) setShowMobileMenu(false);
+      else if (showMobileMenu()) measureMenuButton();
     };
     updateNav();
     window.addEventListener("scroll", handleScroll, { passive: true });
     desktop.addEventListener("change", handleResize);
+    window.addEventListener("resize", handleResize);
 
     createEffect(() => {
       location.pathname;
@@ -86,6 +93,7 @@ export default function Navbar() {
       cancelAnimationFrame(scrollFrame);
       window.removeEventListener("scroll", handleScroll);
       desktop.removeEventListener("change", handleResize);
+      window.removeEventListener("resize", handleResize);
     });
   });
 
@@ -151,7 +159,10 @@ export default function Navbar() {
             ref={menuButton}
             type="button"
             class="cursor-pointer border border-white text-sm font-bold text-white min-h-11 min-w-11 def__animate lg:hidden flex items-center justify-center"
-            onClick={() => setShowMobileMenu((open) => !open)}
+            onClick={() => {
+              measureMenuButton();
+              setShowMobileMenu((open) => !open);
+            }}
             aria-label="Toggle navigation menu"
             aria-expanded={showMobileMenu()}
             aria-controls="mobile-navigation"
@@ -174,7 +185,13 @@ export default function Navbar() {
         >
           <button
             type="button"
-            class="absolute right-4 sm:right-6 top-4 sm:top-6 min-h-11 min-w-11 border border-current text-xl flex items-center justify-center cursor-pointer"
+            class="fixed min-h-11 min-w-11 border border-current text-sm font-bold flex items-center justify-center cursor-pointer"
+            style={{
+              top: `${menuButtonBounds().top}px`,
+              left: `${menuButtonBounds().left}px`,
+              width: `${menuButtonBounds().width}px`,
+              height: `${menuButtonBounds().height}px`,
+            }}
             aria-label="Close navigation menu"
             onClick={() => setShowMobileMenu(false)}
           >

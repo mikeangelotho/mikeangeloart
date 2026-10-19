@@ -36,7 +36,7 @@ npm start
 ```
 
 The checks cover application TypeScript and portfolio/media data behavior. The
-build generates the sitemap, then produces `.output/server/index.mjs` and
+build generates `sitemap.xml` and `llms.txt`, then produces `.output/server/index.mjs` and
 `.output/public`. `npm start` runs that existing build locally in Wrangler;
 `npm run preview` builds first and then starts the same local preview.
 
@@ -56,7 +56,7 @@ build generates the sitemap, then produces `.output/server/index.mjs` and
   [the CDN](https://cdn.mikeangelo.art/db.json), change the one source declaration
   to `{ kind: "cdn", url: contentDatabaseUrl }`, build, and push again.
   No data is merged and there is no fallback to another database.
-- Project content is validated on the server; the sitemap uses the same source.
+- Project content is validated on the server; the sitemap and `llms.txt` use the same source.
   Array order controls presentation and featured artwork uses stable media IDs.
 - `src/routes` contains the homepage, portfolio library, individual case studies,
   About page, personal Projects page, and missing-page handling.
@@ -67,9 +67,12 @@ build generates the sitemap, then produces `.output/server/index.mjs` and
   See
   [the screenshot selection](docs/personal-project-screenshots.md) for composition
   and feature briefs.
-- `scripts/generate-sitemap.js` writes the sitemap from the active validated content source.
-  A failed request stops the build; static pages do not get artificial dates on
-  every build.
+- `scripts/generate-sitemap.js` writes `public/sitemap.xml` and `public/llms.txt`
+  from one load of the active validated content source. `llms.txt` lists the site
+  pages, public case-study summaries, and personal projects at their local anchors.
+  Hidden records are excluded. Run `npm run generate-sitemap` to refresh both files
+  without building. A failed request stops the build; static pages do not get
+  artificial dates on every build.
 - `src/utils/media.ts` classifies media, selects primary films, and builds video
   posters. HLS films use Video.js; regular MP4 files use native playback.
 - Homepage mosaic images and videos are selected with each keypoint media's
