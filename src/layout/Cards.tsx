@@ -17,7 +17,7 @@ export const Tag = ({
 }) => {
   if (href) {
     return (
-      <A href={href} onClick={onClick} aria-label={label} class={tagClass}>
+      <A href={href} onClick={onClick} aria-label={label} class={`${tagClass} min-h-11`}>
         {children}
       </A>
     );
@@ -27,7 +27,7 @@ export const Tag = ({
         type="button"
         onClick={onClick}
         aria-label={label}
-        class={tagClass}
+        class={`${tagClass} min-h-11`}
       >
         {children}
       </button>

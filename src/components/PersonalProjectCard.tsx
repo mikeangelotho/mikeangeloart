@@ -124,7 +124,7 @@ export function PersonalProjectCard(props: { project: PersonalProject }) {
               href={link().href}
               target="_blank"
               rel="noopener noreferrer"
-              class="mt-4 inline-flex min-h-11 items-center gap-2 bg-black px-4 py-2.5 text-sm font-normal text-white transition-colors hover:bg-black/10 focus-visible:outline-2 focus-visible:outline-offset-4 dark:bg-white dark:text-black dark:hover:bg-white/10"
+              class="mt-4 inline-flex min-h-11 items-center gap-2 bg-black px-4 py-2.5 text-sm font-normal text-white transition-colors hover:bg-black/80 focus-visible:outline-2 focus-visible:outline-offset-4 dark:bg-white dark:text-black dark:hover:bg-white/80"
             >
               {link().label}
               <ActionIcon name="arrow-up-right" />

@@ -90,7 +90,7 @@ export default function PersonalProjects() {
                     <nav aria-label="Explore projects" class="mt-1 flex flex-wrap gap-3">
                       <A
                         href="#cruio"
-                        class="inline-flex min-h-11 items-center justify-center gap-3 bg-black px-5 py-3 text-sm font-normal text-white transition-colors hover:bg-black/10 focus-visible:outline-2 focus-visible:outline-offset-4 dark:bg-white dark:text-black dark:hover:bg-white/10"
+                        class="inline-flex min-h-11 items-center justify-center gap-3 bg-black px-5 py-3 text-sm font-normal text-white transition-colors hover:bg-black/80 focus-visible:outline-2 focus-visible:outline-offset-4 dark:bg-white dark:text-black dark:hover:bg-white/80"
                       >
                         Passion projects <ActionIcon name="arrow-down" />
                       </A>

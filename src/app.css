@@ -100,7 +100,7 @@
   font-family: var(--font-sans);
   font-weight: 400;
   font-size: 1.5rem;
-  line-height: 1.3;
+  line-height: 1.5;
 }
 
 @utility type-intro {
@@ -317,6 +317,24 @@ picture {
   transform: none;
 }
 
+/* Opacity-only reveals keep reading and masonry layout steady. */
+[data-scroll-reveal] {
+  transition: opacity 650ms ease-out;
+}
+
+[data-scroll-reveal="pending"] {
+  opacity: 0;
+}
+
+[data-scroll-reveal="visible"] {
+  opacity: 1;
+}
+
+[data-scroll-reveal]:focus-within {
+  opacity: 1;
+  transition: none;
+}
+
 /* Mobile touch optimizations */
 .touch-resize {
   resize: both;
@@ -355,6 +373,10 @@ select:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  [data-scroll-reveal] {
+    opacity: 1;
+    transition: none;
+  }
   .home-intro-copy {
     transform: none;
     filter: none;

@@ -3,7 +3,7 @@ import { JSX, JSXElement } from "solid-js";
 export const SectionHeading = (props: { children: JSXElement }) => {
   return (
     <h2 class="type-section-label border-t border-b border-black/15 dark:border-white/15 px-6 py-4 text-black/65 dark:text-white/65">
-      <div class="opacity-25 max-w-7xl mx-auto flex justify-center items-center">
+      <div class="max-w-7xl mx-auto flex justify-center items-center">
         {props.children}
       </div>
     </h2>

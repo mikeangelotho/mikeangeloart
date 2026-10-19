@@ -14,6 +14,7 @@ import ActionIcon from "~/components/ActionIcon";
 import { Web3Form } from "~/components/Web3Form";
 import { A, createAsync } from "@solidjs/router";
 import { Picture } from "~/components/Picture";
+import { observeScrollReveals } from "~/utils/scroll-reveal";
 import { fetchPersonalProjectTeasers, fetchPortfolioMosaic } from "~/utils/content-database";
 
 import { siteContent as site } from "~/content/site-content";
@@ -81,23 +82,7 @@ export default function Home() {
     motionPreference.addEventListener("change", updateMotion);
     updateScroll();
 
-    const revealObserver = new IntersectionObserver(
-      (entries, observer) => {
-        for (const entry of entries) {
-          const element = entry.target as HTMLElement;
-          if (entry.isIntersecting || motionPreference.matches) {
-            element.classList.remove("scrolled", "translate-y-9");
-            observer.unobserve(element);
-          } else {
-            element.classList.add("scrolled", "translate-y-9");
-          }
-        }
-      },
-      { threshold: 0.1 },
-    );
-    if (!motionPreference.matches) {
-      revealObserver.observe(contactContainer);
-    }
+    const stopReveals = observeScrollReveals([contactContainer]);
     onCleanup(() => {
       window.clearInterval(clockTimer);
       document.removeEventListener("visibilitychange", resumeClock);
@@ -107,7 +92,7 @@ export default function Home() {
       introPanel.removeEventListener("focusout", updateIntro);
       motionPreference.removeEventListener("change", updateIntro);
       motionPreference.removeEventListener("change", updateMotion);
-      revealObserver.disconnect();
+      stopReveals();
     });
   });
 
@@ -204,11 +189,11 @@ export default function Home() {
           <div class="w-full border-y border-black/15 bg-white/75 px-4 dark:border-white/15 dark:bg-black/75 sm:px-6">
             <div class="mx-auto flex max-w-7xl items-center gap-4 py-2">
               <div class="type-section-label flex min-w-0 flex-1 items-center justify-between gap-4 py-2 text-black/65 dark:text-white/65">
-                <div class="flex flex-col opacity-25">
+                <div class="flex flex-col">
                   <span>{clock().toLocaleTimeString()}</span>
                   <span>{clock().toDateString()}</span>
                 </div>
-                <span class="opacity-25">{scroll()}</span>
+                <span>{scroll()}</span>
               </div>
               <Show when={portfolioItems()?.some((item) => item.type === "video")}>
                 <button
@@ -290,7 +275,7 @@ export default function Home() {
           <section class="py-16 sm:py-24 border-t border-black/10 dark:border-white/10 w-full bg-white dark:bg-black">
             <div
               ref={contactContainer}
-              class="fade__animate flex flex-col lg:flex-row gap-8 lg:gap-12 items-center px-6 mx-auto max-w-7xl w-full"
+              class="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center px-6 mx-auto max-w-7xl w-full"
             >
               <div class="flex flex-col gap-3 lg:max-w-md">
                 <H2>Let's get to work.</H2>

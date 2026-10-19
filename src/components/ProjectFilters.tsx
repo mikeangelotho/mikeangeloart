@@ -96,7 +96,7 @@ export default function ProjectFilters(props: {
             <fieldset id={`${id}-${group.key}`} class="absolute left-0 top-full z-30 mt-2 grid max-h-[min(60dvh,18rem)] w-full max-w-sm grid-cols-2 gap-x-1 overflow-y-auto overscroll-contain border border-black/10 bg-white p-2 dark:border-white/15 dark:bg-black" data-lenis-prevent>
               <legend class="sr-only">Filter by {group.key === "discipline" ? "discipline" : "client"}</legend>
               <For each={group.options()}>{(value) => (
-                <label class="flex min-h-10 cursor-pointer items-center gap-2 px-2 text-xs text-black/65 hover:bg-black/5 dark:text-white/65 dark:hover:bg-white/10">
+                <label class="flex min-h-11 cursor-pointer items-center gap-2 px-2 text-xs text-black/65 hover:bg-black/5 dark:text-white/65 dark:hover:bg-white/10">
                   <input type="checkbox" checked={group.selected().includes(value)} onChange={() => group.change(toggle(group.selected(), value))} class="h-3.5 w-3.5 shrink-0 accent-black dark:accent-white" />
                   <span>{value}</span>
                 </label>

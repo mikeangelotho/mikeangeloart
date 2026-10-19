@@ -20,6 +20,7 @@ import TagPills from "~/components/TagPills";
 import ProjectResponsibilities from "~/components/ProjectResponsibilities";
 import { fetchProject } from "~/utils/portfolio";
 import { getProjectVideos } from "~/utils/media";
+import { observeScrollReveals } from "~/utils/scroll-reveal";
 import PageNotFound from "~/components/PageNotFound";
 import type { PortfolioKeypoint } from "~/types";
 
@@ -243,33 +244,12 @@ function KeypointSection(props: {
   let containerRef: HTMLDivElement | undefined;
 
   onMount(() => {
-    if (!containerRef || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const observerOptions = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.1,
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        const target = entry.target as HTMLElement;
-        if (entry.isIntersecting) {
-          target.classList.remove("scrolled", "translate-y-9");
-          observer.unobserve(target);
-        } else {
-          target.classList.add("scrolled", "translate-y-9");
-        }
-      });
-    }, observerOptions);
-
-    const keypointBoxes = containerRef.querySelectorAll(".keypoint-box");
-    keypointBoxes.forEach((box) => observer.observe(box));
-
-    const mediaElements = containerRef.querySelectorAll(".keypoint-media");
-    mediaElements.forEach((media) => observer.observe(media));
-
-    onCleanup(() => observer.disconnect());
+    if (!containerRef) return;
+    createEffect(() => {
+      if (props.projectKeypoints?.length) {
+        onCleanup(observeScrollReveals(containerRef!.querySelectorAll<HTMLElement>(".keypoint-box, .keypoint-media")));
+      }
+    });
   });
 
   return (
@@ -278,7 +258,7 @@ function KeypointSection(props: {
         {(keypoint) => (
           <div class={`w-full grid gap-5 lg:gap-10 items-start ${keypoint.media.length ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]" : "max-w-prose"}`}>
             <div class="w-full min-w-0 h-fit lg:sticky lg:top-24">
-              <div class="keypoint-box fade__animate flex flex-col gap-3 max-w-prose">
+              <div class="keypoint-box flex flex-col gap-3 max-w-prose">
                 <H2 compact>{keypoint.title}</H2>
                 <For each={keypoint.paragraphs}>{(paragraph) => <p class="type-body text-black/80 dark:text-white/80">{paragraph}</p>}</For>
               </div>
