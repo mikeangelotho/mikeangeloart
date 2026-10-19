@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
-  getFeaturedProjectMedia,
   getMediaKind,
   getProjectVideos,
   getVideoMimeType,
@@ -56,13 +55,4 @@ test("restores a primary film when the gallery is empty and deduplicates by URL"
   assert.deepEqual(getProjectVideos({ mainKeypointMedia: primary, projectVideos: [duplicate, secondary] }), [primary, secondary]);
   assert.equal(duplicate.title, "Conflicting gallery caption");
   assert.deepEqual(getProjectVideos({ mainKeypointMedia: { url: "https://cdn.example.com/image.png" }, projectVideos: [] }), []);
-});
-
-test("deduplicates resolved featured media without changing its editorial order", () => {
-  const media = { url: "https://cdn.example.com/layout.png", altText: "Campaign layout" };
-  const project = {
-    featuredMedia: [media, media],
-  };
-  assert.deepEqual(getFeaturedProjectMedia(project), [media]);
-  assert.deepEqual(getFeaturedProjectMedia({}), []);
 });

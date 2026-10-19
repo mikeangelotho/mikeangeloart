@@ -76,7 +76,8 @@ images; the standalone `videos` collection must contain videos.
   "src": "https://cdn.mikeangelo.art/example/logo-concepts.png",
   "alt": "Loopwell logo explorations using organic forms",
   "width": 1600,
-  "height": 900
+  "height": 900,
+  "showOnHomepage": true
 }
 ```
 
@@ -89,6 +90,26 @@ site can reserve space before an image loads. Do not guess dimensions.
 `featuredMediaIds` lists IDs from that case study's section media in the desired
 order. Reordering a section or image does not change the selected artwork. Keep
 media IDs unique within the case study and do not repeat a featured ID.
+
+Every image and video in `caseStudies[].sections[].media[]` must include a boolean
+`showOnHomepage`. Set it to `true` to include the media in the homepage mosaic,
+or `false` to keep it only in the case study and any existing featured-card
+selection. Use JSON booleans, without quotes. Logos and covers do not
+require this field. Media on hidden projects never appear on the homepage.
+
+The homepage selection favors identity work, typography, layouts, interfaces,
+advertising, campaign design, UI demonstrations, and branding animations.
+Event footage and photos, audience reactions, behind-the-scenes
+shots and customer content are set to `false`. This flag is independent of
+`featuredMediaIds` and does not change the images in portfolio tiles.
+
+Mosaic videos loop silently inline while visible and pause offscreen. The
+homepage's motion toggle pauses or plays all previews. Reduced-motion preferences
+start previews paused; visitors can explicitly enable them. Supply measured video
+dimensions to reserve the correct shape before loading. Include a representative
+`poster` image so paused previews also display reliably on mobile. The current
+homepage video posters are stored under `public/mosaic-posters/` and referenced
+as `/mosaic-posters/<media-id>.webp`.
 
 The migration preserves known artwork URLs and removes repeated standalone
 video definitions. Ambiguous duplicate Loopwell video labels are not evidence

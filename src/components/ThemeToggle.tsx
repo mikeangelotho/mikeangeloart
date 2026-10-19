@@ -1,4 +1,5 @@
 import { createSignal, onCleanup, onMount } from "solid-js";
+import ActionIcon from "~/components/ActionIcon";
 
 export default function ThemeToggle(props: { onClick?: () => void }) {
   const [darkMode, setDarkMode] = createSignal(false);
@@ -37,12 +38,12 @@ export default function ThemeToggle(props: { onClick?: () => void }) {
   return (
     <button
       type="button"
-      class="cursor-pointer select-none invert bg-transparent border-none min-h-11 min-w-11 inline-flex items-center justify-center"
+      class="cursor-pointer select-none bg-transparent border-none min-h-11 min-w-11 inline-flex items-center justify-center text-black dark:text-white"
       onClick={clickHandler}
       aria-label={`Switch to ${darkMode() ? "light" : "dark"} mode`}
       aria-pressed={darkMode()}
     >
-      <span aria-hidden="true">{darkMode() ? "🌙" : "☀️"}</span>
+      <ActionIcon name={darkMode() ? "sun" : "moon"} size={20} />
     </button>
   );
 }

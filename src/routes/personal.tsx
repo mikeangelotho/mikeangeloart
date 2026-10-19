@@ -4,6 +4,7 @@ import { Breadcrumbs } from "~/components/Breadcrumbs";
 import CreativeMosaic from "~/components/CreativeMosaic";
 import { PersonalProjectCard } from "~/components/PersonalProjectCard";
 import SEO from "~/components/SEO";
+import ActionIcon from "~/components/ActionIcon";
 import { siteContent } from "~/content/site-content";
 import { H1 } from "~/layout/Headings";
 import { fetchPersonalContent } from "~/utils/content-database";
@@ -91,13 +92,13 @@ export default function PersonalProjects() {
                         href="#cruio"
                         class="inline-flex min-h-11 items-center justify-center gap-3 bg-black px-5 py-3 text-sm font-normal text-white transition-colors hover:bg-black/10 focus-visible:outline-2 focus-visible:outline-offset-4 dark:bg-white dark:text-black dark:hover:bg-white/10"
                       >
-                        Passion projects <span aria-hidden="true">↓</span>
+                        Passion projects <ActionIcon name="arrow-down" />
                       </A>
                       <A
                         href="#creative-work"
                         class="inline-flex min-h-11 items-center justify-center gap-3 border border-black/20 px-5 py-3 text-sm font-normal transition-colors hover:bg-black/3 focus-visible:outline-2 focus-visible:outline-offset-4 dark:border-white/20 dark:hover:bg-white/3"
                       >
-                        Visual experiments <span aria-hidden="true">↓</span>
+                        Visual experiments <ActionIcon name="arrow-down" />
                       </A>
                     </nav>
                   </div>

@@ -44,8 +44,18 @@
         "poster": { "$ref": "#/$defs/url" },
         "title": { "$ref": "#/$defs/text" },
         "caption": { "$ref": "#/$defs/text" },
-        "client": { "$ref": "#/$defs/text" }
+        "client": { "$ref": "#/$defs/text" },
+        "showOnHomepage": {
+          "type": "boolean",
+          "description": "Required on keypoint images and videos. Only true includes this media in the homepage mosaic; false keeps it in its case study."
+        }
       }
+    },
+    "keypointMedia": {
+      "allOf": [
+        { "$ref": "#/$defs/media" },
+        { "required": ["showOnHomepage"] }
+      ]
     },
     "imageMedia": {
       "allOf": [
@@ -101,7 +111,7 @@
         "id": { "$ref": "#/$defs/id" },
         "title": { "$ref": "#/$defs/text" },
         "paragraphs": { "$ref": "#/$defs/paragraphs" },
-        "media": { "type": "array", "items": { "$ref": "#/$defs/media" } }
+        "media": { "type": "array", "items": { "$ref": "#/$defs/keypointMedia" } }
       }
     },
     "caseStudy": {

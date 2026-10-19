@@ -3,6 +3,7 @@ import { PortfolioCollection } from "~/types";
 import { createSignal, onMount, Show, createMemo, createEffect, onCleanup } from "solid-js";
 import { isVideoUrl } from "~/utils/media";
 import { Picture } from "./Picture";
+import ActionIcon from "~/components/ActionIcon";
 
 function SlideshowCover(props: { data: PortfolioCollection; isPaused: boolean }) {
   const images = createMemo(() => {
@@ -74,7 +75,7 @@ function SlideshowCover(props: { data: PortfolioCollection; isPaused: boolean })
           class="h-18 flex items-center pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/90 dark:bg-black/90 dark:text-white hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2"
           onClick={prev}
         >
-          ❮
+          <ActionIcon name="chevron-left" />
         </button>
         <button
           type="button"
@@ -82,7 +83,7 @@ function SlideshowCover(props: { data: PortfolioCollection; isPaused: boolean })
           class="h-18 flex items-center pointer-events-auto cursor-pointer px-3 py-1 text-sm bg-white/90 dark:bg-black/90 dark:text-white hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2"
           onClick={next}
         >
-          ❯
+          <ActionIcon name="chevron-right" />
         </button>
       </div>
       </Show>

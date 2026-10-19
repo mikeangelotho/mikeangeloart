@@ -1,6 +1,7 @@
 import { createEffect, createSignal, For, onCleanup, Show } from "solid-js";
 import { A } from "@solidjs/router";
 import SEO from "~/components/SEO";
+import ActionIcon from "~/components/ActionIcon";
 import AboutWindow, { aboutWindowId } from "~/components/AboutWindow";
 import { useLenis } from "~/components/LenisProvider";
 import { siteContent as site } from "~/content/site-content";
@@ -188,12 +189,12 @@ export default function About() {
                     <Show when={label === "Resume"} fallback={
                       <Show when={label === "VS Code"} fallback={<p>{toolDescriptions[label]}</p>}>
                         <p>Explore my app, game, and creative experiments.</p>
-                        <A href="/personal" class="font-semibold underline underline-offset-4 py-2">Explore projects →</A>
-                        <a href="https://github.com/mikeangelotho/mikeangeloart" target="_blank" rel="noopener noreferrer" class="font-semibold underline underline-offset-4 py-2">View the source on GitHub ↗</a>
+                        <A href="/personal" class="inline-flex items-center gap-2 font-semibold underline underline-offset-4 py-2">Explore projects <ActionIcon name="arrow-right" /></A>
+                        <a href="https://github.com/mikeangelotho/mikeangeloart" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 font-semibold underline underline-offset-4 py-2">View the source on GitHub <ActionIcon name="arrow-up-right" /></a>
                       </Show>
                     }>
                       <p>View my experience and background.</p>
-                      <a href="https://docs.google.com/document/d/1FAuP92RVsjXvtqy9J7oVyWabwokPNLB3tfUOIBX6e4M/edit?tab=t.0#heading=h.gnilin35b71j" target="_blank" rel="noopener noreferrer" class="px-6 py-3 text-center font-semibold bg-black text-white dark:bg-white dark:text-black">View resume ↗</a>
+                      <a href="https://docs.google.com/document/d/1FAuP92RVsjXvtqy9J7oVyWabwokPNLB3tfUOIBX6e4M/edit?tab=t.0#heading=h.gnilin35b71j" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-6 py-3 text-center font-semibold bg-black text-white dark:bg-white dark:text-black">View resume <ActionIcon name="arrow-up-right" /></a>
                     </Show>
                   </div>
                 }>
@@ -211,7 +212,7 @@ export default function About() {
             <div id="about-tools" role="region" aria-label="Creative tools" class="about-tool-launcher absolute bottom-full right-0 mb-3 w-full max-w-sm overflow-y-auto p-3" data-lenis-prevent>
               <div class="mb-2 flex items-center justify-between px-2">
                 <span class="font-mono text-xs text-black/55 dark:text-white/65">Creative tools</span>
-                <button type="button" aria-label="Close creative tools" class="about-window-close min-h-11 min-w-11 " onClick={() => { setToolsOpen(false); toolsButton.focus(); }}>×</button>
+                <button type="button" aria-label="Close creative tools" class="about-window-close flex min-h-11 min-w-11 items-center justify-center" onClick={() => { setToolsOpen(false); toolsButton.focus(); }}><ActionIcon name="close" /></button>
               </div>
               <div class="grid min-w-0 grid-cols-2 gap-1">
                 <For each={creativeTools}>

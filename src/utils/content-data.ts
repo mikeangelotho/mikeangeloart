@@ -71,13 +71,14 @@ function dimensions(object: RecordValue, path: string) {
 }
 
 function media(value: unknown, path: string, imageOnly = false): RecordValue {
-  const item = record(value, path, ["id", "type", "src", "alt"], ["width", "height", "poster", "title", "caption", "client"]);
+  const item = record(value, path, ["id", "type", "src", "alt"], ["width", "height", "poster", "title", "caption", "client", "showOnHomepage"]);
   identifier(item.id, `${path}.id`);
   if (item.type !== "image" && (imageOnly || item.type !== "video")) invalid(`${path}.type`, imageOnly ? "must be image" : "must be image or video");
   url(item.src, `${path}.src`);
   strings(item, ["alt", "title", "caption", "client"], path);
   if (item.poster !== undefined) url(item.poster, `${path}.poster`);
   dimensions(item, path);
+  if ("showOnHomepage" in item && typeof item.showOnHomepage !== "boolean") invalid(`${path}.showOnHomepage`, "must be a boolean");
   return item;
 }
 
@@ -132,6 +133,7 @@ function caseStudy(value: unknown, path: string) {
     array(section.media, `${sectionPath}.media`).forEach((entry, mediaIndex) => {
       const entryPath = `${sectionPath}.media[${mediaIndex}]`;
       const asset = media(entry, entryPath);
+      if (!("showOnHomepage" in asset)) invalid(`${entryPath}.showOnHomepage`, "is required for keypoint media");
       if (mediaIds.has(asset.id as string)) invalid(`${entryPath}.id`, "duplicates another section media ID");
       mediaIds.add(asset.id as string);
     });

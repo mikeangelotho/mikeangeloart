@@ -88,6 +88,20 @@ test("rejects unknown and incorrectly typed fields instead of hiding editor mist
   assert.ok(plannedScreenshots.every((screenshot) => screenshot.src === undefined));
 });
 
+test("keypoint images and videos require an explicit boolean homepage selection", async () => {
+  invalidEdit((source) => { delete source.caseStudies[0].sections[0].media[0].showOnHomepage; }, /showOnHomepage is required for keypoint media/);
+  invalidEdit((source) => { delete source.caseStudies[0].sections[1].media[0].showOnHomepage; }, /showOnHomepage is required for keypoint media/);
+  for (const value of ["true", "false", 1, null]) {
+    invalidEdit((source) => { source.caseStudies[0].sections[0].media[0].showOnHomepage = value; }, /showOnHomepage must be a boolean/);
+  }
+  const source = freshDatabase();
+  source.caseStudies[0].sections[0].media[0].showOnHomepage = false;
+  assert.equal(parseContentDatabase(source).caseStudies[0].sections[0].media[0].showOnHomepage, false);
+  const schema = JSON.parse(await readFile(new URL("../content/db.schema.json", import.meta.url), "utf8"));
+  assert.equal(schema.$defs.media.properties.showOnHomepage.type, "boolean");
+  assert.equal(schema.$defs.section.properties.media.items.$ref, "#/$defs/keypointMedia");
+});
+
 test("validates project emphasis and mixed mosaic sizes while keeping both optional", () => {
   const source = freshDatabase();
   source.creativePieces = ["small", "wide", "tall", "large"].map((size) => ({

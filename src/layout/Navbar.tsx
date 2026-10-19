@@ -8,6 +8,7 @@ import {
   Show,
 } from "solid-js";
 import Icon from "~/components/Icon";
+import ActionIcon from "~/components/ActionIcon";
 import ThemeToggle from "~/components/ThemeToggle";
 
 const links = [
@@ -155,7 +156,7 @@ export default function Navbar() {
             aria-expanded={showMobileMenu()}
             aria-controls="mobile-navigation"
           >
-            <span aria-hidden="true">⩱</span>
+            <ActionIcon name="menu" size={20} />
           </button>
         </div>
       </nav>
@@ -177,7 +178,7 @@ export default function Navbar() {
             aria-label="Close navigation menu"
             onClick={() => setShowMobileMenu(false)}
           >
-            <span aria-hidden="true">×</span>
+            <ActionIcon name="close" size={20} />
           </button>
           <div class="pt-[20vh] sm:pt-[30vh] pb-12 flex flex-col gap-4 sm:gap-6 items-end px-6 sm:px-12 md:px-24">
             <ul class="flex flex-col gap-6 items-end">
@@ -200,7 +201,7 @@ export default function Navbar() {
               <li class="not-dark:invert">
                 <Icon name="github" width={24} height={24} />
               </li>
-              <li class="dark:invert">
+              <li>
                 <ThemeToggle onClick={() => setShowMobileMenu(false)} />
               </li>
             </ul>

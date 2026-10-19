@@ -11,7 +11,11 @@ export interface ContentMedia {
   title?: string;
   caption?: string;
   client?: string;
+  showOnHomepage?: boolean;
 }
+
+/** Every keypoint image and video explicitly opts in or out of the homepage. */
+export type KeypointMedia = ContentMedia & { showOnHomepage: boolean };
 
 export interface Contribution {
   role: string;
@@ -46,7 +50,7 @@ export interface CaseStudy {
   results: ProjectResult[];
   hero?: ContentMedia;
   featuredMediaIds: string[];
-  sections: { id: string; title: string; paragraphs: string[]; media: ContentMedia[] }[];
+  sections: { id: string; title: string; paragraphs: string[]; media: KeypointMedia[] }[];
   videos: ContentMedia[];
 }
 

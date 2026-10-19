@@ -1,5 +1,6 @@
 import { createSignal, createUniqueId, For, onCleanup, onMount, Show } from "solid-js";
 import { Tag } from "~/layout/Cards";
+import ActionIcon from "~/components/ActionIcon";
 
 type Group = "discipline" | "client";
 
@@ -75,14 +76,14 @@ export default function ProjectFilters(props: {
               >
                 {group.label}
                 <Show when={group.selected().length}><span class="hidden text-black/55 dark:text-white/65 sm:inline">({group.selected().length})</span></Show>
-                <span aria-hidden="true" class={open() === group.key ? "rotate-180" : ""}>⌄</span>
+                <ActionIcon name="chevron-down" size={14} class={open() === group.key ? "rotate-180" : ""} />
               </button>
             )}</For>
           </div>
           <Show when={activeCount()}>
             <div class="order-3 flex w-full min-w-0 items-center gap-1.5 overflow-x-auto px-1 py-1 sm:order-none sm:w-auto sm:flex-1" aria-label="Active filters" data-lenis-prevent-horizontal>
-              <For each={props.clients}>{(client) => <Tag label={`Remove client filter: ${client}`} onClick={() => remove("client", client)}>{`${client} ×`}</Tag>}</For>
-              <For each={props.tags}>{(tag) => <Tag label={`Remove discipline filter: ${tag}`} onClick={() => remove("discipline", tag)}>{`${tag} ×`}</Tag>}</For>
+              <For each={props.clients}>{(client) => <Tag label={`Remove client filter: ${client}`} onClick={() => remove("client", client)}>{client}<ActionIcon name="close" size={12} class="ml-1.5" /></Tag>}</For>
+              <For each={props.tags}>{(tag) => <Tag label={`Remove discipline filter: ${tag}`} onClick={() => remove("discipline", tag)}>{tag}<ActionIcon name="close" size={12} class="ml-1.5" /></Tag>}</For>
             </div>
           </Show>
           <div class="ml-auto flex shrink-0 items-center gap-1">

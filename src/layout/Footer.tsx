@@ -3,15 +3,15 @@ import ThemeToggle from "~/components/ThemeToggle";
 
 export default function Footer() {
   return (
-    <footer class="w-full border-t border-t-black/10 bg-white px-4 py-6 text-xs text-black/65 sm:px-6 dark:border-t-white/10 dark:bg-black dark:text-white/65">
-      <div class="mx-auto grid w-full max-w-7xl grid-cols-[auto_1fr] items-center gap-x-4 gap-y-3 sm:grid-cols-[1fr_auto_1fr]">
-        <span class="justify-self-start text-xl not-dark:invert">
+    <footer class="w-full border-t border-t-black/10 bg-white px-4 py-4 text-xs text-black/65 sm:px-6 sm:py-6 dark:border-t-white/10 dark:bg-black dark:text-white/65">
+      <div class="mx-auto grid w-full max-w-7xl grid-cols-[auto_auto_1fr] items-center gap-x-3">
+        <span class="justify-self-start text-xl">
           <ThemeToggle />
         </span>
-        <div class="justify-self-end sm:justify-self-center">
+        <div class="justify-self-start">
           <BackToTop />
         </div>
-        <div class="col-span-2 text-center leading-relaxed sm:col-span-1 sm:text-right">(L ╹ڡ╹ )&gt; ~ © 2026 Mike Angelo</div>
+        <div class="whitespace-nowrap text-right leading-relaxed">Copyright 2026 Mike Angelo</div>
       </div>
     </footer>
   );

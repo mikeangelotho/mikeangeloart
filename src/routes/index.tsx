@@ -7,31 +7,27 @@ import {
   Show,
   Suspense,
 } from "solid-js";
-import { PortfolioCollection } from "~/types";
-import TeaserCollection from "~/components/TeaserCollection";
-import { H2, SectionHeading } from "~/layout/Headings";
+import PortfolioMosaic from "~/components/PortfolioMosaic";
+import { H2 } from "~/layout/Headings";
 import SEO from "~/components/SEO";
+import ActionIcon from "~/components/ActionIcon";
 import { Web3Form } from "~/components/Web3Form";
 import { A, createAsync } from "@solidjs/router";
-import PreviewProject from "~/components/PreviewProject";
 import { Picture } from "~/components/Picture";
 import { useLenis } from "~/components/LenisProvider";
-import { fetchPortfolio } from "~/utils/portfolio";
-import { fetchPersonalProjectTeasers } from "~/utils/content-database";
+import { fetchPersonalProjectTeasers, fetchPortfolioMosaic } from "~/utils/content-database";
 
 import { siteContent as site } from "~/content/site-content";
-
-const landingHighlightLength = 3;
 
 export default function Home() {
   var rawDate = new Date();
   var date = rawDate.toDateString();
   const [time, setTime] = createSignal(new Date().toLocaleTimeString());
+  const [motionPlaying, setMotionPlaying] = createSignal(false);
   const [scroll, setScroll] = createSignal<number>(
     Math.round(Math.random() * 10),
   );
   let introPanel!: HTMLDivElement;
-  let moreContainer!: HTMLDivElement;
   let contactContainer!: HTMLDivElement;
 
   function getUTCTime() {
@@ -45,7 +41,7 @@ export default function Home() {
   const BgGradient = lazy(() => import("../components/BgGradient"));
   const Panel3d = lazy(() => import("../components/Panel3d"));
 
-  const portfolioCollection = createAsync(() => fetchPortfolio(), {
+  const portfolioItems = createAsync(() => fetchPortfolioMosaic(), {
     deferStream: true,
   });
   const personalProjectTeasers = createAsync(
@@ -59,6 +55,8 @@ export default function Home() {
     const motionPreference = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     );
+    const updateMotion = () => setMotionPlaying(!motionPreference.matches);
+    updateMotion();
     const updateIntro = () => {
       const scroll = Math.max(0, window.scrollY);
       const keyboardFocused = !!introPanel.querySelector("a:focus-visible");
@@ -77,6 +75,7 @@ export default function Home() {
     introPanel.addEventListener("focusin", updateIntro);
     introPanel.addEventListener("focusout", updateIntro);
     motionPreference.addEventListener("change", updateIntro);
+    motionPreference.addEventListener("change", updateMotion);
     updateIntro();
 
     const revealObserver = new IntersectionObserver(
@@ -94,7 +93,6 @@ export default function Home() {
       { threshold: 0.1 },
     );
     if (!motionPreference.matches) {
-      revealObserver.observe(moreContainer);
       revealObserver.observe(contactContainer);
     }
     onCleanup(() => {
@@ -104,6 +102,7 @@ export default function Home() {
       introPanel.removeEventListener("focusin", updateIntro);
       introPanel.removeEventListener("focusout", updateIntro);
       motionPreference.removeEventListener("change", updateIntro);
+      motionPreference.removeEventListener("change", updateMotion);
       revealObserver.disconnect();
     });
   });
@@ -198,96 +197,89 @@ export default function Home() {
         </section>
 
         <div class="z-2 w-full">
-          <section class="bg-white/75 dark:bg-black/75 w-full">
-            <SectionHeading>
-              <div class="w-full flex flex-col">
-                <div>{time()}</div>
-                <div>{date}</div>
+          <div class="w-full border-y border-black/15 bg-white/75 px-4 dark:border-white/15 dark:bg-black/75 sm:px-6">
+            <div class="mx-auto flex max-w-7xl items-center gap-4 py-2">
+              <div class="type-section-label flex min-w-0 flex-1 items-center justify-between gap-4 py-2 text-black/65 dark:text-white/65">
+                <div class="flex flex-col opacity-25">
+                  <span>{time()}</span>
+                  <span>{date}</span>
+                </div>
+                <span class="opacity-25">{scroll()}</span>
               </div>
-              <div class="w-full text-right">{scroll()}</div>
-            </SectionHeading>
-          </section>
-          <section class="w-full bg-white dark:bg-black py-4 sm:py-6">
-            <Show when={portfolioCollection()}>
-              <For each={portfolioCollection()}>
-                {(collection, idx) =>
-                  idx() < landingHighlightLength && (
-                    <PreviewProject
-                      data={collection}
-                      reverse={idx() % 2 === 1}
-                    />
-                  )
-                }
-              </For>
-            </Show>
-          </section>
-          <section class="w-full flex flex-col bg-white dark:bg-black">
-            <div class="bg-black/3 dark:bg-white/3 w-full">
-              <SectionHeading>More Portfolio Work</SectionHeading>
-            </div>
-            <div
-              ref={moreContainer}
-              class="fade__animate w-full flex flex-col gap-6 justify-center max-w-7xl mx-auto py-12 sm:py-16 px-6"
-            >
-              <Show when={portfolioCollection()}>
-                <TeaserCollection
-                  data={portfolioCollection() as PortfolioCollection[]}
-                  limit={4}
-                />
+              <Show when={portfolioItems()?.some((item) => item.type === "video")}>
+                <button
+                  type="button"
+                  aria-controls="portfolio-mosaic"
+                  aria-label={motionPlaying() ? "Pause portfolio videos" : "Play portfolio videos"}
+                  title={motionPlaying() ? "Pause portfolio videos" : "Play portfolio videos"}
+                  onClick={() => setMotionPlaying((playing) => !playing)}
+                  class="inline-flex min-h-11 min-w-11 shrink-0 cursor-pointer items-center justify-center border-l border-black/15 text-black/65 hover:text-black dark:border-white/15 dark:text-white/65 dark:hover:text-white"
+                >
+                  <ActionIcon name={motionPlaying() ? "pause" : "play"} size={16} />
+                </button>
               </Show>
+            </div>
+          </div>
+          <section aria-label="Selected projects" class="w-full bg-white dark:bg-black px-2 pt-2 pb-12 sm:px-4 sm:pt-4 sm:pb-16">
+            <Show when={portfolioItems()}>
+              {(items) => <PortfolioMosaic items={items()} autoplay={motionPlaying()} />}
+            </Show>
+            <div class="flex justify-center mt-8">
               <A
                 href="/projects"
                 class="inline-flex lg:mx-auto min-h-11 w-full lg:w-fit justify-center items-center gap-2 text-sm font-medium px-5 py-2.5 bg-black dark:bg-white text-white dark:text-black hover:gap-3 transition-all duration-50 group/link mt-5"
               >
                 View All Work
-                <span class="font-normal group-hover/link:translate-x-1 transition-transform">
-                  ⇢
-                </span>
+                <ActionIcon name="arrow-right" class="group-hover/link:translate-x-1 transition-transform" />
               </A>
             </div>
           </section>
-          <section class="w-full bg-black/3 dark:bg-white/3 border-t border-black/10 dark:border-white/10">
-            <div class="w-full grid items-center gap-6 max-w-7xl px-6 py-12 sm:py-16 mx-auto lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.5fr)] lg:gap-10">
-              <div class="flex min-w-0 flex-col items-start gap-4">
-                <p class="type-body text-black dark:text-white max-w-[40ch]">
-                  I'm also working on a DAM app, a multiplayer game, and AI inference experiments.
-                </p>
+          <section aria-labelledby="home-projects-heading" class="w-full bg-black/3 dark:bg-white/3 border-t border-black/10 dark:border-white/10 text-black dark:text-white">
+            <div class="mx-auto w-full max-w-7xl px-6 py-12 sm:py-16">
+              <header class="mb-5 flex items-center justify-between gap-4 sm:mb-6">
+                <h2 id="home-projects-heading" class="type-heading">Side Projects</h2>
                 <A
                   href="/personal"
-                  class="inline-flex min-h-11 items-center shrink-0 text-center text-sm font-medium px-5 py-3 bg-black dark:bg-white text-white dark:text-black hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-4"
+                  class="inline-flex min-h-11 shrink-0 items-center gap-2 text-sm underline decoration-black/25 underline-offset-4 transition-colors hover:decoration-black focus-visible:outline-2 focus-visible:outline-offset-4 dark:decoration-white/25 dark:hover:decoration-white"
                 >
-                  Explore Projects →
+                  View projects <ActionIcon name="arrow-right" size={16} />
                 </A>
-              </div>
+              </header>
               <Show when={personalProjectTeasers()?.length}>
-                <div
-                  class="grid min-w-0 grid-cols-3 gap-3 sm:gap-4"
+                <ul
+                  class="grid min-w-0 border-t border-black/15 dark:border-white/15 md:grid-cols-3 md:gap-6 md:border-t-0"
                   aria-label="Personal project previews"
                 >
                   <For each={personalProjectTeasers()}>
                     {(project) => (
-                      <A
-                        href={`/personal#${project.id}`}
-                        aria-label={`Explore ${project.title}`}
-                        class="group min-w-0 focus-visible:outline-2 focus-visible:outline-offset-4"
-                      >
-                        <div class="relative aspect-16/10 overflow-hidden border border-black/10 bg-white transition-colors group-hover:border-black/30 dark:border-white/10 dark:bg-black dark:group-hover:border-white/40 [&>picture]:absolute [&>picture]:inset-0 [&>picture]:block [&>picture]:h-full [&>picture]:w-full">
-                          <Picture
-                            src={project.screenshot.src || ""}
-                            alt={project.screenshot.alt}
-                            width={project.screenshot.width}
-                            height={project.screenshot.height}
-                            class="block h-full w-full object-cover"
-                          />
-                        </div>
-                        <span class="mt-2 flex items-center justify-between gap-1 text-xs font-semibold text-black dark:text-white sm:text-sm">
-                          {project.title}
-                          <span aria-hidden="true">↗</span>
-                        </span>
-                      </A>
+                      <li class="min-w-0">
+                        <A
+                          href={`/personal#${project.id}`}
+                          aria-label={`Explore ${project.title}`}
+                          aria-describedby={`home-project-summary-${project.id}`}
+                          class="group grid min-w-0 grid-cols-[7.5rem_minmax(0,1fr)_auto] items-center gap-4 border-b border-black/15 py-4 transition-colors hover:border-black/50 focus-visible:outline-2 focus-visible:outline-offset-4 dark:border-white/15 dark:hover:border-white/50 sm:grid-cols-[10rem_minmax(0,1fr)_auto] md:grid-cols-[minmax(0,1fr)_auto] md:gap-x-3 md:gap-y-4 md:pt-0 md:pb-5"
+                        >
+                          <div class="relative aspect-16/10 w-full overflow-hidden border border-black/10 bg-black/3 transition-colors group-hover:border-black/30 dark:border-white/10 dark:bg-white/3 dark:group-hover:border-white/40 md:col-span-2 [&>picture]:absolute [&>picture]:inset-0 [&>picture]:block [&>picture]:h-full [&>picture]:w-full">
+                            <Picture
+                              src={project.screenshot.src || ""}
+                              alt={project.screenshot.alt}
+                              width={project.screenshot.width}
+                              height={project.screenshot.height}
+                              class="block h-full w-full object-cover object-top motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:scale-[1.02]"
+                            />
+                          </div>
+                          <div class="min-w-0">
+                            <h3 class="type-card-title break-words">{project.title}</h3>
+                            <p id={`home-project-summary-${project.id}`} class="mt-1 line-clamp-3 text-sm leading-snug text-black/65 dark:text-white/65">
+                              {project.summary}
+                            </p>
+                          </div>
+                          <ActionIcon name="arrow-up-right" size={20} class="motion-safe:transition-transform motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5" />
+                        </A>
+                      </li>
                     )}
                   </For>
-                </div>
+                </ul>
               </Show>
             </div>
           </section>

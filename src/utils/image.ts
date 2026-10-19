@@ -19,16 +19,6 @@ export interface ImageSources {
 }
 
 /**
- * Extract the base path from an image URL by removing the file extension
- */
-export function getImageBasePath(imageUrl: string): string {
-  const supportedExtensions = Object.values(ImageFormat);
-  const extensionRegex = new RegExp(`\\.(${supportedExtensions.join('|')})(?=[?#]|$)`, 'i');
-  
-  return imageUrl.replace(extensionRegex, '');
-}
-
-/**
  * Check if the URL already has a WebP extension
  */
 export function isWebPUrl(imageUrl: string): boolean {

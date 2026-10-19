@@ -4,9 +4,43 @@ import test from "node:test";
 import { parseContentDatabase } from "../src/utils/content-data.ts";
 import { summarizePortfolio, toPortfolio } from "../src/utils/portfolio-data.ts";
 import { buildSitemap } from "../scripts/generate-sitemap.js";
+import { portfolioMosaicMedia } from "../src/utils/portfolio-mosaic.ts";
 
 const database = JSON.parse(await readFile(new URL("../content/db.json", import.meta.url), "utf8"));
 const freshDatabase = () => structuredClone(database);
+
+test("homepage mosaic includes enabled public images and videos, independently of card selections", () => {
+  const source = freshDatabase();
+  const [hidden, publicProject] = source.caseStudies;
+  hidden.visibility = "hidden";
+  source.caseStudies = [hidden, publicProject];
+  publicProject.sections = [{
+    id: "mosaic-example", title: "Mosaic example", paragraphs: ["Example project walkthrough."],
+    media: [
+      { id: "landscape", type: "image", src: "/landscape.jpg", alt: "Landscape artwork", width: 1200, height: 800, showOnHomepage: true },
+      { id: "film", type: "video", src: "/film.mp4", alt: "Design animation", width: 1600, height: 900, poster: "/film-poster.jpg", showOnHomepage: true },
+      { id: "portrait", type: "image", src: "/portrait.jpg", alt: "Portrait artwork", width: 800, height: 1200, showOnHomepage: true },
+      { id: "event-photo", type: "image", src: "/event.jpg", alt: "Event photography", showOnHomepage: false },
+      { id: "event-film", type: "video", src: "/event.mp4", alt: "Event footage", showOnHomepage: false },
+    ],
+  }];
+  // An image outside the card's featured selection must still reach the homepage.
+  publicProject.featuredMediaIds = ["landscape", "event-photo"];
+  const before = structuredClone(source);
+  const items = portfolioMosaicMedia(parseContentDatabase(source));
+  assert.deepEqual(items, [
+    { id: "landscape", type: "image", src: "/landscape.jpg", alt: "Landscape artwork", width: 1200, height: 800, poster: undefined,
+      projectTitle: publicProject.title, projectSlug: publicProject.slug },
+    { id: "film", type: "video", src: "/film.mp4", alt: "Design animation", width: 1600, height: 900, poster: "/film-poster.jpg",
+      projectTitle: publicProject.title, projectSlug: publicProject.slug },
+    { id: "portrait", type: "image", src: "/portrait.jpg", alt: "Portrait artwork", width: 800, height: 1200, poster: undefined,
+      projectTitle: publicProject.title, projectSlug: publicProject.slug },
+  ]);
+  assert.deepEqual(source, before);
+  const caseStudy = toPortfolio(parseContentDatabase(source))[0];
+  assert.ok(caseStudy.projectKeypoints[0].media.some((media) => media.id === "event-photo"), "excluded homepage images remain in the case study");
+  assert.ok(caseStudy.featuredMedia.some((media) => media.id === "event-photo"), "homepage flags do not change project tiles");
+});
 
 test("published portfolio preserves the authored database order, copy and existing URLs", () => {
   const original = freshDatabase();

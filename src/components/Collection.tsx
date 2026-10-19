@@ -48,7 +48,7 @@ export default function CollectionGrid(props: {
       <Show when={filteredData().length} fallback={<div class="px-6 py-18 text-center text-black/65 dark:text-white/65"><p>No projects match these filters.</p><button type="button" class={textButton + " underline underline-offset-4 mt-3"} onClick={clear}>Reset filters</button></div>}>
         <div class="pt-8">
           <Show when={props.enableFull} fallback={<div class="md:px-12 w-full overflow-x-auto scroll-smooth" data-lenis-prevent-horizontal><div class="gap-x-6 flex justify-start w-full"><For each={filteredData()}>{(item) => <CollectionCell galleryCover={true} data={item} />}</For></div></div>}>
-            <div class="grid grid-cols-1 gap-3 px-6 md:grid-cols-2 xl:grid-cols-3"><For each={filteredData()}>{(item) => <CollectionCell galleryCover={true} enableFull={true} data={item} />}</For></div>
+            <div class="grid grid-cols-1 gap-3 px-6 md:grid-cols-2"><For each={filteredData()}>{(item) => <CollectionCell galleryCover={true} enableFull={true} data={item} />}</For></div>
           </Show>
         </div>
       </Show>

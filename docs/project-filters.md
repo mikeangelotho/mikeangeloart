@@ -32,7 +32,7 @@ channel labels such as Paid Social Media and Digital Marketing are folded into
 Campaign Design. Existing tag URLs are mapped to their corresponding broader
 discipline by `src/utils/portfolio-filters.ts`.
 
-Shared tags use compact rounded bubbles with subtle borders, neutral colors,
+Shared tags use compact inline labels with neutral colors
 and visible keyboard focus. Active filter bubbles have explicit removal labels
 for screen readers. Case-study tags wrap instead of creating another horizontal
 scroller. The bar stays in the page flow rather than using the old fixed toolbar.
