@@ -8,8 +8,9 @@ export default createHandler(() => (
         <head>
           <meta charset="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="preload" href="/fonts/VT323-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
-          <link rel="preload" href="/fonts/Handjet-VariableFont_ELGR,ELSH,wght.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+          <link rel="describedby" href="/llms.txt" type="text/plain" />
+          <link rel="preload" href="/fonts/VT323-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+          <link rel="preload" href="/fonts/Handjet-VariableFont_ELGR,ELSH,wght.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
           <script>{`(function () {
   var saved;
   try { saved = localStorage.getItem('portfolio-theme'); } catch (_) {}

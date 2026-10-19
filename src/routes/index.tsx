@@ -14,28 +14,18 @@ import ActionIcon from "~/components/ActionIcon";
 import { Web3Form } from "~/components/Web3Form";
 import { A, createAsync } from "@solidjs/router";
 import { Picture } from "~/components/Picture";
-import { useLenis } from "~/components/LenisProvider";
 import { fetchPersonalProjectTeasers, fetchPortfolioMosaic } from "~/utils/content-database";
 
 import { siteContent as site } from "~/content/site-content";
 
 export default function Home() {
-  var rawDate = new Date();
-  var date = rawDate.toDateString();
-  const [time, setTime] = createSignal(new Date().toLocaleTimeString());
+  const [clock, setClock] = createSignal(new Date());
   const [motionPlaying, setMotionPlaying] = createSignal(false);
   const [scroll, setScroll] = createSignal<number>(
     Math.round(Math.random() * 10),
   );
   let introPanel!: HTMLDivElement;
   let contactContainer!: HTMLDivElement;
-
-  function getUTCTime() {
-    requestAnimationFrame(() => {
-      setTime(new Date().toLocaleTimeString());
-      requestAnimationFrame(getUTCTime);
-    });
-  }
 
   const LottieAnim = lazy(() => import("../components/LottieAnim"));
   const BgGradient = lazy(() => import("../components/BgGradient"));
@@ -48,10 +38,17 @@ export default function Home() {
     () => fetchPersonalProjectTeasers(),
     { deferStream: true },
   );
-  const lenis = useLenis();
-
   onMount(() => {
-    getUTCTime();
+    // Read wall time once; elapsed time keeps the clock accurate after throttling.
+    const clockEpoch = Date.now();
+    const clockStarted = performance.now();
+    const updateClock = () => setClock(new Date(clockEpoch + performance.now() - clockStarted));
+    const resumeClock = () => {
+      if (!document.hidden) updateClock();
+    };
+    updateClock();
+    const clockTimer = window.setInterval(resumeClock, 1000);
+    document.addEventListener("visibilitychange", resumeClock);
     const motionPreference = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     );
@@ -68,15 +65,21 @@ export default function Home() {
         motionPreference.matches || keyboardFocused ? "0px" : `${scroll}px`,
       );
     };
-    const unregister = lenis?.registerCallback(updateIntro);
-    const updateNum = () => setScroll(Math.round(window.scrollY * 100));
-    window.addEventListener("scroll", updateIntro, { passive: true });
-    window.addEventListener("scroll", updateNum);
+    let scrollFrame = 0;
+    const updateScroll = () => {
+      scrollFrame = 0;
+      updateIntro();
+      setScroll(Math.round(window.scrollY * 100));
+    };
+    const scheduleScroll = () => {
+      if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScroll);
+    };
+    window.addEventListener("scroll", scheduleScroll, { passive: true });
     introPanel.addEventListener("focusin", updateIntro);
     introPanel.addEventListener("focusout", updateIntro);
     motionPreference.addEventListener("change", updateIntro);
     motionPreference.addEventListener("change", updateMotion);
-    updateIntro();
+    updateScroll();
 
     const revealObserver = new IntersectionObserver(
       (entries, observer) => {
@@ -96,9 +99,10 @@ export default function Home() {
       revealObserver.observe(contactContainer);
     }
     onCleanup(() => {
-      unregister?.();
-      window.removeEventListener("scroll", updateIntro);
-      window.removeEventListener("scroll", updateNum);
+      window.clearInterval(clockTimer);
+      document.removeEventListener("visibilitychange", resumeClock);
+      cancelAnimationFrame(scrollFrame);
+      window.removeEventListener("scroll", scheduleScroll);
       introPanel.removeEventListener("focusin", updateIntro);
       introPanel.removeEventListener("focusout", updateIntro);
       motionPreference.removeEventListener("change", updateIntro);
@@ -201,8 +205,8 @@ export default function Home() {
             <div class="mx-auto flex max-w-7xl items-center gap-4 py-2">
               <div class="type-section-label flex min-w-0 flex-1 items-center justify-between gap-4 py-2 text-black/65 dark:text-white/65">
                 <div class="flex flex-col opacity-25">
-                  <span>{time()}</span>
-                  <span>{date}</span>
+                  <span>{clock().toLocaleTimeString()}</span>
+                  <span>{clock().toDateString()}</span>
                 </div>
                 <span class="opacity-25">{scroll()}</span>
               </div>

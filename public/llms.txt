@@ -1,0 +1,28 @@
+# Mike Angelo
+
+> Art direction, brand identities, integrated campaigns, and digital experiences by Mike Angelo. Based in New Jersey and working across the New York area.
+
+## Pages
+
+- [Home](https://mikeangelo.art/): Multimedia Designer & Art Director portfolio and selected visual work.
+- [Portfolio](https://mikeangelo.art/projects): Client case studies in brand identity, campaigns, motion, and web design.
+- [About](https://mikeangelo.art/about): Brand identity, campaign design, video editing, motion, and web design by Mike Angelo, an art director and multidisciplinary designer based in New Jersey.
+- [Projects](https://mikeangelo.art/personal): Cruio, RAID, and Indigo: apps and a game in development by Mike Angelo, followed by Solobook, R2D2, and visual experiments.
+
+## Client case studies
+
+- [Loopwell: The Space for Well-being](https://mikeangelo.art/projects/loopwell-the-space-for-well-being): I helped develop Loopwell's logo and visual identity, designed promotional materials and landing pages, edited video, and created motion and paid social ads.
+- [Drone Drop Pop-up](https://mikeangelo.art/projects/bahlsen-drone-drop-pop-up): I designed promotional materials and landing pages, edited the event footage, and created motion and paid social ads for Bahlsen's drone-delivery pop-up.
+- [Mercedes-Benz & Genesis Marketing](https://mikeangelo.art/projects/benzel-busch-mercedes-benz-marketing): I designed campaign materials and landing pages, edited commercials, and created motion and paid social ads for Benzel-Busch's Mercedes-Benz and Genesis campaigns.
+- [Fuel Your Fitness Fire](https://mikeangelo.art/projects/blauner-fitness-fuel-your-fitness-fire): I worked directly with the founder on campaign strategy, refreshed brand materials and website design to introduce Blauner Fitness's new at-home services.
+- [Seasonal Road Trip Series](https://mikeangelo.art/projects/benzel-busch-seasonal-road-trip-series): I designed downloadable guides, digital banners and social creative for a seasonal campaign that connected Mercedes-Benz models with road-trip destinations.
+- [Your Home, Your Gym](https://mikeangelo.art/projects/gym-source-your-home-your-gym): I designed campaign materials and helped design the website for Gym Source's shift from individual equipment sales toward custom gyms, collaborating with creative, production and development teams.
+- [Secret Stash](https://mikeangelo.art/projects/bahlsen-secret-stash): I edited video and designed digital and social creative for a campaign about hiding favorite snacks, adapting the assets as the campaign shifted to a lockdown audience.
+
+## Personal projects
+
+- [Cruio](https://mikeangelo.art/personal#cruio): I’m designing and building Cruio, a visual workspace for creative projects. Files and deliverables live on a spatial canvas, with pinned feedback, revision comparisons, and approvals attached to the work. A shared library and linked tasks keep assets, feedback, and next steps connected.
+- [RAID](https://mikeangelo.art/personal#raid): RAID is my ongoing action RPG / stick shooter prototype. I’m developing its world, interface, and gameplay in Godot, connecting gunplay and enemy behavior with inventory, crafting, and character builds.
+- [Indigo](https://mikeangelo.art/personal#indigo): Indigo is a prototype for local AI inference. It spawns small and medium models across devices on a local network, with basic GPU inference sharing.
+- [Solobook](https://mikeangelo.art/personal#solobook): Using AI comes with using a lot of Markdown, so I made a quick app to compose related markdown files into a navigable book.
+- [R2D2](https://mikeangelo.art/personal#r2d2): A visual JSON editor for files stored in Cloudflare R2 or S3-compatible buckets. I built it to make structured content easier to browse and change, with tree, table, and raw views plus a diff to review edits before saving.

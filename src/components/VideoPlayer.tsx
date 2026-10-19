@@ -1,7 +1,8 @@
-import { createMemo, createSignal, onCleanup, onMount, Show, Switch, Match } from "solid-js";
+import { createMemo, createSignal, lazy, onCleanup, onMount, Show, Suspense, Switch, Match } from "solid-js";
 import type { Media } from "~/types";
 import { getMediaKind, getVideoPoster, getVimeoEmbedUrl } from "~/utils/media";
-import VideoJSPlayer from "./VideoJSPlayer";
+
+const VideoJSPlayer = lazy(() => import("./VideoJSPlayer"));
 
 export default function VideoPlayer(props: { video: Media; class?: string }) {
   let container!: HTMLDivElement;
@@ -54,7 +55,16 @@ export default function VideoPlayer(props: { video: Media; class?: string }) {
             />
           </Match>
           <Match when={kind() === "hls"}>
-            <VideoJSPlayer video={props.video} />
+            <Suspense fallback={
+              <div class="relative aspect-video w-full bg-black" role="status">
+                <Show when={getVideoPoster(props.video)}>
+                  {(poster) => <img src={poster()} alt="" class="h-full w-full object-contain" />}
+                </Show>
+                <span class="sr-only">Loading video…</span>
+              </div>
+            }>
+              <VideoJSPlayer video={props.video} />
+            </Suspense>
           </Match>
           <Match when={kind() !== "vimeo" && kind() !== "hls"}>
             <video

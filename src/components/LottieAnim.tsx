@@ -30,7 +30,8 @@ export const LottieAnim = (props: { url: string }) => {
 
     const initLottie = async () => {
       try {
-        const lottie = (await import("lottie-web")).default;
+        // The full SVG build retains expressions and SVG effects without canvas/HTML renderers.
+        const lottie = (await import("lottie-web/build/player/lottie_svg.js")).default;
         if (disposed) return;
         animation = lottie.loadAnimation({
           container,

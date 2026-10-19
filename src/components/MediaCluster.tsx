@@ -17,30 +17,59 @@ interface MediaClusterProps {
 function LoopingPreview(props: MediaClusterProps) {
   let video!: HTMLVideoElement;
   const [loaded, setLoaded] = createSignal(false);
+  const [posterLoaded, setPosterLoaded] = createSignal(false);
   const [visible, setVisible] = createSignal(false);
+  const [pageVisible, setPageVisible] = createSignal(false);
   const [reducedMotion, setReducedMotion] = createSignal(true);
-  const shouldPlay = () => visible() && (!reducedMotion() || props.respectReducedMotion === false) && props.autoplay !== false;
+  const shouldPlay = () => pageVisible() && visible() && (!reducedMotion() || props.respectReducedMotion === false) && props.autoplay !== false;
 
   onMount(() => {
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const updateMotion = () => setReducedMotion(motionQuery.matches);
+    const updatePageVisibility = () => setPageVisible(!document.hidden);
     updateMotion();
+    updatePageVisibility();
     motionQuery.addEventListener("change", updateMotion);
-    const observer = "IntersectionObserver" in window
+    document.addEventListener("visibilitychange", updatePageVisibility);
+    const supportsObserver = "IntersectionObserver" in window;
+    // Warm nearby stills before they enter view, including when playback is paused.
+    // Intrinsic dimensions reserve the video layout while its poster is deferred.
+    let posterObserver: IntersectionObserver | undefined;
+    if (props.poster && supportsObserver) {
+      const rect = video.getBoundingClientRect();
+      if (rect.bottom >= -300 && rect.top <= window.innerHeight + 300 && rect.right >= 0 && rect.left <= window.innerWidth) {
+        setPosterLoaded(true);
+      } else {
+        posterObserver = new IntersectionObserver((entries, observer) => {
+          if (entries.some((entry) => entry.isIntersecting)) {
+            setPosterLoaded(true);
+            observer.disconnect();
+          }
+        }, { rootMargin: "300px 0px" });
+        posterObserver.observe(video);
+      }
+    }
+    const observer = supportsObserver
       ? new IntersectionObserver((entries) => {
           const inView = entries.some((entry) => entry.isIntersecting);
           setVisible(inView);
-          if (inView) setLoaded(true);
+          if (inView) {
+            setLoaded(true);
+            setPosterLoaded(true);
+          }
         }, { threshold: 0.05 })
       : undefined;
     if (observer) observer.observe(video);
     else {
       setLoaded(true);
+      setPosterLoaded(true);
       setVisible(true);
     }
     onCleanup(() => {
       observer?.disconnect();
+      posterObserver?.disconnect();
       motionQuery.removeEventListener("change", updateMotion);
+      document.removeEventListener("visibilitychange", updatePageVisibility);
       video.pause();
     });
   });
@@ -61,7 +90,7 @@ function LoopingPreview(props: MediaClusterProps) {
       playsinline
       preload="metadata"
       src={loaded() ? props.src : undefined}
-      poster={props.poster}
+      poster={posterLoaded() ? props.poster : undefined}
       width={props.width}
       height={props.height}
       aria-label={props.alt || undefined}

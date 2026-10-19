@@ -1,5 +1,5 @@
 import * as three from "three";
-import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 export default class SceneManager {
   #renderer: three.WebGLRenderer | null = null;

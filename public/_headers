@@ -1,6 +1,6 @@
 # Font assets can be reused without a freshness request.
-/fonts/VT323-Regular.ttf
+/fonts/VT323-Regular.woff2
   Cache-Control: public, max-age=31536000, immutable
 
-/fonts/Handjet-VariableFont_ELGR,ELSH,wght.ttf
+/fonts/Handjet-VariableFont_ELGR,ELSH,wght.woff2
   Cache-Control: public, max-age=31536000, immutable
