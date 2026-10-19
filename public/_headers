@@ -1,6 +1,6 @@
-# Versioned font files can be reused without a freshness request.
-/fonts/dm-sans-v17-latin-400-700.woff2
+# Font assets can be reused without a freshness request.
+/fonts/VT323-Regular.ttf
   Cache-Control: public, max-age=31536000, immutable
 
-/fonts/space-grotesk-v22-latin-700.woff2
+/fonts/Handjet-VariableFont_ELGR,ELSH,wght.ttf
   Cache-Control: public, max-age=31536000, immutable

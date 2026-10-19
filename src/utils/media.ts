@@ -72,24 +72,3 @@ export function getProjectVideos(project: PortfolioCollection): Media[] {
     return true;
   });
 }
-
-export interface ProjectMediaPreview {
-  url: string;
-  altText: string;
-  type?: "image" | "video";
-  width?: number;
-  height?: number;
-}
-
-/** References are resolved by stable media ID when the database is projected. */
-export function getFeaturedProjectMedia(
-  project: PortfolioCollection,
-): ProjectMediaPreview[] {
-  const featured = project.featuredMedia || [];
-  const seen = new Set<string>();
-  return featured.filter((media) => {
-    if (seen.has(media.url)) return false;
-    seen.add(media.url);
-    return true;
-  });
-}

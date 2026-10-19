@@ -7,18 +7,37 @@ dist
 app.config.timestamp_*.js
 
 # Environment
-.env
-.env*.local
+.env*
 
 # dependencies
 /node_modules
 
 # IDEs and editors
 /.idea
+/.vscode/
 .project
 .classpath
 *.launch
 .settings/
+
+# Local agent settings and scratch backups
+/.claude/
+/.codex/
+/.agents/
+/.local-backups/
+AGENTS.md
+CLAUDE.md
+
+# Generated types, test output and local logs
+/worker-configuration.d.ts
+/coverage/
+*.log
+
+# Private credential files
+*.pem
+*.key
+*.p12
+*.pfx
 
 # Temp
 gitignore

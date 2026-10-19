@@ -1,5 +1,6 @@
 import { createSignal, createUniqueId, onCleanup } from "solid-js";
 import { Input, Label } from "~/layout/Forms";
+import ActionIcon from "~/components/ActionIcon";
 
 export const Web3Form = () => {
   const fieldId = createUniqueId();
@@ -97,12 +98,7 @@ export const Web3Form = () => {
           class="min-h-11 cursor-pointer disabled:cursor-wait disabled:opacity-70 flex w-full lg:w-fit justify-center items-center gap-2 text-sm font-bold px-5 py-3 bg-black dark:bg-white text-white dark:text-black hover:gap-3 transition-all duration-200 group/link"
         >
           {isSubmitting() ? "Sending…" : "Send message"}
-          <span
-            aria-hidden="true"
-            class="font-normal group-hover/link:rotate-90 transition-transform"
-          >
-            ↵
-          </span>
+          <ActionIcon name="send" class="group-hover/link:translate-x-1 transition-transform" />
         </button>
         <p
           role={hasError() ? "alert" : "status"}

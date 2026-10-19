@@ -1,5 +1,12 @@
 import { query } from "@solidjs/router";
 import { loadContentDatabase } from "./content-loader";
+import { portfolioMosaicMedia } from "./portfolio-mosaic";
+
+/** Send only the images and videos explicitly selected for the homepage mosaic. */
+export const fetchPortfolioMosaic = query(async () => {
+  "use server";
+  return portfolioMosaicMedia(await loadContentDatabase());
+}, "portfolio-mosaic");
 
 /** Keep the home preview small, and prefer featured projects with real images. */
 export const fetchPersonalProjectTeasers = query(async () => {
@@ -16,6 +23,7 @@ export const fetchPersonalProjectTeasers = query(async () => {
     return screenshot ? [{
       id: project.id,
       title: project.title,
+      summary: project.summary,
       screenshot,
     }] : [];
   }).slice(0, 3);

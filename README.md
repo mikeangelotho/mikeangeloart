@@ -60,12 +60,11 @@ build generates the sitemap, then produces `.output/server/index.mjs` and
   Array order controls presentation and featured artwork uses stable media IDs.
 - `src/routes` contains the homepage, portfolio library, individual case studies,
   About page, personal Projects page, and missing-page handling.
-- Add passion project descriptions and screenshot slots to `personalProjects`;
+- Add project descriptions and screenshots to `personalProjects`;
   add original renders, sketches, GIFs and clips to `creativePieces`. Media can
-  use CDN URLs or root-relative paths to files under `public/`. Known image
-  dimensions reserve space, and actual artwork opens in a lightbox. Cruio and
-  RAID have one overview plus three feature slots; omit `src` until a real
-  screenshot is ready. See
+  use CDN URLs or root-relative paths to files under `public/`. Known media
+  dimensions reserve space, and personal project screenshots open in a lightbox.
+  See
   [the screenshot selection](docs/personal-project-screenshots.md) for composition
   and feature briefs.
 - `scripts/generate-sitemap.js` writes the sitemap from the active validated content source.
@@ -73,6 +72,10 @@ build generates the sitemap, then produces `.output/server/index.mjs` and
   every build.
 - `src/utils/media.ts` classifies media, selects primary films, and builds video
   posters. HLS films use Video.js; regular MP4 files use native playback.
+- Homepage mosaic images and videos are selected with each keypoint media's
+  `showOnHomepage` flag. Video poster frames live in `public/mosaic-posters/`.
+- `backups/homepage-2026-10-18/` preserves the original homepage and its retired
+  dependencies outside the application build, with restoration instructions.
 
 See [editing the content database](docs/content-database.md) for the schema,
 editor workflow and CDN publication steps. Hidden records are
@@ -82,11 +85,6 @@ excluded from pages, but a public CDN file still exposes their content.
 when changing dependencies. Generated build/configuration files are ignored;
 edit `app.config.ts`, not its generated timestamp copies.
 
-See [the code and systems audit](docs/code-systems-audit.md) for verification
-results and remaining upstream or content limitations.
-
-## Earlier site previews
-
-<img width="3839" height="2159" alt="image" src="https://github.com/user-attachments/assets/2f624b77-0777-4979-b142-62b3a5bdf5f7" />
-<img width="3839" height="2159" alt="image" src="https://github.com/user-attachments/assets/9043d13e-1ab5-43f0-a261-0c2e50624f17" />
+Local agent settings, environment files, generated Worker types, logs, and
+`.local-backups/` are excluded from Git. Never commit private credentials.
 

@@ -7,6 +7,7 @@ interface MediaClusterProps {
   src: string;
   alt?: string;
   autoplay?: boolean;
+  respectReducedMotion?: boolean;
   mediaType?: "image" | "video";
   width?: number;
   height?: number;
@@ -18,7 +19,7 @@ function LoopingPreview(props: MediaClusterProps) {
   const [loaded, setLoaded] = createSignal(false);
   const [visible, setVisible] = createSignal(false);
   const [reducedMotion, setReducedMotion] = createSignal(true);
-  const shouldPlay = () => visible() && !reducedMotion() && props.autoplay !== false;
+  const shouldPlay = () => visible() && (!reducedMotion() || props.respectReducedMotion === false) && props.autoplay !== false;
 
   onMount(() => {
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
